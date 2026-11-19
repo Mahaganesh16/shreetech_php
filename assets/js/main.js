@@ -351,7 +351,7 @@ function initShreeTech() {
     if (!stackingCardsContainer || !projectCards.length) return;
 
     const isMobile = window.innerWidth < 640;
-    const baseTop = isMobile ? 74 : 88;
+    const baseTop = isMobile ? 72 : 85;
     const headerHeight = isMobile ? 42 : 48;
     const windowHeight = window.innerHeight;
 
@@ -363,18 +363,17 @@ function initShreeTech() {
     visibleCards.forEach((card, index) => {
       // Re-index sticky position
       card.style.setProperty('--stack-idx', index);
-      const stickyInner = card.querySelector('.stacking-card-sticky-inner');
       const cardBox = card.querySelector('.stacking-card-box');
       const headerTab = card.querySelector('.stacking-card-header');
-      if (!stickyInner || !cardBox) return;
+      if (!cardBox) return;
 
       const pinnedTop = baseTop + index * headerHeight;
       const rect = card.getBoundingClientRect();
 
       // 1. NATURAL TILT & STRAIGHTENING:
-      // Enters with alternating tilt (-2.2deg / +2.2deg).
+      // Card 0 docks straight, subsequent cards enter with alternating tilt (-2.2deg / +2.2deg).
       // Smoothly straightens out to 0deg as it reaches its pinned top offset.
-      const initialTilt = (index % 2 === 0) ? -2.2 : 2.2;
+      const initialTilt = (index === 0) ? 0 : ((index % 2 === 0) ? 2.2 : -2.2);
       const enterDistance = Math.max(windowHeight * 0.45, 300);
       const distanceToPin = rect.top - pinnedTop;
 
@@ -421,65 +420,11 @@ function initShreeTech() {
     });
   }
 
-  // Floating Food Images Parallax (Scroll-triggered movement)
-  function updateFoodParallax() {
-    const foodLeft = document.querySelector('.floating-food-left');
-    const foodRightTop = document.querySelector('.floating-food-right-top');
-    const foodRightBottom = document.querySelector('.floating-food-right-bottom');
-    const container = document.getElementById('projects');
-    if (!container) return;
-
-    const rect = container.getBoundingClientRect();
-    const offset = -rect.top;
-    if (foodLeft) {
-      foodLeft.style.transform = `translate3d(0, ${(offset * 0.08).toFixed(1)}px, 0)`;
-    }
-    if (foodRightTop) {
-      foodRightTop.style.transform = `translate3d(0, ${(-offset * 0.06).toFixed(1)}px, 0)`;
-    }
-    if (foodRightBottom) {
-      foodRightBottom.style.transform = `translate3d(0, ${(offset * 0.07).toFixed(1)}px, 0)`;
-    }
-  }
-
-  // Word-by-Word Text Reveal Animation
-  function initTextWordReveals() {
-    const wordRevealElements = document.querySelectorAll('.reveal-words');
-    wordRevealElements.forEach((el) => {
-      if (el.getAttribute('data-word-split') === 'true') return;
-      el.setAttribute('data-word-split', 'true');
-      const text = el.textContent.trim();
-      const words = text.split(/\s+/);
-      el.innerHTML = words
-        .map(
-          (word, i) =>
-            `<span class="inline-block overflow-hidden"><span class="word-span" style="transition-delay: ${i * 35}ms">${word}&nbsp;</span></span>`
-        )
-        .join('');
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const spans = entry.target.querySelectorAll('.word-span');
-              spans.forEach((s) => s.classList.add('is-revealed'));
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.15 }
-      );
-      observer.observe(el);
-    });
-  }
-  initTextWordReveals();
-
   let stackTicking = false;
   function onStackScroll() {
     if (!stackTicking) {
       requestAnimationFrame(() => {
         updateStackingCards();
-        updateFoodParallax();
         stackTicking = false;
       });
       stackTicking = true;
@@ -490,7 +435,6 @@ function initShreeTech() {
     window.addEventListener('scroll', onStackScroll, { passive: true });
     window.addEventListener('resize', onStackScroll, { passive: true });
     updateStackingCards();
-    updateFoodParallax();
   }
 
   // Filter Buttons Handler
@@ -498,16 +442,15 @@ function initShreeTech() {
     btn.addEventListener('click', () => {
       const cat = btn.getAttribute('data-category');
       projectTabs.forEach((b) => {
-        b.classList.remove('bg-[#f3ead8]', 'text-[#141210]', 'font-bold', 'shadow-md');
-        b.classList.add('bg-white/5', 'text-[#a89d8d]', 'border', 'border-white/10');
+        b.classList.remove('glass-btn-primary', 'shadow-sm', 'text-white');
+        b.classList.add('glass-btn-secondary', 'text-[#475569]');
       });
-      btn.classList.add('bg-[#f3ead8]', 'text-[#141210]', 'font-bold', 'shadow-md');
-      btn.classList.remove('bg-white/5', 'text-[#a89d8d]', 'border', 'border-white/10');
+      btn.classList.add('glass-btn-primary', 'shadow-sm', 'text-white');
+      btn.classList.remove('glass-btn-secondary', 'text-[#475569]');
 
       let visibleCount = 0;
       projectCards.forEach((card) => {
-        const cardCat = card.getAttribute('data-category');
-        const match = (cat === 'all' || cardCat === cat);
+        const match = (cat === 'all' || card.getAttribute('data-category') === cat);
         if (match) {
           card.style.display = '';
           card.style.setProperty('--stack-idx', visibleCount);

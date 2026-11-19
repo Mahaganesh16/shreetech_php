@@ -6,8 +6,7 @@ $pageDescription = 'Explore our recent case studies and enterprise client projec
 $currentPage = 'projects';
 
 $filterTabs = [
-    ['id' => 'all', 'label' => 'All Work & Showcase'],
-    ['id' => 'showcase', 'label' => 'Pure Ingredients (Video Showcase)'],
+    ['id' => 'all', 'label' => 'All Projects'],
     ['id' => 'web', 'label' => 'Web Applications'],
     ['id' => 'enterprise', 'label' => 'Enterprise SaaS'],
     ['id' => 'mobile', 'label' => 'Mobile Apps'],
@@ -15,70 +14,54 @@ $filterTabs = [
 ];
 
 require_once __DIR__ . '/includes/header.php';
-
-$allCards = array_merge($foodShowcaseCards ?? [], $projectsData);
 ?>
 
 <div class="flex flex-col w-full pt-16 sm:pt-20">
-  <section id="projects" class="relative py-20 sm:py-28 bg-[#0D0B0A] text-white overflow-visible border-y border-[#26201b]">
-    
-    <!-- Ambient subtle radial warm glow -->
-    <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#402213]/40 via-transparent to-transparent"></div>
-
-    <!-- FLOATING FOOD IMAGES (PARALLAX & GENTLE FLOAT FROM REFERENCE VIDEO) -->
-    <!-- Left Side: Fresh Sliced Red Tomato -->
-    <div class="floating-food floating-food-left -left-8 sm:left-2 lg:left-6 top-32 sm:top-44 w-36 sm:w-56 lg:w-72">
-      <img src="images/food-tomato.png" alt="Fresh Organic Sliced Tomato" class="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] contrast-110 filter">
-    </div>
-
-    <!-- Right Side Top: Golden Habanero Pepper -->
-    <div class="floating-food floating-food-right-top -right-6 sm:right-2 lg:right-8 top-16 sm:top-24 w-32 sm:w-44 lg:w-56">
-      <img src="images/food-pepper.png" alt="Golden Habanero Pepper" class="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] contrast-110 filter">
-    </div>
-
-    <!-- Right Side Bottom: Natural Red Chili Peppers -->
-    <div class="floating-food floating-food-right-bottom -right-8 sm:right-4 lg:right-10 top-[55%] w-36 sm:w-48 lg:w-64">
-      <img src="images/food-chili.png" alt="Natural Red Chili Peppers" class="w-full h-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] contrast-110 filter">
-    </div>
-
+  <section id="projects" class="relative py-20 sm:py-28 bg-[#FFF0F5]/25 overflow-visible border-y border-[#F1E6EE]">
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <!-- 1. Centered Cream "SHOP NOW" Button from Reference Video -->
-      <div class="flex justify-center mb-6">
-        <a href="contact.php" class="btn-cream-action px-8 py-3.5 text-xs sm:text-sm font-black tracking-widest uppercase shadow-2xl">
-          <span>SHOP NOW</span>
-          <i data-lucide="arrow-up-right" class="w-4 h-4 ml-2"></i>
-        </a>
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div class="max-w-2xl">
+          <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+            <span>Selected Case Studies</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
+            Featured Client Deployments
+          </h2>
+          <p class="mt-4 text-base text-[#475569] font-normal leading-relaxed font-body">
+            Explore how our engineering teams design, build, and scale mission-critical digital systems
+            across finance, healthcare, logistics, and global commerce.
+          </p>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="flex flex-wrap items-center gap-2">
+          <?php foreach ($filterTabs as $tab): ?>
+            <button
+              type="button"
+              data-category="<?php echo htmlspecialchars($tab['id']); ?>"
+              class="project-filter-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-2xl transition-all cursor-pointer <?php echo ($tab['id'] === 'all') ? 'glass-btn-primary shadow-sm text-white' : 'glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]'; ?>"
+            >
+              <?php echo htmlspecialchars($tab['label']); ?>
+            </button>
+          <?php endforeach; ?>
+        </div>
       </div>
 
-      <!-- 2. Large Bold Condensed Typography with Word-by-Word Reveal -->
-      <h2 class="reveal-words text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#f3ead8] tracking-tight font-heading text-center max-w-4xl mx-auto leading-[1.14] mb-6">
-        BBQ Sauces & Digital Solutions Built with Real, Uncompromising Craft.
-      </h2>
-
-      <!-- 3. Line-by-Line Paragraph Reveal -->
-      <p class="reveal-fade text-sm sm:text-base md:text-lg text-[#b8ad9c] font-body text-center max-w-2xl mx-auto leading-relaxed mb-10">
-        No artificial shortcuts, no ultra-processed tricks, no filler code. Just clean formulas and mission-critical engineering that perform when put to the test on the grill and in production.
-      </p>
-
-      <!-- 4. Filter Pills Styled in Dark/Cream Aesthetics -->
-      <div class="flex flex-wrap items-center justify-center gap-2 mb-14">
-        <?php foreach ($filterTabs as $tab): ?>
-          <button
-            type="button"
-            data-category="<?php echo htmlspecialchars($tab['id']); ?>"
-            class="project-filter-btn px-4 py-2 text-xs sm:text-sm rounded-xl transition-all cursor-pointer <?php echo ($tab['id'] === 'all') ? 'bg-[#f3ead8] text-[#141210] font-bold shadow-md' : 'bg-white/5 text-[#a89d8d] hover:text-white hover:bg-white/10 border border-white/10'; ?>"
-          >
-            <?php echo htmlspecialchars($tab['label']); ?>
-          </button>
-        <?php endforeach; ?>
-      </div>
-
-      <!-- 5. STICKY STACKING CARDS CONTAINER (MATCHING REFERENCE VIDEO) -->
-      <div class="stacking-cards-container relative max-w-xl mx-auto flex flex-col items-center pt-4 pb-24">
-        <?php foreach ($allCards as $idx => $project): 
-          $isFoodShowcase = ($project['category'] === 'showcase');
-          $iconType = $project['iconType'] ?? null;
+      <!-- STICKY STACKING CARDS CONTAINER (MATCHING REFERENCE VIDEO) -->
+      <div class="stacking-cards-container relative max-w-xl mx-auto pt-6 pb-28">
+        <?php foreach ($projectsData as $idx => $project): 
+          $icons = [
+            'apex-finance' => 'trending-up',
+            'health-cloud' => 'activity',
+            'fleet-mobile' => 'truck',
+            'luxury-commerce' => 'shopping-bag',
+            'cloud-security' => 'shield-check',
+            'ai-intelligence' => 'cpu',
+          ];
+          $icon = $icons[$project['id']] ?? 'sparkles';
         ?>
           <!-- Dynamic Project Stacking Card ($idx: <?php echo $idx; ?>) -->
           <article
@@ -87,11 +70,8 @@ $allCards = array_merge($foodShowcaseCards ?? [], $projectsData);
             data-category="<?php echo htmlspecialchars($project['category']); ?>"
             style="--stack-idx: <?php echo $idx; ?>;"
           >
-            <!-- Sticky Inner Wrapper: Pins near viewport top with layered header tab offset -->
-            <div class="stacking-card-sticky-inner">
-              
-              <!-- Card Outer Shell: Dark body #141414 with 1.5px subtle border & shadow -->
-              <div class="stacking-card-box">
+            <!-- Card Outer Shell: Dark body #141414 with 1.5px subtle border & shadow -->
+            <div class="stacking-card-box">
                 
                 <!-- TOP HEADER BAR (Folder Tab / Ticket Header from Reference Video) -->
                 <div class="stacking-card-header px-4 sm:px-6 flex items-center justify-between select-none">
@@ -111,48 +91,8 @@ $allCards = array_merge($foodShowcaseCards ?? [], $projectsData);
                 <div class="stacking-card-body p-6 sm:p-8 flex flex-col items-center text-center text-white">
                   
                   <!-- Center Circular Icon with Thin Border (Exact Match to Video) -->
-                  <div class="card-icon-circle w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mb-5 shrink-0">
-                    <?php if ($iconType === 'corn-crossed'): ?>
-                      <svg class="card-icon-svg w-8 h-8 sm:w-10 sm:h-10" viewBox="0 0 24 24">
-                        <path d="M12 2C9.5 2 7.5 5 7.5 9c0 3.5 1.5 6 3 8l1.5 4h0l1.5-4c1.5-2 3-4.5 3-8 0-4-2-7-4.5-7z"/>
-                        <path d="M7.5 9h9"/>
-                        <path d="M8.5 13h7"/>
-                        <line x1="4" y1="4" x2="20" y2="20" stroke="#f3ead8" stroke-width="2.2"/>
-                      </svg>
-                    <?php elseif ($iconType === 'droplet-crossed'): ?>
-                      <svg class="card-icon-svg w-8 h-8 sm:w-10 sm:h-10" viewBox="0 0 24 24">
-                        <path d="M12 2.5L7.2 9.5C5.8 11.5 5.5 13.8 6.5 16.2C7.7 19 10 20.5 12 20.5C14 20.5 16.3 19 17.5 16.2C18.5 13.8 18.2 11.5 16.8 9.5L12 2.5Z"/>
-                        <line x1="4" y1="4" x2="20" y2="20" stroke="#f3ead8" stroke-width="2.2"/>
-                      </svg>
-                    <?php elseif ($iconType === 'flask-crossed'): ?>
-                      <svg class="card-icon-svg w-8 h-8 sm:w-10 sm:h-10" viewBox="0 0 24 24">
-                        <path d="M2 15c6.667-6 13.333 0 20-6"/>
-                        <path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/>
-                        <path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/>
-                        <circle cx="12" cy="12" r="2"/>
-                        <line x1="4" y1="4" x2="20" y2="20" stroke="#f3ead8" stroke-width="2.2"/>
-                      </svg>
-                    <?php elseif ($iconType === 'wheat-crossed'): ?>
-                      <svg class="card-icon-svg w-8 h-8 sm:w-10 sm:h-10" viewBox="0 0 24 24">
-                        <path d="M2 22l10-10"/>
-                        <path d="M16 8l-4 4"/>
-                        <path d="M18 12c-1.5 0-3-1-3.5-2.5C14 8 15 6.5 16.5 6.5c1.5 0 2.5 1 2.5 2.5 0 1.5-1 3-1 3z"/>
-                        <path d="M12 18c0-1.5 1-3 2.5-3.5 1.5-.5 3 .5 3 2 0 1.5-1 2.5-2.5 2.5-1.5 0-3-1-3-1z"/>
-                        <line x1="4" y1="4" x2="20" y2="20" stroke="#f3ead8" stroke-width="2.2"/>
-                      </svg>
-                    <?php else: 
-                      $icons = [
-                        'apex-finance' => 'trending-up',
-                        'health-cloud' => 'activity',
-                        'fleet-mobile' => 'truck',
-                        'luxury-commerce' => 'shopping-bag',
-                        'cloud-security' => 'shield-check',
-                        'ai-intelligence' => 'cpu',
-                      ];
-                      $lucideIcon = $icons[$project['id']] ?? 'sparkles';
-                    ?>
-                      <i data-lucide="<?php echo $lucideIcon; ?>" class="w-8 h-8 sm:w-10 sm:h-10 text-white stroke-[1.5]"></i>
-                    <?php endif; ?>
+                  <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-white/20 bg-white/5 flex items-center justify-center mb-5 shrink-0 shadow-inner group-hover:scale-105 transition-transform duration-300">
+                    <i data-lucide="<?php echo $icon; ?>" class="w-8 h-8 sm:w-10 sm:h-10 text-white stroke-[1.5]"></i>
                   </div>
 
                   <!-- Client Badge & Category -->
@@ -192,7 +132,7 @@ $allCards = array_merge($foodShowcaseCards ?? [], $projectsData);
                   <div class="w-full max-w-sm flex items-center gap-3">
                     <button
                       type="button"
-                      class="open-project-modal btn-cream-action flex-1 py-2.5 px-4 rounded-xl text-[#141210] font-black text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:scale-105 active:scale-95 transition-all"
+                      class="open-project-modal glass-btn-primary flex-1 py-2.5 px-4 rounded-xl text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:scale-105 active:scale-95 transition-all"
                       data-title="<?php echo htmlspecialchars($project['title']); ?>"
                       data-client="<?php echo htmlspecialchars($project['client']); ?>"
                       data-summary="<?php echo htmlspecialchars($project['summary']); ?>"
@@ -200,7 +140,7 @@ $allCards = array_merge($foodShowcaseCards ?? [], $projectsData);
                       data-metric-val="<?php echo htmlspecialchars($project['metrics']['value']); ?>"
                       data-metric-label="<?php echo htmlspecialchars($project['metrics']['label']); ?>"
                     >
-                      <span><?php echo $isFoodShowcase ? 'View Story' : 'View Case Study'; ?></span>
+                      <span>View Case Study</span>
                       <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
                     </button>
 
@@ -208,13 +148,12 @@ $allCards = array_merge($foodShowcaseCards ?? [], $projectsData);
                       href="contact.php"
                       class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors inline-flex items-center gap-1 cursor-pointer shrink-0"
                     >
-                      <span><?php echo $isFoodShowcase ? 'Order Recipe' : 'Consult'; ?></span>
+                      <span>Consult</span>
                     </a>
                   </div>
 
                 </div>
               </div>
-            </div>
           </article>
         <?php endforeach; ?>
       </div>
