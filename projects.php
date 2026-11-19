@@ -200,6 +200,37 @@ require_once __DIR__ . '/includes/header.php';
   </section>
 </div>
 
+<!-- CLOSING CALL-TO-ACTION BEFORE FOOTER (CREATES CLEAN SEPARATION & NATURAL SCROLL LANDING) -->
+<section class="relative z-10 w-full py-16 sm:py-24 bg-gradient-to-b from-[#FFF0F5]/30 via-white to-white border-t border-[#F1E6EE]">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#C01858] mb-3">
+      <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+      <span>Start Your Next Deployment</span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-[#0F172A] tracking-tight font-heading mb-3">
+      Ready to Engineer Your Custom Software Architecture?
+    </h2>
+    <p class="text-xs sm:text-sm md:text-base text-[#475569] max-w-2xl mx-auto mb-7 leading-relaxed font-body">
+      From high-speed trading infrastructure to enterprise SaaS and multi-cloud systems, our engineering teams build scalable, production-grade applications tailored to your business goals.
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+      <a
+        href="contact.php"
+        class="glass-btn-primary py-3 px-6 rounded-2xl text-white font-semibold text-xs sm:text-sm flex items-center gap-2 shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer font-body"
+      >
+        <span>Schedule Technical Consultation</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+      <a
+        href="services.php"
+        class="glass-btn-secondary py-3 px-6 rounded-2xl text-[#0F172A] hover:text-[#C01858] hover:border-[#C01858] font-semibold text-xs sm:text-sm transition-all shadow-xs cursor-pointer font-body"
+      >
+        <span>Explore Engineering Services</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- CASE STUDY DETAIL MODAL -->
 <div id="project-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md">
   <div class="modal-dialog-box relative w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl bg-white border border-[#F1E6EE] shadow-2xl">

@@ -345,6 +345,8 @@ function initShreeTech() {
   // =========================================================================
   const pinTrack = document.getElementById('projects-pin-track');
   const pinStage = document.getElementById('projects-pin-stage');
+  const deckContainer = document.querySelector('.stacking-deck-container');
+  const stageHeader = pinStage ? pinStage.querySelector('.max-w-3xl') : null;
   const projectCards = document.querySelectorAll('.stacking-card-item');
   const projectTabs = document.querySelectorAll('.project-filter-btn');
 
@@ -359,8 +361,8 @@ function initShreeTech() {
     } else {
       // 400px of scroll per card transition for clear, rhythmic sequential movement
       const scrollPerCard = 400;
-      // Runway: intro pad (140px) + transitions + outro hold (260px) so stack stays pinned at completion
-      const totalScrollTravel = 140 + (count - 1) * scrollPerCard + 260;
+      // Runway: intro pad (140px) + transitions + outro hold (280px) so stack stays pinned at completion
+      const totalScrollTravel = 140 + (count - 1) * scrollPerCard + 280;
       pinTrack.style.height = `${window.innerHeight + totalScrollTravel}px`;
     }
   }
@@ -394,14 +396,33 @@ function initShreeTech() {
     // Timeline partitions:
     // 0.00 to introEnd: rest on Card 0
     // introEnd to animEnd: sequential card arrivals (Cards 1 to totalCards - 1)
-    // animEnd to 1.00: final hold with all cards stacked before unpinning to footer
+    // animEnd to holdEnd: final hold with all cards stacked in full view
+    // holdEnd to 1.00: smooth exit dissolve so footer arrives onto a clean stage
     const introEnd = 0.04;
-    const animEnd = 0.88;
+    const animEnd = 0.80;
+    const holdEnd = 0.88;
     const animSpan = animEnd - introEnd;
     const stepSpan = animSpan / totalSteps;
 
+    // Outro transition for the entire deck as user scrolls towards the footer
+    if (deckContainer) {
+      if (progress > holdEnd) {
+        const exitT = (progress - holdEnd) / (1 - holdEnd);
+        const exitEase = Math.pow(exitT, 1.6);
+        const exitY = -exitEase * 60;
+        const exitOpacity = Math.max(1 - exitT * 1.5, 0);
+        deckContainer.style.transform = `translate3d(0, ${exitY.toFixed(1)}px, 0)`;
+        deckContainer.style.opacity = exitOpacity.toFixed(3);
+        if (stageHeader) stageHeader.style.opacity = exitOpacity.toFixed(3);
+      } else {
+        deckContainer.style.transform = 'translate3d(0, 0, 0)';
+        deckContainer.style.opacity = '1';
+        if (stageHeader) stageHeader.style.opacity = '1';
+      }
+    }
+
     // Travel distance: from docked position to below the viewport
-    const travelDistance = Math.max(window.innerHeight * 0.82, 480);
+    const travelDistance = Math.max(window.innerHeight * 0.85, 520);
 
     visibleCards.forEach((card, index) => {
       card.style.setProperty('--stack-idx', index);
