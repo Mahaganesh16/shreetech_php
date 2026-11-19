@@ -17,7 +17,7 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="flex flex-col w-full pt-16 sm:pt-20">
-  <section id="projects" class="relative py-20 sm:py-28 bg-[#FFF0F5]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE]">
+  <section id="projects" class="relative py-20 sm:py-28 bg-[#FFF0F5]/25 backdrop-blur-xs overflow-visible border-y border-[#F1E6EE]">
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
@@ -50,153 +50,109 @@ require_once __DIR__ . '/includes/header.php';
         </div>
       </div>
 
-      <!-- STICKY STACKING CARDS CONTAINER -->
-      <div class="stacking-cards-container relative max-w-5xl mx-auto flex flex-col items-center pt-4">
+      <!-- STICKY STACKING CARDS CONTAINER (MATCHING REFERENCE VIDEO) -->
+      <div class="stacking-cards-container relative max-w-xl mx-auto flex flex-col items-center pt-6 pb-24">
         <?php foreach ($projectsData as $idx => $project): 
-          $initialTilt = ($idx % 2 === 0) ? '-2deg' : '2deg';
+          $icons = [
+            'apex-finance' => 'trending-up',
+            'health-cloud' => 'activity',
+            'fleet-mobile' => 'truck',
+            'luxury-commerce' => 'shopping-bag',
+            'cloud-security' => 'shield-check',
+            'ai-intelligence' => 'cpu',
+          ];
+          $icon = $icons[$project['id']] ?? 'sparkles';
         ?>
-          <!-- Dynamic Project Card Item ($idx: <?php echo $idx; ?>) -->
+          <!-- Dynamic Project Stacking Card ($idx: <?php echo $idx; ?>) -->
           <article
             class="stacking-card-item project-card-item w-full"
             data-card-index="<?php echo $idx; ?>"
             data-category="<?php echo htmlspecialchars($project['category']); ?>"
             style="--stack-idx: <?php echo $idx; ?>;"
           >
-            <!-- Sticky Inner Wrapper: Pins near viewport top with layered header offset -->
+            <!-- Sticky Inner Wrapper: Pins near viewport top with layered header tab offset -->
             <div class="stacking-card-sticky-inner">
               
-              <!-- Card Outer Shell: Dark body with subtle border, 3D shadow, and hardware transform -->
+              <!-- Card Outer Shell: Dark body #141414 with 1.5px subtle border & shadow -->
               <div class="stacking-card-box">
                 
-                <!-- 1. DISTINCT TOP HEADER BAR (Folder Tab / Ticket Header) -->
-                <div class="stacking-card-header px-4 sm:px-6 flex items-center justify-between border-b border-black/10 select-none">
+                <!-- TOP HEADER BAR (Folder Tab / Ticket Header from Reference Video) -->
+                <div class="stacking-card-header px-4 sm:px-6 flex items-center justify-between select-none">
+                  <!-- Left Decorative Rivet Dot -->
+                  <span class="card-rivet" aria-hidden="true"></span>
+
+                  <!-- Center: Project Title / Main Headline in Bold Uppercase -->
+                  <div class="font-heading font-black text-xs sm:text-sm md:text-base tracking-wider uppercase truncate px-3 text-[#1c1917] text-center flex-1">
+                    <span><?php echo htmlspecialchars($project['title']); ?></span>
+                  </div>
+
+                  <!-- Right Decorative Rivet Dot -->
+                  <span class="card-rivet" aria-hidden="true"></span>
+                </div>
+
+                <!-- DARK CARD BODY (#141414 with subtle 1px border) -->
+                <div class="stacking-card-body p-6 sm:p-8 flex flex-col items-center text-center text-white">
                   
-                  <!-- Left Rivet Dots & Index -->
-                  <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-                    <div class="rivet-dot-group" aria-hidden="true" title="Decorative Rivet">
-                      <span class="rivet-dot rivet-dot-lg"></span>
-                      <span class="rivet-dot rivet-dot-sm"></span>
-                    </div>
-                    <span class="font-stat text-[11px] sm:text-xs font-black tracking-widest uppercase opacity-75 text-[#1c1917]">
-                      // <?php echo str_pad($idx + 1, 2, '0', STR_PAD_LEFT); ?>
+                  <!-- Center Circular Icon with Thin Border (Exact Match to Video) -->
+                  <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-white/20 bg-white/5 flex items-center justify-center mb-5 shrink-0 shadow-inner group-hover:scale-105 transition-transform duration-300">
+                    <i data-lucide="<?php echo $icon; ?>" class="w-8 h-8 sm:w-10 sm:h-10 text-white stroke-[1.5]"></i>
+                  </div>
+
+                  <!-- Client Badge & Category -->
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-[#FF6B00] font-heading">
+                      <?php echo htmlspecialchars($project['client']); ?>
                     </span>
-                    <span class="text-[10px] sm:text-xs font-bold font-heading uppercase tracking-wider text-[#C01858] bg-[#C01858]/10 px-2.5 py-0.5 rounded-full hidden sm:inline-block">
+                    <span class="text-white/30">•</span>
+                    <span class="text-xs font-medium text-slate-400 font-body">
                       <?php echo htmlspecialchars($project['categoryLabel']); ?>
                     </span>
                   </div>
 
-                  <!-- Center: Project Title in Header Tab -->
-                  <div class="font-heading font-extrabold text-xs sm:text-sm md:text-base tracking-tight truncate px-3 text-[#1c1917] flex-1 text-center sm:text-left">
-                    <span><?php echo htmlspecialchars($project['title']); ?></span>
-                  </div>
+                  <!-- Clean Project Description (Exact Match to Video Typography) -->
+                  <p class="text-sm sm:text-base text-slate-300 font-normal leading-relaxed max-w-md mx-auto mb-6 font-body">
+                    <?php echo htmlspecialchars($project['summary']); ?>
+                  </p>
 
-                  <!-- Right: Year & Decorative Rivet Dots -->
-                  <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-                    <span class="font-stat text-[11px] sm:text-xs font-bold tracking-wider text-[#1c1917]/70 hidden xs:inline-block">
-                      <?php echo htmlspecialchars($project['year']); ?>
+                  <!-- Impact Metric Pill -->
+                  <div class="w-full max-w-sm p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between mb-6">
+                    <span class="text-xs text-slate-400 font-medium"><?php echo htmlspecialchars($project['metrics']['label']); ?></span>
+                    <span class="text-sm sm:text-base font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] to-[#C01858] font-stat">
+                      <?php echo htmlspecialchars($project['metrics']['value']); ?>
                     </span>
-                    <div class="rivet-dot-group" aria-hidden="true" title="Decorative Rivet">
-                      <span class="rivet-dot rivet-dot-sm"></span>
-                      <span class="rivet-dot rivet-dot-lg"></span>
-                    </div>
                   </div>
-                </div>
 
-                <!-- 2. DARK CARD BODY (#0f0f0f / #111317) -->
-                <div class="stacking-card-body p-5 sm:p-7 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center text-white">
-                  
-                  <!-- Visual Preview Column -->
-                  <div class="lg:col-span-6 relative rounded-2xl overflow-hidden border border-white/10 group/preview h-56 sm:h-64 lg:h-[300px] bg-black/40 shadow-inner">
-                    <img
-                      src="<?php echo htmlspecialchars($project['imageUrl']); ?>"
-                      alt="<?php echo htmlspecialchars($project['title']); ?>"
-                      class="w-full h-full object-cover group-hover/preview:scale-105 transition-transform duration-700 filter brightness-95"
-                      loading="lazy"
+                  <!-- Technologies Stack Badges -->
+                  <div class="flex flex-wrap justify-center gap-1.5 mb-6">
+                    <?php foreach ($project['technologies'] as $tech): ?>
+                      <span class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-300 bg-white/5 border border-white/10 font-body">
+                        <?php echo htmlspecialchars($tech); ?>
+                      </span>
+                    <?php endforeach; ?>
+                  </div>
+
+                  <!-- Action Buttons -->
+                  <div class="w-full max-w-sm flex items-center gap-3">
+                    <button
+                      type="button"
+                      class="open-project-modal glass-btn-primary flex-1 py-2.5 px-4 rounded-xl text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:scale-105 active:scale-95 transition-all"
+                      data-title="<?php echo htmlspecialchars($project['title']); ?>"
+                      data-client="<?php echo htmlspecialchars($project['client']); ?>"
+                      data-summary="<?php echo htmlspecialchars($project['summary']); ?>"
+                      data-category="<?php echo htmlspecialchars($project['categoryLabel']); ?>"
+                      data-metric-val="<?php echo htmlspecialchars($project['metrics']['value']); ?>"
+                      data-metric-label="<?php echo htmlspecialchars($project['metrics']['label']); ?>"
                     >
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none"></div>
+                      <span>View Case Study</span>
+                      <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                    </button>
 
-                    <!-- Category Badge -->
-                    <div class="absolute top-3.5 left-3.5">
-                      <span class="glass-pill text-[11px] font-semibold text-white/95 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20">
-                        <?php echo htmlspecialchars($project['categoryLabel']); ?>
-                      </span>
-                    </div>
-
-                    <!-- Primary Impact Metric -->
-                    <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between p-2.5 sm:p-3 rounded-xl bg-black/75 backdrop-blur-md border border-white/15 shadow-md">
-                      <div class="flex items-center gap-2">
-                        <i data-lucide="zap" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF6B00]"></i>
-                        <span class="text-[11px] sm:text-xs text-white/80 font-medium"><?php echo htmlspecialchars($project['metrics']['label']); ?></span>
-                      </div>
-                      <span class="text-xs sm:text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] via-[#FF9838] to-[#C01858] font-stat">
-                        <?php echo htmlspecialchars($project['metrics']['value']); ?>
-                      </span>
-                    </div>
-                  </div>
-
-                  <!-- Project Details Column -->
-                  <div class="lg:col-span-6 flex flex-col justify-between h-full space-y-4">
-                    <div>
-                      <div class="flex items-center gap-2 mb-2">
-                        <span class="w-2 h-2 rounded-full bg-[#FF6B00] animate-pulse"></span>
-                        <span class="text-xs font-semibold uppercase tracking-wider text-[#FF6B00] font-heading">
-                          <?php echo htmlspecialchars($project['client']); ?>
-                        </span>
-                      </div>
-
-                      <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight font-heading leading-snug">
-                        <?php echo htmlspecialchars($project['title']); ?>
-                      </h3>
-
-                      <p class="mt-2.5 text-xs sm:text-sm text-slate-300 font-normal leading-relaxed line-clamp-3 font-body">
-                        <?php echo htmlspecialchars($project['summary']); ?>
-                      </p>
-
-                      <!-- Key Architectural Highlights -->
-                      <div class="mt-4 space-y-2 pt-3 border-t border-white/10 font-body">
-                        <div class="flex items-start gap-2 text-xs text-slate-300">
-                          <i data-lucide="shield-check" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
-                          <span>Zero-downtime rolling cloud deployment architecture</span>
-                        </div>
-                        <div class="flex items-start gap-2 text-xs text-slate-300">
-                          <i data-lucide="check-circle-2" class="w-4 h-4 text-[#C01858] shrink-0 mt-0.5"></i>
-                          <span>High-concurrency streaming telemetry with sub-second latency</span>
-                        </div>
-                      </div>
-
-                      <!-- Technology Stack Pills -->
-                      <div class="mt-4 flex flex-wrap gap-1.5">
-                        <?php foreach ($project['technologies'] as $tech): ?>
-                          <span class="px-2.5 py-1 rounded-lg text-[11px] font-medium text-slate-200 bg-white/5 border border-white/10 font-body">
-                            <?php echo htmlspecialchars($tech); ?>
-                          </span>
-                        <?php endforeach; ?>
-                      </div>
-                    </div>
-
-                    <!-- Action Trigger Buttons -->
-                    <div class="pt-4 border-t border-white/10 flex flex-wrap items-center gap-3">
-                      <button
-                        type="button"
-                        class="open-project-modal glass-btn-primary px-5 py-2.5 rounded-xl text-white font-semibold text-xs sm:text-sm flex items-center gap-2 cursor-pointer shadow-lg hover:scale-105 active:scale-95 transition-all"
-                        data-title="<?php echo htmlspecialchars($project['title']); ?>"
-                        data-client="<?php echo htmlspecialchars($project['client']); ?>"
-                        data-summary="<?php echo htmlspecialchars($project['summary']); ?>"
-                        data-category="<?php echo htmlspecialchars($project['categoryLabel']); ?>"
-                        data-metric-val="<?php echo htmlspecialchars($project['metrics']['value']); ?>"
-                        data-metric-label="<?php echo htmlspecialchars($project['metrics']['label']); ?>"
-                      >
-                        <span>View Full Case Study</span>
-                        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                      </button>
-
-                      <a
-                        href="contact.php"
-                        class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
-                      >
-                        <span>Discuss Similar Project</span>
-                      </a>
-                    </div>
+                    <a
+                      href="contact.php"
+                      class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors inline-flex items-center gap-1 cursor-pointer shrink-0"
+                    >
+                      <span>Consult</span>
+                    </a>
                   </div>
 
                 </div>
@@ -211,7 +167,7 @@ require_once __DIR__ . '/includes/header.php';
 
 <!-- CASE STUDY DETAIL MODAL -->
 <div id="project-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md">
-  <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl bg-white border border-[#F1E6EE] shadow-2xl">
+  <div class="modal-dialog-box relative w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl bg-white border border-[#F1E6EE] shadow-2xl">
     
     <!-- Close Button -->
     <button

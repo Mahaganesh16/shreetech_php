@@ -351,8 +351,8 @@ function initShreeTech() {
     if (!stackingCardsContainer || !projectCards.length) return;
 
     const isMobile = window.innerWidth < 640;
-    const baseTop = isMobile ? 78 : 90;
-    const headerHeight = isMobile ? 44 : 52;
+    const baseTop = isMobile ? 74 : 88;
+    const headerHeight = isMobile ? 42 : 48;
     const windowHeight = window.innerHeight;
 
     // Only operate on currently visible cards (supporting filter pills)
@@ -375,7 +375,7 @@ function initShreeTech() {
       // Enters with alternating tilt (-2.2deg / +2.2deg).
       // Smoothly straightens out to 0deg as it reaches its pinned top offset.
       const initialTilt = (index % 2 === 0) ? -2.2 : 2.2;
-      const enterDistance = windowHeight * 0.40;
+      const enterDistance = Math.max(windowHeight * 0.45, 300);
       const distanceToPin = rect.top - pinnedTop;
 
       let currentTilt = 0;
@@ -394,22 +394,22 @@ function initShreeTech() {
         const nextPinnedTop = baseTop + nextIdx * headerHeight;
         const nextRect = nextCard.getBoundingClientRect();
 
-        if (nextRect.top <= nextPinnedTop + 140) {
+        if (nextRect.top <= nextPinnedTop + 160) {
           const overlap = Math.min(
-            Math.max((nextPinnedTop + 140 - nextRect.top) / 140, 0),
+            Math.max((nextPinnedTop + 160 - nextRect.top) / 160, 0),
             1
           );
           coveredDepth += overlap;
         }
       }
 
-      const targetScale = Math.max(1 - coveredDepth * 0.026, 0.92);
-      const targetBrightness = Math.max(1 - coveredDepth * 0.12, 0.72);
+      const targetScale = Math.max(1 - coveredDepth * 0.028, 0.915);
+      const targetBrightness = Math.max(1 - coveredDepth * 0.12, 0.68);
 
-      // Header tab color dimming from warm parchment #f3e8d2 down to #8a8274
-      const tabR = Math.round(Math.max(243 - coveredDepth * 38, 138));
-      const tabG = Math.round(Math.max(232 - coveredDepth * 38, 130));
-      const tabB = Math.round(Math.max(210 - coveredDepth * 35, 116));
+      // Header tab color dimming from warm parchment #f3e8d2 down to #7d7364
+      const tabR = Math.round(Math.max(243 - coveredDepth * 38, 125));
+      const tabG = Math.round(Math.max(232 - coveredDepth * 39, 115));
+      const tabB = Math.round(Math.max(210 - coveredDepth * 36, 100));
 
       // Apply hardware-accelerated 3D transforms
       cardBox.style.transform = `translate3d(0, 0, 0) rotate(${currentTilt.toFixed(2)}deg) scale(${targetScale.toFixed(3)})`;
@@ -472,7 +472,7 @@ function initShreeTech() {
   const modalTriggers = document.querySelectorAll('.open-project-modal');
 
   if (modal) {
-    const modalContent = modal.querySelector('.glass-panel');
+    const modalContent = modal.querySelector('.modal-dialog-box') || modal.firstElementChild;
 
     modalTriggers.forEach((btn) => {
       btn.addEventListener('click', (e) => {
