@@ -341,11 +341,104 @@ function initShreeTech() {
   });
 
   // =========================================================================
-  // 10. PROJECTS FILTER TABS & MODAL DIALOG WITH ANIMATIONS
+  // 10. STICKY STACKING CARDS SCROLL ENGINE & PROJECTS MODAL DIALOG
   // =========================================================================
+  const stackingCardsContainer = document.querySelector('.stacking-cards-container');
+  const projectCards = document.querySelectorAll('.stacking-card-item');
   const projectTabs = document.querySelectorAll('.project-filter-btn');
-  const projectCards = document.querySelectorAll('.project-card-item');
 
+  function updateStackingCards() {
+    if (!stackingCardsContainer || !projectCards.length) return;
+
+    const isMobile = window.innerWidth < 640;
+    const baseTop = isMobile ? 78 : 90;
+    const headerHeight = isMobile ? 44 : 52;
+    const windowHeight = window.innerHeight;
+
+    // Only operate on currently visible cards (supporting filter pills)
+    const visibleCards = Array.from(projectCards).filter(
+      (card) => card.style.display !== 'none'
+    );
+
+    visibleCards.forEach((card, index) => {
+      // Re-index sticky position
+      card.style.setProperty('--stack-idx', index);
+      const stickyInner = card.querySelector('.stacking-card-sticky-inner');
+      const cardBox = card.querySelector('.stacking-card-box');
+      const headerTab = card.querySelector('.stacking-card-header');
+      if (!stickyInner || !cardBox) return;
+
+      const pinnedTop = baseTop + index * headerHeight;
+      const rect = card.getBoundingClientRect();
+
+      // 1. NATURAL TILT & STRAIGHTENING:
+      // Enters with alternating tilt (-2.2deg / +2.2deg).
+      // Smoothly straightens out to 0deg as it reaches its pinned top offset.
+      const initialTilt = (index % 2 === 0) ? -2.2 : 2.2;
+      const enterDistance = windowHeight * 0.40;
+      const distanceToPin = rect.top - pinnedTop;
+
+      let currentTilt = 0;
+      if (distanceToPin > 0) {
+        const progress = Math.min(Math.max(distanceToPin / enterDistance, 0), 1);
+        currentTilt = initialTilt * progress;
+      } else {
+        currentTilt = 0;
+      }
+
+      // 2. DEPTH, SCALE & DIMMING ON OLDER COVERED CARDS:
+      // When subsequent cards scroll over earlier cards, earlier cards scale down and dim.
+      let coveredDepth = 0;
+      for (let nextIdx = index + 1; nextIdx < visibleCards.length; nextIdx++) {
+        const nextCard = visibleCards[nextIdx];
+        const nextPinnedTop = baseTop + nextIdx * headerHeight;
+        const nextRect = nextCard.getBoundingClientRect();
+
+        if (nextRect.top <= nextPinnedTop + 140) {
+          const overlap = Math.min(
+            Math.max((nextPinnedTop + 140 - nextRect.top) / 140, 0),
+            1
+          );
+          coveredDepth += overlap;
+        }
+      }
+
+      const targetScale = Math.max(1 - coveredDepth * 0.026, 0.92);
+      const targetBrightness = Math.max(1 - coveredDepth * 0.12, 0.72);
+
+      // Header tab color dimming from warm parchment #f3e8d2 down to #8a8274
+      const tabR = Math.round(Math.max(243 - coveredDepth * 38, 138));
+      const tabG = Math.round(Math.max(232 - coveredDepth * 38, 130));
+      const tabB = Math.round(Math.max(210 - coveredDepth * 35, 116));
+
+      // Apply hardware-accelerated 3D transforms
+      cardBox.style.transform = `translate3d(0, 0, 0) rotate(${currentTilt.toFixed(2)}deg) scale(${targetScale.toFixed(3)})`;
+      cardBox.style.filter = `brightness(${targetBrightness.toFixed(2)})`;
+
+      if (headerTab) {
+        headerTab.style.backgroundColor = `rgb(${tabR}, ${tabG}, ${tabB})`;
+      }
+    });
+  }
+
+  let stackTicking = false;
+  function onStackScroll() {
+    if (!stackTicking) {
+      requestAnimationFrame(() => {
+        updateStackingCards();
+        stackTicking = false;
+      });
+      stackTicking = true;
+    }
+  }
+
+  if (stackingCardsContainer) {
+    window.addEventListener('scroll', onStackScroll, { passive: true });
+    window.addEventListener('resize', onStackScroll, { passive: true });
+    updateStackingCards();
+  }
+
+  // Filter Buttons Handler
   projectTabs.forEach((btn) => {
     btn.addEventListener('click', () => {
       const cat = btn.getAttribute('data-category');
@@ -356,21 +449,20 @@ function initShreeTech() {
       btn.classList.add('glass-btn-primary', 'shadow-sm', 'text-white');
       btn.classList.remove('glass-btn-secondary', 'text-[#475569]');
 
+      let visibleCount = 0;
       projectCards.forEach((card) => {
         const match = (cat === 'all' || card.getAttribute('data-category') === cat);
         if (match) {
-          card.style.display = 'block';
-          card.style.opacity = '0';
-          card.style.transform = 'scale(0.96)';
-          card.style.transition = 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-          setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'scale(1)';
-          }, 30);
+          card.style.display = '';
+          card.style.setProperty('--stack-idx', visibleCount);
+          visibleCount++;
         } else {
           card.style.display = 'none';
         }
       });
+
+      // Recalculate stacking immediately
+      onStackScroll();
     });
   });
 

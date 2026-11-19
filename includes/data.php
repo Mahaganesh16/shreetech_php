@@ -225,6 +225,19 @@ $projectsData = [
         'imageUrl' => 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
         'layoutSpan' => 'featured',
         'metrics' => ['label' => 'Infrastructure Uptime', 'value' => '99.999%']
+    ],
+    [
+        'id' => 'ai-intelligence',
+        'title' => 'Nexus AI Predictive Analytics Engine',
+        'category' => 'enterprise',
+        'categoryLabel' => 'Enterprise AI',
+        'client' => 'Synapse Intelligence Systems',
+        'year' => '2025',
+        'summary' => 'Large-scale real-time machine learning inference platform delivering streaming predictive analytics and automated anomaly detection across 200,000 IoT sensor nodes.',
+        'technologies' => ['Python', 'PyTorch', 'FastAPI', 'Kafka', 'React', 'Docker'],
+        'imageUrl' => 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+        'layoutSpan' => 'standard',
+        'metrics' => ['label' => 'Inference Latency', 'value' => '< 12ms']
     ]
 ];
 

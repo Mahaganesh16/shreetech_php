@@ -672,3 +672,100 @@ h1 {
   transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform;
 }
+
+/* ==========================================================================
+   6. STICKY STACKING CARDS SCROLL ENGINE (PROJECTS & CASE STUDIES)
+   ========================================================================== */
+
+.stacking-cards-container {
+  position: relative;
+  width: 100%;
+}
+
+.stacking-card-item {
+  position: relative;
+  width: 100%;
+  margin-bottom: 26vh;
+}
+
+.stacking-card-item:last-child {
+  margin-bottom: 8vh;
+}
+
+.stacking-card-sticky-inner {
+  position: sticky;
+  top: calc(90px + (var(--stack-idx, 0) * 52px));
+  z-index: calc(10 + var(--stack-idx, 0));
+  will-change: transform, filter;
+  transform-origin: center top;
+}
+
+@media (max-width: 640px) {
+  .stacking-card-sticky-inner {
+    top: calc(78px + (var(--stack-idx, 0) * 44px));
+  }
+}
+
+.stacking-card-box {
+  background: #0f1115;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 
+    0 24px 60px -12px rgba(0, 0, 0, 0.65),
+    0 0 1px 1px rgba(255, 255, 255, 0.12);
+  transform-origin: center top;
+  will-change: transform, filter;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Distinct Header Bar (Folder Tab / Ticket Header) */
+.stacking-card-header {
+  background-color: #f3e8d2;
+  color: #1a1714;
+  height: 52px;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  transition: background-color 0.25s ease, filter 0.25s ease;
+}
+
+@media (max-width: 640px) {
+  .stacking-card-header {
+    height: 44px;
+  }
+}
+
+/* Subtle Decorative Rivet Dots (Left & Right Sides of Header) */
+.rivet-dot-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  user-select: none;
+}
+
+.rivet-dot {
+  display: inline-block;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.75), rgba(40, 36, 32, 0.55));
+  border: 1px solid rgba(30, 27, 24, 0.4);
+  box-shadow: inset 0 1px 1.5px rgba(0, 0, 0, 0.45), 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.rivet-dot-lg {
+  width: 10px;
+  height: 10px;
+}
+
+.rivet-dot-sm {
+  width: 6px;
+  height: 6px;
+}
+
+/* Dark Card Body */
+.stacking-card-body {
+  background: linear-gradient(180deg, #13151b 0%, #0c0d12 100%);
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+}
