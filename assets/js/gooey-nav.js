@@ -746,6 +746,14 @@ void main() {
             }
           }
         } else if (href && !href.startsWith('javascript:') && href !== '#') {
+          const currentFile = window.location.pathname.split('/').pop() || 'index.php';
+          const targetFile = href.split('/').pop();
+          if (currentFile === targetFile || (currentFile === '' && targetFile === 'index.php')) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+          }
+
           e.preventDefault();
           setTimeout(() => {
             window.location.href = href;

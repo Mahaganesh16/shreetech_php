@@ -7,12 +7,12 @@ $currentPage = $currentPage ?? 'home';
 $isHomePage = ($currentPage === 'home' || basename($_SERVER['PHP_SELF'] ?? '') === 'index.php');
 
 $navItems = [
-    ['label' => 'Home', 'href' => $isHomePage ? '#home' : 'index.php#home', 'page' => 'home'],
-    ['label' => 'About', 'href' => $isHomePage ? '#about' : 'about.php', 'page' => 'about'],
-    ['label' => 'Services', 'href' => $isHomePage ? '#services' : 'services.php', 'page' => 'services'],
-    ['label' => 'Technologies', 'href' => $isHomePage ? '#technologies' : 'technologies.php', 'page' => 'technologies'],
-    ['label' => 'Projects', 'href' => $isHomePage ? '#projects' : 'projects.php', 'page' => 'projects'],
-    ['label' => 'Contact', 'href' => $isHomePage ? '#contact' : 'contact.php', 'page' => 'contact'],
+    ['label' => 'Home', 'href' => 'index.php', 'page' => 'home'],
+    ['label' => 'About', 'href' => 'about.php', 'page' => 'about'],
+    ['label' => 'Services', 'href' => 'services.php', 'page' => 'services'],
+    ['label' => 'Technologies', 'href' => 'technologies.php', 'page' => 'technologies'],
+    ['label' => 'Projects', 'href' => 'projects.php', 'page' => 'projects'],
+    ['label' => 'Contact', 'href' => 'contact.php', 'page' => 'contact'],
 ];
 
 $activeIndex = 0;
