@@ -29,7 +29,7 @@ foreach ($navItems as $idx => $item) {
       
       <!-- 1. LEFT SIDE: Shree Tech Innovations Logo & Brand Name -->
       <a href="index.php" class="flex items-center gap-2.5 sm:gap-3 group select-none cursor-pointer flex-shrink-0">
-        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/70 backdrop-blur-md border border-[#F1E6EE] p-1 flex items-center justify-center shadow-xs group-hover:border-[#C01858] group-hover:scale-105 transition-all overflow-hidden">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/40 border border-white/60 p-1 flex items-center justify-center shadow-xs group-hover:border-[#C01858] group-hover:scale-105 transition-all overflow-hidden">
           <img src="images/logo-icon.png" alt="Shree Tech Logo" class="w-full h-full object-contain">
         </div>
         <div class="flex flex-col">
@@ -58,7 +58,7 @@ foreach ($navItems as $idx => $item) {
           data-gooeyness="0.5"
           data-wobble="0.4"
           data-hover-effect="true"
-          style="--gn-frame: rgba(255, 255, 255, 0.22); --gn-frame-edge: rgba(241, 230, 238, 0.65); --gn-frame-highlight: rgba(255, 255, 255, 0.7); --gn-frame-shadow: none; --gn-pill: #FFF0F5; --gn-active-ink: #C01858; --gn-ink: #C01858; --gn-muted: #505D70;"
+          style="--gn-frame: rgba(255, 255, 255, 0.20); --gn-frame-edge: rgba(255, 255, 255, 0.55); --gn-frame-highlight: rgba(255, 255, 255, 0.75); --gn-frame-shadow: none; --gn-pill: #FFF0F5; --gn-active-ink: #C01858; --gn-ink: #C01858; --gn-muted: #505D70;"
         >
           <span class="gooey-nav__rim"></span>
           <div class="gooey-nav__stage">
