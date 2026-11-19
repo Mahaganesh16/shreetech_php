@@ -742,32 +742,48 @@ h1 {
 }
 
 /* ==========================================================================
-   6. STICKY STACKING CARDS SCROLL ENGINE (PROJECTS & CASE STUDIES)
+   6. STICKY STACKING CARDS SCROLL ENGINE (PINNED STAGE + JAVASCRIPT SCROLL)
    ========================================================================== */
 
-.stacking-cards-container {
+#projects-pin-track {
+  position: relative;
+  width: 100%;
+}
+
+#projects-pin-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.stacking-deck-container {
+  position: relative;
+  width: 100%;
+}
+
+.stacking-cards-deck {
   position: relative;
   width: 100%;
 }
 
 .stacking-card-item {
-  position: sticky;
-  top: calc(85px + (var(--stack-idx, 0) * 48px));
-  z-index: calc(10 + var(--stack-idx, 0));
+  position: absolute;
+  top: calc(var(--stack-idx, 0) * 44px);
+  left: 0;
+  right: 0;
   width: 100%;
-  margin-bottom: 50vh;
-  will-change: transform, filter;
+  z-index: calc(10 + var(--stack-idx, 0));
   transform-origin: center top;
-}
-
-.stacking-card-item:last-child {
-  margin-bottom: 15vh;
+  will-change: transform, opacity, filter;
+  transition: box-shadow 0.3s ease;
 }
 
 @media (max-width: 640px) {
   .stacking-card-item {
-    top: calc(72px + (var(--stack-idx, 0) * 42px));
-    margin-bottom: 40vh;
+    top: calc(var(--stack-idx, 0) * 38px);
   }
 }
 
@@ -788,7 +804,7 @@ h1 {
 .stacking-card-header {
   background-color: #f3e8d2;
   color: #1a1714;
-  height: 48px;
+  height: 44px;
   border-top-left-radius: 1.25rem;
   border-top-right-radius: 1.25rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -798,7 +814,7 @@ h1 {
 
 @media (max-width: 640px) {
   .stacking-card-header {
-    height: 42px;
+    height: 38px;
   }
 }
 

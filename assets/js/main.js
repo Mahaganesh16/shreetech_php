@@ -343,79 +343,118 @@ function initShreeTech() {
   // =========================================================================
   // 10. STICKY STACKING CARDS SCROLL ENGINE & PROJECTS MODAL DIALOG
   // =========================================================================
-  const stackingCardsContainer = document.querySelector('.stacking-cards-container');
+  // 6. STICKY STACKING CARDS SCROLL ENGINE (PINNED STAGE + JAVASCRIPT SCROLL)
+  // =========================================================================
+  const pinTrack = document.getElementById('projects-pin-track');
+  const pinStage = document.getElementById('projects-pin-stage');
   const projectCards = document.querySelectorAll('.stacking-card-item');
   const projectTabs = document.querySelectorAll('.project-filter-btn');
 
-  function updateStackingCards() {
-    if (!stackingCardsContainer || !projectCards.length) return;
-
-    const isMobile = window.innerWidth < 640;
-    const baseTop = isMobile ? 72 : 85;
-    const headerHeight = isMobile ? 42 : 48;
-    const windowHeight = window.innerHeight;
-
-    // Only operate on currently visible cards (supporting filter pills)
+  function updateTrackHeight() {
+    if (!pinTrack) return;
     const visibleCards = Array.from(projectCards).filter(
       (card) => card.style.display !== 'none'
     );
+    const count = visibleCards.length;
+    if (count <= 1) {
+      pinTrack.style.height = '100vh';
+    } else {
+      // 70vh of dedicated scroll distance per card transition
+      const scrollPerCard = Math.max(window.innerHeight * 0.70, 520);
+      pinTrack.style.height = `${window.innerHeight + (count - 1) * scrollPerCard}px`;
+    }
+  }
+
+  function updateStackingCards() {
+    if (!pinTrack || !pinStage || !projectCards.length) return;
+
+    const visibleCards = Array.from(projectCards).filter(
+      (card) => card.style.display !== 'none'
+    );
+    const totalCards = visibleCards.length;
+    if (totalCards === 0) return;
+
+    if (totalCards === 1) {
+      visibleCards[0].style.transform = 'translate3d(0, 0, 0) scale(1) rotate(0deg)';
+      visibleCards[0].style.opacity = '1';
+      visibleCards[0].style.filter = 'brightness(1)';
+      visibleCards[0].style.pointerEvents = 'auto';
+      return;
+    }
+
+    const trackRect = pinTrack.getBoundingClientRect();
+    const maxScroll = pinTrack.offsetHeight - window.innerHeight;
+    if (maxScroll <= 0) return;
+
+    // Progress goes strictly from 0 to 1 while pinned in the viewport
+    const progress = Math.min(Math.max(-trackRect.top / maxScroll, 0), 1);
+    const totalSteps = totalCards - 1;
 
     visibleCards.forEach((card, index) => {
-      // Re-index sticky position
       card.style.setProperty('--stack-idx', index);
-      const cardBox = card.querySelector('.stacking-card-box');
       const headerTab = card.querySelector('.stacking-card-header');
-      if (!cardBox) return;
 
-      const pinnedTop = baseTop + index * headerHeight;
-      const rect = card.getBoundingClientRect();
+      if (index === 0) {
+        // Foundation card: stays in place, dims & scales as cards stack over it
+        const coveredDepth = Math.min(progress * totalSteps, totalSteps);
 
-      // 1. NATURAL TILT & STRAIGHTENING:
-      // Card 0 docks straight, subsequent cards enter with alternating tilt (-2.2deg / +2.2deg).
-      // Smoothly straightens out to 0deg as it reaches its pinned top offset.
-      const initialTilt = (index === 0) ? 0 : ((index % 2 === 0) ? 2.2 : -2.2);
-      const enterDistance = Math.max(windowHeight * 0.45, 300);
-      const distanceToPin = rect.top - pinnedTop;
+        const scale = Math.max(1 - coveredDepth * 0.026, 0.915);
+        const brightness = Math.max(1 - coveredDepth * 0.11, 0.68);
+        const tabR = Math.round(Math.max(243 - coveredDepth * 36, 125));
+        const tabG = Math.round(Math.max(232 - coveredDepth * 37, 115));
+        const tabB = Math.round(Math.max(210 - coveredDepth * 35, 100));
 
-      let currentTilt = 0;
-      if (distanceToPin > 0) {
-        const progress = Math.min(Math.max(distanceToPin / enterDistance, 0), 1);
-        currentTilt = initialTilt * progress;
+        card.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(4)}) rotate(0deg)`;
+        card.style.opacity = '1';
+        card.style.filter = `brightness(${brightness.toFixed(3)})`;
+        card.style.pointerEvents = 'auto';
+        if (headerTab) headerTab.style.backgroundColor = `rgb(${tabR}, ${tabG}, ${tabB})`;
+        return;
+      }
+
+      // Subsequent cards (index >= 1)
+      const stepStart = (index - 1) / totalSteps;
+      const stepEnd = index / totalSteps;
+      const initialTilt = (index % 2 === 1) ? -2.4 : 2.4;
+
+      if (progress <= stepStart) {
+        // Card is waiting below the stage
+        card.style.transform = `translate3d(0, 600px, 0) scale(1) rotate(${initialTilt}deg)`;
+        card.style.opacity = '0';
+        card.style.filter = 'brightness(1)';
+        card.style.pointerEvents = 'none';
+        if (headerTab) headerTab.style.backgroundColor = 'rgb(243, 232, 210)';
+      } else if (progress >= stepEnd) {
+        // Card is fully docked
+        const cardsAbove = (progress - stepEnd) * totalSteps;
+        const coveredDepth = Math.max(0, Math.min(cardsAbove, totalSteps - index));
+
+        const scale = Math.max(1 - coveredDepth * 0.026, 0.915);
+        const brightness = Math.max(1 - coveredDepth * 0.11, 0.68);
+        const tabR = Math.round(Math.max(243 - coveredDepth * 36, 125));
+        const tabG = Math.round(Math.max(232 - coveredDepth * 37, 115));
+        const tabB = Math.round(Math.max(210 - coveredDepth * 35, 100));
+
+        card.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(4)}) rotate(0deg)`;
+        card.style.opacity = '1';
+        card.style.filter = `brightness(${brightness.toFixed(3)})`;
+        card.style.pointerEvents = 'auto';
+        if (headerTab) headerTab.style.backgroundColor = `rgb(${tabR}, ${tabG}, ${tabB})`;
       } else {
-        currentTilt = 0;
-      }
+        // Card is actively traveling and docking
+        const t = (progress - stepStart) / (stepEnd - stepStart);
+        // Smooth cubic ease-out
+        const ease = 1 - Math.pow(1 - t, 3);
 
-      // 2. DEPTH, SCALE & DIMMING ON OLDER COVERED CARDS:
-      // When subsequent cards scroll over earlier cards, earlier cards scale down and dim.
-      let coveredDepth = 0;
-      for (let nextIdx = index + 1; nextIdx < visibleCards.length; nextIdx++) {
-        const nextCard = visibleCards[nextIdx];
-        const nextPinnedTop = baseTop + nextIdx * headerHeight;
-        const nextRect = nextCard.getBoundingClientRect();
+        const translateY = (1 - ease) * 550;
+        const currentTilt = (1 - ease) * initialTilt;
+        const currentOpacity = Math.min(t * 3.5, 1);
 
-        if (nextRect.top <= nextPinnedTop + 160) {
-          const overlap = Math.min(
-            Math.max((nextPinnedTop + 160 - nextRect.top) / 160, 0),
-            1
-          );
-          coveredDepth += overlap;
-        }
-      }
-
-      const targetScale = Math.max(1 - coveredDepth * 0.028, 0.915);
-      const targetBrightness = Math.max(1 - coveredDepth * 0.12, 0.68);
-
-      // Header tab color dimming from warm parchment #f3e8d2 down to #7d7364
-      const tabR = Math.round(Math.max(243 - coveredDepth * 38, 125));
-      const tabG = Math.round(Math.max(232 - coveredDepth * 39, 115));
-      const tabB = Math.round(Math.max(210 - coveredDepth * 36, 100));
-
-      // Apply hardware-accelerated 3D transforms
-      cardBox.style.transform = `translate3d(0, 0, 0) rotate(${currentTilt.toFixed(2)}deg) scale(${targetScale.toFixed(3)})`;
-      cardBox.style.filter = `brightness(${targetBrightness.toFixed(2)})`;
-
-      if (headerTab) {
-        headerTab.style.backgroundColor = `rgb(${tabR}, ${tabG}, ${tabB})`;
+        card.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(1) rotate(${currentTilt.toFixed(2)}deg)`;
+        card.style.opacity = currentOpacity.toFixed(3);
+        card.style.filter = 'brightness(1)';
+        card.style.pointerEvents = 'auto';
+        if (headerTab) headerTab.style.backgroundColor = 'rgb(243, 232, 210)';
       }
     });
   }
@@ -431,9 +470,13 @@ function initShreeTech() {
     }
   }
 
-  if (stackingCardsContainer) {
+  if (pinTrack) {
+    updateTrackHeight();
     window.addEventListener('scroll', onStackScroll, { passive: true });
-    window.addEventListener('resize', onStackScroll, { passive: true });
+    window.addEventListener('resize', () => {
+      updateTrackHeight();
+      onStackScroll();
+    }, { passive: true });
     updateStackingCards();
   }
 
@@ -460,7 +503,8 @@ function initShreeTech() {
         }
       });
 
-      // Recalculate stacking immediately
+      // Recalculate track height and stacking immediately
+      updateTrackHeight();
       onStackScroll();
     });
   });

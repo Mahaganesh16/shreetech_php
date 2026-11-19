@@ -17,32 +17,33 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="flex flex-col w-full pt-16 sm:pt-20">
-  <section id="projects" class="relative py-20 sm:py-28 bg-[#FFF0F5]/25 overflow-visible border-y border-[#F1E6EE]">
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  
+  <!-- OUTER PINNED SCROLL TRACK (DRIVES JS SCROLL STACKING ANIMATION BEFORE PROCEEDING TO FOOTER) -->
+  <section id="projects-pin-track" class="relative w-full bg-[#FFF0F5]/25 border-y border-[#F1E6EE]">
+    
+    <!-- STICKY VIEWPORT STAGE (STAYS PINNED WHILE CARDS CYCLE UP/DOWN, THEN CONTINUES TO FOOTER/HEADER) -->
+    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-20 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-        <div class="max-w-2xl">
-          <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
-            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-            <span>Selected Case Studies</span>
-          </div>
-          <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
-            Featured Client Deployments
-          </h2>
-          <p class="mt-4 text-base text-[#475569] font-normal leading-relaxed font-body">
-            Explore how our engineering teams design, build, and scale mission-critical digital systems
-            across finance, healthcare, logistics, and global commerce.
-          </p>
+      <div class="w-full max-w-4xl mx-auto flex flex-col items-center text-center mb-6 shrink-0">
+        <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-2.5">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+          <span>Selected Case Studies</span>
         </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-[#0F172A] tracking-tight font-heading mb-2">
+          Featured Client Deployments
+        </h2>
+        <p class="text-xs sm:text-sm text-[#475569] font-normal leading-relaxed font-body max-w-2xl mb-4">
+          Scroll down to cycle through our mission-critical digital systems across finance, healthcare, logistics, and global commerce.
+        </p>
 
         <!-- Filter Pills -->
-        <div class="flex flex-wrap items-center gap-2">
+        <div class="flex flex-wrap items-center justify-center gap-2">
           <?php foreach ($filterTabs as $tab): ?>
             <button
               type="button"
               data-category="<?php echo htmlspecialchars($tab['id']); ?>"
-              class="project-filter-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-2xl transition-all cursor-pointer <?php echo ($tab['id'] === 'all') ? 'glass-btn-primary shadow-sm text-white' : 'glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]'; ?>"
+              class="project-filter-btn px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer <?php echo ($tab['id'] === 'all') ? 'glass-btn-primary shadow-sm text-white' : 'glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]'; ?>"
             >
               <?php echo htmlspecialchars($tab['label']); ?>
             </button>
@@ -50,28 +51,29 @@ require_once __DIR__ . '/includes/header.php';
         </div>
       </div>
 
-      <!-- STICKY STACKING CARDS CONTAINER (MATCHING REFERENCE VIDEO) -->
-      <div class="stacking-cards-container relative max-w-xl mx-auto pt-6 pb-28">
-        <?php foreach ($projectsData as $idx => $project): 
-          $icons = [
-            'apex-finance' => 'trending-up',
-            'health-cloud' => 'activity',
-            'fleet-mobile' => 'truck',
-            'luxury-commerce' => 'shopping-bag',
-            'cloud-security' => 'shield-check',
-            'ai-intelligence' => 'cpu',
-          ];
-          $icon = $icons[$project['id']] ?? 'sparkles';
-        ?>
-          <!-- Dynamic Project Stacking Card ($idx: <?php echo $idx; ?>) -->
-          <article
-            class="stacking-card-item project-card-item w-full"
-            data-card-index="<?php echo $idx; ?>"
-            data-category="<?php echo htmlspecialchars($project['category']); ?>"
-            style="--stack-idx: <?php echo $idx; ?>;"
-          >
-            <!-- Card Outer Shell: Dark body #141414 with 1.5px subtle border & shadow -->
-            <div class="stacking-card-box">
+      <!-- STACKING CARDS DECK (PINS IN PLACE, CARDS SLIDE UP & DOCK BEFORE SCROLL RESUMES) -->
+      <div class="stacking-deck-container relative w-full max-w-xl mx-auto flex-1 flex flex-col justify-start items-center">
+        <div class="stacking-cards-deck relative w-full h-[520px]">
+          <?php foreach ($projectsData as $idx => $project): 
+            $icons = [
+              'apex-finance' => 'trending-up',
+              'health-cloud' => 'activity',
+              'fleet-mobile' => 'truck',
+              'luxury-commerce' => 'shopping-bag',
+              'cloud-security' => 'shield-check',
+              'ai-intelligence' => 'cpu',
+            ];
+            $icon = $icons[$project['id']] ?? 'sparkles';
+          ?>
+            <!-- Dynamic Project Stacking Card ($idx: <?php echo $idx; ?>) -->
+            <article
+              class="stacking-card-item project-card-item"
+              data-card-index="<?php echo $idx; ?>"
+              data-category="<?php echo htmlspecialchars($project['category']); ?>"
+              style="--stack-idx: <?php echo $idx; ?>;"
+            >
+              <!-- Card Outer Shell: Dark body #141414 with 1.5px subtle border & shadow -->
+              <div class="stacking-card-box">
                 
                 <!-- TOP HEADER BAR (Folder Tab / Ticket Header from Reference Video) -->
                 <div class="stacking-card-header px-4 sm:px-6 flex items-center justify-between select-none">
@@ -79,7 +81,7 @@ require_once __DIR__ . '/includes/header.php';
                   <span class="card-rivet" aria-hidden="true"></span>
 
                   <!-- Center: Project Title / Main Headline in Bold Uppercase -->
-                  <div class="font-heading font-black text-xs sm:text-sm md:text-base tracking-wider uppercase truncate px-3 text-[#1c1917] text-center flex-1">
+                  <div class="font-heading font-black text-xs sm:text-sm tracking-wider uppercase truncate px-3 text-[#1c1917] text-center flex-1">
                     <span><?php echo htmlspecialchars($project['title']); ?></span>
                   </div>
 
@@ -88,15 +90,15 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
 
                 <!-- DARK CARD BODY (#141414 with subtle 1px border) -->
-                <div class="stacking-card-body p-6 sm:p-8 flex flex-col items-center text-center text-white">
+                <div class="stacking-card-body p-5 sm:p-7 flex flex-col items-center text-center text-white">
                   
                   <!-- Center Circular Icon with Thin Border (Exact Match to Video) -->
-                  <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-white/20 bg-white/5 flex items-center justify-center mb-5 shrink-0 shadow-inner group-hover:scale-105 transition-transform duration-300">
-                    <i data-lucide="<?php echo $icon; ?>" class="w-8 h-8 sm:w-10 sm:h-10 text-white stroke-[1.5]"></i>
+                  <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-white/20 bg-white/5 flex items-center justify-center mb-4 shrink-0 shadow-inner group-hover:scale-105 transition-transform duration-300">
+                    <i data-lucide="<?php echo $icon; ?>" class="w-7 h-7 sm:w-8 sm:h-8 text-white stroke-[1.5]"></i>
                   </div>
 
                   <!-- Client Badge & Category -->
-                  <div class="flex items-center gap-2 mb-3">
+                  <div class="flex items-center gap-2 mb-2.5">
                     <span class="text-xs font-semibold uppercase tracking-wider text-[#FF6B00] font-heading">
                       <?php echo htmlspecialchars($project['client']); ?>
                     </span>
@@ -107,12 +109,12 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
 
                   <!-- Clean Project Description (Exact Match to Video Typography) -->
-                  <p class="text-sm sm:text-base text-slate-300 font-normal leading-relaxed max-w-md mx-auto mb-6 font-body">
+                  <p class="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed max-w-md mx-auto mb-4 font-body">
                     <?php echo htmlspecialchars($project['summary']); ?>
                   </p>
 
                   <!-- Impact Metric Pill -->
-                  <div class="w-full max-w-sm p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between mb-6">
+                  <div class="w-full max-w-sm p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between mb-4">
                     <span class="text-xs text-slate-400 font-medium"><?php echo htmlspecialchars($project['metrics']['label']); ?></span>
                     <span class="text-sm sm:text-base font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] to-[#C01858] font-stat">
                       <?php echo htmlspecialchars($project['metrics']['value']); ?>
@@ -120,9 +122,9 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
 
                   <!-- Technologies Stack Badges -->
-                  <div class="flex flex-wrap justify-center gap-1.5 mb-6">
+                  <div class="flex flex-wrap justify-center gap-1.5 mb-5">
                     <?php foreach ($project['technologies'] as $tech): ?>
-                      <span class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-300 bg-white/5 border border-white/10 font-body">
+                      <span class="px-2 py-0.5 rounded-md text-[11px] font-medium text-slate-300 bg-white/5 border border-white/10 font-body">
                         <?php echo htmlspecialchars($tech); ?>
                       </span>
                     <?php endforeach; ?>
@@ -132,7 +134,7 @@ require_once __DIR__ . '/includes/header.php';
                   <div class="w-full max-w-sm flex items-center gap-3">
                     <button
                       type="button"
-                      class="open-project-modal glass-btn-primary flex-1 py-2.5 px-4 rounded-xl text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:scale-105 active:scale-95 transition-all"
+                      class="open-project-modal glass-btn-primary flex-1 py-2 px-4 rounded-xl text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-1.5 cursor-pointer shadow-lg hover:scale-105 active:scale-95 transition-all"
                       data-title="<?php echo htmlspecialchars($project['title']); ?>"
                       data-client="<?php echo htmlspecialchars($project['client']); ?>"
                       data-summary="<?php echo htmlspecialchars($project['summary']); ?>"
@@ -141,12 +143,12 @@ require_once __DIR__ . '/includes/header.php';
                       data-metric-label="<?php echo htmlspecialchars($project['metrics']['label']); ?>"
                     >
                       <span>View Case Study</span>
-                      <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                     </button>
 
                     <a
                       href="contact.php"
-                      class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors inline-flex items-center gap-1 cursor-pointer shrink-0"
+                      class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors inline-flex items-center gap-1 cursor-pointer shrink-0"
                     >
                       <span>Consult</span>
                     </a>
@@ -154,8 +156,9 @@ require_once __DIR__ . '/includes/header.php';
 
                 </div>
               </div>
-          </article>
-        <?php endforeach; ?>
+            </article>
+          <?php endforeach; ?>
+        </div>
       </div>
     </div>
   </section>
