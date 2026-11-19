@@ -1,0 +1,658 @@
+/* =============================================================
+   SHREE TECH - SIGNATURE ENTERPRISE STYLING & 3D FLIP SYSTEM
+   Color System:
+   White Backgrounds: #FFFFFF
+   Orange-tint section: #FFF4EA
+   Magenta-tint section: #FFF0F5
+   Purple-tint section: #F5F0FF
+   Cards: #FFFFFF
+   Brand Colors: Orange #FF6B00 | Magenta #C01858 | Purple #8B5CF6
+   Headings: #0F172A | Body: #475569 | Borders: #F1E6EE
+   ============================================================= */
+
+:root {
+  --bg-base: #ffffff;
+  --foreground: #0f172a;
+  --color-orange: #FF6B00;
+  --color-magenta: #C01858;
+  --color-purple: #8B5CF6;
+  --color-heading: #0F172A;
+  --color-body: #475569;
+  --color-border: #F1E6EE;
+  --bg-tint-orange: #FFF4EA;
+  --bg-tint-magenta: #FFF0F5;
+  --bg-tint-purple: #F5F0FF;
+  --font-heading: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #ffffff;
+}
+
+body {
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(50% 35% at 0% 0%, rgba(255, 107, 0, 0.08), transparent 70%),
+    radial-gradient(50% 35% at 100% 0%, rgba(139, 92, 246, 0.08), transparent 70%),
+    radial-gradient(50% 35% at 50% 100%, rgba(192, 24, 88, 0.06), transparent 70%);
+  background-attachment: fixed;
+  color: #475569;
+  font-family: var(--font-body);
+  letter-spacing: -0.015em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+h1 {
+  letter-spacing: -0.038em;
+}
+
+.font-stat {
+  font-family: var(--font-heading);
+  font-feature-settings: 'tnum' on, 'lnum' on;
+  letter-spacing: -0.035em;
+}
+
+/* Custom Neutral Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 0, 0.35);
+  border-radius: 9999px;
+  border: 2px solid #ffffff;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C01858;
+}
+
+/* Utility to completely hide scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* -------------------------------------------------------------
+   SIGNATURE BRAND SECTION TINTS (White + Logo Accents)
+   ------------------------------------------------------------- */
+.section-white {
+  background-color: #ffffff;
+}
+.section-tint-orange {
+  background-color: #FFF4EA;
+}
+.section-tint-magenta {
+  background-color: #FFF0F5;
+}
+.section-tint-purple {
+  background-color: #F5F0FF;
+}
+
+/* -------------------------------------------------------------
+   SIGNATURE PURE WHITE CARDS WITH DELICATE BORDER
+   ------------------------------------------------------------- */
+.glass-card {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(241, 230, 238, 0.9);
+  box-shadow: 
+    0 16px 36px -6px rgba(15, 23, 42, 0.05),
+    0 1px 3px 0 rgba(0, 0, 0, 0.02);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card-hover:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #C01858;
+  transform: translateY(-5px);
+  box-shadow: 
+    0 22px 45px -8px rgba(192, 24, 88, 0.14),
+    0 0 22px rgba(255, 107, 0, 0.08);
+}
+
+/* -------------------------------------------------------------
+   3D HARDWARE-ACCELERATED CARD FLIP SYSTEM
+   ------------------------------------------------------------- */
+.flip-card-wrapper {
+  perspective: 1200px;
+  -webkit-perspective: 1200px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.75s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.flip-card-wrapper:hover .flip-card-inner,
+.flip-card-inner.is-flipped {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.flip-card-front {
+  background: rgba(255, 255, 255, 0.78) !important;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(241, 230, 238, 0.9) !important;
+  box-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.05) !important;
+  transform: rotateY(0deg) translateZ(1px);
+  -webkit-transform: rotateY(0deg) translateZ(1px);
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.flip-card-back {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 2px solid #C01858 !important;
+  box-shadow: 0 24px 48px -8px rgba(192, 24, 88, 0.16) !important;
+  transform: rotateY(180deg) translateZ(1px);
+  -webkit-transform: rotateY(180deg) translateZ(1px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.flip-card-wrapper:hover .flip-card-back,
+.flip-card-inner.is-flipped .flip-card-back {
+  pointer-events: auto;
+  z-index: 3;
+}
+
+.flip-card-wrapper:hover .flip-card-front,
+.flip-card-inner.is-flipped .flip-card-front {
+  pointer-events: none;
+}
+
+/* Modals & Dialogs Panel */
+.glass-panel {
+  background: #ffffff;
+  border: 1px solid #F1E6EE;
+  box-shadow:
+    0 30px 60px -12px rgba(15, 23, 42, 0.08),
+    0 0 30px rgba(192, 24, 88, 0.06);
+}
+
+/* Small Glows & Badges: Purple #8B5CF6 with #F5F0FF tint */
+.glass-pill {
+  background: #F5F0FF;
+  border: 1px solid #F1E6EE;
+  color: #8B5CF6;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.08);
+}
+
+/* Container-Width Floating Glassmorphism Navbar Dock */
+.glass-navbar-dock {
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(241, 230, 238, 0.85);
+  box-shadow:
+    0 10px 32px -8px rgba(15, 23, 42, 0.08),
+    0 2px 10px -2px rgba(192, 24, 88, 0.04),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-navbar-dock.is-scrolled {
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(28px) saturate(210%);
+  -webkit-backdrop-filter: blur(28px) saturate(210%);
+  border-color: rgba(241, 230, 238, 0.95);
+  box-shadow:
+    0 14px 40px -10px rgba(15, 23, 42, 0.12),
+    0 4px 16px -2px rgba(192, 24, 88, 0.06),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95);
+}
+
+.glass-navbar-top {
+  background: transparent !important;
+}
+
+.glass-navbar-scrolled {
+  background: transparent !important;
+}
+
+/* Menu Item Inner Pill Dock */
+.glass-nav-pill {
+  background: #ffffff;
+  border: 1px solid #F1E6EE;
+  box-shadow: inset 0 1px 1.5px rgba(0, 0, 0, 0.02);
+}
+
+/* Clean White Inputs */
+.glass-input {
+  background: #ffffff;
+  border: 1px solid #F1E6EE;
+  color: #0F172A;
+  box-shadow: inset 0 1.5px 3px rgba(15, 23, 42, 0.02);
+  transition: all 0.25s ease;
+}
+
+.glass-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #C01858;
+  box-shadow:
+    0 0 18px rgba(192, 24, 88, 0.16),
+    0 0 6px rgba(255, 107, 0, 0.1);
+}
+
+/* -------------------------------------------------------------
+   BUTTONS: linear-gradient(135deg, #FF6B00 0%, #C01858 55%, #8B5CF6 100%)
+   ------------------------------------------------------------- */
+.glass-btn-primary {
+  background: linear-gradient(135deg, #FF6B00 0%, #C01858 55%, #8B5CF6 100%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 10px 24px -4px rgba(255, 107, 0, 0.35),
+    0 4px 14px rgba(192, 24, 88, 0.22);
+  color: #ffffff !important;
+  transition: all 0.25s ease;
+}
+
+.glass-btn-primary:hover {
+  background: linear-gradient(135deg, #FF7E1A 0%, #D42268 55%, #9D6FFF 100%);
+  border-color: #ffffff;
+  box-shadow:
+    0 14px 30px -4px rgba(255, 107, 0, 0.45),
+    0 6px 20px rgba(192, 24, 88, 0.32);
+  transform: translateY(-2px);
+}
+
+/* Secondary Button: Clean White with #F1E6EE border and #C01858 hover */
+.glass-btn-secondary {
+  background: #ffffff;
+  border: 1px solid #F1E6EE;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
+  color: #0F172A;
+  transition: all 0.25s ease;
+}
+
+.glass-btn-secondary:hover {
+  background: #ffffff;
+  border-color: #C01858;
+  color: #C01858 !important;
+  box-shadow: 0 8px 22px rgba(192, 24, 88, 0.1);
+  transform: translateY(-2px);
+}
+
+/* -------------------------------------------------------------
+   HEADINGS HIGHLIGHT TEXT: linear-gradient(90deg, #FF6B00, #C01858)
+   ------------------------------------------------------------- */
+.text-gradient-brand {
+  background: linear-gradient(90deg, #FF6B00, #C01858);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* -------------------------------------------------------------
+   AUTO-SCROLLING SLACK-STYLE CONTINUOUS ROW
+   ------------------------------------------------------------- */
+@keyframes slackAutoScrollRtl {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.slack-scroll-row {
+  display: flex !important;
+  width: max-content !important;
+  gap: 1.25rem !important;
+  animation: slackAutoScrollRtl 26s linear infinite !important;
+  will-change: transform !important;
+}
+
+.slack-scroll-row:hover {
+  animation-play-state: paused !important;
+}
+
+/* =============================================================
+   NEXT.JS ANIMATION SUITE PORTED TO VANILLA CSS & JS
+   ============================================================= */
+
+/* 1. HERO ORBITING CAROUSEL & VISUAL EFFECTS */
+@keyframes orbitRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counterOrbitRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes reverseOrbitRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes pulseGlowRing {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes radarSweepBeam {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes floatBobbing {
+  0%, 100% {
+    transform: translateY(-4px) rotate(-0.6deg);
+  }
+  50% {
+    transform: translateY(4px) rotate(0.6deg);
+  }
+}
+
+@keyframes phoenixCoreGlow {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes orbitPowerCore {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.55;
+  }
+}
+
+@keyframes orbitPulseWave {
+  0%, 100% {
+    transform: scale(0.96);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.65;
+  }
+}
+
+@keyframes sheenCascadeDiag {
+  0% {
+    transform: translate(-140%, -100%);
+  }
+  60%, 100% {
+    transform: translate(160%, 140%);
+  }
+}
+
+@keyframes sheenCascadeVert {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  70%, 100% {
+    transform: translateY(130%);
+    opacity: 0;
+  }
+}
+
+@keyframes fallingFeatherAnim {
+  0% {
+    transform: translateY(-8%) translateX(0) rotate(var(--init-rot, 0deg)) scale(0.65);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.85;
+    transform: translateY(28%) translateX(14px) rotate(calc(var(--init-rot, 0deg) + 30deg)) scale(1.1);
+  }
+  65% {
+    opacity: 0.95;
+    transform: translateY(72%) translateX(-8px) rotate(calc(var(--init-rot, 0deg) - 20deg)) scale(0.85);
+  }
+  100% {
+    transform: translateY(115%) translateX(0) rotate(calc(var(--init-rot, 0deg) + 15deg)) scale(0.6);
+    opacity: 0;
+  }
+}
+
+.animate-orbit-spin {
+  animation: orbitRotate 22s linear infinite;
+  will-change: transform;
+}
+
+.animate-orbit-counter {
+  animation: counterOrbitRotate 22s linear infinite;
+  will-change: transform;
+}
+
+.animate-orbit-dashed {
+  animation: reverseOrbitRotate 36s linear infinite;
+  will-change: transform;
+}
+
+.animate-pulse-ring {
+  animation: orbitPulseWave 5s ease-in-out infinite;
+}
+
+.animate-orbit-core {
+  animation: orbitPowerCore 4s ease-in-out infinite;
+}
+
+.animate-radar-sweep {
+  animation: radarSweepBeam 9s linear infinite;
+  will-change: transform;
+}
+
+.animate-comet-orbit {
+  animation: orbitRotate 7s linear infinite;
+  will-change: transform;
+}
+
+.animate-float-bob {
+  animation: floatBobbing 4.5s ease-in-out infinite;
+}
+
+.animate-phoenix-core {
+  animation: phoenixCoreGlow 3.6s ease-in-out infinite;
+}
+
+.animate-sheen-diag {
+  animation: sheenCascadeDiag 3.8s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+  animation-delay: 1.6s;
+}
+
+.animate-sheen-vert {
+  animation: sheenCascadeVert 4.6s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+.animate-falling-feather {
+  animation: fallingFeatherAnim var(--f-dur, 4.2s) ease-in-out infinite;
+  animation-delay: var(--f-del, 0s);
+  will-change: transform, opacity;
+}
+
+/* Pause orbit on hover */
+.orbit-container:hover .animate-orbit-spin,
+.orbit-container:hover .animate-orbit-counter,
+.orbit-container:hover .animate-comet-orbit {
+  animation-play-state: paused;
+}
+
+/* 2. DYNAMIC CURSOR SPOTLIGHT ON CARDS */
+.card-spotlight-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.glass-card:hover .card-spotlight-layer,
+.flip-card-front:hover .card-spotlight-layer {
+  opacity: 1;
+}
+
+/* 3. SCROLL-TRIGGERED ENTRANCE REVEAL ANIMATIONS (FRAMER MOTION EQUIVALENTS) */
+.reveal-init {
+  opacity: 0;
+  will-change: opacity, transform;
+  transition-property: opacity, transform, filter;
+  transition-duration: 0.75s;
+  transition-timing-function: cubic-bezier(0.21, 0.47, 0.32, 0.98);
+}
+
+.reveal-up {
+  transform: translateY(35px);
+}
+
+.reveal-scale {
+  transform: scale(0.92);
+}
+
+.reveal-left {
+  transform: translateX(-40px);
+}
+
+.reveal-right {
+  transform: translateX(40px);
+}
+
+.reveal-fade {
+  opacity: 0;
+}
+
+.reveal-blur {
+  filter: blur(8px);
+}
+
+/* When in view */
+.is-revealed {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) !important;
+  filter: blur(0px) !important;
+}
+
+/* Stagger Delays for Grid Children */
+.stagger-1 { transition-delay: 80ms; }
+.stagger-2 { transition-delay: 160ms; }
+.stagger-3 { transition-delay: 240ms; }
+.stagger-4 { transition-delay: 320ms; }
+.stagger-5 { transition-delay: 400ms; }
+.stagger-6 { transition-delay: 480ms; }
+.stagger-7 { transition-delay: 560ms; }
+.stagger-8 { transition-delay: 640ms; }
+
+/* 4. MODAL ANIMATIONS */
+@keyframes modalBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalContentScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-animate-backdrop {
+  animation: modalBackdropFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-animate-content {
+  animation: modalContentScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 5. TACTILE CARD PARALLAX TILT TRANSITION */
+.interactive-tilt {
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
