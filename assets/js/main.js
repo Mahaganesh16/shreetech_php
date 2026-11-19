@@ -56,7 +56,7 @@ function initShreeTech() {
   // =========================================================================
   // 2. DYNAMIC CURSOR SPOTLIGHT ON CARDS (FROM DirectoryCard.tsx)
   // =========================================================================
-  const spotlightCards = document.querySelectorAll('.flip-card-wrapper, .glass-card, .project-card-item');
+  const spotlightCards = document.querySelectorAll('.flip-card-wrapper, .glass-card');
 
   spotlightCards.forEach((card) => {
     // Ensure spotlight layer exists
@@ -341,9 +341,7 @@ function initShreeTech() {
   });
 
   // =========================================================================
-  // 10. STICKY STACKING CARDS SCROLL ENGINE & PROJECTS MODAL DIALOG
-  // =========================================================================
-  // 6. STICKY STACKING CARDS SCROLL ENGINE (PINNED STAGE + JAVASCRIPT SCROLL)
+  // 10. STICKY STACKING CARDS SCROLL ENGINE (PINNED STAGE + JAVASCRIPT SCROLL)
   // =========================================================================
   const pinTrack = document.getElementById('projects-pin-track');
   const pinStage = document.getElementById('projects-pin-stage');
@@ -359,9 +357,11 @@ function initShreeTech() {
     if (count <= 1) {
       pinTrack.style.height = '100vh';
     } else {
-      // 70vh of dedicated scroll distance per card transition
-      const scrollPerCard = Math.max(window.innerHeight * 0.70, 520);
-      pinTrack.style.height = `${window.innerHeight + (count - 1) * scrollPerCard}px`;
+      // 400px of scroll per card transition for clear, rhythmic sequential movement
+      const scrollPerCard = 400;
+      // Runway: intro pad (140px) + transitions + outro hold (260px) so stack stays pinned at completion
+      const totalScrollTravel = 140 + (count - 1) * scrollPerCard + 260;
+      pinTrack.style.height = `${window.innerHeight + totalScrollTravel}px`;
     }
   }
 
@@ -377,6 +377,7 @@ function initShreeTech() {
     if (totalCards === 1) {
       visibleCards[0].style.transform = 'translate3d(0, 0, 0) scale(1) rotate(0deg)';
       visibleCards[0].style.opacity = '1';
+      visibleCards[0].style.visibility = 'visible';
       visibleCards[0].style.filter = 'brightness(1)';
       visibleCards[0].style.pointerEvents = 'auto';
       return;
@@ -390,22 +391,38 @@ function initShreeTech() {
     const progress = Math.min(Math.max(-trackRect.top / maxScroll, 0), 1);
     const totalSteps = totalCards - 1;
 
+    // Timeline partitions:
+    // 0.00 to introEnd: rest on Card 0
+    // introEnd to animEnd: sequential card arrivals (Cards 1 to totalCards - 1)
+    // animEnd to 1.00: final hold with all cards stacked before unpinning to footer
+    const introEnd = 0.04;
+    const animEnd = 0.88;
+    const animSpan = animEnd - introEnd;
+    const stepSpan = animSpan / totalSteps;
+
+    // Travel distance: from docked position to below the viewport
+    const travelDistance = Math.max(window.innerHeight * 0.82, 480);
+
     visibleCards.forEach((card, index) => {
       card.style.setProperty('--stack-idx', index);
       const headerTab = card.querySelector('.stacking-card-header');
 
       if (index === 0) {
         // Foundation card: stays in place, dims & scales as cards stack over it
-        const coveredDepth = Math.min(progress * totalSteps, totalSteps);
+        let coveredDepth = 0;
+        if (progress > introEnd) {
+          coveredDepth = Math.min((progress - introEnd) / stepSpan, totalSteps);
+        }
 
-        const scale = Math.max(1 - coveredDepth * 0.026, 0.915);
-        const brightness = Math.max(1 - coveredDepth * 0.11, 0.68);
-        const tabR = Math.round(Math.max(243 - coveredDepth * 36, 125));
-        const tabG = Math.round(Math.max(232 - coveredDepth * 37, 115));
-        const tabB = Math.round(Math.max(210 - coveredDepth * 35, 100));
+        const scale = Math.max(1 - coveredDepth * 0.024, 0.89);
+        const brightness = Math.max(1 - coveredDepth * 0.08, 0.68);
+        const tabR = Math.round(Math.max(243 - coveredDepth * 32, 115));
+        const tabG = Math.round(Math.max(232 - coveredDepth * 33, 105));
+        const tabB = Math.round(Math.max(210 - coveredDepth * 31, 90));
 
         card.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(4)}) rotate(0deg)`;
         card.style.opacity = '1';
+        card.style.visibility = 'visible';
         card.style.filter = `brightness(${brightness.toFixed(3)})`;
         card.style.pointerEvents = 'auto';
         if (headerTab) headerTab.style.backgroundColor = `rgb(${tabR}, ${tabG}, ${tabB})`;
@@ -413,45 +430,49 @@ function initShreeTech() {
       }
 
       // Subsequent cards (index >= 1)
-      const stepStart = (index - 1) / totalSteps;
-      const stepEnd = index / totalSteps;
-      const initialTilt = (index % 2 === 1) ? -2.4 : 2.4;
+      const stepStart = introEnd + (index - 1) * stepSpan;
+      const stepEnd = introEnd + index * stepSpan;
+      const initialTilt = (index % 2 === 1) ? -2.2 : 2.2;
 
       if (progress <= stepStart) {
-        // Card is waiting below the stage
-        card.style.transform = `translate3d(0, 600px, 0) scale(1) rotate(${initialTilt}deg)`;
+        // Card is waiting below the stage (off bottom of screen)
+        card.style.transform = `translate3d(0, ${travelDistance}px, 0) scale(1) rotate(${initialTilt}deg)`;
         card.style.opacity = '0';
+        card.style.visibility = 'hidden';
         card.style.filter = 'brightness(1)';
         card.style.pointerEvents = 'none';
         if (headerTab) headerTab.style.backgroundColor = 'rgb(243, 232, 210)';
       } else if (progress >= stepEnd) {
-        // Card is fully docked
-        const cardsAbove = (progress - stepEnd) * totalSteps;
+        // Card is fully docked; calculate depth from cards docked on top of it
+        const cardsAbove = (progress - stepEnd) / stepSpan;
         const coveredDepth = Math.max(0, Math.min(cardsAbove, totalSteps - index));
 
-        const scale = Math.max(1 - coveredDepth * 0.026, 0.915);
+        const scale = Math.max(1 - coveredDepth * 0.024, 0.89);
         const brightness = Math.max(1 - coveredDepth * 0.11, 0.68);
-        const tabR = Math.round(Math.max(243 - coveredDepth * 36, 125));
-        const tabG = Math.round(Math.max(232 - coveredDepth * 37, 115));
-        const tabB = Math.round(Math.max(210 - coveredDepth * 35, 100));
+        const tabR = Math.round(Math.max(243 - coveredDepth * 32, 115));
+        const tabG = Math.round(Math.max(232 - coveredDepth * 33, 105));
+        const tabB = Math.round(Math.max(210 - coveredDepth * 31, 90));
 
         card.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(4)}) rotate(0deg)`;
         card.style.opacity = '1';
+        card.style.visibility = 'visible';
         card.style.filter = `brightness(${brightness.toFixed(3)})`;
         card.style.pointerEvents = 'auto';
         if (headerTab) headerTab.style.backgroundColor = `rgb(${tabR}, ${tabG}, ${tabB})`;
       } else {
-        // Card is actively traveling and docking
+        // Card is actively traveling and docking in line-by-line order
         const t = (progress - stepStart) / (stepEnd - stepStart);
         // Smooth cubic ease-out
-        const ease = 1 - Math.pow(1 - t, 3);
+        const ease = 1 - Math.pow(1 - t, 2.5);
 
-        const translateY = (1 - ease) * 550;
+        const currentY = (1 - ease) * travelDistance;
         const currentTilt = (1 - ease) * initialTilt;
-        const currentOpacity = Math.min(t * 3.5, 1);
+        // Fade in quickly during first 25% of travel, then fully opaque as it moves
+        const currentOpacity = Math.min(t * 4.0, 1);
 
-        card.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(1) rotate(${currentTilt.toFixed(2)}deg)`;
+        card.style.transform = `translate3d(0, ${currentY.toFixed(1)}px, 0) scale(1) rotate(${currentTilt.toFixed(2)}deg)`;
         card.style.opacity = currentOpacity.toFixed(3);
+        card.style.visibility = 'visible';
         card.style.filter = 'brightness(1)';
         card.style.pointerEvents = 'auto';
         if (headerTab) headerTab.style.backgroundColor = 'rgb(243, 232, 210)';
