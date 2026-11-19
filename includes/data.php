@@ -160,6 +160,65 @@ $processSteps = [
     ]
 ];
 
+$foodShowcaseCards = [
+    [
+        'id' => 'no-corn-syrup',
+        'title' => 'NO CORN SYRUP',
+        'category' => 'showcase',
+        'categoryLabel' => 'Pure Ingredients',
+        'client' => 'Heritage Craft Sauce',
+        'year' => '1800s Tradition',
+        'summary' => 'Sweet is fine. Sugar-lab sweet is not. So we left the high fructose corn syrup on the bottom shelf where it belongs.',
+        'technologies' => ['All-Natural', 'Pure Cane Sugar', 'Zero Corn Syrup'],
+        'imageUrl' => 'images/food-tomato.png',
+        'layoutSpan' => 'featured',
+        'iconType' => 'corn-crossed',
+        'metrics' => ['label' => 'High Fructose Corn Syrup', 'value' => '0%']
+    ],
+    [
+        'id' => 'no-seed-oils',
+        'title' => 'NO SEED OILS',
+        'category' => 'showcase',
+        'categoryLabel' => 'Pure Ingredients',
+        'client' => 'Heritage Craft Sauce',
+        'year' => 'Cold-Pressed',
+        'summary' => 'We skip the ultra-processed seed oils and use ingredients that actually belong in food. If it reads like a chemistry project, it\'s not in this bottle.',
+        'technologies' => ['Cold-Pressed Avocado', 'Extra Virgin Olive', 'Zero Canola'],
+        'imageUrl' => 'images/food-pepper.png',
+        'layoutSpan' => 'standard',
+        'iconType' => 'droplet-crossed',
+        'metrics' => ['label' => 'Ultra-Processed Seed Oils', 'value' => '0%']
+    ],
+    [
+        'id' => 'no-additives',
+        'title' => 'NO ADDITIVES',
+        'category' => 'showcase',
+        'categoryLabel' => 'Pure Ingredients',
+        'client' => 'Heritage Craft Sauce',
+        'year' => 'Clean Label',
+        'summary' => 'No preservatives. No artificial nonsense. No "what is that?" ingredients hiding behind words you can\'t pronounce.',
+        'technologies' => ['Zero Preservatives', 'Non-GMO', 'Whole Herbs & Spices'],
+        'imageUrl' => 'images/food-chili.png',
+        'layoutSpan' => 'standard',
+        'iconType' => 'flask-crossed',
+        'metrics' => ['label' => 'Synthetic Chemical Additives', 'value' => '0%']
+    ],
+    [
+        'id' => 'gluten-free',
+        'title' => 'GLUTEN FREE',
+        'category' => 'showcase',
+        'categoryLabel' => 'Pure Ingredients',
+        'client' => 'Heritage Craft Sauce',
+        'year' => 'Grill Certified',
+        'summary' => 'No gluten. No thickening tricks. No drama. Just sauce that plays nice with your diet and acts up on the grill.',
+        'technologies' => ['Certified Gluten-Free', 'Celiac Safe', 'Wheat-Free Kitchen'],
+        'imageUrl' => 'images/food-tomato.png',
+        'layoutSpan' => 'standard',
+        'iconType' => 'wheat-crossed',
+        'metrics' => ['label' => 'Gluten & Thickening Fillers', 'value' => '0%']
+    ]
+];
+
 $projectsData = [
     [
         'id' => 'apex-finance',
