@@ -396,29 +396,19 @@ function initShreeTech() {
     // Timeline partitions:
     // 0.00 to introEnd: rest on Card 0
     // introEnd to animEnd: sequential card arrivals (Cards 1 to totalCards - 1)
-    // animEnd to holdEnd: final hold with all cards stacked in full view
-    // holdEnd to 1.00: smooth exit dissolve so footer arrives onto a clean stage
+    // animEnd to 1.00: complete cards stack stays visible and docked
     const introEnd = 0.04;
-    const animEnd = 0.80;
-    const holdEnd = 0.88;
+    const animEnd = 0.92;
     const animSpan = animEnd - introEnd;
     const stepSpan = animSpan / totalSteps;
 
-    // Outro transition for the entire deck as user scrolls towards the footer
+    // Keep deck and header fully visible (no blank gaps)
     if (deckContainer) {
-      if (progress > holdEnd) {
-        const exitT = (progress - holdEnd) / (1 - holdEnd);
-        const exitEase = Math.pow(exitT, 1.6);
-        const exitY = -exitEase * 60;
-        const exitOpacity = Math.max(1 - exitT * 1.5, 0);
-        deckContainer.style.transform = `translate3d(0, ${exitY.toFixed(1)}px, 0)`;
-        deckContainer.style.opacity = exitOpacity.toFixed(3);
-        if (stageHeader) stageHeader.style.opacity = exitOpacity.toFixed(3);
-      } else {
-        deckContainer.style.transform = 'translate3d(0, 0, 0)';
-        deckContainer.style.opacity = '1';
-        if (stageHeader) stageHeader.style.opacity = '1';
-      }
+      deckContainer.style.transform = 'translate3d(0, 0, 0)';
+      deckContainer.style.opacity = '1';
+    }
+    if (stageHeader) {
+      stageHeader.style.opacity = '1';
     }
 
     // Travel distance: from docked position to below the viewport
