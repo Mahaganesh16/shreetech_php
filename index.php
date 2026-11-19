@@ -326,7 +326,7 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <!-- 2. ORANGE-TINT SECTION: MULTI-PAGE NAVIGATION DIRECTORY -->
-<section id="about" class="relative py-20 sm:py-28 bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-20">
+<section id="directory" class="relative py-20 sm:py-28 bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-20">
   <!-- Subtle Ambient Corner Blooms -->
   <div class="absolute top-1/4 -right-32 w-[36rem] h-[36rem] bg-[#FF6B00]/5 rounded-full blur-[140px] pointer-events-none"></div>
   <div class="absolute bottom-10 -left-32 w-[34rem] h-[34rem] bg-[#C01858]/4 rounded-full blur-[140px] pointer-events-none"></div>

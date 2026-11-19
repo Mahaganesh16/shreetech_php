@@ -227,6 +227,9 @@ h1 {
 
 /* Container-Width Floating Glassmorphism Navbar Dock */
 .glass-navbar-dock {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.42);
   backdrop-filter: blur(24px) saturate(190%);
   -webkit-backdrop-filter: blur(24px) saturate(190%);
@@ -574,35 +577,35 @@ h1 {
 
 /* 3. SCROLL-TRIGGERED ENTRANCE REVEAL ANIMATIONS (FRAMER MOTION EQUIVALENTS) */
 .reveal-init {
-  opacity: 0;
+  opacity: 0.001;
   will-change: opacity, transform;
   transition-property: opacity, transform, filter;
-  transition-duration: 0.75s;
+  transition-duration: 0.65s;
   transition-timing-function: cubic-bezier(0.21, 0.47, 0.32, 0.98);
 }
 
 .reveal-up {
-  transform: translateY(35px);
+  transform: translateY(28px);
 }
 
 .reveal-scale {
-  transform: scale(0.92);
+  transform: scale(0.95);
 }
 
 .reveal-left {
-  transform: translateX(-40px);
+  transform: translateX(-30px);
 }
 
 .reveal-right {
-  transform: translateX(40px);
+  transform: translateX(30px);
 }
 
 .reveal-fade {
-  opacity: 0;
+  opacity: 0.001;
 }
 
 .reveal-blur {
-  filter: blur(8px);
+  filter: blur(6px);
 }
 
 /* When in view */
@@ -610,6 +613,19 @@ h1 {
   opacity: 1 !important;
   transform: translate(0, 0) scale(1) !important;
   filter: blur(0px) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-init,
+  .reveal-up,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale,
+  .reveal-fade {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 /* Stagger Delays for Grid Children */

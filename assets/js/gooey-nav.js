@@ -737,6 +737,7 @@ void main() {
           const targetEl = document.querySelector(href);
           if (targetEl) {
             e.preventDefault();
+            targetEl.classList.add('is-revealed');
             const navOffset = 90;
             const elPos = targetEl.getBoundingClientRect().top + window.pageYOffset - navOffset;
             window.scrollTo({ top: elPos, behavior: 'smooth' });
@@ -744,6 +745,11 @@ void main() {
               history.pushState(null, '', href);
             }
           }
+        } else if (href && !href.startsWith('javascript:') && href !== '#') {
+          e.preventDefault();
+          setTimeout(() => {
+            window.location.href = href;
+          }, 280);
         }
       });
 

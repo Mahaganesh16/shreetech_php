@@ -3,7 +3,7 @@
  * Faithfully ported from Next.js & Framer Motion to native Vanilla JS
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+function initShreeTech() {
   // 0. Initialize Lucide Icons
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
     '.reveal-init, .reveal-up, .reveal-scale, .reveal-left, .reveal-right, .reveal-fade'
   );
 
+  function revealAllNow() {
+    revealElements.forEach((el) => el.classList.add('is-revealed'));
+  }
+
   if ('IntersectionObserver' in window && revealElements.length > 0) {
     const revealObserver = new IntersectionObserver(
       (entries, observer) => {
@@ -27,15 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       },
       {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.01,
+        rootMargin: '120px 0px 80px 0px',
       }
     );
 
-    revealElements.forEach((el) => revealObserver.observe(el));
+    revealElements.forEach((el) => {
+      // Immediately reveal elements already inside or near the viewport
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight + 150 && rect.bottom > -100) {
+        el.classList.add('is-revealed');
+      } else {
+        revealObserver.observe(el);
+      }
+    });
+
+    // Safety fallback: ensure cards are never stuck invisible if scrolling fast or on complex layouts
+    setTimeout(revealAllNow, 500);
   } else {
     // Fallback for browsers without IntersectionObserver
-    revealElements.forEach((el) => el.classList.add('is-revealed'));
+    revealAllNow();
   }
 
   // =========================================================================
@@ -462,4 +477,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initShreeTech);
+} else {
+  initShreeTech();
+}

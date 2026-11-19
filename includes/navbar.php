@@ -25,7 +25,7 @@ foreach ($navItems as $idx => $item) {
 ?>
 <header id="main-header" class="fixed top-2.5 sm:top-4 inset-x-0 z-50 pointer-events-none transition-all duration-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div id="navbar-dock" class="pointer-events-auto rounded-full glass-navbar-dock px-3.5 sm:px-5 py-2 sm:py-2.5 flex items-center justify-between transition-all duration-300">
+    <div id="navbar-dock" class="w-full pointer-events-auto rounded-full glass-navbar-dock px-3.5 sm:px-5 py-2 sm:py-2.5 flex items-center justify-between transition-all duration-300">
       
       <!-- 1. LEFT SIDE: Shree Tech Innovations Logo & Brand Name -->
       <a href="index.php" class="flex items-center gap-2.5 sm:gap-3 group select-none cursor-pointer flex-shrink-0">
