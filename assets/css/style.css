@@ -963,7 +963,7 @@ h1 {
 
 .stacking-card-item {
   position: absolute;
-  top: calc(var(--stack-idx, 0) * 14px);
+  top: calc(var(--stack-idx, 0) * 16px);
   left: 0;
   right: 0;
   width: 100%;
@@ -975,18 +975,18 @@ h1 {
 
 @media (max-width: 640px) {
   .stacking-card-item {
-    top: calc(var(--stack-idx, 0) * 11px);
+    top: calc(var(--stack-idx, 0) * 12px);
   }
 }
 
 .stacking-card-box {
   background: #141414;
-  border: 1.5px solid rgba(255, 255, 255, 0.20);
-  border-radius: 1rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 1.25rem;
   overflow: hidden;
   box-shadow:
-    0 20px 40px -10px rgba(0, 0, 0, 0.72),
-    0 0 1px 1px rgba(255, 255, 255, 0.15);
+    0 25px 60px -12px rgba(0, 0, 0, 0.78),
+    0 0 1px 1px rgba(255, 255, 255, 0.16);
   transform-origin: center top;
   will-change: transform, filter;
   transition: box-shadow 0.3s ease;
@@ -996,9 +996,9 @@ h1 {
 .stacking-card-header {
   background-color: #f3e8d2;
   color: #1a1714;
-  height: 30px;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
+  height: 38px;
+  border-top-left-radius: 1.25rem;
+  border-top-right-radius: 1.25rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
   transition: background-color 0.2s ease, filter 0.2s ease;
@@ -1006,14 +1006,14 @@ h1 {
 
 @media (max-width: 640px) {
   .stacking-card-header {
-    height: 26px;
+    height: 30px;
   }
 }
 
 /* Authentic Rivet Dots (Left & Right Sides of Header Tab) */
 .card-rivet {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 9999px;
   background: radial-gradient(circle at 35% 35%, #4a443d 0%, #1c1917 85%);
   border: 1px solid rgba(28, 25, 23, 0.6);

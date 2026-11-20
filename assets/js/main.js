@@ -433,7 +433,7 @@ function initShreeTech() {
     }
 
     // Travel distance: from docked position to below the viewport
-    const travelDistance = Math.max(window.innerHeight * 0.85, 520);
+    const travelDistance = Math.max(window.innerHeight * 0.95, 620);
 
     visibleCards.forEach((card, index) => {
       card.style.setProperty('--stack-idx', index);
