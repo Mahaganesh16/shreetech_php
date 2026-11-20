@@ -48,9 +48,9 @@ require_once __DIR__ . '/includes/header.php';
         </div>
       </div>
 
-      <!-- STACKING CARDS DECK (EXPANSIVE BIG CARD PRESENTATION ACCORDING TO TEMPLATE) -->
-      <div class="stacking-deck-container relative w-full max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto flex flex-col justify-start items-center">
-        <div class="stacking-cards-deck relative w-full h-[470px] sm:h-[500px] md:h-[530px] lg:h-[550px]">
+      <!-- STACKING CARDS DECK (BALANCED MEDIUM CARD PRESENTATION ACCORDING TO TEMPLATE) -->
+      <div class="stacking-deck-container relative w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl mx-auto flex flex-col justify-start items-center">
+        <div class="stacking-cards-deck relative w-full h-[340px] sm:h-[370px] md:h-[390px] lg:h-[410px]">
           <?php foreach ($projectsData as $idx => $project): 
             $icons = [
               'apex-finance' => 'trending-up',
@@ -62,7 +62,7 @@ require_once __DIR__ . '/includes/header.php';
             ];
             $icon = $icons[$project['id']] ?? 'sparkles';
           ?>
-            <!-- Dynamic Big Project Stacking Card ($idx: <?php echo $idx; ?>) -->
+            <!-- Dynamic Project Stacking Card ($idx: <?php echo $idx; ?>) -->
             <article
               class="stacking-card-item project-card-item"
               data-card-index="<?php echo $idx; ?>"
@@ -98,9 +98,9 @@ require_once __DIR__ . '/includes/header.php';
 
                 <!-- WHITE CARD BODY (#FFFFFF) CLEAN CONTEMPORARY THEME - FULL-WIDTH SHOWCASE IMAGE -->
                 <div class="stacking-card-body p-3 sm:p-4 text-[#0F172A] bg-white">
-                  <!-- Full-Width High-Resolution Project Preview -->
+                  <!-- Proportional High-Resolution Project Preview -->
                   <div
-                    class="open-project-modal relative w-full h-[390px] sm:h-[420px] md:h-[450px] lg:h-[470px] group overflow-hidden rounded-2xl border border-[#F1E6EE] bg-slate-50 flex items-center justify-center shadow-md cursor-pointer select-none"
+                    class="open-project-modal relative w-full h-[240px] sm:h-[270px] md:h-[290px] lg:h-[310px] group overflow-hidden rounded-2xl border border-[#F1E6EE] bg-slate-50 flex items-center justify-center shadow-md cursor-pointer select-none"
                     data-title="<?php echo htmlspecialchars($project['title']); ?>"
                     data-client="<?php echo htmlspecialchars($project['client']); ?>"
                     data-summary="<?php echo htmlspecialchars($project['summary']); ?>"
