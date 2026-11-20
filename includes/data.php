@@ -372,30 +372,33 @@ $technologyGroups = [
         'category' => 'Frontend',
         'description' => 'Modern, high-performance UI frameworks delivering accessible, responsive, and reactive web applications.',
         'items' => [
+            ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo'],
             ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces', 'iconComponent' => 'ReactLogo'],
             ['name' => 'Next.js', 'description' => 'Server-side rendering & App Router', 'iconComponent' => 'NextLogo'],
             ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo'],
             ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo'],
-            ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo'],
         ]
     ],
     [
         'category' => 'Backend',
         'description' => 'Resilient server runtimes and enterprise frameworks built for high concurrency and robust data handling.',
         'items' => [
-            ['name' => 'Node.js', 'description' => 'Event-driven asynchronous backend services', 'iconComponent' => 'NodeLogo'],
             ['name' => 'Python', 'description' => 'Data processing, APIs, and AI automation', 'iconComponent' => 'PythonLogo'],
             ['name' => 'Laravel', 'description' => 'Full-featured enterprise PHP web framework', 'iconComponent' => 'LaravelLogo'],
             ['name' => 'PHP', 'description' => 'Battle-tested server-side web scripting', 'iconComponent' => 'PhpLogo'],
+            ['name' => 'Node.js', 'description' => 'Event-driven asynchronous backend services', 'iconComponent' => 'NodeLogo'],
+            ['name' => 'Java', 'description' => 'Enterprise-grade robust application platform', 'iconComponent' => 'JavaLogo'],
         ]
     ],
     [
         'category' => 'Database',
         'description' => 'Relational, document, and analytical databases engineered for data integrity and high transaction throughput.',
         'items' => [
-            ['name' => 'PostgreSQL', 'description' => 'Advanced open-source relational database', 'iconComponent' => 'PostgresLogo'],
             ['name' => 'MySQL', 'description' => 'High-reliability transactional relational DB', 'iconComponent' => 'MySqlLogo'],
             ['name' => 'MongoDB', 'description' => 'Document-based flexible NoSQL database', 'iconComponent' => 'MongoLogo'],
+            ['name' => 'PostgreSQL', 'description' => 'Advanced open-source relational database', 'iconComponent' => 'PostgresLogo'],
+            ['name' => 'Redis', 'description' => 'In-memory high-speed caching & key-value store', 'iconComponent' => 'RedisLogo'],
+            ['name' => 'Firebase', 'description' => 'Real-time database, auth & cloud functions', 'iconComponent' => 'FirebaseLogo'],
         ]
     ],
     [
@@ -404,6 +407,9 @@ $technologyGroups = [
         'items' => [
             ['name' => 'Flutter', 'description' => 'Google native multi-platform compilation', 'iconComponent' => 'FlutterLogo'],
             ['name' => 'React Native', 'description' => 'Native mobile components powered by React', 'iconComponent' => 'ReactNativeLogo'],
+            ['name' => 'Android', 'description' => 'Native Android SDK & modern Kotlin runtime', 'iconComponent' => 'AndroidLogo'],
+            ['name' => 'iOS', 'description' => 'Native Apple iOS development with Swift', 'iconComponent' => 'IosLogo'],
+            ['name' => 'Swift', 'description' => 'High-performance, type-safe iOS architecture', 'iconComponent' => 'SwiftLogo'],
         ]
     ],
     [
@@ -412,7 +418,9 @@ $technologyGroups = [
         'items' => [
             ['name' => 'AWS', 'description' => 'Global cloud infrastructure & services', 'iconComponent' => 'AwsLogo'],
             ['name' => 'Azure', 'description' => 'Enterprise cloud computing & hybrid solutions', 'iconComponent' => 'AzureLogo'],
-            ['name' => 'Firebase', 'description' => 'Real-time database, auth & cloud functions', 'iconComponent' => 'FirebaseLogo'],
+            ['name' => 'Google Cloud', 'description' => 'Scalable cloud platform & BigQuery analytics', 'iconComponent' => 'GcpLogo'],
+            ['name' => 'Docker', 'description' => 'Industry-standard container virtualization', 'iconComponent' => 'DockerLogo'],
+            ['name' => 'Kubernetes', 'description' => 'Automated container orchestration & scaling', 'iconComponent' => 'K8sLogo'],
         ]
     ]
 ];
@@ -455,6 +463,21 @@ function renderTechLogo($iconComponent, $class = 'w-6 h-6') {
             return '<svg class="' . htmlspecialchars($class) . '" viewBox="0 0 96 96" fill="none"><path d="M24 16L54 48L32 80H12L24 16Z" fill="#0078D4"/><path d="M54 48L42 66L56 80H84L54 48Z" fill="#50E6FF"/></svg>';
         case 'FirebaseLogo':
             return '<svg class="' . htmlspecialchars($class) . '" viewBox="0 0 144 198" fill="none"><path d="M24.7 154.5L1.6 112.1C-0.8 107.7 2.1 102.5 7.1 102.2L68.8 98.4L24.7 154.5Z" fill="#FFA000"/><path d="M78.6 4.9C76.2 0.8 70.3 0.6 67.5 4.5L0 137.9L72 178.5L144 137.9L78.6 4.9Z" fill="#FFCA28"/><path d="M142.4 112.1L119.3 154.5L75.2 98.4L136.9 102.2C141.9 102.5 144.8 107.7 142.4 112.1Z" fill="#F57C00"/></svg>';
+        case 'JavaLogo':
+            return '<svg class="' . htmlspecialchars($class) . '" viewBox="0 0 256 348" fill="none"><path d="M112.5 0C112.5 0 92 48 132.5 96C163.5 132.8 148.5 166.5 136.5 178.5C124.5 190.5 111 202.5 129 220.5C147 238.5 162 250.5 150 268.5C138 286.5 106.5 294 106.5 294C106.5 294 126 270 120 252C114 234 94.5 217.5 99 193.5C103.5 169.5 126 154.5 118.5 127.5C111 100.5 87 76.5 112.5 0Z" fill="#E76F00"/><path d="M60 216C60 216 102 234 148.5 216C174 205.5 198 184.5 198 184.5C198 184.5 186 199.5 160.5 211.5C120 231 75 229.5 60 216Z" fill="#5382A1"/><path d="M43.5 259.5C43.5 259.5 97.5 277.5 159 259.5C195 249 216 231 216 231C216 231 199.5 249 166.5 261C117 279 58.5 273 43.5 259.5Z" fill="#5382A1"/><path d="M129 306C72 306 31.5 292.5 31.5 292.5C31.5 292.5 67.5 306 123 306C186 306 226.5 292.5 226.5 292.5C226.5 292.5 186 306 129 306Z" fill="#5382A1"/></svg>';
+        case 'RedisLogo':
+            return '<svg class="' . htmlspecialchars($class) . '" viewBox="0 0 256 222" fill="none"><path d="M128 0L0 55.4V166.3L128 221.7L256 166.3V55.4L128 0Z" fill="#DC382D"/><path d="M128 17.5L16.2 65.9V155.8L128 204.2L239.8 155.8V65.9L128 17.5Z" fill="#A82823"/><path d="M128 35.8L35.4 76.1L128 116.3L220.6 76.1L128 35.8Z" fill="#D8332A"/><circle cx="128" cy="85" r="14" fill="#ffffff"/></svg>';
+        case 'AndroidLogo':
+            return '<svg class="' . htmlspecialchars($class) . '" viewBox="0 0 256 256" fill="none"><path d="M46.7 101.4C37.8 101.4 30.7 108.5 30.7 117.4V178.6C30.7 187.5 37.8 194.6 46.7 194.6C55.6 194.6 62.7 187.5 62.7 178.6V117.4C62.7 108.5 55.6 101.4 46.7 101.4ZM209.3 101.4C200.4 101.4 193.3 108.5 193.3 117.4V178.6C193.3 187.5 200.4 194.6 209.3 194.6C218.2 194.6 225.3 187.5 225.3 178.6V117.4C225.3 108.5 218.2 101.4 209.3 101.4ZM70.7 101.4V197.3C70.7 205.3 77.3 211.9 85.3 211.9H98.7V238.6C98.7 248.2 106.5 256 116.1 256C125.7 256 133.5 248.2 133.5 238.6V211.9H122.5V211.9H133.5V211.9H157.3V238.6C157.3 248.2 165.1 256 174.7 256C184.3 256 192.1 248.2 192.1 238.6V211.9H170.7C178.7 211.9 185.3 205.3 185.3 197.3V101.4H70.7ZM167.3 35.7L182.2 10C183.7 7.4 182.8 4.1 180.2 2.6C177.6 1.1 174.3 2 172.8 4.6L157.5 31C148.4 26.9 138.5 24.5 128 24.5C117.5 24.5 107.6 26.9 98.5 31L83.2 4.6C81.7 2 78.4 1.1 75.8 2.6C73.2 4.1 72.3 7.4 73.8 10L88.7 35.7C75.8 46.5 67.5 62.7 66.8 81.3H189.2C188.5 62.7 180.2 46.5 167.3 35.7ZM101.4 64C97 64 93.4 60.4 93.4 56C93.4 51.6 97 48 101.4 48C105.8 48 109.4 51.6 109.4 56C109.4 60.4 105.8 64 101.4 64ZM154.6 64C150.2 64 146.6 60.4 146.6 56C146.6 51.6 150.2 48 154.6 48C159 48 162.6 51.6 162.6 56C162.6 60.4 159 64 154.6 64Z" fill="#3DDC84"/></svg>';
+        case 'IosLogo':
+        case 'SwiftLogo':
+            return '<svg class="' . htmlspecialchars($class) . '" viewBox="0 0 256 256" fill="none"><path d="M228.8 181.7C228.6 182.1 228.3 182.5 228.1 182.8C204.3 222.8 159.9 248.8 105.1 247.9C65.5 247.3 29.5 229.4 5.3 199.9C3.1 197.2 4.6 193.1 8 192.4C26.1 188.8 45.4 180.3 60.3 167.7C62.3 166 65.2 166.5 66.8 168.6C73.4 177.3 84.1 185.3 96.5 188.9C71.3 171.1 55.4 145.4 52.8 116.8C52.4 112.5 57 109.7 60.2 112.5C73.8 124.7 94.6 136.2 116.4 139.7C93.8 117.8 82.5 87.5 86.8 57.3C87.3 53.6 91.9 51.8 94.8 54.3C124.6 79.5 168.3 130.6 179.9 174.5C189.9 157.9 194.7 137.9 192.8 117.6C192.5 114.1 196.2 111.7 199.1 113.6C227.1 132.3 234.4 163.6 228.8 181.7Z" fill="#F05138"/></svg>';
+        case 'GcpLogo':
+            return '<svg class="' . htmlspecialchars($class) . '" viewBox="0 0 256 206" fill="none"><path d="M190.2 78.4C183.7 44.5 153.9 19 118 19C91.1 19 67.7 32.5 54 53.2C23.6 56.4 0 82.1 0 113.5C0 147.2 27.3 174.5 61 174.5H187.5C216.5 174.5 240 151 240 122C240 94.1 217.9 71.4 190.2 78.4Z" fill="#4285F4"/><path d="M118 19C128.8 19 139 21.8 147.9 26.8L129.5 58.7C126 57.3 122.1 56.5 118 56.5C89.3 56.5 66 79.8 66 108.5C66 112.4 66.4 116.2 67.3 119.8L33.7 139.2C30.7 131.2 29 122.5 29 113.5C29 64.3 68.8 24.5 118 24.5V19Z" fill="#EA4335"/><path d="M187.5 174.5H61C48.5 174.5 37 170.1 27.9 162.7L57.5 133.1C62.1 138.8 69.1 142.5 77 142.5C92.2 142.5 104.5 130.2 104.5 115C104.5 111.4 103.8 108 102.5 104.9L134.4 86.5C139.4 95.4 142.2 105.6 142.2 116.5C142.2 148.5 116.2 174.5 84.2 174.5H187.5Z" fill="#34A853"/><path d="M190.2 78.4C217.9 71.4 240 94.1 240 122C240 151 216.5 174.5 187.5 174.5V137C195.8 137 202.5 130.3 202.5 122C202.5 113.7 195.8 107 187.5 107C184.7 107 182.2 107.8 180 109.1L161.6 77.2C170.5 72.2 180.7 69.4 191.5 69.4L190.2 78.4Z" fill="#FBBC05"/></svg>';
+        case 'DockerLogo':
+            return '<svg class="' . htmlspecialchars($class) . '" viewBox="0 0 256 189" fill="none"><path d="M251.2 84.6C243.6 78.9 231.2 78.4 220.8 82.6C218.4 72.2 212.8 62.5 204.5 55.4L195.3 64.6C200.7 70.3 204.4 77.8 205.1 86.1C194.2 88.5 182.7 94.7 175.7 103.3H11.5C5.1 103.3 0 108.4 0 114.8C0 148.6 22.4 179.6 57.3 186.2C106.6 195.5 162.7 188.8 206.8 159.2C236.4 139.3 255.4 105.7 251.2 84.6ZM59.6 94.2H83.8V70H59.6V94.2ZM88.9 94.2H113.1V70H88.9V94.2ZM118.2 94.2H142.4V70H118.2V94.2ZM59.6 64.9H83.8V40.7H59.6V64.9ZM88.9 64.9H113.1V40.7H88.9V64.9ZM118.2 64.9H142.4V40.7H118.2V64.9ZM88.9 35.6H113.1V11.4H88.9V35.6ZM118.2 35.6H142.4V11.4H118.2V35.6ZM147.5 94.2H171.7V70H147.5V94.2Z" fill="#2496ED"/></svg>';
+        case 'K8sLogo':
+            return '<svg class="' . htmlspecialchars($class) . '" viewBox="0 0 256 250" fill="none"><path d="M128 0L245.9 68V204L128 272L10.1 204V68L128 0Z" fill="#326CE5"/><circle cx="128" cy="125" r="48" fill="#ffffff" fill-opacity="0.2"/><path d="M128 45V205M48 85L208 165M48 165L208 85" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/></svg>';
         default:
             return '<svg class="' . htmlspecialchars($class) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg>';
     }

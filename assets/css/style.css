@@ -409,10 +409,26 @@ h1 {
   flex-shrink: 0 !important;
 }
 
-/* Technology Card Item in Marquee */
+/* Technology Card Item in Marquee with Slightly Increased Dimensions */
 .tech-card-item {
+  width: 280px;
+  height: 96px;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
   will-change: transform;
+}
+
+@media (min-width: 640px) {
+  .tech-card-item {
+    width: 310px;
+    height: 102px;
+  }
+}
+
+@media (min-width: 768px) {
+  .tech-card-item {
+    width: 330px;
+    height: 104px;
+  }
 }
 
 .tech-card-item:hover {

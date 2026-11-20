@@ -307,10 +307,39 @@ function initShreeTech() {
   }
 
   // =========================================================================
-  // 9. TECHNOLOGIES FILTER TABS WITH SMOOTH TRANSITION & ANIMATION SYNC
+  // 9. TECHNOLOGIES FILTER TABS WITH SINGLE STRIP SWITCHING & ANIMATION SYNC
   // =========================================================================
   const techTabs = document.querySelectorAll('.tech-filter-btn');
   const techGroups = document.querySelectorAll('.tech-category-group');
+  const activeTitle = document.getElementById('active-category-title');
+  const activeDesc = document.getElementById('active-category-desc');
+
+  const categoryMeta = {
+    'All': {
+      title: 'All Technology Disciplines',
+      desc: 'Comprehensive enterprise ecosystem across frontend, backend, databases, mobile, and cloud engineering.'
+    },
+    'Frontend': {
+      title: 'Frontend Engineering',
+      desc: 'Modern, high-performance UI frameworks delivering accessible, responsive, and reactive web applications.'
+    },
+    'Backend': {
+      title: 'Backend Engineering',
+      desc: 'Resilient server runtimes and enterprise frameworks built for high concurrency and robust data handling.'
+    },
+    'Database': {
+      title: 'Database Engineering',
+      desc: 'Relational, document, and analytical databases engineered for data integrity and high transaction throughput.'
+    },
+    'Mobile': {
+      title: 'Mobile Engineering',
+      desc: 'Cross-platform native mobile frameworks delivering fluid 60FPS experiences for iOS and Android.'
+    },
+    'Cloud': {
+      title: 'Cloud Engineering',
+      desc: 'Secure, elastic cloud hosting and serverless infrastructures engineered for zero downtime.'
+    }
+  };
 
   techTabs.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -322,13 +351,18 @@ function initShreeTech() {
       btn.classList.add('glass-btn-primary', 'shadow-sm', 'text-white');
       btn.classList.remove('glass-btn-secondary', 'text-[#475569]');
 
+      if (categoryMeta[cat] && activeTitle && activeDesc) {
+        activeTitle.textContent = categoryMeta[cat].title;
+        activeDesc.textContent = categoryMeta[cat].desc;
+      }
+
       techGroups.forEach((group) => {
-        const match = (cat === 'All' || group.getAttribute('data-category') === cat);
+        const match = group.getAttribute('data-category') === cat;
         const track = group.querySelector('.tech-marquee-track');
         if (match) {
           group.style.display = 'block';
           group.style.opacity = '0';
-          group.style.transform = 'translateY(12px)';
+          group.style.transform = 'translateY(10px)';
           group.style.transition = 'all 0.35s ease';
           if (track) {
             track.style.animationPlayState = 'running';
