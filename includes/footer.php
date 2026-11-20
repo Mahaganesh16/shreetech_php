@@ -2,8 +2,6 @@
 if (!isset($navLinks) || !isset($servicesData)) {
     require_once __DIR__ . '/data.php';
 }
-
-$techPills = ['Next.js', 'React', 'TypeScript', 'Node.js', 'Python', 'AWS', 'Flutter', 'PostgreSQL'];
 ?>
 </main>
 
@@ -96,32 +94,22 @@ $techPills = ['Next.js', 'React', 'TypeScript', 'Node.js', 'Python', 'AWS', 'Flu
         </ul>
       </div>
 
-      <!-- Technologies & Contact Info (3 Cols) -->
-      <div class="lg:col-span-3 space-y-6">
-        <div>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-3 font-heading">
-            Core Technologies
-          </h4>
-          <div class="flex flex-wrap gap-1.5">
-            <?php foreach ($techPills as $t): ?>
-              <span class="glass-pill px-2.5 py-1 rounded-xl text-xs text-[#475569] font-medium font-body bg-[#F5F0FF] border border-[#F1E6EE]">
-                <?php echo htmlspecialchars($t); ?>
-              </span>
-            <?php endforeach; ?>
+      <!-- Contact Info (3 Cols) -->
+      <div class="lg:col-span-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
+          Contact Us
+        </h4>
+        <div class="space-y-3 text-xs text-[#475569] font-body">
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="mail" class="w-4 h-4 text-[#FF6B00] shrink-0"></i>
+            <a href="mailto:<?php echo htmlspecialchars($companyInfo['email']); ?>" class="font-semibold text-[#0F172A] hover:text-[#C01858] transition-colors"><?php echo htmlspecialchars($companyInfo['email']); ?></a>
           </div>
-        </div>
-
-        <div class="space-y-2 text-xs text-[#475569] pt-2 border-t border-[#F1E6EE] font-body">
-          <div class="flex items-center gap-2">
-            <i data-lucide="mail" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-            <span class="font-semibold text-[#0F172A]"><?php echo htmlspecialchars($companyInfo['email']); ?></span>
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="phone" class="w-4 h-4 text-[#FF6B00] shrink-0"></i>
+            <a href="tel:<?php echo htmlspecialchars(str_replace(' ', '', $companyInfo['phone'])); ?>" class="font-bold text-[#0F172A] font-stat hover:text-[#C01858] transition-colors"><?php echo htmlspecialchars($companyInfo['phone']); ?></a>
           </div>
-          <div class="flex items-center gap-2">
-            <i data-lucide="phone" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-            <span class="font-bold text-[#0F172A] font-stat"><?php echo htmlspecialchars($companyInfo['phone']); ?></span>
-          </div>
-          <div class="flex items-start gap-2">
-            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#FF6B00] mt-0.5"></i>
+          <div class="flex items-start gap-2.5">
+            <i data-lucide="map-pin" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
             <span><?php echo htmlspecialchars($companyInfo['address']); ?></span>
           </div>
         </div>
