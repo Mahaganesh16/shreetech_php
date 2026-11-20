@@ -461,11 +461,24 @@ function renderTechLogo($iconComponent, $class = 'w-6 h-6') {
 }
 
 /**
+ * Return base set repeated sufficiently so one group spans across large screens
+ */
+function getMarqueeBaseSet($items, $minCount = 8) {
+    if (empty($items)) return [];
+    $repeatCount = max(1, (int)ceil($minCount / count($items)));
+    $baseSet = [];
+    for ($r = 0; $r < $repeatCount; $r++) {
+        $baseSet = array_merge($baseSet, $items);
+    }
+    return $baseSet;
+}
+
+/**
  * Repeat array for seamless marquee scroll loop
  */
 function getMarqueeSet($items, $minTotal = 12) {
     if (empty($items)) return [];
-    $repeatCount = max(2, ceil($minTotal / count($items)));
+    $repeatCount = max(2, (int)ceil($minTotal / count($items)));
     $baseSet = [];
     for ($r = 0; $r < $repeatCount; $r++) {
         $baseSet = array_merge($baseSet, $items);

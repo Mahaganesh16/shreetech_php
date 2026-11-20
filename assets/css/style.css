@@ -347,8 +347,104 @@ h1 {
 }
 
 /* -------------------------------------------------------------
-   AUTO-SCROLLING SLACK-STYLE CONTINUOUS ROW
+   CONTINUOUS HORIZONTAL SCROLLING MARQUEE (ONE STRIP PER CATEGORY)
    ------------------------------------------------------------- */
+@keyframes techMarqueeScrollLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes techMarqueeScrollRight {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.tech-marquee-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  contain: layout paint;
+}
+
+.tech-marquee-track {
+  display: flex !important;
+  width: max-content !important;
+  will-change: transform !important;
+  animation-duration: var(--marquee-duration, 30s) !important;
+  animation-timing-function: linear !important;
+  animation-iteration-count: infinite !important;
+  animation-play-state: running;
+}
+
+.tech-marquee-track.marquee-left {
+  animation-name: techMarqueeScrollLeft !important;
+}
+
+.tech-marquee-track.marquee-right {
+  animation-name: techMarqueeScrollRight !important;
+}
+
+/* Pause scrolling animation when hovering anywhere over the strip/track */
+.tech-marquee-wrapper:hover .tech-marquee-track,
+.tech-marquee-track:hover {
+  animation-play-state: paused !important;
+}
+
+/* Dual-sequence Groups for Seamless Infinite Loop */
+.tech-marquee-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1.25rem !important;
+  padding-right: 1.25rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* Technology Card Item in Marquee */
+.tech-card-item {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform;
+}
+
+.tech-card-item:hover {
+  transform: translateY(-3px) scale(1.03) !important;
+  z-index: 30 !important;
+}
+
+.tech-card-item:hover .flip-card-front {
+  border-color: #C01858 !important;
+  box-shadow:
+    0 16px 36px -4px rgba(192, 24, 88, 0.18),
+    0 0 20px rgba(255, 107, 0, 0.12) !important;
+}
+
+.tech-card-item:hover .flip-card-back {
+  border-color: #C01858 !important;
+  box-shadow:
+    0 22px 42px -6px rgba(192, 24, 88, 0.22),
+    0 0 24px rgba(255, 107, 0, 0.15) !important;
+}
+
+/* Accessibility: prefers-reduced-motion fallback */
+@media (prefers-reduced-motion: reduce) {
+  .tech-marquee-track {
+    animation: none !important;
+  }
+  .tech-marquee-wrapper {
+    overflow-x: auto !important;
+    scrollbar-width: thin;
+  }
+}
+
+/* Legacy fallback support */
 @keyframes slackAutoScrollRtl {
   0% {
     transform: translate3d(0, 0, 0);

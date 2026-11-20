@@ -307,7 +307,7 @@ function initShreeTech() {
   }
 
   // =========================================================================
-  // 9. TECHNOLOGIES FILTER TABS WITH SMOOTH TRANSITION
+  // 9. TECHNOLOGIES FILTER TABS WITH SMOOTH TRANSITION & ANIMATION SYNC
   // =========================================================================
   const techTabs = document.querySelectorAll('.tech-filter-btn');
   const techGroups = document.querySelectorAll('.tech-category-group');
@@ -324,11 +324,15 @@ function initShreeTech() {
 
       techGroups.forEach((group) => {
         const match = (cat === 'All' || group.getAttribute('data-category') === cat);
+        const track = group.querySelector('.tech-marquee-track');
         if (match) {
           group.style.display = 'block';
           group.style.opacity = '0';
           group.style.transform = 'translateY(12px)';
           group.style.transition = 'all 0.35s ease';
+          if (track) {
+            track.style.animationPlayState = 'running';
+          }
           setTimeout(() => {
             group.style.opacity = '1';
             group.style.transform = 'translateY(0)';
@@ -337,6 +341,10 @@ function initShreeTech() {
           group.style.display = 'none';
         }
       });
+
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
     });
   });
 
