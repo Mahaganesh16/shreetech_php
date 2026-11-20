@@ -239,7 +239,7 @@ require_once __DIR__ . '/includes/header.php';
 
         <!-- Right Side: Contact Form (7 Cols) -->
         <div class="lg:col-span-7 reveal-init reveal-right">
-          <div class="p-8 sm:p-10 rounded-3xl bg-white border border-[#F1E6EE] shadow-2xl">
+          <div class="p-8 sm:p-10 rounded-3xl glass-card contact-form-card border border-white/80 shadow-2xl relative overflow-hidden">
             
             <?php if ($formSubmitted): ?>
               <div id="contact-success" class="py-12 text-center space-y-4">
@@ -334,7 +334,7 @@ require_once __DIR__ . '/includes/header.php';
                     </label>
                     <select
                       name="service"
-                      class="w-full px-4 py-3 rounded-2xl glass-input text-sm bg-white text-[#0F172A]"
+                      class="w-full px-4 py-3 rounded-2xl glass-input text-sm text-[#0F172A] cursor-pointer"
                     >
                       <?php
                       $servicesList = [
