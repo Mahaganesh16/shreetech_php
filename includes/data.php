@@ -170,7 +170,7 @@ $projectsData = [
         'year' => '2025',
         'summary' => 'A unified high-speed institutional trading and risk-management terminal with sub-second WebSocket telemetry, multi-currency routing, and automated compliance verification.',
         'technologies' => ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
-        'imageUrl' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+        'imageUrl' => 'eyecatch-media.png',
         'layoutSpan' => 'featured',
         'metrics' => ['label' => 'Daily Trading Volume', 'value' => '$45M+']
     ],
