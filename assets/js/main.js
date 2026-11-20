@@ -54,7 +54,7 @@ function initShreeTech() {
   }
 
   // =========================================================================
-  // 2. DYNAMIC CURSOR SPOTLIGHT ON CARDS (FROM DirectoryCard.tsx)
+  // 2. DYNAMIC CURSOR SPOTLIGHT ON CARDS (OPTIMIZED & CONFLICT-FREE)
   // =========================================================================
   const spotlightCards = document.querySelectorAll('.flip-card-wrapper, .glass-card');
 
@@ -78,34 +78,11 @@ function initShreeTech() {
         spotlight.style.background = `radial-gradient(350px circle at ${x}px ${y}px, rgba(255, 107, 0, 0.12), transparent 75%)`;
         spotlight.style.opacity = '1';
       }
-
-      // 3D Parallax Tilt (Subtle tangible 3D physical feel)
-      const frontFace = card.querySelector('.flip-card-front');
-      const inner = card.querySelector('.flip-card-inner');
-      if (frontFace && (!inner || !inner.classList.contains('is-flipped'))) {
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const tiltX = -((y - centerY) / centerY) * 4.5;
-        const tiltY = ((x - centerX) / centerX) * 4.5;
-        frontFace.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(1px)`;
-      }
     });
 
     card.addEventListener('mouseleave', () => {
       if (spotlight) {
         spotlight.style.opacity = '0';
-      }
-      const frontFace = card.querySelector('.flip-card-front');
-      if (frontFace) {
-        frontFace.style.transform = 'rotateY(0deg) translateZ(1px)';
-        frontFace.style.transition = 'transform 0.4s ease';
-      }
-    });
-
-    card.addEventListener('mouseenter', () => {
-      const frontFace = card.querySelector('.flip-card-front');
-      if (frontFace) {
-        frontFace.style.transition = 'none';
       }
     });
   });
