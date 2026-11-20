@@ -45,24 +45,21 @@ require_once __DIR__ . '/includes/header.php';
       <!-- Technology Groups with Auto-Scrolling Rows -->
       <div class="mt-10 space-y-12">
         <?php 
-        // Alternating directions and category-specific durations as required:
-        // Frontend: Right-to-Left (marquee-left), 30s
-        // Backend: Left-to-Right (marquee-right), 35s
-        // Database: Right-to-Left (marquee-left), 32s
-        // Mobile: Left-to-Right (marquee-right), 28s
-        // Cloud: Right-to-Left (marquee-left), 35s
+        // Right-to-Left infinite horizontal scrolling for every category:
+        // All categories move in the exact same direction: RIGHT -> LEFT
+        // Category-specific configurable speeds via CSS variables (--marquee-duration)
         $categorySettings = [
-            'Frontend' => ['direction' => 'marquee-left',  'duration' => '30s'],
-            'Backend'  => ['direction' => 'marquee-right', 'duration' => '35s'],
-            'Database' => ['direction' => 'marquee-left',  'duration' => '32s'],
-            'Mobile'   => ['direction' => 'marquee-right', 'duration' => '28s'],
-            'Cloud'    => ['direction' => 'marquee-left',  'duration' => '35s'],
+            'Frontend' => ['direction' => 'marquee-left', 'duration' => '30s'],
+            'Backend'  => ['direction' => 'marquee-left', 'duration' => '32s'],
+            'Database' => ['direction' => 'marquee-left', 'duration' => '35s'],
+            'Mobile'   => ['direction' => 'marquee-left', 'duration' => '28s'],
+            'Cloud'    => ['direction' => 'marquee-left', 'duration' => '34s'],
         ];
 
         foreach ($technologyGroups as $idx => $group): 
           $catName = $group['category'];
           $config = $categorySettings[$catName] ?? [
-              'direction' => ($idx % 2 === 0) ? 'marquee-left' : 'marquee-right',
+              'direction' => 'marquee-left',
               'duration'  => '32s'
           ];
           // Base set has at least 8 items so a single group spans > 2400px
