@@ -21,21 +21,18 @@ require_once __DIR__ . '/includes/header.php';
   <!-- OUTER PINNED SCROLL TRACK (DRIVES JS SCROLL STACKING ANIMATION BEFORE PROCEEDING TO FOOTER) -->
   <section id="projects-pin-track" class="relative w-full bg-[#FFF0F5]/25 border-y border-[#F1E6EE]">
     
-    <!-- STICKY VIEWPORT STAGE (ROCK-SOLID FULL-VIEW ALIGNMENT SAFELY CLEARS NAVBAR & EXPANDS CARD HEIGHT) -->
-    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-24 sm:pt-28 pb-4 px-4 sm:px-6 lg:px-8">
+    <!-- STICKY VIEWPORT STAGE (EXPANDED CARD HEIGHT WITH PRECISION VIEWPORT ALIGNMENT) -->
+    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-16 sm:pt-20 pb-4 px-4 sm:px-6 lg:px-8">
       
-      <!-- Section Header (Crisply Positioned Safely Below Floating Navbar) -->
-      <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-2.5 sm:mb-3.5 shrink-0">
+      <!-- Section Header (Compact & Crisp so Cards Have Maximum Vertical Stage Room) -->
+      <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-2 sm:mb-2.5 shrink-0">
         <div class="glass-pill inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-1">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
           <span>Selected Case Studies</span>
         </div>
-        <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-[#0F172A] tracking-tight font-heading mb-1">
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-[#0F172A] tracking-tight font-heading mb-1.5">
           Featured Client Deployments
         </h2>
-        <p class="text-xs sm:text-sm text-[#475569] font-normal leading-relaxed font-body max-w-xl mb-2 hidden sm:block">
-          Scroll down to cycle through our mission-critical digital systems across finance, healthcare, logistics, and commerce.
-        </p>
 
         <!-- Filter Pills -->
         <div class="flex flex-wrap items-center justify-center gap-1.5">
@@ -51,9 +48,9 @@ require_once __DIR__ . '/includes/header.php';
         </div>
       </div>
 
-      <!-- STACKING CARDS DECK (INCREASED HEIGHT WITH GORGEOUS 2-COLUMN PRESENCE) -->
+      <!-- STACKING CARDS DECK (INCREASED HEIGHT WITH GORGEOUS LARGE 2-COLUMN PRESENCE) -->
       <div class="stacking-deck-container relative w-full max-w-4xl lg:max-w-5xl mx-auto flex flex-col justify-start items-center">
-        <div class="stacking-cards-deck relative w-full h-[450px] sm:h-[480px] md:h-[500px]">
+        <div class="stacking-cards-deck relative w-full h-[500px] sm:h-[540px] md:h-[570px] lg:h-[600px]">
           <?php foreach ($projectsData as $idx => $project): 
             $icons = [
               'apex-finance' => 'trending-up',
@@ -89,12 +86,12 @@ require_once __DIR__ . '/includes/header.php';
                   <span class="card-rivet" aria-hidden="true"></span>
                 </div>
 
-                <!-- DARK CARD BODY (#141414) WITH INCREASED HEIGHT & RICH SPACING -->
-                <div class="stacking-card-body p-4 sm:p-5 md:p-6 text-white">
-                  <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-center">
+                <!-- DARK CARD BODY (#141414) WITH INCREASED HEIGHT & EXPANDED PREVIEW -->
+                <div class="stacking-card-body p-5 sm:p-6 md:p-7 text-white">
+                  <div class="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-7 items-center">
                     
-                    <!-- LEFT COLUMN: Substantial High-Resolution Project Preview (Increased Height) -->
-                    <div class="md:col-span-5 relative group overflow-hidden rounded-2xl border border-white/10 bg-black/40 h-44 sm:h-52 md:h-60 lg:h-[275px] xl:h-[290px] flex items-center justify-center shadow-lg">
+                    <!-- LEFT COLUMN: Substantial High-Resolution Project Preview (Increased Height up to 340px) -->
+                    <div class="md:col-span-5 relative group overflow-hidden rounded-2xl border border-white/10 bg-black/40 h-56 sm:h-64 md:h-72 lg:h-[320px] xl:h-[340px] flex items-center justify-center shadow-lg">
                       <img
                         src="<?php echo htmlspecialchars($project['imageUrl']); ?>"
                         alt="<?php echo htmlspecialchars($project['title']); ?>"
@@ -121,7 +118,7 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
 
                     <!-- RIGHT COLUMN: Rich Project Content, Metrics, Technologies & Actions -->
-                    <div class="md:col-span-7 flex flex-col justify-between text-left py-0.5">
+                    <div class="md:col-span-7 flex flex-col justify-between text-left py-1">
                       
                       <div>
                         <!-- Client Header -->
@@ -133,17 +130,17 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
 
                         <!-- Project Title -->
-                        <h3 class="text-base sm:text-lg md:text-xl lg:text-2xl font-black text-white tracking-tight font-heading mb-1.5 leading-tight">
+                        <h3 class="text-lg sm:text-xl md:text-2xl font-black text-white tracking-tight font-heading mb-2 leading-tight">
                           <?php echo htmlspecialchars($project['title']); ?>
                         </h3>
 
                         <!-- Summary Description -->
-                        <p class="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed mb-2.5 font-body line-clamp-2 sm:line-clamp-3">
+                        <p class="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed mb-3.5 font-body line-clamp-3">
                           <?php echo htmlspecialchars($project['summary']); ?>
                         </p>
 
                         <!-- Impact Metric Highlight Box -->
-                        <div class="p-2.5 sm:p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between mb-2.5 max-w-lg shadow-inner">
+                        <div class="p-3 sm:p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between mb-3.5 max-w-lg shadow-inner">
                           <div class="flex flex-col">
                             <span class="text-[11px] text-slate-400 font-medium">Primary Impact Metric</span>
                             <span class="text-xs sm:text-sm text-slate-200 font-semibold"><?php echo htmlspecialchars($project['metrics']['label']); ?></span>
@@ -154,7 +151,7 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
 
                         <!-- Technologies Stack Badges -->
-                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-3">
+                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
                           <?php foreach ($project['technologies'] as $tech): ?>
                             <span class="px-2.5 py-0.5 sm:py-1 rounded-lg text-xs font-medium text-slate-300 bg-white/5 border border-white/10 font-body">
                               <?php echo htmlspecialchars($tech); ?>
@@ -164,7 +161,7 @@ require_once __DIR__ . '/includes/header.php';
                       </div>
 
                       <!-- Action Buttons -->
-                      <div class="flex items-center gap-3 pt-2.5 sm:pt-3 border-t border-white/10">
+                      <div class="flex items-center gap-3 pt-3 border-t border-white/10">
                         <button
                           type="button"
                           class="open-project-modal glass-btn-primary flex-1 py-2.5 px-4 rounded-xl text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:scale-102 active:scale-98 transition-all"

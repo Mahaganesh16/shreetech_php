@@ -771,7 +771,7 @@ h1 {
 
 .stacking-card-item {
   position: absolute;
-  top: calc(var(--stack-idx, 0) * 16px);
+  top: calc(var(--stack-idx, 0) * 18px);
   left: 0;
   right: 0;
   width: 100%;
@@ -783,7 +783,7 @@ h1 {
 
 @media (max-width: 640px) {
   .stacking-card-item {
-    top: calc(var(--stack-idx, 0) * 13px);
+    top: calc(var(--stack-idx, 0) * 14px);
   }
 }
 
@@ -793,7 +793,7 @@ h1 {
   border-radius: 1.25rem;
   overflow: hidden;
   box-shadow:
-    0 24px 48px -12px rgba(0, 0, 0, 0.75),
+    0 24px 50px -12px rgba(0, 0, 0, 0.75),
     0 0 1px 1px rgba(255, 255, 255, 0.15);
   transform-origin: center top;
   will-change: transform, filter;
@@ -804,7 +804,7 @@ h1 {
 .stacking-card-header {
   background-color: #f3e8d2;
   color: #1a1714;
-  height: 32px;
+  height: 34px;
   border-top-left-radius: 1.25rem;
   border-top-right-radius: 1.25rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -814,7 +814,7 @@ h1 {
 
 @media (max-width: 640px) {
   .stacking-card-header {
-    height: 28px;
+    height: 30px;
   }
 }
 
