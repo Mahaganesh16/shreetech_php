@@ -771,7 +771,7 @@ h1 {
 
 .stacking-card-item {
   position: absolute;
-  top: calc(var(--stack-idx, 0) * 18px);
+  top: calc(var(--stack-idx, 0) * 14px);
   left: 0;
   right: 0;
   width: 100%;
@@ -783,17 +783,17 @@ h1 {
 
 @media (max-width: 640px) {
   .stacking-card-item {
-    top: calc(var(--stack-idx, 0) * 14px);
+    top: calc(var(--stack-idx, 0) * 11px);
   }
 }
 
 .stacking-card-box {
   background: #141414;
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
-  border-radius: 1.25rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 1rem;
   overflow: hidden;
   box-shadow:
-    0 24px 50px -12px rgba(0, 0, 0, 0.75),
+    0 20px 40px -10px rgba(0, 0, 0, 0.72),
     0 0 1px 1px rgba(255, 255, 255, 0.15);
   transform-origin: center top;
   will-change: transform, filter;
@@ -804,9 +804,9 @@ h1 {
 .stacking-card-header {
   background-color: #f3e8d2;
   color: #1a1714;
-  height: 34px;
-  border-top-left-radius: 1.25rem;
-  border-top-right-radius: 1.25rem;
+  height: 30px;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
   transition: background-color 0.2s ease, filter 0.2s ease;
@@ -814,7 +814,7 @@ h1 {
 
 @media (max-width: 640px) {
   .stacking-card-header {
-    height: 30px;
+    height: 26px;
   }
 }
 
