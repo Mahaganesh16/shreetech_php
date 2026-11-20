@@ -21,16 +21,16 @@ require_once __DIR__ . '/includes/header.php';
   <!-- OUTER PINNED SCROLL TRACK (DRIVES JS SCROLL STACKING ANIMATION BEFORE PROCEEDING TO FOOTER) -->
   <section id="projects-pin-track" class="relative w-full bg-[#FFF0F5]/25 border-y border-[#F1E6EE]">
     
-    <!-- STICKY VIEWPORT STAGE (EXPANDED CARD HEIGHT WITH PRECISION VIEWPORT ALIGNMENT) -->
-    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-16 sm:pt-20 pb-4 px-4 sm:px-6 lg:px-8">
+    <!-- STICKY VIEWPORT STAGE (GENEROUS NAVBAR CLEARANCE WITH MAXIMUM CARD HEIGHT) -->
+    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-28 sm:pt-32 pb-4 px-4 sm:px-6 lg:px-8">
       
-      <!-- Section Header (Compact & Crisp so Cards Have Maximum Vertical Stage Room) -->
-      <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-2 sm:mb-2.5 shrink-0">
-        <div class="glass-pill inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-1">
+      <!-- Section Header (Generously Spaced Below Floating Navbar) -->
+      <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-3 sm:mb-4 shrink-0">
+        <div class="glass-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-1.5 shadow-xs">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
           <span>Selected Case Studies</span>
         </div>
-        <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-[#0F172A] tracking-tight font-heading mb-1.5">
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-[#0F172A] tracking-tight font-heading mb-2">
           Featured Client Deployments
         </h2>
 
@@ -50,7 +50,7 @@ require_once __DIR__ . '/includes/header.php';
 
       <!-- STACKING CARDS DECK (INCREASED HEIGHT WITH GORGEOUS LARGE 2-COLUMN PRESENCE) -->
       <div class="stacking-deck-container relative w-full max-w-4xl lg:max-w-5xl mx-auto flex flex-col justify-start items-center">
-        <div class="stacking-cards-deck relative w-full h-[500px] sm:h-[540px] md:h-[570px] lg:h-[600px]">
+        <div class="stacking-cards-deck relative w-full h-[480px] sm:h-[510px] md:h-[540px] lg:h-[560px]">
           <?php foreach ($projectsData as $idx => $project): 
             $icons = [
               'apex-finance' => 'trending-up',
@@ -87,11 +87,11 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
 
                 <!-- DARK CARD BODY (#141414) WITH INCREASED HEIGHT & EXPANDED PREVIEW -->
-                <div class="stacking-card-body p-5 sm:p-6 md:p-7 text-white">
-                  <div class="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-7 items-center">
+                <div class="stacking-card-body p-4 sm:p-5 md:p-5.5 text-white">
+                  <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-center">
                     
-                    <!-- LEFT COLUMN: Substantial High-Resolution Project Preview (Increased Height up to 340px) -->
-                    <div class="md:col-span-5 relative group overflow-hidden rounded-2xl border border-white/10 bg-black/40 h-56 sm:h-64 md:h-72 lg:h-[320px] xl:h-[340px] flex items-center justify-center shadow-lg">
+                    <!-- LEFT COLUMN: Substantial High-Resolution Project Preview (Tall 295px Preview) -->
+                    <div class="md:col-span-5 relative group overflow-hidden rounded-2xl border border-white/10 bg-black/40 h-48 sm:h-56 md:h-64 lg:h-[280px] xl:h-[295px] flex items-center justify-center shadow-lg">
                       <img
                         src="<?php echo htmlspecialchars($project['imageUrl']); ?>"
                         alt="<?php echo htmlspecialchars($project['title']); ?>"
