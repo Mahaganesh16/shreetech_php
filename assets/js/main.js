@@ -447,10 +447,10 @@ function initShreeTech() {
         }
 
         const scale = Math.max(1 - coveredDepth * 0.024, 0.89);
-        const brightness = Math.max(1 - coveredDepth * 0.08, 0.68);
-        const tabR = Math.round(Math.max(243 - coveredDepth * 32, 115));
-        const tabG = Math.round(Math.max(232 - coveredDepth * 33, 105));
-        const tabB = Math.round(Math.max(210 - coveredDepth * 31, 90));
+        const brightness = Math.max(1 - coveredDepth * 0.03, 0.94);
+        const tabR = Math.round(Math.max(255 - coveredDepth * 10, 226));
+        const tabG = Math.round(Math.max(255 - coveredDepth * 9, 232));
+        const tabB = Math.round(Math.max(255 - coveredDepth * 7, 240));
 
         card.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(4)}) rotate(0deg)`;
         card.style.opacity = '1';
@@ -473,17 +473,17 @@ function initShreeTech() {
         card.style.visibility = 'hidden';
         card.style.filter = 'brightness(1)';
         card.style.pointerEvents = 'none';
-        if (headerTab) headerTab.style.backgroundColor = 'rgb(243, 232, 210)';
+        if (headerTab) headerTab.style.backgroundColor = 'rgb(255, 255, 255)';
       } else if (progress >= stepEnd) {
         // Card is fully docked; calculate depth from cards docked on top of it
         const cardsAbove = (progress - stepEnd) / stepSpan;
         const coveredDepth = Math.max(0, Math.min(cardsAbove, totalSteps - index));
 
         const scale = Math.max(1 - coveredDepth * 0.024, 0.89);
-        const brightness = Math.max(1 - coveredDepth * 0.11, 0.68);
-        const tabR = Math.round(Math.max(243 - coveredDepth * 32, 115));
-        const tabG = Math.round(Math.max(232 - coveredDepth * 33, 105));
-        const tabB = Math.round(Math.max(210 - coveredDepth * 31, 90));
+        const brightness = Math.max(1 - coveredDepth * 0.03, 0.94);
+        const tabR = Math.round(Math.max(255 - coveredDepth * 10, 226));
+        const tabG = Math.round(Math.max(255 - coveredDepth * 9, 232));
+        const tabB = Math.round(Math.max(255 - coveredDepth * 7, 240));
 
         card.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(4)}) rotate(0deg)`;
         card.style.opacity = '1';
@@ -507,7 +507,7 @@ function initShreeTech() {
         card.style.visibility = 'visible';
         card.style.filter = 'brightness(1)';
         card.style.pointerEvents = 'auto';
-        if (headerTab) headerTab.style.backgroundColor = 'rgb(243, 232, 210)';
+        if (headerTab) headerTab.style.backgroundColor = 'rgb(255, 255, 255)';
       }
     });
   }
