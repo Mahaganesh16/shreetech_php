@@ -29,15 +29,16 @@ require_once __DIR__ . '/includes/header.php';
           </h2>
 
           <p class="text-base text-[#475569] leading-relaxed font-normal font-body">
-            Shree Tech is an independent software development and consulting agency. We partner with
+            Shree Tech is a premier IT solutions and custom software engineering company. We partner with
             fast-growing businesses, enterprise technology leaders, and modern startups to design, build,
-            and maintain mission-critical software solutions with clean, frosted glassmorphism UI.
+            and scale mission-critical digital products—ranging from robust web applications and cross-platform
+            mobile apps to enterprise Laravel platforms, headless CMS, and scalable cloud architectures.
           </p>
 
           <p class="text-sm text-[#475569] leading-relaxed font-normal font-body">
-            Unlike traditional agencies that pass work to inexperienced subcontractors, our core engineering
-            team directly designs your architecture, writes strict type-safe code, and provides continuous
-            deployment visibility.
+            Unlike traditional agencies that pass work to inexperienced subcontractors, our dedicated engineering
+            team directly designs your architecture, writes clean, maintainable code, and provides continuous
+            sprint visibility with guaranteed delivery standards.
           </p>
 
           <!-- Core Achievements -->
@@ -45,8 +46,9 @@ require_once __DIR__ . '/includes/header.php';
             <?php
             $achievements = [
                 'Full-stack engineering capabilities from concept through multi-cloud deployment',
-                'Strict adherence to Domain-Driven Design, clean architecture, and automated testing',
-                'Transparent agile communication with direct access to senior developers',
+                'Specialized expertise in Laravel, Next.js, React, Flutter, Python & Cloud DevOps',
+                'Strict adherence to clean code, modular architecture, and automated testing',
+                'Transparent agile communication with dedicated senior developers and daily updates',
                 'Guaranteed response SLAs and dedicated ongoing maintenance support'
             ];
             foreach ($achievements as $ach): ?>

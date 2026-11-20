@@ -28,13 +28,13 @@ $directorySections = [
         'href' => 'services.php',
         'badge' => 'Core Capabilities',
         'icon' => 'code-2',
-        'backBadge' => '8 Core Offerings',
+        'backBadge' => '10 Core Offerings',
         'backTitle' => 'End-to-End Delivery',
         'highlights' => [
-            'Full-stack enterprise web platforms & SaaS',
-            'iOS & Android native & cross-platform apps',
-            'Resilient cloud architecture & serverless APIs',
-            'Legacy code modernization & DevOps automation'
+            'Web & mobile app development (Next.js, Flutter)',
+            'Enterprise Laravel & custom PHP engineering',
+            'E-commerce, WordPress & digital marketing',
+            'Hire dedicated developers & workflow automation'
         ],
         'ctaText' => 'Explore All Services'
     ],
@@ -47,10 +47,10 @@ $directorySections = [
         'backBadge' => 'Modern Tooling',
         'backTitle' => 'Battle-Tested Tech',
         'highlights' => [
-            'Frontend: Next.js 16, React 19 & TypeScript',
-            'Backend: Node.js, Python, Laravel & PHP',
-            'Databases: PostgreSQL, MongoDB & MySQL',
-            'Cloud & DevOps: AWS, Azure & Docker pipelines'
+            'Frontend: Next.js, React.js & JavaScript',
+            'Backend: Laravel, PHP, Python & Node.js',
+            'Databases: MySQL, PostgreSQL & MongoDB',
+            'Mobile & Cloud: Flutter, iOS, Android & AWS'
         ],
         'ctaText' => 'View Full Tech Stack'
     ],
@@ -63,10 +63,10 @@ $directorySections = [
         'backBadge' => 'Verified Case Studies',
         'backTitle' => 'Production Impact',
         'highlights' => [
-            'Enterprise FinTech: 99.99% SLA, $42M+ processed',
-            'HealthCare EHR: HIPAA-compliant clinical suite',
-            'Logistics Fleet Engine: 40k+ live tracking events',
-            'Omnichannel E-Commerce: Sub-second page loads'
+            'FinTech Portal: Real-time trading & telemetry',
+            'HealthCare EHR: HIPAA-compliant medical suite',
+            'Logistics Mobile: Flutter GPS driver dispatch',
+            'Enterprise ERP: Laravel automated workflow portal'
         ],
         'ctaText' => 'Browse Case Studies'
     ],

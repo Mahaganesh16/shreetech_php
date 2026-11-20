@@ -58,6 +58,7 @@ require_once __DIR__ . '/includes/header.php';
               'fleet-mobile' => 'truck',
               'luxury-commerce' => 'shopping-bag',
               'cloud-security' => 'shield-check',
+              'smart-erp-automation' => 'layers',
               'ai-intelligence' => 'cpu',
             ];
             $icon = $icons[$project['id']] ?? 'sparkles';
