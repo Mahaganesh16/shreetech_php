@@ -226,7 +226,7 @@ h1 {
   transform: rotateY(0deg);
   -webkit-transform: rotateY(0deg);
   z-index: 2;
-  pointer-events: auto;
+  pointer-events: auto !important;
 }
 
 .flip-card-back {
@@ -241,18 +241,7 @@ h1 {
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
   z-index: 1;
-  pointer-events: none;
-}
-
-.flip-card-wrapper:hover .flip-card-back,
-.flip-card-inner.is-flipped .flip-card-back {
-  pointer-events: auto;
-  z-index: 3;
-}
-
-.flip-card-wrapper:hover .flip-card-front,
-.flip-card-inner.is-flipped .flip-card-front {
-  pointer-events: none;
+  pointer-events: auto !important;
 }
 
 /* Modals & Dialogs Panel */
@@ -482,7 +471,6 @@ h1 {
 }
 
 .tech-card-item:hover {
-  transform: translate3d(0, -3px, 0) !important;
   z-index: 30 !important;
 }
 
