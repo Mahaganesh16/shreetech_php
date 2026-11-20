@@ -163,29 +163,29 @@ $processSteps = [
 $projectsData = [
     [
         'id' => 'apex-finance',
-        'title' => 'Apex Institutional FinTech Portal',
+        'title' => 'Eyecatch Media Portal',
         'category' => 'web',
-        'categoryLabel' => 'Web Application',
-        'client' => 'Apex Financial Markets',
-        'year' => '2025',
-        'summary' => 'A unified high-speed institutional trading and risk-management terminal with sub-second WebSocket telemetry, multi-currency routing, and automated compliance verification.',
-        'technologies' => ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
+        'categoryLabel' => 'News & Media Portal',
+        'client' => 'Eyecatch Media Network',
+        'year' => '2026',
+        'summary' => 'Dynamic news, digital publishing, and high-traffic multimedia portal delivering real-time breaking news feeds, multilingual regional journalism, and responsive content streaming.',
+        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'JavaScript'],
         'imageUrl' => 'eyecatch-media.png',
         'layoutSpan' => 'featured',
-        'metrics' => ['label' => 'Daily Trading Volume', 'value' => '$45M+']
+        'metrics' => ['label' => 'Monthly Readers', 'value' => '1.2M+']
     ],
     [
         'id' => 'health-cloud',
-        'title' => 'CareSync Telemedicine & EHR Suite',
+        'title' => 'Kiaura Research & Publications',
         'category' => 'enterprise',
-        'categoryLabel' => 'Enterprise SaaS',
-        'client' => 'CareSync Health Network',
+        'categoryLabel' => 'Research & Publishing',
+        'client' => 'Kiaura Innovations & Publications',
         'year' => '2025',
-        'summary' => 'HIPAA-compliant patient record exchange and secure video consultation infrastructure linking 12,000 clinicians across regional hospitals.',
-        'technologies' => ['React', 'Python', 'AWS', 'Docker', 'PostgreSQL'],
-        'imageUrl' => 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
+        'summary' => 'Comprehensive academic research publishing platform and digital monograph distribution portal with peer-review workflow management, book catalog indexing, and automated order processing.',
+        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'Bootstrap'],
+        'imageUrl' => 'assets/images/kiaurra.png',
         'layoutSpan' => 'standard',
-        'metrics' => ['label' => 'Patients Managed', 'value' => '350,000+']
+        'metrics' => ['label' => 'Publications Indexed', 'value' => '10,000+']
     ],
     [
         'id' => 'fleet-mobile',
@@ -228,16 +228,16 @@ $projectsData = [
     ],
     [
         'id' => 'ai-intelligence',
-        'title' => 'Nexus AI Predictive Analytics Engine',
+        'title' => 'Evergreen Classifieds & Ads Portal',
         'category' => 'enterprise',
-        'categoryLabel' => 'Enterprise AI',
-        'client' => 'Synapse Intelligence Systems',
+        'categoryLabel' => 'Marketplace & Directory',
+        'client' => 'Evergreen Classifieds Network',
         'year' => '2025',
-        'summary' => 'Large-scale real-time machine learning inference platform delivering streaming predictive analytics and automated anomaly detection across 200,000 IoT sensor nodes.',
-        'technologies' => ['Python', 'PyTorch', 'FastAPI', 'Kafka', 'React', 'Docker'],
+        'summary' => 'Comprehensive online classifieds, business directory, and digital advertising marketplace engineered with localized category filtering, high-visibility ad placements, and fast search indexing.',
+        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Bootstrap', 'JavaScript'],
         'imageUrl' => 'evergreen-ads.png',
         'layoutSpan' => 'standard',
-        'metrics' => ['label' => 'Inference Latency', 'value' => '< 12ms']
+        'metrics' => ['label' => 'Active Listings', 'value' => '50,000+']
     ]
 ];
 
