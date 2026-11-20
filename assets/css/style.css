@@ -124,36 +124,61 @@ h1 {
 }
 
 /* -------------------------------------------------------------
-   SIGNATURE PURE WHITE CARDS WITH DELICATE BORDER
+   SIGNATURE FROSTED GLASSMORPHISM CARDS (MATCHING REFERENCE TEMPLATE)
+   Pure frosted acrylic / glass effect with specular edge reflection
    ------------------------------------------------------------- */
 .glass-card {
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(241, 230, 238, 0.9);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 100%) !important;
+  backdrop-filter: blur(28px) saturate(190%) contrast(102%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(102%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
   box-shadow:
-    0 16px 36px -6px rgba(15, 23, 42, 0.05),
-    0 1px 3px 0 rgba(0, 0, 0, 0.02);
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.25),
+    inset 1px 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 20px 45px -12px rgba(15, 23, 42, 0.08),
+    0 2px 6px 0 rgba(0, 0, 0, 0.02) !important;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
 }
 
+/* Frosted Glass Specular Top Flare (Natural light catch at the top of physical glass) */
+.glass-card::before,
+.flip-card-front::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.03) 100%);
+  pointer-events: none;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  z-index: 1;
+}
+
+.glass-card:hover,
 .glass-card-hover:hover {
-  background: rgba(255, 255, 255, 0.92);
-  border-color: #C01858;
-  transform: translateY(-5px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.45) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.95) !important;
+  transform: translateY(-4px);
   box-shadow:
-    0 22px 45px -8px rgba(192, 24, 88, 0.14),
-    0 0 22px rgba(255, 107, 0, 0.08);
+    inset 0 2px 1.5px 0 rgba(255, 255, 255, 0.98),
+    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.4),
+    0 26px 52px -12px rgba(192, 24, 88, 0.15),
+    0 0 22px rgba(255, 107, 0, 0.08) !important;
 }
 
 /* -------------------------------------------------------------
-   3D HARDWARE-ACCELERATED CARD FLIP SYSTEM
+   3D HARDWARE-ACCELERATED CARD FLIP SYSTEM (FROSTED GLASS)
    ------------------------------------------------------------- */
 .flip-card-wrapper {
   perspective: 1200px;
   -webkit-perspective: 1200px;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 .flip-card-inner {
@@ -187,11 +212,15 @@ h1 {
 }
 
 .flip-card-front {
-  background: rgba(255, 255, 255, 0.78) !important;
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(241, 230, 238, 0.9) !important;
-  box-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.05) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 100%) !important;
+  backdrop-filter: blur(28px) saturate(190%) contrast(102%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(102%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  box-shadow:
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.25),
+    inset 1px 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 18px 40px -10px rgba(15, 23, 42, 0.07) !important;
   transform: rotateY(0deg) translateZ(1px);
   -webkit-transform: rotateY(0deg) translateZ(1px);
   z-index: 2;
@@ -199,11 +228,14 @@ h1 {
 }
 
 .flip-card-back {
-  background: rgba(255, 255, 255, 0.92) !important;
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  border: 2px solid #C01858 !important;
-  box-shadow: 0 24px 48px -8px rgba(192, 24, 88, 0.16) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.80) 0%, rgba(255, 255, 255, 0.50) 100%) !important;
+  backdrop-filter: blur(28px) saturate(190%) contrast(102%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(102%) !important;
+  border: 1.5px solid rgba(192, 24, 88, 0.65) !important;
+  box-shadow:
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.35),
+    0 24px 48px -8px rgba(192, 24, 88, 0.16) !important;
   transform: rotateY(180deg) translateZ(1px);
   -webkit-transform: rotateY(180deg) translateZ(1px);
   z-index: 1;
@@ -230,12 +262,28 @@ h1 {
     0 0 30px rgba(192, 24, 88, 0.06);
 }
 
-/* Small Glows & Badges: Purple #8B5CF6 with #F5F0FF tint */
+/* Small Glows & Badges: Frosted Glass Pill */
 .glass-pill {
-  background: #F5F0FF;
-  border: 1px solid #F1E6EE;
+  background: rgba(245, 240, 255, 0.75) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
   color: #8B5CF6;
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.08);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.95),
+    0 2px 8px rgba(139, 92, 246, 0.08) !important;
+}
+
+/* Frosted Sub-tiles and Icon Boxes Inside Glass Cards */
+.glass-card .rounded-xl.bg-white,
+.glass-card .rounded-2xl.bg-white {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-color: rgba(255, 255, 255, 0.85) !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.95),
+    0 2px 6px rgba(15, 23, 42, 0.03) !important;
 }
 
 /* Container-Width Floating Glassmorphism Navbar Dock */
