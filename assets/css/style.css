@@ -163,7 +163,6 @@ h1 {
 .glass-card-hover:hover {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.45) 100%) !important;
   border-color: rgba(255, 255, 255, 0.95) !important;
-  transform: translateY(-4px);
   box-shadow:
     inset 0 2px 1.5px 0 rgba(255, 255, 255, 0.98),
     inset 0 -1px 1px 0 rgba(255, 255, 255, 0.4),
@@ -171,26 +170,47 @@ h1 {
     0 0 22px rgba(255, 107, 0, 0.08) !important;
 }
 
+/* Standalone cards elevate on hover, but flip cards must NOT move their faces */
+.glass-card:not(.flip-card-front):not(.flip-card-back):hover,
+.glass-card-hover:hover {
+  transform: translateY(-4px);
+}
+
 /* -------------------------------------------------------------
    3D HARDWARE-ACCELERATED CARD FLIP SYSTEM (FROSTED GLASS)
-   Fast, snappy 0.52s GPU-accelerated 3D transition with zero lag
+   Buttery-smooth GPU 3D flip with stable 2D hit-test floor
+   Eliminates flutter, 90-degree hit-loss, and multi-flip bug
    ------------------------------------------------------------- */
 .flip-card-wrapper {
-  perspective: 1000px;
-  -webkit-perspective: 1000px;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
+  position: relative;
+  perspective: 1200px;
+  -webkit-perspective: 1200px;
+  /* Stationary 2D boundary: never participates in 3D rotation */
+  transform: none;
+}
+
+/* Non-rotating 2D hit-test floor: captures pointer events continuously at all angles */
+.flip-card-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.001);
+  pointer-events: auto;
+  border-radius: 1.5rem;
 }
 
 .flip-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.52s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   will-change: transform;
   transform: rotateY(0deg);
+  z-index: 1;
+  pointer-events: none; /* Pointer events pass through to wrapper hit-test floor */
 }
 
 .flip-card-wrapper:hover .flip-card-inner,
@@ -203,8 +223,8 @@ h1 {
 .flip-card-back {
   position: absolute !important;
   inset: 0 !important;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   backface-visibility: hidden !important;
   -webkit-backface-visibility: hidden !important;
   transform-style: preserve-3d;
@@ -212,36 +232,51 @@ h1 {
   border-radius: 1.5rem;
   overflow: hidden;
   will-change: transform;
+  pointer-events: none;
+}
+
+/* Allow interaction with links/buttons inside back card */
+.flip-card-back a,
+.flip-card-back button {
+  pointer-events: auto;
 }
 
 .flip-card-front {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 100%) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.38) 100%) !important;
+  backdrop-filter: blur(28px) saturate(190%) contrast(102%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(102%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
   box-shadow:
     inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.25),
-    0 18px 40px -10px rgba(15, 23, 42, 0.07) !important;
-  transform: rotateY(0deg);
-  -webkit-transform: rotateY(0deg);
+    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.3),
+    0 18px 40px -10px rgba(15, 23, 42, 0.08) !important;
+  transform: rotateY(0deg) translateZ(1px) !important;
+  -webkit-transform: rotateY(0deg) translateZ(1px) !important;
   z-index: 2;
-  pointer-events: auto !important;
 }
 
 .flip-card-back {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.80) 0%, rgba(255, 255, 255, 0.50) 100%) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  border: 1.5px solid rgba(192, 24, 88, 0.65) !important;
+  background: #ffffff !important;
+  border: 2px solid #C01858 !important;
   box-shadow:
-    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.35),
-    0 24px 48px -8px rgba(192, 24, 88, 0.16) !important;
-  transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
+    0 22px 48px -8px rgba(192, 24, 88, 0.22),
+    0 0 20px rgba(255, 107, 0, 0.12) !important;
+  transform: rotateY(180deg) translateZ(1px) !important;
+  -webkit-transform: rotateY(180deg) translateZ(1px) !important;
   z-index: 1;
-  pointer-events: auto !important;
+}
+
+/* Lock face transforms against any rogue hover rules */
+.flip-card-front.glass-card:hover,
+.flip-card-front:hover {
+  transform: rotateY(0deg) translateZ(1px) !important;
+  -webkit-transform: rotateY(0deg) translateZ(1px) !important;
+}
+
+.flip-card-back.glass-card:hover,
+.flip-card-back:hover {
+  transform: rotateY(180deg) translateZ(1px) !important;
+  -webkit-transform: rotateY(180deg) translateZ(1px) !important;
 }
 
 /* Modals & Dialogs Panel */

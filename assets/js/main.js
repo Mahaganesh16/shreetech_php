@@ -56,17 +56,16 @@ function initShreeTech() {
   // =========================================================================
   // 2. DYNAMIC CURSOR SPOTLIGHT ON CARDS (OPTIMIZED & CONFLICT-FREE)
   // =========================================================================
-  const spotlightCards = document.querySelectorAll('.flip-card-wrapper, .glass-card');
+  const spotlightCards = document.querySelectorAll('.glass-card:not(.flip-card-front):not(.flip-card-back)');
 
   spotlightCards.forEach((card) => {
     // Ensure spotlight layer exists
     let spotlight = card.querySelector('.card-spotlight-layer');
     if (!spotlight) {
-      const front = card.querySelector('.flip-card-front') || card;
       spotlight = document.createElement('div');
       spotlight.className = 'card-spotlight-layer pointer-events-none absolute inset-0';
-      front.style.position = 'relative';
-      front.prepend(spotlight);
+      spotlight.style.position = 'absolute';
+      card.prepend(spotlight);
     }
 
     card.addEventListener('mousemove', (e) => {
@@ -97,9 +96,12 @@ function initShreeTech() {
       if (e.target.closest('a') || e.target.closest('button')) {
         return;
       }
-      const inner = wrapper.querySelector('.flip-card-inner');
-      if (inner) {
-        inner.classList.toggle('is-flipped');
+      // On touch devices without hover capability, tap toggles flip
+      if (window.matchMedia && window.matchMedia('(hover: none)').matches) {
+        const inner = wrapper.querySelector('.flip-card-inner');
+        if (inner) {
+          inner.classList.toggle('is-flipped');
+        }
       }
     });
   });
