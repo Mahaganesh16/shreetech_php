@@ -105,7 +105,7 @@ require_once __DIR__ . '/includes/header.php';
               </div>
 
               <!-- Back Face -->
-              <div class="flip-card-back glass-card p-3 rounded-2xl flex items-center justify-between gap-3 border-2 border-[#C01858] bg-white shadow-md">
+              <div class="flip-card-back glass-card p-3 rounded-2xl flex items-center justify-between gap-3 border-2 border-[#C01858] shadow-md">
                 <div class="min-w-0 flex-1">
                   <div class="flex items-center gap-1.5 mb-1">
                     <span class="text-[8px] sm:text-[9px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body">

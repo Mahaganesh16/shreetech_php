@@ -145,7 +145,8 @@ h1 {
 
 /* Frosted Glass Specular Top Flare (Natural light catch at the top of physical glass) */
 .glass-card::before,
-.flip-card-front::before {
+.flip-card-front::before,
+.flip-card-back::before {
   content: '';
   position: absolute;
   top: 0;
@@ -256,10 +257,15 @@ h1 {
 }
 
 .flip-card-back {
-  background: #ffffff !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.40) 100%) !important;
+  backdrop-filter: blur(28px) saturate(190%) contrast(102%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(102%) !important;
   border: 2px solid #C01858 !important;
   box-shadow:
-    0 22px 48px -8px rgba(192, 24, 88, 0.22),
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.3),
+    inset 1px 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 24px 50px -10px rgba(192, 24, 88, 0.22),
     0 0 20px rgba(255, 107, 0, 0.12) !important;
   transform: rotateY(180deg) translateZ(1px) !important;
   -webkit-transform: rotateY(180deg) translateZ(1px) !important;

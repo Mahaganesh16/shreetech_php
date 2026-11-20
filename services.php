@@ -69,7 +69,7 @@ require_once __DIR__ . '/includes/header.php';
               </div>
 
               <!-- Back Face -->
-              <div class="flip-card-back glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] bg-white shadow-lg">
+              <div class="flip-card-back glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
                 <div class="relative z-10">
                   <div class="flex items-center justify-between mb-3.5">
                     <span class="text-[11px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-3 py-0.5 rounded-full font-body uppercase tracking-wider">
