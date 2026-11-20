@@ -28,13 +28,13 @@ $directorySections = [
         'href' => 'services.php',
         'badge' => 'Core Capabilities',
         'icon' => 'code-2',
-        'backBadge' => '10 Core Offerings',
+        'backBadge' => '8 Core Offerings',
         'backTitle' => 'End-to-End Delivery',
         'highlights' => [
-            'Web & mobile app development (Next.js, Flutter)',
-            'Enterprise Laravel & custom PHP engineering',
-            'E-commerce, WordPress & digital marketing',
-            'Hire dedicated developers & workflow automation'
+            'Full-stack enterprise web platforms & SaaS',
+            'iOS & Android native & cross-platform apps',
+            'Resilient cloud architecture & serverless APIs',
+            'Legacy code modernization & DevOps automation'
         ],
         'ctaText' => 'Explore All Services'
     ],
@@ -47,10 +47,10 @@ $directorySections = [
         'backBadge' => 'Modern Tooling',
         'backTitle' => 'Battle-Tested Tech',
         'highlights' => [
-            'Frontend: Next.js, React.js & JavaScript',
-            'Backend: Laravel, PHP, Python & Node.js',
-            'Databases: MySQL, PostgreSQL & MongoDB',
-            'Mobile & Cloud: Flutter, iOS, Android & AWS'
+            'Frontend: Next.js 16, React 19 & TypeScript',
+            'Backend: Node.js, Python, Laravel & PHP',
+            'Databases: PostgreSQL, MongoDB & MySQL',
+            'Cloud & DevOps: AWS, Azure & Docker pipelines'
         ],
         'ctaText' => 'View Full Tech Stack'
     ],
@@ -63,10 +63,10 @@ $directorySections = [
         'backBadge' => 'Verified Case Studies',
         'backTitle' => 'Production Impact',
         'highlights' => [
-            'FinTech Portal: Real-time trading & telemetry',
-            'HealthCare EHR: HIPAA-compliant medical suite',
-            'Logistics Mobile: Flutter GPS driver dispatch',
-            'Enterprise ERP: Laravel automated workflow portal'
+            'Enterprise FinTech: 99.99% SLA, $42M+ processed',
+            'HealthCare EHR: HIPAA-compliant clinical suite',
+            'Logistics Fleet Engine: 40k+ live tracking events',
+            'Omnichannel E-Commerce: Sub-second page loads'
         ],
         'ctaText' => 'Browse Case Studies'
     ],
@@ -112,19 +112,19 @@ require_once __DIR__ . '/includes/header.php';
         <!-- Headline -->
         <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-[2.35rem] xl:text-[2.9rem] 2xl:text-[3.25rem] font-black tracking-tight text-[#0F172A] leading-[1.16]">
           <span class="block lg:whitespace-nowrap">
-            Building Digital Solutions That
+            Shreetech Web Development 
+            
           </span>
           <span class="block mt-1 sm:mt-2">
             <span id="hero-rotating-phrase" class="inline-block whitespace-nowrap text-gradient-brand transition-all duration-300">
-              Move Businesses Forward.
+              Service and Solutions
             </span>
           </span>
         </h1>
 
         <!-- Description -->
         <p class="mt-6 text-base sm:text-lg text-[#475569] max-w-xl font-normal leading-relaxed">
-          We help businesses transform bold ideas into scalable digital products through innovative
-          software engineering, modern cloud technologies, and thoughtful design.
+          ShreeTech is an emerging internship training startup lead by highly experienced professionals who unfold various industry chapters and worked with reputable organizations.
         </p>
 
         <!-- Dual Action Buttons -->
@@ -133,7 +133,7 @@ require_once __DIR__ . '/includes/header.php';
             href="services.php"
             class="glass-btn-primary inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl font-semibold text-sm cursor-pointer shadow-lg w-full sm:w-auto"
           >
-            <span>Explore Our Services</span>
+            <span>Get a Free Consultation!</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
 
@@ -142,7 +142,7 @@ require_once __DIR__ . '/includes/header.php';
             class="glass-btn-secondary inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl font-semibold text-sm cursor-pointer w-full sm:w-auto shadow-xs"
           >
             <i data-lucide="sparkles" class="w-4 h-4 text-[#FF6B00]"></i>
-            <span>Get In Touch</span>
+            <span>Know More</span>
           </a>
         </div>
       </div>

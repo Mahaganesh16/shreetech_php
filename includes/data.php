@@ -1,8 +1,6 @@
 <?php
 /**
  * Shree Tech - Central Data Store
- * Professional content inspired by ShreeTechHub (IT solutions, software development, 
- * web & mobile applications, Laravel, e-commerce, digital marketing, dedicated developers).
  */
 
 $companyInfo = [
@@ -27,122 +25,98 @@ $navLinks = [
 $servicesData = [
     [
         'id' => 'website-development',
-        'title' => 'Website & Web App Development',
-        'description' => 'High-performance corporate websites and modern web applications built with Next.js, React, and PHP. Engineered for lightning-fast speeds, responsive layouts, and technical SEO compliance.',
+        'title' => 'Website Development',
+        'description' => 'High-performance corporate websites and modern web platforms built with Next.js, React, and TypeScript. Optimized for sub-second load times, technical SEO, and exceptional responsiveness.',
         'iconName' => 'globe',
         'deliverables' => [
-            'Custom Next.js, React & PHP Architectures',
-            'Mobile-First Responsive Design Standards',
-            'Core Web Vitals & Technical SEO Optimization',
-            'Secure REST API & Microservice Integrations'
+            'Custom Next.js & React Architectures',
+            'Core Web Vitals & Technical SEO',
+            'Responsive Cross-Device Layouts',
+            'Headless CMS Integration'
         ]
     ],
     [
         'id' => 'mobile-app-development',
         'title' => 'Mobile Application Development',
-        'description' => 'Native and cross-platform mobile apps for iOS and Android built with Flutter and React Native. Smooth 60 FPS interfaces, offline data sync, and secure biometric authentication.',
+        'description' => 'Native and cross-platform mobile apps for iOS and Android powered by Flutter and React Native. Smooth 60 FPS interfaces, offline-first synchronization, and secure biometrics.',
         'iconName' => 'smartphone',
         'deliverables' => [
-            'Cross-Platform Flutter & React Native Solutions',
-            'Native iOS (Swift) & Android (Kotlin) Development',
-            'Secure Payment Gateways & Push Notifications',
-            'App Store & Google Play Store Publishing'
+            'Cross-Platform Flutter & React Native',
+            'App Store & Play Store Deployments',
+            'Secure Payment & Push Systems',
+            'Offline Data Synchronization'
         ]
     ],
     [
-        'id' => 'laravel-development',
-        'title' => 'Laravel & Enterprise PHP Engineering',
-        'description' => 'Enterprise-grade web applications, business portals, and secure RESTful APIs engineered with Laravel. Clean MVC architecture, high database throughput, and modular scalability.',
+        'id' => 'custom-software-development',
+        'title' => 'Custom Software Development',
+        'description' => 'Tailored enterprise software and distributed backend microservices engineered to solve complex operational challenges, automate workflows, and handle millions of transactions.',
         'iconName' => 'code-2',
         'deliverables' => [
-            'Bespoke Laravel Web Applications & Portals',
+            'Distributed Microservice Architectures',
             'High-Throughput RESTful & GraphQL APIs',
-            'Eloquent ORM & Relational DB Optimization',
-            'Role-Based Access Control & Security Auditing'
-        ]
-    ],
-    [
-        'id' => 'wordpress-development',
-        'title' => 'WordPress & Headless CMS Solutions',
-        'description' => 'Tailored WordPress themes, WooCommerce storefronts, and headless CMS integrations built for editorial ease, exceptional load speed, and enterprise-grade security.',
-        'iconName' => 'layout-template',
-        'deliverables' => [
-            'Custom Responsive Theme & Plugin Engineering',
-            'WooCommerce Storefront & Gateway Integration',
-            'Speed Optimization & Core Web Vitals Compliance',
-            'Malware Hardening & Automated Backup Protocols'
-        ]
-    ],
-    [
-        'id' => 'ecommerce-development',
-        'title' => 'E-Commerce & Digital Storefronts',
-        'description' => 'Conversion-focused e-commerce platforms engineered with modern storefront architectures, streamlined checkout workflows, and multi-currency global payment gateways.',
-        'iconName' => 'shopping-bag',
-        'deliverables' => [
-            'Custom Multi-Vendor & B2B E-Commerce Portals',
-            'Seamless Payment Gateway & Logistics Integration',
-            'Real-Time ERP & Inventory Synchronization',
-            'Conversion Rate & Cart Checkout Optimization'
+            'Role-Based Access & Security Protocols',
+            'Automated CI/CD Test Pipelines'
         ]
     ],
     [
         'id' => 'ui-ux-design',
-        'title' => 'UI/UX Design & Product Strategy',
-        'description' => 'Human-centered user experience design, comprehensive design systems, and modern digital interfaces. We combine in-depth user research with interactive Figma prototyping.',
+        'title' => 'UI/UX Design',
+        'description' => 'Human-centered user experience design, comprehensive design systems, and modern digital interfaces. We combine in-depth user research with intuitive usability and design tokens.',
         'iconName' => 'layout',
         'deliverables' => [
-            'User Research, Persona Mapping & Wireframing',
-            'Interactive Figma Prototypes & Design Tokens',
-            'Comprehensive Component Design Systems',
+            'User Journey & Usability Research',
+            'Figma Interactive Prototypes & Tokens',
+            'Component Design Systems',
             'Accessibility (WCAG 2.1 AA) Compliance'
         ]
     ],
     [
-        'id' => 'digital-marketing',
-        'title' => 'Digital Marketing & Technical SEO',
-        'description' => 'Data-driven digital marketing and organic search strategies designed to expand your market reach. High-ranking SEO, targeted lead generation, and measurable ROI analytics.',
-        'iconName' => 'megaphone',
+        'id' => 'ecommerce-development',
+        'title' => 'E-Commerce Development',
+        'description' => 'Scalable commerce storefronts and custom checkout experiences utilizing headless architectures, Shopify Plus, and bespoke payment gateways for international conversions.',
+        'iconName' => 'shopping-bag',
         'deliverables' => [
-            'Technical SEO Audits & Keyword Architecture',
-            'On-Page & Off-Page Search Engine Optimization',
-            'Targeted Performance Marketing & Paid Ads',
-            'Conversion Tracking & Monthly Analytics Reports'
+            'Headless Storefront Implementations',
+            'Global Payment & Currency Gateways',
+            'ERP & Real-Time Inventory Sync',
+            'Conversion Rate Optimization (CRO)'
         ]
     ],
     [
-        'id' => 'workflow-automation',
-        'title' => 'Workflow Automation & API Integration',
-        'description' => 'Eliminate manual bottlenecks with automated workflows, middleware integrations, and data pipelines connecting your CRM, ERP, and payment processing systems.',
+        'id' => 'cloud-devops',
+        'title' => 'Cloud & DevOps',
+        'description' => 'Enterprise cloud migration, container orchestration with Kubernetes, and Infrastructure as Code with Terraform across AWS, Azure, and Google Cloud environments.',
+        'iconName' => 'cloud',
+        'deliverables' => [
+            'Multi-Cloud Infrastructure (AWS & Azure)',
+            'Kubernetes & Docker Containerization',
+            'Infrastructure as Code (Terraform)',
+            'Zero-Downtime Deployment Strategies'
+        ]
+    ],
+    [
+        'id' => 'digital-transformation',
+        'title' => 'Digital Transformation',
+        'description' => 'Modernizing legacy architectures and transitioning outdated systems into agile, cloud-native digital ecosystems that increase organizational efficiency and market agility.',
+        'iconName' => 'refresh-cw',
+        'deliverables' => [
+            'Legacy Monolith Modernization',
+            'Data Pipeline & Analytics Consolidation',
+            'Executive Technology Roadmapping',
+            'Operational Workflow Automation'
+        ]
+    ],
+    [
+        'id' => 'ai-automation',
+        'title' => 'AI & Automation',
+        'description' => 'Practical artificial intelligence integration, retrieval-augmented generation (RAG), automated data pipelines, and intelligent process automation tailored to your proprietary data.',
         'iconName' => 'cpu',
         'deliverables' => [
-            'Custom Business Process & Workflow Automation',
-            'Bi-Directional CRM, ERP & Accounting Sync',
-            'Webhook Triggers & Automated Event Pipelines',
-            'Cloud Task Scheduling & Error Telemetry'
-        ]
-    ],
-    [
-        'id' => 'dedicated-developers',
-        'title' => 'Hire Dedicated Developers',
-        'description' => 'Scale your engineering capacity with vetted full-time developers and technical leads. Seamless integration with your in-house team, daily standups, and transparent delivery.',
-        'iconName' => 'user-check',
-        'deliverables' => [
-            'Vetted Senior Full-Stack & Mobile Engineers',
-            'Flexible Full-Time or Part-Time Engagement',
-            'Direct Daily Standups & Slack Collaboration',
-            'Complete Code Ownership & IP Protection'
-        ]
-    ],
-    [
-        'id' => 'custom-software-solutions',
-        'title' => 'Custom Software & Smart Solutions',
-        'description' => 'Bespoke enterprise software platforms, smart digital solutions, and NFC-enabled business technologies engineered to automate operations and handle high transaction volumes.',
-        'iconName' => 'layers',
-        'deliverables' => [
-            'Custom Enterprise ERP & Management Platforms',
-            'Smart NFC & Digital Business Networking Tools',
-            'Microservices Architecture & Cloud Deployment',
-            'Zero-Downtime Maintenance & 24/7 SLA Support'
+            'Enterprise Knowledge Bases & RAG',
+            'Intelligent Document & Data Processing',
+            'Custom ML Model Deployment',
+            'Automated Back-Office Workflows'
         ]
     ]
 ];
@@ -150,38 +124,38 @@ $servicesData = [
 $processSteps = [
     [
         'number' => '01',
-        'title' => 'Requirement Discovery & Analysis',
-        'description' => 'We collaborate closely with your stakeholders to define business objectives, technical constraints, user stories, and measurable milestones for project success.',
-        'deliverables' => ['Scope & Objective Definition', 'Stakeholder Consultations', 'Technical Feasibility Study']
+        'title' => 'Requirement Analysis',
+        'description' => 'We work closely with your stakeholders to define business objectives, user requirements, technical constraints, and clear KPIs for project success.',
+        'deliverables' => ['Scope & Objective Definition', 'Stakeholder Interviews', 'Technical Feasibility Study']
     ],
     [
         'number' => '02',
-        'title' => 'Architecture & Sprint Planning',
-        'description' => 'Our system architects construct clean engineering blueprints, relational database schemas, secure API specifications, and phased sprint schedules.',
+        'title' => 'Planning & Strategy',
+        'description' => 'Our senior architects construct an engineering roadmap, database schemas, system architecture blueprints, and milestone sprint schedules.',
         'deliverables' => ['System Architecture Blueprint', 'Tech Stack Selection', 'Sprint Delivery Milestones']
     ],
     [
         'number' => '03',
-        'title' => 'UI/UX Prototyping & Design',
-        'description' => 'We craft user journeys, wireframes, accessible design systems, and high-fidelity interactive Figma prototypes validated against real customer workflows.',
+        'title' => 'UI/UX Design',
+        'description' => 'We craft human-centric user journeys, wireframes, accessible design systems, and high-fidelity interactive prototypes tested with real users.',
         'deliverables' => ['User Flow & Wireframing', 'Figma Interactive Prototypes', 'Design System & Tokens']
     ],
     [
         'number' => '04',
-        'title' => 'Agile Development & Coding',
-        'description' => 'Our developers write clean, maintainable, modular code following MVC and Domain-Driven Design principles with continuous staging deployments.',
+        'title' => 'Development',
+        'description' => 'Our development team writes clean, type-safe, modular code following Domain-Driven Design principles, automated CI/CD pipelines, and regular demo checkpoints.',
         'deliverables' => ['Agile Two-Week Sprints', 'Test-Driven Codebase', 'Weekly Staging Deployments']
     ],
     [
         'number' => '05',
-        'title' => 'Quality Assurance & Testing',
-        'description' => 'Rigorous automated unit testing, end-to-end integration tests, load stress testing, cross-browser compatibility checks, and security audits.',
-        'deliverables' => ['Automated End-to-End Tests', 'Load & Stress Benchmarks', 'Security Vulnerability Audit']
+        'title' => 'Testing & Quality Assurance',
+        'description' => 'Rigorous automated unit testing, end-to-end integration tests, load stress testing, cross-browser compatibility checks, and security vulnerability scans.',
+        'deliverables' => ['Automated End-to-End Tests', 'Load & Stress Benchmarks', 'Security & Penetration Audit']
     ],
     [
         'number' => '06',
-        'title' => 'Production Launch & SLA Support',
-        'description' => 'Zero-downtime deployment, cloud monitoring configuration, staff handover documentation, and ongoing SLA maintenance agreements.',
+        'title' => 'Deployment & Support',
+        'description' => 'Zero-downtime production deployment, cloud monitoring configuration, staff handover documentation, and ongoing SLA maintenance agreements.',
         'deliverables' => ['Zero-Downtime Rollout', 'Cloud Telemetry & Logging', 'Dedicated SLA Maintenance']
     ]
 ];
@@ -192,9 +166,9 @@ $projectsData = [
         'title' => 'Apex Institutional FinTech Portal',
         'category' => 'web',
         'categoryLabel' => 'Web Application',
-        'client' => 'Apex Financial Services',
+        'client' => 'Apex Financial Markets',
         'year' => '2025',
-        'summary' => 'A unified high-speed institutional trading and wealth-management platform featuring real-time data streaming, multi-currency routing, and automated compliance verification.',
+        'summary' => 'A unified high-speed institutional trading and risk-management terminal with sub-second WebSocket telemetry, multi-currency routing, and automated compliance verification.',
         'technologies' => ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
         'imageUrl' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
         'layoutSpan' => 'featured',
@@ -202,42 +176,42 @@ $projectsData = [
     ],
     [
         'id' => 'health-cloud',
-        'title' => 'CareSync Telemedicine & Healthcare EHR',
+        'title' => 'CareSync Telemedicine & EHR Suite',
         'category' => 'enterprise',
         'categoryLabel' => 'Enterprise SaaS',
         'client' => 'CareSync Health Network',
         'year' => '2025',
-        'summary' => 'A HIPAA-compliant electronic health records exchange and secure telemedicine consultation platform connecting 12,000 clinicians and patient records across hospital networks.',
-        'technologies' => ['React', 'Python', 'AWS Cloud', 'Docker', 'PostgreSQL'],
+        'summary' => 'HIPAA-compliant patient record exchange and secure video consultation infrastructure linking 12,000 clinicians across regional hospitals.',
+        'technologies' => ['React', 'Python', 'AWS', 'Docker', 'PostgreSQL'],
         'imageUrl' => 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
         'layoutSpan' => 'standard',
-        'metrics' => ['label' => 'Patient Records Managed', 'value' => '350,000+']
+        'metrics' => ['label' => 'Patients Managed', 'value' => '350,000+']
     ],
     [
         'id' => 'fleet-mobile',
         'title' => 'Veloce Logistics Driver & Dispatch App',
         'category' => 'mobile',
-        'categoryLabel' => 'Mobile Apps',
+        'categoryLabel' => 'Mobile Application',
         'client' => 'Veloce Freight Systems',
         'year' => '2024',
-        'summary' => 'Cross-platform mobile application providing real-time GPS telemetry, offline route caching, proof-of-delivery signatures, and automated dispatch load balancing.',
+        'summary' => 'Cross-platform mobile application providing real-time GPS telemetry, offline route caching, proof-of-delivery signatures, and automated dispatch rebalancing.',
         'technologies' => ['Flutter', 'Firebase', 'Node.js', 'MongoDB', 'REST APIs'],
         'imageUrl' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
         'layoutSpan' => 'standard',
-        'metrics' => ['label' => 'Route Turnaround Gain', 'value' => '+34%']
+        'metrics' => ['label' => 'Route Efficiency Gain', 'value' => '+34%']
     ],
     [
         'id' => 'luxury-commerce',
-        'title' => 'Aura Luxury Omnichannel E-Commerce Store',
+        'title' => 'Aura Luxury Headless Storefront',
         'category' => 'web',
-        'categoryLabel' => 'Web Application',
+        'categoryLabel' => 'E-Commerce',
         'client' => 'Maison Aura Paris',
         'year' => '2025',
-        'summary' => 'International multi-currency e-commerce experience with sub-second page loads, automated inventory synchronization, and localized checkout in 32 markets.',
+        'summary' => 'International multi-currency headless e-commerce experience with sub-second page loads, global CDN edge caching, and localized checkout in 32 markets.',
         'technologies' => ['Next.js', 'Shopify Plus API', 'TypeScript', 'Tailwind CSS'],
         'imageUrl' => 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
         'layoutSpan' => 'standard',
-        'metrics' => ['label' => 'Checkout Conversion Lift', 'value' => '+42%']
+        'metrics' => ['label' => 'Conversion Lift', 'value' => '+42%']
     ],
     [
         'id' => 'cloud-security',
@@ -246,24 +220,24 @@ $projectsData = [
         'categoryLabel' => 'Cloud Infrastructure',
         'client' => 'Nordic Hosting AB',
         'year' => '2024',
-        'summary' => 'Multi-cloud governance dashboard consolidating AWS and Azure cluster telemetry with proactive intrusion mitigation, automated failovers, and audit trails.',
+        'summary' => 'Multi-cloud monitoring dashboard consolidating AWS and Azure cluster telemetry with proactive intrusion mitigation and audit trail compliance.',
         'technologies' => ['React', 'Go', 'Kubernetes', 'AWS', 'Azure'],
         'imageUrl' => 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
         'layoutSpan' => 'featured',
         'metrics' => ['label' => 'Infrastructure Uptime', 'value' => '99.999%']
     ],
     [
-        'id' => 'smart-erp-automation',
-        'title' => 'OmniFlow Enterprise ERP & Workflow Suite',
+        'id' => 'ai-intelligence',
+        'title' => 'Nexus AI Predictive Analytics Engine',
         'category' => 'enterprise',
-        'categoryLabel' => 'Enterprise SaaS',
-        'client' => 'Trident Industrial Group',
+        'categoryLabel' => 'Enterprise AI',
+        'client' => 'Synapse Intelligence Systems',
         'year' => '2025',
-        'summary' => 'Modular enterprise ERP system built on Laravel automating procurement, inventory tracking, HR payroll, and real-time operational reporting across 14 manufacturing facilities.',
-        'technologies' => ['Laravel', 'PHP', 'MySQL', 'Redis', 'Vue.js', 'Docker'],
-        'imageUrl' => 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+        'summary' => 'Large-scale real-time machine learning inference platform delivering streaming predictive analytics and automated anomaly detection across 200,000 IoT sensor nodes.',
+        'technologies' => ['Python', 'PyTorch', 'FastAPI', 'Kafka', 'React', 'Docker'],
+        'imageUrl' => 'evergreen-ads.png',
         'layoutSpan' => 'standard',
-        'metrics' => ['label' => 'Operational Cost Reduction', 'value' => '-28%']
+        'metrics' => ['label' => 'Inference Latency', 'value' => '< 12ms']
     ]
 ];
 
@@ -277,7 +251,7 @@ $testimonialsData = [
         'imageUrl' => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=240&q=80',
         'rating' => 5,
         'scope' => 'Institutional trading portal, real-time WebSocket book, order execution',
-        'stack' => 'Next.js, TypeScript, Node.js, PostgreSQL, Docker',
+        'stack' => 'Next.js 16, TypeScript, Node.js, PostgreSQL, Docker',
         'outcome' => 'Sub-50ms latencies, zero downtime during launch, $45M+ volume'
     ],
     [
@@ -289,7 +263,7 @@ $testimonialsData = [
         'imageUrl' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=240&q=80',
         'rating' => 5,
         'scope' => 'HIPAA EHR Suite, teleconsultation pipeline, provider portal',
-        'stack' => 'React, Python, FastAPI, AWS HIPAA Cloud, PostgreSQL',
+        'stack' => 'React 19, Python, FastAPI, AWS HIPAA Cloud, PostgreSQL',
         'outcome' => '350,000+ patient records managed, SOC2 & HIPAA certified'
     ],
     [
@@ -322,23 +296,23 @@ $whyChooseUsData = [
     [
         'id' => 'experienced-team',
         'title' => 'Experienced Development Team',
-        'description' => 'Our core engineering team consists of senior developers, UI/UX designers, and cloud architects with extensive enterprise delivery experience. We write clean, maintainable code built for long-term viability.',
+        'description' => 'Our core team consists of senior engineers and product designers with extensive enterprise backgrounds. We write clean, maintainable code built for long-term viability.',
         'iconName' => 'users',
         'metric' => 'Senior-Level Engineers',
         'guarantees' => [
-            'Direct collaboration with senior engineers & architects',
-            'Strict type-safety, clean architecture & automated tests',
-            'Zero junior subcontractor pass-throughs'
+            'Direct collaboration with senior engineers',
+            'Strict type-safety & automated test coverage',
+            'Zero offshore subcontractor pass-throughs'
         ]
     ],
     [
         'id' => 'modern-stack',
         'title' => 'Modern Technology Stack',
-        'description' => 'We develop using battle-tested modern frameworks—Laravel, Next.js, React, Flutter, Python, and AWS—avoiding deprecated legacy patterns while guaranteeing high speed, security, and reliability.',
+        'description' => 'We develop using battle-tested modern frameworks—Next.js, React, TypeScript, Flutter, Python, and AWS—avoiding deprecated legacy patterns while guaranteeing speed and reliability.',
         'iconName' => 'layers',
         'metric' => 'Production-Proven Tech',
         'guarantees' => [
-            'Next.js, React, Laravel, Flutter & Cloud Native',
+            'Next.js 16, React 19, TypeScript & Flutter',
             'Sub-second load times & 60 FPS mobile UI',
             'Clean, maintainable domain architectures'
         ]
@@ -356,9 +330,21 @@ $whyChooseUsData = [
         ]
     ],
     [
-        'id' => 'dedicated-support',
-        'title' => 'Reliable 24/7 SLA Support',
-        'description' => 'Our engagement continues well beyond launch with structured SLAs, 24/7 cloud infrastructure monitoring, regular security updates, and active performance tuning.',
+        'id' => 'scalable-architecture',
+        'title' => 'Scalable Architecture',
+        'description' => 'We build distributed, cloud-native systems designed to gracefully support rapid business growth, from initial launch to millions of monthly active users.',
+        'iconName' => 'trending-up',
+        'metric' => 'Elastic High-Scale',
+        'guarantees' => [
+            'Multi-region elastic cloud deployments',
+            'Horizontal database sharding & caching',
+            'Resilient microservices & serverless pipelines'
+        ]
+    ],
+    [
+        'id' => 'reliable-support',
+        'title' => 'Reliable Support',
+        'description' => 'Our engagement continues well beyond launch with structured SLAs, 24/7 cloud infrastructure monitoring, regular security updates, and performance tuning.',
         'iconName' => 'shield-check',
         'metric' => 'Guaranteed SLA Uptime',
         'guarantees' => [
@@ -368,27 +354,15 @@ $whyChooseUsData = [
         ]
     ],
     [
-        'id' => 'transparent-agile',
-        'title' => 'Transparent Agile Delivery',
-        'description' => 'Stay in full control of your project with structured two-week sprints, regular milestone demonstrations, and open communication with your dedicated development team.',
-        'iconName' => 'trending-up',
-        'metric' => 'On-Time Sprint Milestones',
-        'guarantees' => [
-            'Transparent agile sprint ceremonies & bi-weekly demos',
-            'Direct Slack, Jira & GitHub repository access',
-            'Predictable delivery schedules & clear milestones'
-        ]
-    ],
-    [
         'id' => 'client-centered',
         'title' => 'Client-Centered Solutions',
         'description' => 'We tailor our development workflows to your internal roadmap. Transparent communication, direct engineer access, and regular sprint reviews keep you in full control.',
         'iconName' => 'heart-handshake',
         'metric' => '98% Client Satisfaction',
         'guarantees' => [
-            'Custom architectures aligned with business goals',
-            'Complete source code ownership & IP protection',
-            'Scalable engineering roadmaps for long-term growth'
+            'Transparent agile sprint ceremonies & demos',
+            'Direct Slack & GitHub repository access',
+            'Predictable delivery milestones & budgets'
         ]
     ]
 ];
@@ -398,20 +372,20 @@ $technologyGroups = [
         'category' => 'Frontend',
         'description' => 'Modern, high-performance UI frameworks delivering accessible, responsive, and reactive web applications.',
         'items' => [
-            ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting & reactive DOM', 'iconComponent' => 'JavaScriptLogo'],
-            ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces & hooks', 'iconComponent' => 'ReactLogo'],
-            ['name' => 'Next.js', 'description' => 'Server-side rendering, SSR & App Router platforms', 'iconComponent' => 'NextLogo'],
-            ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards & SEO tags', 'iconComponent' => 'HtmlLogo'],
-            ['name' => 'CSS3', 'description' => 'Responsive mobile layouts, Tailwind & modern CSS', 'iconComponent' => 'CssLogo'],
+            ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo'],
+            ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces', 'iconComponent' => 'ReactLogo'],
+            ['name' => 'Next.js', 'description' => 'Server-side rendering & App Router', 'iconComponent' => 'NextLogo'],
+            ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo'],
+            ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo'],
         ]
     ],
     [
         'category' => 'Backend',
         'description' => 'Resilient server runtimes and enterprise frameworks built for high concurrency and robust data handling.',
         'items' => [
-            ['name' => 'Laravel', 'description' => 'Enterprise PHP framework with Eloquent ORM & APIs', 'iconComponent' => 'LaravelLogo'],
-            ['name' => 'PHP', 'description' => 'Battle-tested server-side web scripting & speed', 'iconComponent' => 'PhpLogo'],
-            ['name' => 'Python', 'description' => 'Data processing, backend microservices & AI models', 'iconComponent' => 'PythonLogo'],
+            ['name' => 'Python', 'description' => 'Data processing, APIs, and AI automation', 'iconComponent' => 'PythonLogo'],
+            ['name' => 'Laravel', 'description' => 'Full-featured enterprise PHP web framework', 'iconComponent' => 'LaravelLogo'],
+            ['name' => 'PHP', 'description' => 'Battle-tested server-side web scripting', 'iconComponent' => 'PhpLogo'],
             ['name' => 'Node.js', 'description' => 'Event-driven asynchronous backend services', 'iconComponent' => 'NodeLogo'],
             ['name' => 'Java', 'description' => 'Enterprise-grade robust application platform', 'iconComponent' => 'JavaLogo'],
         ]
@@ -420,10 +394,10 @@ $technologyGroups = [
         'category' => 'Database',
         'description' => 'Relational, document, and analytical databases engineered for data integrity and high transaction throughput.',
         'items' => [
-            ['name' => 'MySQL', 'description' => 'High-reliability transactional relational database', 'iconComponent' => 'MySqlLogo'],
-            ['name' => 'MongoDB', 'description' => 'Document-based flexible NoSQL database for scale', 'iconComponent' => 'MongoLogo'],
-            ['name' => 'PostgreSQL', 'description' => 'Advanced ACID-compliant relational SQL engine', 'iconComponent' => 'PostgresLogo'],
-            ['name' => 'Redis', 'description' => 'In-memory high-speed caching & session store', 'iconComponent' => 'RedisLogo'],
+            ['name' => 'MySQL', 'description' => 'High-reliability transactional relational DB', 'iconComponent' => 'MySqlLogo'],
+            ['name' => 'MongoDB', 'description' => 'Document-based flexible NoSQL database', 'iconComponent' => 'MongoLogo'],
+            ['name' => 'PostgreSQL', 'description' => 'Advanced open-source relational database', 'iconComponent' => 'PostgresLogo'],
+            ['name' => 'Redis', 'description' => 'In-memory high-speed caching & key-value store', 'iconComponent' => 'RedisLogo'],
             ['name' => 'Firebase', 'description' => 'Real-time database, auth & cloud functions', 'iconComponent' => 'FirebaseLogo'],
         ]
     ],
@@ -431,22 +405,22 @@ $technologyGroups = [
         'category' => 'Mobile',
         'description' => 'Cross-platform native mobile frameworks delivering fluid 60FPS experiences for iOS and Android.',
         'items' => [
-            ['name' => 'Flutter', 'description' => 'Google native multi-platform compilation & UI', 'iconComponent' => 'FlutterLogo'],
-            ['name' => 'React Native', 'description' => 'Native mobile components powered by React & JS', 'iconComponent' => 'ReactNativeLogo'],
+            ['name' => 'Flutter', 'description' => 'Google native multi-platform compilation', 'iconComponent' => 'FlutterLogo'],
+            ['name' => 'React Native', 'description' => 'Native mobile components powered by React', 'iconComponent' => 'ReactNativeLogo'],
             ['name' => 'Android', 'description' => 'Native Android SDK & modern Kotlin runtime', 'iconComponent' => 'AndroidLogo'],
-            ['name' => 'iOS', 'description' => 'Native Apple iOS development with Swift & Cocoa', 'iconComponent' => 'IosLogo'],
+            ['name' => 'iOS', 'description' => 'Native Apple iOS development with Swift', 'iconComponent' => 'IosLogo'],
             ['name' => 'Swift', 'description' => 'High-performance, type-safe iOS architecture', 'iconComponent' => 'SwiftLogo'],
         ]
     ],
     [
         'category' => 'Cloud',
-        'description' => 'Secure, elastic cloud hosting and containerized infrastructures engineered for zero downtime.',
+        'description' => 'Secure, elastic cloud hosting and serverless infrastructures engineered for zero downtime.',
         'items' => [
-            ['name' => 'AWS', 'description' => 'Global cloud computing, EC2, S3 & Lambda services', 'iconComponent' => 'AwsLogo'],
-            ['name' => 'Azure', 'description' => 'Enterprise cloud computing & hybrid cloud solutions', 'iconComponent' => 'AzureLogo'],
-            ['name' => 'Google Cloud', 'description' => 'Scalable cloud infrastructure & BigQuery analytics', 'iconComponent' => 'GcpLogo'],
-            ['name' => 'Docker', 'description' => 'Industry-standard container virtualization & images', 'iconComponent' => 'DockerLogo'],
-            ['name' => 'Kubernetes', 'description' => 'Automated container orchestration & auto-scaling', 'iconComponent' => 'K8sLogo'],
+            ['name' => 'AWS', 'description' => 'Global cloud infrastructure & services', 'iconComponent' => 'AwsLogo'],
+            ['name' => 'Azure', 'description' => 'Enterprise cloud computing & hybrid solutions', 'iconComponent' => 'AzureLogo'],
+            ['name' => 'Google Cloud', 'description' => 'Scalable cloud platform & BigQuery analytics', 'iconComponent' => 'GcpLogo'],
+            ['name' => 'Docker', 'description' => 'Industry-standard container virtualization', 'iconComponent' => 'DockerLogo'],
+            ['name' => 'Kubernetes', 'description' => 'Automated container orchestration & scaling', 'iconComponent' => 'K8sLogo'],
         ]
     ]
 ];

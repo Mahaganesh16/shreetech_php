@@ -25,12 +25,12 @@ require_once __DIR__ . '/includes/header.php';
         </h2>
         <p class="mt-4 text-base sm:text-lg text-[#475569] font-normal leading-relaxed font-body">
           We provide end-to-end technology services tailored to modern enterprise requirements. Explore
-          our <?php echo count($servicesData); ?> comprehensive service disciplines engineered with clean, frosted glassmorphism UI.
+          our eight core service disciplines engineered with clean, frosted glassmorphism UI.
         </p>
       </div>
 
-      <!-- Services in 3D Flip Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- 8 Services in 3D Flip Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <?php foreach ($servicesData as $idx => $service): ?>
           <div class="flip-card-wrapper h-[380px] sm:h-[400px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo (($idx % 4) + 1); ?>">
             <div class="flip-card-inner">
@@ -44,7 +44,7 @@ require_once __DIR__ . '/includes/header.php';
                       <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-6 h-6"></i>
                     </div>
                     <span class="text-xs font-bold font-stat text-[#475569]/60 group-hover:text-[#FF6B00] transition-colors">
-                      <?php echo str_pad($idx + 1, 2, '0', STR_PAD_LEFT); ?>
+                      0<?php echo $idx + 1; ?>
                     </span>
                   </div>
 

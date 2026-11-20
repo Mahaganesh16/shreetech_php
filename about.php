@@ -25,20 +25,15 @@ require_once __DIR__ . '/includes/header.php';
           </div>
 
           <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight leading-tight font-heading">
-            A Dedicated Software Engineering Partner for Growing Businesses
+            SHREETECH Internship Training And Development In Madurai
           </h2>
 
           <p class="text-base text-[#475569] leading-relaxed font-normal font-body">
-            Shree Tech is a premier IT solutions and custom software engineering company. We partner with
-            fast-growing businesses, enterprise technology leaders, and modern startups to design, build,
-            and scale mission-critical digital products—ranging from robust web applications and cross-platform
-            mobile apps to enterprise Laravel platforms, headless CMS, and scalable cloud architectures.
+           SHREETECH We would be happy to collaborate with you to present you to the information technology solutions we have to offer. Shreetech Hub, which was founded in 2015, is a pioneer in offering IT infrastructure and solutions across a range of platforms. Since their inception, businesses have been using Shreetech. Shreetech believes in going above and beyond the duty of a simple solution provider to its clientele by fusing intuition and rigour with practical business acumen. Shreetech gives consumers access to technology through the delivery of simple solutions that increase productivity.
           </p>
 
           <p class="text-sm text-[#475569] leading-relaxed font-normal font-body">
-            Unlike traditional agencies that pass work to inexperienced subcontractors, our dedicated engineering
-            team directly designs your architecture, writes clean, maintainable code, and provides continuous
-            sprint visibility with guaranteed delivery standards.
+            We are a skilled team of professionals, having more than 15 years of experience in Web and Mobile Application Development. We have 40+ employees with Business Analyst, Designer, Developers &DevOps team and are ready to take up new projects any time and we assure we meet the right deadlines with high quality.
           </p>
 
           <!-- Core Achievements -->
@@ -46,9 +41,8 @@ require_once __DIR__ . '/includes/header.php';
             <?php
             $achievements = [
                 'Full-stack engineering capabilities from concept through multi-cloud deployment',
-                'Specialized expertise in Laravel, Next.js, React, Flutter, Python & Cloud DevOps',
-                'Strict adherence to clean code, modular architecture, and automated testing',
-                'Transparent agile communication with dedicated senior developers and daily updates',
+                'Strict adherence to Domain-Driven Design, clean architecture, and automated testing',
+                'Transparent agile communication with direct access to senior developers',
                 'Guaranteed response SLAs and dedicated ongoing maintenance support'
             ];
             foreach ($achievements as $ach): ?>
@@ -91,7 +85,7 @@ require_once __DIR__ . '/includes/header.php';
           <div class="grid grid-cols-2 gap-4">
             <?php
             $stats = [
-                ['value' => 150, 'suffix' => '+', 'label' => 'Delivered Projects', 'sublabel' => 'Web, mobile & cloud SaaS', 'detail' => 'Delivered across 12 countries for FinTech, MedTech, and high-growth enterprise SaaS.'],
+                ['value' => 100, 'suffix' => '+', 'label' => 'Delivered Projects', 'sublabel' => 'Web, mobile & cloud SaaS', 'detail' => 'Delivered across 12 countries for FinTech, MedTech, and high-growth enterprise SaaS.'],
                 ['value' => 99, 'suffix' => '%', 'label' => 'Client Retention', 'sublabel' => 'Long-term technology partners', 'detail' => 'Sustained multi-year engineering partnerships with predictable ongoing delivery SLAs.'],
                 ['value' => 10, 'suffix' => '+', 'label' => 'Years Experience', 'sublabel' => 'Established engineering record', 'detail' => 'A decade of architecting distributed systems, cloud migrations, and product launches.'],
                 ['value' => 45, 'suffix' => '+', 'label' => 'Senior Engineers', 'sublabel' => 'Specialized across full stack', 'detail' => 'Elite technical directors and full-stack devs specialized in React, Node, Python & Cloud.']

@@ -58,7 +58,6 @@ require_once __DIR__ . '/includes/header.php';
               'fleet-mobile' => 'truck',
               'luxury-commerce' => 'shopping-bag',
               'cloud-security' => 'shield-check',
-              'smart-erp-automation' => 'layers',
               'ai-intelligence' => 'cpu',
             ];
             $icon = $icons[$project['id']] ?? 'sparkles';
@@ -106,7 +105,7 @@ require_once __DIR__ . '/includes/header.php';
                       <img
                         src="<?php echo htmlspecialchars($project['imageUrl']); ?>"
                         alt="<?php echo htmlspecialchars($project['title']); ?>"
-                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       >
                       <!-- Subtle image overlay gradient -->
