@@ -96,106 +96,41 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
                 </div>
 
-                <!-- WHITE CARD BODY (#FFFFFF) CLEAN CONTEMPORARY THEME -->
-                <div class="stacking-card-body p-4 sm:p-5 md:p-6 lg:p-7 text-[#0F172A] bg-white">
-                  <div class="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6 lg:gap-8 items-center">
-                    
-                    <!-- LEFT COLUMN: Substantial High-Resolution Project Preview -->
-                    <div class="md:col-span-5 relative group overflow-hidden rounded-2xl border border-[#F1E6EE] bg-slate-50 h-48 sm:h-56 md:h-72 lg:h-[320px] xl:h-[340px] flex items-center justify-center shadow-md">
-                      <img
-                        src="<?php echo htmlspecialchars($project['imageUrl']); ?>"
-                        alt="<?php echo htmlspecialchars($project['title']); ?>"
-                        class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      >
-                      <!-- Subtle image overlay gradient -->
-                      <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
+                <!-- WHITE CARD BODY (#FFFFFF) CLEAN CONTEMPORARY THEME - FULL-WIDTH SHOWCASE IMAGE -->
+                <div class="stacking-card-body p-3 sm:p-4 text-[#0F172A] bg-white">
+                  <!-- Full-Width High-Resolution Project Preview -->
+                  <div
+                    class="open-project-modal relative w-full h-[390px] sm:h-[420px] md:h-[450px] lg:h-[470px] group overflow-hidden rounded-2xl border border-[#F1E6EE] bg-slate-50 flex items-center justify-center shadow-md cursor-pointer select-none"
+                    data-title="<?php echo htmlspecialchars($project['title']); ?>"
+                    data-client="<?php echo htmlspecialchars($project['client']); ?>"
+                    data-summary="<?php echo htmlspecialchars($project['summary']); ?>"
+                    data-category="<?php echo htmlspecialchars($project['categoryLabel']); ?>"
+                    data-metric-val="<?php echo htmlspecialchars($project['metrics']['value']); ?>"
+                    data-metric-label="<?php echo htmlspecialchars($project['metrics']['label']); ?>"
+                  >
+                    <img
+                      src="<?php echo htmlspecialchars($project['imageUrl']); ?>"
+                      alt="<?php echo htmlspecialchars($project['title']); ?>"
+                      class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-102"
+                      loading="lazy"
+                    >
+                    <!-- Subtle image overlay gradient -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
 
-                      <!-- Top-left Year Tag -->
-                      <div class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#F1E6EE] text-[11px] font-bold text-[#0F172A] font-heading shadow-xs">
-                        <span><?php echo htmlspecialchars($project['year']); ?></span>
-                      </div>
-
-                      <!-- Bottom-left Category Tag -->
-                      <div class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-[#FF6B00] text-[11px] font-bold text-white uppercase tracking-wider font-heading shadow-xs">
-                        <span><?php echo htmlspecialchars($project['categoryLabel']); ?></span>
-                      </div>
-
-                      <!-- Circular Tech Icon Badge -->
-                      <div class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/95 backdrop-blur-md border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] shadow-sm">
-                        <i data-lucide="<?php echo $icon; ?>" class="w-4 h-4 text-[#FF6B00]"></i>
-                      </div>
+                    <!-- Top-left Year Tag -->
+                    <div class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#F1E6EE] text-[11px] font-bold text-[#0F172A] font-heading shadow-xs">
+                      <span><?php echo htmlspecialchars($project['year']); ?></span>
                     </div>
 
-                    <!-- RIGHT COLUMN: Rich Project Content, Metrics, Technologies & Actions -->
-                    <div class="md:col-span-7 flex flex-col justify-between text-left py-1">
-                      
-                      <div>
-                        <!-- Client Header -->
-                        <div class="flex items-center gap-2 mb-1.5">
-                          <span class="w-2 h-2 rounded-full bg-[#FF6B00]"></span>
-                          <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#FF6B00] font-heading">
-                            <?php echo htmlspecialchars($project['client']); ?>
-                          </span>
-                        </div>
-
-                        <!-- Project Title -->
-                        <h3 class="text-lg sm:text-xl md:text-2xl lg:text-[26px] font-black text-[#0F172A] tracking-tight font-heading mb-2 leading-tight">
-                          <?php echo htmlspecialchars($project['title']); ?>
-                        </h3>
-
-                        <!-- Summary Description -->
-                        <p class="text-xs sm:text-sm text-[#475569] font-normal leading-relaxed mb-3 sm:mb-4 font-body line-clamp-3">
-                          <?php echo htmlspecialchars($project['summary']); ?>
-                        </p>
-
-                        <!-- Impact Metric Highlight Box -->
-                        <div class="p-2.5 sm:p-3.5 rounded-2xl bg-[#FFF8F5] border border-[#FFE2D5] flex items-center justify-between mb-3 sm:mb-4 max-w-xl shadow-xs">
-                          <div class="flex flex-col">
-                            <span class="text-[11px] sm:text-xs text-[#64748B] font-medium">Primary Impact Metric</span>
-                            <span class="text-xs sm:text-sm text-[#0F172A] font-semibold"><?php echo htmlspecialchars($project['metrics']['label']); ?></span>
-                          </div>
-                          <span class="text-lg sm:text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] to-[#C01858] font-stat">
-                            <?php echo htmlspecialchars($project['metrics']['value']); ?>
-                          </span>
-                        </div>
-
-                        <!-- Technologies Stack Badges -->
-                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-                          <?php foreach ($project['technologies'] as $tech): ?>
-                            <span class="px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold text-[#475569] bg-[#F8FAFC] border border-[#E2E8F0] font-body">
-                              <?php echo htmlspecialchars($tech); ?>
-                            </span>
-                          <?php endforeach; ?>
-                        </div>
-                      </div>
-
-                      <!-- Action Buttons -->
-                      <div class="flex items-center gap-3 pt-3 border-t border-[#F1E6EE]">
-                        <button
-                          type="button"
-                          class="open-project-modal glass-btn-primary flex-1 py-2.5 sm:py-3 px-5 sm:px-6 rounded-xl text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg transition-all"
-                          data-title="<?php echo htmlspecialchars($project['title']); ?>"
-                          data-client="<?php echo htmlspecialchars($project['client']); ?>"
-                          data-summary="<?php echo htmlspecialchars($project['summary']); ?>"
-                          data-category="<?php echo htmlspecialchars($project['categoryLabel']); ?>"
-                          data-metric-val="<?php echo htmlspecialchars($project['metrics']['value']); ?>"
-                          data-metric-label="<?php echo htmlspecialchars($project['metrics']['label']); ?>"
-                        >
-                          <span>View Full Case Study</span>
-                          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                        </button>
-
-                        <a
-                          href="contact.php"
-                          class="px-5 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold text-[#475569] hover:text-[#C01858] bg-[#F8FAFC] hover:bg-white border border-[#E2E8F0] hover:border-[#C01858] transition-colors inline-flex items-center gap-1.5 cursor-pointer shrink-0"
-                        >
-                          <span>Consult</span>
-                        </a>
-                      </div>
-
+                    <!-- Bottom-left Category Tag -->
+                    <div class="absolute bottom-3.5 left-3.5 px-3 py-1 rounded-full bg-[#FF6B00] text-[11px] font-bold text-white uppercase tracking-wider font-heading shadow-xs">
+                      <span><?php echo htmlspecialchars($project['categoryLabel']); ?></span>
                     </div>
 
+                    <!-- Circular Tech Icon Badge -->
+                    <div class="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-white/95 backdrop-blur-md border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] shadow-sm">
+                      <i data-lucide="<?php echo $icon; ?>" class="w-4 h-4 text-[#FF6B00]"></i>
+                    </div>
                   </div>
                 </div>
               </div>
