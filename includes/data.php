@@ -163,7 +163,7 @@ $processSteps = [
 $projectsData = [
     [
         'id' => 'apex-finance',
-        'title' => 'Eyecatch Media Portal',
+        'title' => 'Eyecatch Media ',
         'category' => 'web',
         'categoryLabel' => 'News & Media Portal',
         'client' => 'Eyecatch Media Network',
