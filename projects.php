@@ -99,8 +99,13 @@ require_once __DIR__ . '/includes/header.php';
                 <!-- WHITE CARD BODY (#FFFFFF) CLEAN CONTEMPORARY THEME - FULL-WIDTH SHOWCASE IMAGE -->
                 <div class="stacking-card-body p-3 sm:p-4 text-[#0F172A] bg-white">
                   <!-- Proportional High-Resolution Project Preview -->
+                  <?php
+                    $imgFit = $project['imageFit'] ?? 'cover';
+                    $imgBgStyle = isset($project['imageBg']) ? 'style="background-color: ' . htmlspecialchars($project['imageBg']) . ';"' : '';
+                  ?>
                   <div
                     class="open-project-modal relative w-full h-[280px] sm:h-[310px] md:h-[330px] lg:h-[350px] group overflow-hidden rounded-2xl border border-[#F1E6EE] bg-slate-50 flex items-center justify-center shadow-md cursor-pointer select-none"
+                    <?php echo $imgBgStyle; ?>
                     data-title="<?php echo htmlspecialchars($project['title']); ?>"
                     data-client="<?php echo htmlspecialchars($project['client']); ?>"
                     data-summary="<?php echo htmlspecialchars($project['summary']); ?>"
@@ -111,7 +116,7 @@ require_once __DIR__ . '/includes/header.php';
                     <img
                       src="<?php echo htmlspecialchars($project['imageUrl']); ?>"
                       alt="<?php echo htmlspecialchars($project['title']); ?>"
-                      class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-102"
+                      class="w-full h-full <?php echo ($imgFit === 'contain') ? 'object-contain object-center' : 'object-cover object-top'; ?> transition-transform duration-500 group-hover:scale-102"
                       loading="lazy"
                     >
                     <!-- Subtle image overlay gradient -->

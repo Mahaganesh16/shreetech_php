@@ -189,16 +189,18 @@ $projectsData = [
     ],
     [
         'id' => 'fleet-mobile',
-        'title' => 'Veloce Logistics Driver & Dispatch App',
+        'title' => 'Blood Donor Emergency App',
         'category' => 'mobile',
         'categoryLabel' => 'Mobile Application',
-        'client' => 'Veloce Freight Systems',
-        'year' => '2024',
-        'summary' => 'Cross-platform mobile application providing real-time GPS telemetry, offline route caching, proof-of-delivery signatures, and automated dispatch rebalancing.',
-        'technologies' => ['Flutter', 'Firebase', 'Node.js', 'MongoDB', 'REST APIs'],
-        'imageUrl' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+        'client' => 'Blood Donor Network',
+        'year' => '2025',
+        'summary' => 'Real-time GPS blood donor identification and emergency alert application connecting voluntary donors with patients and regional blood banks in critical care scenarios.',
+        'technologies' => ['Flutter', 'Firebase', 'Google Maps API', 'Node.js', 'REST APIs'],
+        'imageUrl' => 'assets/images/blood donor.webp',
+        'imageFit' => 'contain',
+        'imageBg' => '#DA0037',
         'layoutSpan' => 'standard',
-        'metrics' => ['label' => 'Route Efficiency Gain', 'value' => '+34%']
+        'metrics' => ['label' => 'Verified Donors', 'value' => '25,000+']
     ],
     [
         'id' => 'luxury-commerce',
