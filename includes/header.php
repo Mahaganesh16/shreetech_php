@@ -73,12 +73,12 @@ $currentPage = $currentPage ?? 'home';
     aria-hidden="true"
     class="fixed inset-x-0 top-20 bottom-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden"
   >
-    <div class="relative flex items-center justify-center w-[min(32vw,200px)] h-[min(32vw,200px)]">
-      <div class="absolute inset-2 rounded-full bg-gradient-to-tr from-[#FF6B00]/03 via-[#C01858]/03 to-[#8B5CF6]/02 blur-[30px]"></div>
+    <div class="relative flex items-center justify-center w-[min(40vw,280px)] h-[min(40vw,280px)]">
+      <div class="absolute inset-4 rounded-full bg-gradient-to-tr from-[#FF6B00]/08 via-[#C01858]/08 to-[#8B5CF6]/05 blur-[45px]"></div>
       <img
         src="images/logo-icon.png"
         alt="Shree Tech Logo Watermark"
-        class="relative w-full h-full object-contain opacity-[0.03] select-none filter drop-shadow-[0_0_12px_rgba(255,107,0,0.04)]"
+        class="relative w-full h-full object-contain opacity-[0.09] select-none filter drop-shadow-[0_0_20px_rgba(255,107,0,0.10)]"
       >
     </div>
   </div>
