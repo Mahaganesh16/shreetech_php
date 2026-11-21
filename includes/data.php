@@ -217,16 +217,16 @@ $projectsData = [
     ],
     [
         'id' => 'cloud-security',
-        'title' => 'Zero-Trust Cloud Governance Platform',
-        'category' => 'cloud',
-        'categoryLabel' => 'Cloud Infrastructure',
-        'client' => 'Nordic Hosting AB',
-        'year' => '2024',
-        'summary' => 'Multi-cloud monitoring dashboard consolidating AWS and Azure cluster telemetry with proactive intrusion mitigation and audit trail compliance.',
-        'technologies' => ['React', 'Go', 'Kubernetes', 'AWS', 'Azure'],
-        'imageUrl' => 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+        'title' => 'Indhian Press Club News Portal',
+        'category' => 'web',
+        'categoryLabel' => 'Digital Journalism & Media',
+        'client' => 'Indhian Press Club',
+        'year' => '2025',
+        'summary' => 'High-traffic digital journalism and news publishing platform delivering real-time regional and national reporting, multi-category content curation, and fast media streaming.',
+        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'Redis'],
+        'imageUrl' => 'assets/images/indian-press-club.png',
         'layoutSpan' => 'featured',
-        'metrics' => ['label' => 'Infrastructure Uptime', 'value' => '99.999%']
+        'metrics' => ['label' => 'Monthly Readers', 'value' => '2.5M+']
     ],
     [
         'id' => 'ai-intelligence',
