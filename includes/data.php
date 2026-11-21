@@ -531,7 +531,7 @@ if (!function_exists('renderShowcaseCard')) {
               <h4 class="text-xs sm:text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading">
                 <?php echo htmlspecialchars($tech['name']); ?>
               </h4>
-              <p class="text-[10px] sm:text-[11px] text-[#475569] truncate mt-0.5 font-normal font-body">
+              <p class="text-[10px] sm:text-[11px] text-[#334155] truncate mt-0.5 font-medium font-body">
                 <?php echo htmlspecialchars($tech['description']); ?>
               </p>
             </div>
@@ -548,7 +548,7 @@ if (!function_exists('renderShowcaseCard')) {
                   <?php echo htmlspecialchars($tech['name']); ?>
                 </span>
               </div>
-              <div class="flex items-center gap-1 text-[9px] sm:text-[10px] text-[#475569] font-medium font-body truncate">
+              <div class="flex items-center gap-1 text-[9px] sm:text-[10px] text-[#1E293B] font-semibold font-body truncate">
                 <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#FF6B00] shrink-0"></i>
                 <span>Production-Hardened</span>
               </div>
