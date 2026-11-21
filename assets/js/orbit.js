@@ -8,8 +8,8 @@
   'use strict';
 
   const SAMPLES = 720;
-  const FRONT_GROW = 0.38;
-  const BACK_SHRINK = 0.38;
+  const FRONT_GROW = 0.2;
+  const BACK_SHRINK = 0.35;
   const BACK_DIM = 0.55;
   const INTRO_SPREAD = 1.3;
   const INTRO_FADE = 0.45;
@@ -52,12 +52,12 @@
       this.options = Object.assign(
         {
           baseWidth: 1400,
-          radiusX: 620,
-          radiusY: 310,
-          rotation: -4,
+          radiusX: 560,
+          radiusY: 200,
+          rotation: -5,
           duration: 38,
-          itemWidth: 320,
-          itemHeight: 185,
+          itemWidth: 155,
+          itemHeight: 70,
           direction: 'normal',
           fill: true,
           pathWidth: 2,
@@ -637,12 +637,12 @@
     // Instantiate engine
     const engine = new OrbitServicesEngine(orbitContainer, {
       baseWidth: 1400,
-      radiusX: 620,
-      radiusY: 310,
-      rotation: -4,
+      radiusX: 560,
+      radiusY: 200,
+      rotation: -5,
       duration: 38,
-      itemWidth: 320,
-      itemHeight: 185,
+      itemWidth: 155,
+      itemHeight: 70,
       depth: 0.55,
       showPath: true,
       draggable: true,

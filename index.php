@@ -760,7 +760,7 @@ require_once __DIR__ . '/includes/header.php';
         class="orbit-container"
         data-draggable=""
         data-intro=""
-        style="width: 100%; height: 820px;"
+        style="width: 100%; height: 600px;"
       >
         <!-- Background SVG Orbit Path -->
         <svg
@@ -805,7 +805,7 @@ require_once __DIR__ . '/includes/header.php';
           </g>
         </svg>
 
-        <!-- 8 Orbiting Service Cards -->
+        <!-- 8 Orbiting Service Cards (Remaining Go Small Satellite Cards) -->
         <?php foreach ($servicesData as $idx => $service): 
           $svcJson = json_encode([
             'id' => $service['id'],
@@ -823,31 +823,18 @@ require_once __DIR__ . '/includes/header.php';
           >
             <div class="orbit-item-inner">
               <div class="orbit-service-card group-hover:border-[#C01858]">
-                <div class="flex items-center justify-between mb-2">
-                  <div class="w-11 h-11 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs">
-                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-5 h-5"></i>
+                <div class="flex items-center gap-2.5 w-full">
+                  <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
+                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-4 h-4"></i>
                   </div>
-                  <span class="text-xs font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] px-3 py-0.5 rounded-full border border-[#FF6B00]/20">
-                    0<?php echo $idx + 1; ?>
-                  </span>
-                </div>
-
-                <div class="flex-1 flex flex-col justify-center my-1.5">
-                  <h4 class="text-base sm:text-lg font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading">
-                    <?php echo htmlspecialchars($service['title']); ?>
-                  </h4>
-                  <p class="text-xs sm:text-[13px] text-[#475569] line-clamp-3 mt-1 leading-relaxed font-body">
-                    <?php echo htmlspecialchars($service['description']); ?>
-                  </p>
-                </div>
-
-                <div class="pt-2 border-t border-[#F1E6EE] flex items-center justify-between text-xs text-[#C01858] font-semibold font-body">
-                  <span class="flex items-center gap-1.5">
-                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-                    <span>Click to Focus</span>
-                  </span>
-                  <div class="w-6 h-6 rounded-full bg-[#FFF4EA] group-hover:bg-[#C01858] text-[#FF6B00] group-hover:text-white flex items-center justify-center transition-all duration-300">
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex items-center justify-between gap-1 mb-0.5">
+                      <span class="text-[9px] font-bold font-stat text-[#FF6B00]">0<?php echo $idx + 1; ?></span>
+                      <i data-lucide="sparkles" class="w-2.5 h-2.5 text-[#C01858] opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <h4 class="text-xs font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight">
+                      <?php echo htmlspecialchars($service['title']); ?>
+                    </h4>
                   </div>
                 </div>
               </div>
