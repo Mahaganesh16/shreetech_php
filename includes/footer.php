@@ -147,5 +147,8 @@ if (!isset($navLinks) || !isset($servicesData)) {
 
 <!-- React Bits GooeyNav Interactive Engine -->
 <script src="assets/js/gooey-nav.js"></script>
+
+<!-- 3D Orbit Services Interactive Engine (Dominik Koch Architecture) -->
+<script src="assets/js/orbit.js"></script>
 </body>
 </html>

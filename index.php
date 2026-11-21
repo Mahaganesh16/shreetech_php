@@ -712,100 +712,303 @@ require_once __DIR__ . '/includes/header.php';
 <section id="services" class="relative py-20 sm:py-28 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <!-- Section Header -->
-    <div class="max-w-3xl mb-16">
-      <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-        <span>Our Services</span>
+    <!-- Section Header with Interactive 3D Orbit View vs Grid View Switcher -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <div class="max-w-3xl">
+        <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+          <span>Our Services</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
+          Comprehensive Software Engineering & Technical Consulting
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-[#334155] font-normal leading-relaxed font-body">
+          We provide end-to-end technology services tailored to modern enterprise requirements. Explore
+          our eight core service disciplines through interactive 3D orbital navigation.
+        </p>
       </div>
-      <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
-        Comprehensive Software Engineering & Technical Consulting
-      </h2>
-      <p class="mt-4 text-base sm:text-lg text-[#475569] font-normal leading-relaxed font-body">
-        We provide end-to-end technology services tailored to modern enterprise requirements. Explore
-        our eight core service disciplines engineered with clean, frosted glassmorphism UI.
-      </p>
+
+      <!-- Interactive View Toggle -->
+      <div class="flex items-center gap-2 p-1.5 rounded-2xl glass-card border border-[#F1E6EE] shrink-0 self-start md:self-auto shadow-xs">
+        <button
+          id="btn-services-view-orbit"
+          type="button"
+          class="px-4 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer glass-btn-primary shadow-xs text-white flex items-center gap-1.5"
+        >
+          <i data-lucide="orbit" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+          <span>3D Orbit View</span>
+        </button>
+        <button
+          id="btn-services-view-grid"
+          type="button"
+          class="px-4 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] flex items-center gap-1.5"
+        >
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <span>Grid View</span>
+        </button>
+      </div>
     </div>
 
-    <!-- 8 Services in 3D Flip Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <?php foreach ($servicesData as $idx => $service): ?>
-        <div class="flip-card-wrapper h-[380px] sm:h-[400px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo (($idx % 4) + 1); ?>">
-          <div class="flip-card-inner">
-            
-            <!-- Front Face -->
-            <div class="flip-card-front glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-500">
-              <div class="card-spotlight-layer"></div>
-              <div>
-                <div class="flex items-center justify-between mb-5">
-                  <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white group-hover:scale-105 transition-all duration-300 shadow-xs">
-                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-6 h-6"></i>
+    <!-- 1. INTERACTIVE 3D ORBIT VIEW (DOMINIK KOCH ARCHITECTURE) -->
+    <div id="services-orbit-wrapper" class="relative w-full py-4 select-none">
+      <!-- Ambient Orbit Light Glows -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[340px] bg-gradient-to-tr from-[#FF6B00]/10 via-[#C01858]/8 to-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Orbit Container -->
+      <div
+        id="services-orbit-container"
+        class="orbit-container"
+        data-draggable=""
+        data-intro=""
+        style="width: 100%; height: 620px;"
+      >
+        <!-- Background SVG Orbit Path -->
+        <svg
+          class="orbit-path-svg"
+          data-orbit-svg=""
+          preserveAspectRatio="none"
+          style="z-index: 5;"
+          aria-hidden="true"
+        >
+          <path
+            data-orbit-path=""
+            data-orbit-stroke=""
+            fill="none"
+            stroke="rgba(255, 107, 0, 0.28)"
+            stroke-linecap="round"
+            class="orbit-path-glow"
+          />
+        </svg>
+
+        <!-- Layered SVG Orbit Path for Foreground Depth -->
+        <svg
+          class="orbit-path-svg"
+          data-orbit-svg=""
+          preserveAspectRatio="none"
+          style="z-index: 105;"
+          aria-hidden="true"
+        >
+          <defs>
+            <clipPath id="orbit-front-clip" clipPathUnits="userSpaceOnUse">
+              <rect data-orbit-clip="" />
+            </clipPath>
+          </defs>
+          <g clipPath="url(#orbit-front-clip)">
+            <path
+              data-orbit-stroke=""
+              data-orbit-path=""
+              fill="none"
+              stroke="rgba(192, 24, 88, 0.35)"
+              stroke-linecap="round"
+              class="orbit-path-glow"
+            />
+          </g>
+        </svg>
+
+        <!-- 8 Orbiting Service Cards -->
+        <?php foreach ($servicesData as $idx => $service): 
+          $svcJson = json_encode([
+            'id' => $service['id'],
+            'title' => $service['title'],
+            'description' => $service['description'],
+            'iconName' => $service['iconName'],
+            'deliverables' => $service['deliverables']
+          ]);
+        ?>
+          <div
+            class="orbit-item group"
+            data-orbit-item="<?php echo $idx; ?>"
+            data-clickable=""
+            data-service-json="<?php echo htmlspecialchars($svcJson, ENT_QUOTES, 'UTF-8'); ?>"
+          >
+            <div class="orbit-item-inner">
+              <div class="orbit-service-card group-hover:border-[#C01858]">
+                <div class="flex items-center justify-between mb-1.5">
+                  <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs">
+                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-4 h-4"></i>
                   </div>
-                  <span class="text-xs font-bold font-stat text-[#475569]/60 group-hover:text-[#FF6B00] transition-colors">
+                  <span class="text-[10px] font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] px-2 py-0.5 rounded-full border border-[#FF6B00]/20">
                     0<?php echo $idx + 1; ?>
                   </span>
                 </div>
 
-                <h3 class="text-lg font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors duration-300 font-heading mb-2.5">
-                  <?php echo htmlspecialchars($service['title']); ?>
-                </h3>
+                <div>
+                  <h4 class="text-xs sm:text-[13px] font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading">
+                    <?php echo htmlspecialchars($service['title']); ?>
+                  </h4>
+                  <p class="text-[10px] sm:text-[11px] text-[#475569] line-clamp-2 mt-0.5 leading-snug font-body">
+                    <?php echo htmlspecialchars($service['description']); ?>
+                  </p>
+                </div>
 
-                <p class="text-xs sm:text-sm text-[#334155] font-normal leading-relaxed">
-                  <?php echo htmlspecialchars($service['description']); ?>
-                </p>
-              </div>
-
-              <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
-                <span class="text-xs font-semibold text-[#334155] group-hover:text-[#C01858] transition-colors duration-300 font-body flex items-center gap-1.5">
-                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] transition-transform duration-500 group-hover:rotate-180"></i>
-                  <span>Hover to Flip</span>
-                </span>
-                <div class="w-8 h-8 rounded-full bg-white border border-[#F1E6EE] group-hover:border-[#C01858] group-hover:bg-[#C01858] text-[#334155] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-xs">
-                  <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300"></i>
+                <div class="pt-1.5 border-t border-[#F1E6EE] flex items-center justify-between text-[10px] text-[#C01858] font-semibold font-body">
+                  <span class="flex items-center gap-1">
+                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
+                    <span>Click to Focus</span>
+                  </span>
+                  <div class="w-4 h-4 rounded-full bg-[#FFF4EA] group-hover:bg-[#C01858] text-[#FF6B00] group-hover:text-white flex items-center justify-center transition-all duration-300">
+                    <i data-lucide="arrow-right" class="w-2.5 h-2.5"></i>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        <?php endforeach; ?>
 
-            <!-- Back Face -->
-            <div class="flip-card-back glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
-              <div class="relative z-10">
-                <div class="flex items-center justify-between mb-3.5">
-                  <span class="text-[11px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-3 py-0.5 rounded-full font-body uppercase tracking-wider">
-                    Key Deliverables
-                  </span>
-                  <span class="text-[11px] font-semibold text-[#334155] font-body flex items-center gap-1">
-                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
-                    Included Scope
-                  </span>
-                </div>
+        <!-- Interactive Center Stage Hub -->
+        <div class="orbit-center-content" data-orbit-center="">
+          <div class="center-stage-card glass-card p-5 sm:p-6 rounded-3xl border border-[#F1E6EE] shadow-xl text-center flex flex-col items-center relative overflow-hidden backdrop-blur-xl bg-white/85">
+            <!-- Center Ambient Glow -->
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-[#FF6B00]/15 rounded-full blur-xl pointer-events-none"></div>
+            <div class="absolute -bottom-10 -left-10 w-24 h-24 bg-[#C01858]/15 rounded-full blur-xl pointer-events-none"></div>
 
-                <h4 class="text-base font-bold text-[#0F172A] font-heading mb-3">
-                  <?php echo htmlspecialchars($service['title']); ?>
-                </h4>
+            <!-- Center Service Icon -->
+            <div id="center-service-icon" class="relative z-10 w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#FFF4EA] to-white border border-[#FF6B00]/30 flex items-center justify-center text-[#FF6B00] shadow-md mb-2.5 transition-transform duration-300">
+              <i data-lucide="globe" class="w-6 h-6"></i>
+            </div>
 
-                <div class="space-y-2">
-                  <?php foreach ($service['deliverables'] as $item): ?>
-                    <div class="flex items-start gap-2 text-xs text-[#1E293B] font-medium">
-                      <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#FF6B00] shrink-0 mt-0.5"></i>
-                      <span class="leading-snug"><?php echo htmlspecialchars($item); ?></span>
-                    </div>
-                  <?php endforeach; ?>
-                </div>
-              </div>
+            <!-- Badge -->
+            <span id="center-service-badge" class="relative z-10 glass-pill px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider text-[#8B5CF6] mb-1.5 shadow-xs">
+              Service 01
+            </span>
 
-              <div class="relative z-10 pt-4 border-t border-[#F1E6EE]">
-                <a
-                  href="#contact"
-                  class="glass-btn-primary w-full py-2.5 px-4 rounded-2xl text-white font-semibold text-xs sm:text-sm font-body flex items-center justify-center gap-2 cursor-pointer shadow-md"
+            <!-- Title -->
+            <h3 id="center-service-title" class="relative z-10 text-base sm:text-lg font-black text-[#0F172A] font-heading tracking-tight mb-1.5 transition-all">
+              Website Development
+            </h3>
+
+            <!-- Description -->
+            <p id="center-service-desc" class="relative z-10 text-xs sm:text-[13px] text-[#475569] font-normal leading-relaxed mb-3 max-w-xs line-clamp-2">
+              High-performance corporate websites and modern web platforms built with Next.js, React, and TypeScript.
+            </p>
+
+            <!-- Deliverables Tags -->
+            <div id="center-service-deliverables" class="relative z-10 flex flex-wrap items-center justify-center gap-1.5 mb-4 max-w-xs min-h-[28px]">
+              <!-- Injected dynamically by orbit.js -->
+            </div>
+
+            <!-- Actions -->
+            <div class="relative z-10 flex items-center gap-2.5 w-full justify-center">
+              <a
+                href="#contact"
+                class="glass-btn-primary px-4 py-2 rounded-xl text-white font-semibold text-xs flex items-center gap-1.5 shadow-md hover:scale-102 transition-transform"
+              >
+                <span>Discuss Requirement</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </a>
+
+              <!-- Prev / Next Orbit Stepper -->
+              <div class="flex items-center gap-1">
+                <button
+                  id="orbit-prev-btn"
+                  type="button"
+                  class="p-2 rounded-xl glass-btn-secondary text-[#0F172A] hover:text-[#C01858] transition-colors cursor-pointer shadow-xs"
+                  title="Previous Service (Rotate Orbit)"
                 >
-                  <span>Discuss Requirement</span>
-                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
+                  <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                </button>
+                <button
+                  id="orbit-next-btn"
+                  type="button"
+                  class="p-2 rounded-xl glass-btn-secondary text-[#0F172A] hover:text-[#C01858] transition-colors cursor-pointer shadow-xs"
+                  title="Next Service (Rotate Orbit)"
+                >
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </button>
               </div>
             </div>
           </div>
         </div>
-      <?php endforeach; ?>
+      </div>
+
+      <!-- Drag & Interaction Hint -->
+      <div class="flex items-center justify-center gap-2 mt-4 text-xs text-[#475569] font-medium font-body">
+        <i data-lucide="move-horizontal" class="w-3.5 h-3.5 text-[#FF6B00] animate-pulse"></i>
+        <span>Drag horizontally to rotate orbit &bull; Click any card to focus</span>
+      </div>
+    </div>
+
+    <!-- 2. TRADITIONAL GRID VIEW CONTAINER (TOGGLEABLE) -->
+    <div id="services-grid-wrapper" class="hidden w-full">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <?php foreach ($servicesData as $idx => $service): ?>
+          <div class="flip-card-wrapper h-[380px] sm:h-[400px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo (($idx % 4) + 1); ?>">
+            <div class="flip-card-inner">
+              
+              <!-- Front Face -->
+              <div class="flip-card-front glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-500">
+                <div class="card-spotlight-layer"></div>
+                <div>
+                  <div class="flex items-center justify-between mb-5">
+                    <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white group-hover:scale-105 transition-all duration-300 shadow-xs">
+                      <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-xs font-bold font-stat text-[#475569]/60 group-hover:text-[#FF6B00] transition-colors">
+                      0<?php echo $idx + 1; ?>
+                    </span>
+                  </div>
+
+                  <h3 class="text-lg font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors duration-300 font-heading mb-2.5">
+                    <?php echo htmlspecialchars($service['title']); ?>
+                  </h3>
+
+                  <p class="text-xs sm:text-sm text-[#334155] font-normal leading-relaxed">
+                    <?php echo htmlspecialchars($service['description']); ?>
+                  </p>
+                </div>
+
+                <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
+                  <span class="text-xs font-semibold text-[#334155] group-hover:text-[#C01858] transition-colors duration-300 font-body flex items-center gap-1.5">
+                    <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] transition-transform duration-500 group-hover:rotate-180"></i>
+                    <span>Hover to Flip</span>
+                  </span>
+                  <div class="w-8 h-8 rounded-full bg-white border border-[#F1E6EE] group-hover:border-[#C01858] group-hover:bg-[#C01858] text-[#334155] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-xs">
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Back Face -->
+              <div class="flip-card-back glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
+                <div class="relative z-10">
+                  <div class="flex items-center justify-between mb-3.5">
+                    <span class="text-[11px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-3 py-0.5 rounded-full font-body uppercase tracking-wider">
+                      Key Deliverables
+                    </span>
+                    <span class="text-[11px] font-semibold text-[#334155] font-body flex items-center gap-1">
+                      <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
+                      Included Scope
+                    </span>
+                  </div>
+
+                  <h4 class="text-base font-bold text-[#0F172A] font-heading mb-3">
+                    <?php echo htmlspecialchars($service['title']); ?>
+                  </h4>
+
+                  <div class="space-y-2">
+                    <?php foreach ($service['deliverables'] as $item): ?>
+                      <div class="flex items-start gap-2 text-xs text-[#1E293B] font-medium">
+                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#FF6B00] shrink-0 mt-0.5"></i>
+                        <span class="leading-snug"><?php echo htmlspecialchars($item); ?></span>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
+                </div>
+
+                <div class="relative z-10 pt-4 border-t border-[#F1E6EE]">
+                  <a
+                    href="#contact"
+                    class="glass-btn-primary w-full py-2.5 px-4 rounded-2xl text-white font-semibold text-xs sm:text-sm font-body flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                  >
+                    <span>Discuss Requirement</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
     </div>
   </div>
 </section>

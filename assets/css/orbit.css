@@ -1,0 +1,119 @@
+/* =========================================================================
+   ORBIT SERVICES ANIMATION SYSTEM (DOMINIK KOCH ARCHITECTURE)
+   ========================================================================= */
+
+.orbit-container {
+  position: relative;
+  width: 100%;
+  max-width: 1240px;
+  min-height: 600px;
+  height: 620px;
+  margin: 0 auto;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+  overflow: visible;
+  contain: layout paint;
+}
+
+.orbit-container[data-draggable] {
+  cursor: grab;
+}
+
+.orbit-container[data-dragging] {
+  cursor: grabbing !important;
+}
+
+.orbit-path-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.orbit-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform, opacity, z-index;
+  transform-origin: center center;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+.orbit-item[data-clickable] {
+  cursor: pointer;
+}
+
+.orbit-item-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 1.25rem;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  transform-origin: center center;
+}
+
+.orbit-item:hover .orbit-item-inner {
+  transform: scale(var(--orbit-hover-scale, 1.08));
+  border-color: #C01858 !important;
+  box-shadow:
+    0 20px 42px -10px rgba(192, 24, 88, 0.22),
+    0 0 22px rgba(255, 107, 0, 0.18) !important;
+}
+
+.orbit-item.is-active .orbit-item-inner {
+  border-color: #C01858 !important;
+  box-shadow:
+    0 24px 50px -8px rgba(192, 24, 88, 0.28),
+    0 0 25px rgba(255, 107, 0, 0.25) !important;
+}
+
+/* Center Stage inside Orbit */
+.orbit-center-content {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  z-index: 100;
+  width: 100%;
+  max-width: 390px;
+  padding: 0 0.75rem;
+}
+
+/* Orbit Card Styling */
+.orbit-service-card {
+  height: 100%;
+  width: 100%;
+  padding: 1rem 1.15rem;
+  border-radius: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #F1E6EE;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.72) 100%) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  box-shadow:
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+    0 16px 36px -10px rgba(15, 23, 42, 0.08) !important;
+  transition: all 0.3s ease;
+}
+
+/* Ambient glow line for orbit path */
+.orbit-path-glow {
+  filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.35));
+}
+
+@media (max-width: 768px) {
+  .orbit-container {
+    min-height: 420px;
+  }
+  .orbit-center-content {
+    max-width: 340px;
+  }
+}

@@ -65,6 +65,9 @@ $currentPage = $currentPage ?? 'home';
 
   <!-- React Bits GooeyNav Stylesheet -->
   <link rel="stylesheet" href="assets/css/gooey-nav.css">
+
+  <!-- 3D Orbit Services Stylesheet -->
+  <link rel="stylesheet" href="assets/css/orbit.css">
 </head>
 <body class="bg-white text-[#475569] min-h-screen flex flex-col antialiased selection:bg-[#FF6B00]/15 selection:text-[#C01858] relative">
 
