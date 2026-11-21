@@ -665,6 +665,147 @@ function initShreeTech() {
       }
     });
   }
+
+  // =========================================================================
+  // 13. SINGLE PAGE SCROLLSPY & UNIVERSAL ANCHOR NAVIGATION
+  // =========================================================================
+  const navTrackSections = [
+    { id: 'home', navIndex: 0 },
+    { id: 'directory', navIndex: 0 },
+    { id: 'about', navIndex: 1 },
+    { id: 'why-us', navIndex: 1 },
+    { id: 'services', navIndex: 2 },
+    { id: 'technologies', navIndex: 3 },
+    { id: 'projects', navIndex: 4 },
+    { id: 'testimonials', navIndex: 4 },
+    { id: 'contact', navIndex: 5 },
+  ];
+
+  let currentActiveNavIndex = -1;
+  const gooeyEl = document.getElementById('shree-gooey-nav');
+  const mobileNavLinks = document.querySelectorAll('#mobile-menu a[href^="#"]');
+
+  const updateActiveNav = (newIndex, activeSectionId) => {
+    if (newIndex === currentActiveNavIndex) return;
+    currentActiveNavIndex = newIndex;
+
+    // 1. Sync GooeyNav liquid pill if available
+    if (gooeyEl && gooeyEl.__gooeyNavInstance && typeof gooeyEl.__gooeyNavInstance.select === 'function') {
+      gooeyEl.__gooeyNavInstance.select(newIndex);
+    }
+
+    // 2. Sync mobile nav active link styling
+    if (mobileNavLinks && mobileNavLinks.length) {
+      mobileNavLinks.forEach((link) => {
+        const href = link.getAttribute('href');
+        const isMatch = href === '#' + activeSectionId || (newIndex === 0 && href === '#home');
+        if (isMatch) {
+          link.classList.add('text-[#C01858]', 'bg-[#FFF0F5]', 'border', 'border-[#F1E6EE]', 'font-semibold', 'shadow-xs');
+          link.classList.remove('text-[#505D70]');
+        } else {
+          link.classList.remove('text-[#C01858]', 'bg-[#FFF0F5]', 'border', 'border-[#F1E6EE]', 'font-semibold', 'shadow-xs');
+          link.classList.add('text-[#505D70]');
+        }
+      });
+    }
+  };
+
+  let scrollSpyTicking = false;
+  const onScrollSpy = () => {
+    if (scrollSpyTicking) return;
+    scrollSpyTicking = true;
+    requestAnimationFrame(() => {
+      scrollSpyTicking = false;
+
+      // If user reaches near bottom of the page, select contact
+      const docHeight = document.documentElement.scrollHeight;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      if (scrollBottom >= docHeight - 80) {
+        updateActiveNav(5, 'contact');
+        return;
+      }
+
+      const scrollTriggerPos = window.scrollY + 180;
+      let activeIndex = 0;
+      let activeId = 'home';
+
+      for (let i = navTrackSections.length - 1; i >= 0; i--) {
+        const item = navTrackSections[i];
+        const secEl = document.getElementById(item.id);
+        if (secEl) {
+          const top = secEl.offsetTop;
+          if (scrollTriggerPos >= top) {
+            activeIndex = item.navIndex;
+            activeId = item.id;
+            break;
+          }
+        }
+      }
+
+      updateActiveNav(activeIndex, activeId);
+    });
+  };
+
+  window.addEventListener('scroll', onScrollSpy, { passive: true });
+  setTimeout(onScrollSpy, 200);
+
+  // Smooth scroll handler for all internal anchor links (Directory cards, mobile links, buttons, footer)
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    // Avoid double-handling gooey-nav links
+    if (anchor.closest('.gooey-nav')) return;
+
+    anchor.addEventListener('click', (e) => {
+      const hash = anchor.getAttribute('href');
+      if (!hash || hash === '#' || hash.startsWith('#!')) return;
+
+      const target = document.querySelector(hash);
+      if (target) {
+        e.preventDefault();
+
+        // Close mobile dropdown menu if open
+        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+        }
+
+        // Scroll to target with offset for sticky navbar
+        const navOffset = 80;
+        const targetTop = target.getBoundingClientRect().top + window.pageYOffset - navOffset;
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: 'smooth',
+        });
+
+        if (history.pushState) {
+          history.pushState(null, '', hash);
+        }
+
+        // Identify corresponding nav index
+        const found = navTrackSections.find((item) => '#' + item.id === hash);
+        if (found) {
+          updateActiveNav(found.navIndex, found.id);
+        }
+      }
+    });
+  });
+
+  // Handle direct navigation with hash on page load
+  if (window.location.hash) {
+    setTimeout(() => {
+      const initialTarget = document.querySelector(window.location.hash);
+      if (initialTarget) {
+        const navOffset = 80;
+        const targetTop = initialTarget.getBoundingClientRect().top + window.pageYOffset - navOffset;
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: 'smooth',
+        });
+        const found = navTrackSections.find((item) => '#' + item.id === window.location.hash);
+        if (found) {
+          updateActiveNav(found.navIndex, found.id);
+        }
+      }
+    }, 300);
+  }
 }
 
 if (document.readyState === 'loading') {

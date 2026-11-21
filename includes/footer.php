@@ -11,7 +11,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
       
       <!-- Brand Info (4 Cols) -->
       <div class="lg:col-span-4 space-y-4">
-        <a href="index.php" class="flex items-center gap-3 group">
+        <a href="#home" class="flex items-center gap-3 group">
           <div class="w-11 h-11 rounded-2xl bg-white border border-[#F1E6EE] p-1 flex items-center justify-center shadow-xs group-hover:border-[#C01858] transition-all overflow-hidden">
             <img src="images/logo-icon.png" alt="Shree Tech Logo" class="w-full h-full object-contain">
           </div>
@@ -91,7 +91,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
         <ul class="space-y-2 text-sm text-[#475569] font-medium font-body">
           <?php foreach (array_slice($servicesData, 0, 6) as $s): ?>
             <li>
-              <a href="services.php" class="hover:text-[#C01858] transition-colors">
+              <a href="#services" class="hover:text-[#C01858] transition-colors">
                 <?php echo htmlspecialchars($s['title']); ?>
               </a>
             </li>
@@ -102,7 +102,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
       <!-- Contact Info (3 Cols) -->
       <div class="lg:col-span-3">
         <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
-          Contact Us
+          Address
         </h4>
         <div class="space-y-3 text-xs text-[#475569] font-body">
           <div class="flex items-center gap-2.5">

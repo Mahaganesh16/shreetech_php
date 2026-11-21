@@ -5,11 +5,48 @@ $pageTitle = 'Shree Tech | Software Engineering & Cloud Solutions';
 $pageDescription = 'Building Digital Solutions That Move Businesses Forward. Enterprise software engineering, modern web platforms, mobile apps, and cloud architectures.';
 $currentPage = 'home';
 
+// Contact Form Processing for Single-Page Submissions
+$formSubmitted = false;
+$formErrors = [];
+$formData = [
+    'name' => '',
+    'email' => '',
+    'phone' => '',
+    'service' => 'Website Development',
+    'message' => '',
+];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $formData['name'] = trim($_POST['name'] ?? '');
+    $formData['email'] = trim($_POST['email'] ?? '');
+    $formData['phone'] = trim($_POST['phone'] ?? '');
+    $formData['service'] = trim($_POST['service'] ?? 'Website Development');
+    $formData['message'] = trim($_POST['message'] ?? '');
+
+    if (empty($formData['name']) || strlen($formData['name']) < 2) {
+        $formErrors['name'] = 'Name must be at least 2 characters';
+    }
+    if (empty($formData['email']) || !filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
+        $formErrors['email'] = 'Please provide a valid business email';
+    }
+    if (empty($formData['phone']) || strlen($formData['phone']) < 7) {
+        $formErrors['phone'] = 'Please enter a valid phone number';
+    }
+    if (empty($formData['message']) || strlen($formData['message']) < 15) {
+        $formErrors['message'] = 'Please provide at least 15 characters of detail';
+    }
+
+    if (empty($formErrors)) {
+        $formSubmitted = true;
+    }
+}
+
+// Directory flip cards for interactive quick overview
 $directorySections = [
     [
         'title' => 'About Shree Tech',
         'description' => 'Dedicated software engineering team, enterprise delivery standards, and client-first culture.',
-        'href' => 'about.php',
+        'href' => '#about',
         'badge' => 'Company Profile',
         'icon' => 'users',
         'backBadge' => 'Core Highlights',
@@ -25,7 +62,7 @@ $directorySections = [
     [
         'title' => 'Engineering Services',
         'description' => 'Custom software development, high-scale web platforms, mobile apps, and cloud architectures.',
-        'href' => 'services.php',
+        'href' => '#services',
         'badge' => 'Core Capabilities',
         'icon' => 'code-2',
         'backBadge' => '8 Core Offerings',
@@ -41,7 +78,7 @@ $directorySections = [
     [
         'title' => 'Technology Stack',
         'description' => 'Modern, battle-tested frameworks across React, Node, Python, AWS, and native mobile compilation.',
-        'href' => 'technologies.php',
+        'href' => '#technologies',
         'badge' => 'Stack & Tools',
         'icon' => 'cpu',
         'backBadge' => 'Modern Tooling',
@@ -57,23 +94,23 @@ $directorySections = [
     [
         'title' => 'Featured Projects',
         'description' => 'Case studies of enterprise SaaS applications, web portals, and mobile systems built for scale.',
-        'href' => 'projects.php',
+        'href' => '#projects',
         'badge' => 'Client Success',
         'icon' => 'briefcase',
         'backBadge' => 'Verified Case Studies',
         'backTitle' => 'Production Impact',
         'highlights' => [
-            'Enterprise FinTech: 99.99% SLA, $42M+ processed',
-            'HealthCare EHR: HIPAA-compliant clinical suite',
-            'Logistics Fleet Engine: 40k+ live tracking events',
-            'Omnichannel E-Commerce: Sub-second page loads'
+            'Eyecatch Media: 1.2M+ monthly readers',
+            'Kiaura Research: 10,000+ publications',
+            'Blood Donor App: 25,000+ mapped donors',
+            'Eekai Trust & Indian Press Club portals'
         ],
         'ctaText' => 'Browse Case Studies'
     ],
     [
         'title' => 'Contact & Consultation',
         'description' => 'Discuss your technical roadmap, get detailed project estimates, and start your engineering partnership.',
-        'href' => 'contact.php',
+        'href' => '#contact',
         'badge' => 'Start a Project',
         'icon' => 'mail',
         'backBadge' => 'Direct Engagement',
@@ -88,11 +125,35 @@ $directorySections = [
     ]
 ];
 
+// Setup data for Technologies section
+$techCategories = ['All', 'Frontend', 'Backend', 'Database', 'Mobile', 'Cloud'];
+$allTechnologies = [];
+foreach ($technologyGroups as $group) {
+    foreach ($group['items'] as $item) {
+        $item['category'] = $group['category'];
+        $allTechnologies[] = $item;
+    }
+}
+
+$categoryDurations = [
+    'All'      => '50s',
+    'Frontend' => '30s',
+    'Backend'  => '32s',
+    'Database' => '35s',
+    'Mobile'   => '28s',
+    'Cloud'    => '34s',
+];
+
+// Testimonials data set for seamless loop
+$marqueeTestimonials = array_merge($testimonialsData, $testimonialsData);
+
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<!-- 1. HERO SECTION -->
-<section id="home" class="relative min-h-[90vh] pt-28 pb-20 md:pt-36 md:pb-28 overflow-hidden flex items-center">
+<!-- =========================================================================
+     1. HERO SECTION (#home)
+     ========================================================================= -->
+<section id="home" class="relative min-h-[90vh] pt-28 pb-20 md:pt-36 md:pb-28 overflow-hidden flex items-center scroll-mt-24">
   <!-- Subtle Ambient Corner Blooms -->
   <div class="absolute top-1/4 -left-32 w-[38rem] h-[38rem] bg-[#FF6B00]/6 rounded-full blur-[140px] pointer-events-none"></div>
   <div class="absolute top-1/3 -right-32 w-[42rem] h-[42rem] bg-[#C01858]/5 rounded-full blur-[150px] pointer-events-none"></div>
@@ -113,7 +174,6 @@ require_once __DIR__ . '/includes/header.php';
         <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-[2.35rem] xl:text-[2.9rem] 2xl:text-[3.25rem] font-black tracking-tight text-[#0F172A] leading-[1.16]">
           <span class="block lg:whitespace-nowrap">
             Shreetech Web Development 
-            
           </span>
           <span class="block mt-1 sm:mt-2">
             <span id="hero-rotating-phrase" class="inline-block whitespace-nowrap text-gradient-brand transition-all duration-300">
@@ -130,7 +190,7 @@ require_once __DIR__ . '/includes/header.php';
         <!-- Dual Action Buttons -->
         <div class="mt-8 sm:mt-10 flex flex-wrap items-center gap-4 w-full sm:w-auto">
           <a
-            href="services.php"
+            href="#contact"
             class="glass-btn-primary inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl font-semibold text-sm cursor-pointer shadow-lg w-full sm:w-auto"
           >
             <span>Get a Free Consultation!</span>
@@ -138,7 +198,7 @@ require_once __DIR__ . '/includes/header.php';
           </a>
 
           <a
-            href="contact.php"
+            href="#about"
             class="glass-btn-secondary inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl font-semibold text-sm cursor-pointer w-full sm:w-auto shadow-xs"
           >
             <i data-lucide="sparkles" class="w-4 h-4 text-[#FF6B00]"></i>
@@ -173,13 +233,11 @@ require_once __DIR__ . '/includes/header.php';
 
           <!-- 5. Fast Traveling Glowing Comets / Energy Light Pulses on the Round Orbit -->
           <div class="absolute inset-0 rounded-full pointer-events-none animate-comet-orbit">
-            <!-- Primary Glowing Energy Comet Head -->
             <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
               <div class="w-3.5 h-3.5 rounded-full bg-gradient-to-r from-orange-400 to-rose-500 shadow-[0_0_16px_5px_rgba(255,107,0,0.85)] animate-pulse"></div>
               <div class="absolute w-12 h-1.5 rounded-full bg-gradient-to-l from-orange-500/80 to-transparent blur-[1.5px] -left-10"></div>
             </div>
 
-            <!-- Secondary Complementary Comet Head (180° Opposite) -->
             <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex items-center justify-center">
               <div class="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-rose-400 to-purple-500 shadow-[0_0_14px_4px_rgba(244,63,94,0.75)] animate-pulse"></div>
               <div class="absolute w-9 h-1 rounded-full bg-gradient-to-l from-purple-500/70 to-transparent blur-[1.5px] -left-7"></div>
@@ -208,13 +266,11 @@ require_once __DIR__ . '/includes/header.php';
                 class="orbit-tech-node absolute pointer-events-auto"
                 style="left: <?php echo round($xPercent, 2); ?>%; top: <?php echo round($yPercent, 2); ?>%; transform: translate(-50%, -50%);"
               >
-                <!-- Counter-rotate: ensures all tool logos remain upright throughout the circular path -->
                 <div class="animate-orbit-counter group relative">
                   <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-md border border-white/90 shadow-[0_6px_18px_rgba(15,23,42,0.1),inset_0_1px_2px_rgba(255,255,255,0.95)] flex items-center justify-center p-2 cursor-pointer hover:border-orange-400/80 hover:shadow-[0_10px_25px_rgba(255,107,0,0.35)] hover:scale-125 transition-all duration-300">
                     <span class="absolute -inset-0.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-orange-400/20 to-rose-400/20 blur-[3px] opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     <?php echo renderTechLogo($tool['icon'], 'relative z-10 w-5 h-5 sm:w-6 sm:h-6 object-contain'); ?>
                   </div>
-                  <!-- Tooltip -->
                   <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-slate-900/90 text-white text-[10px] font-semibold px-2 py-0.5 rounded-md pointer-events-none whitespace-nowrap shadow-md z-50">
                     <?php echo htmlspecialchars($tool['name']); ?>
                   </span>
@@ -223,26 +279,21 @@ require_once __DIR__ . '/includes/header.php';
             <?php endforeach; ?>
           </div>
 
-          <!-- 7. Central Stable Hub Visual: Centered Phoenix Bird with Light Falling across Wings & Body -->
+          <!-- 7. Central Stable Hub Visual: Centered Phoenix Bird with Light Sheen -->
           <div class="relative z-10 w-[74%] h-[74%] flex items-center justify-center pointer-events-none">
-            <!-- Subtle Warm Ambient Core behind Wings -->
             <div class="absolute w-44 h-44 rounded-full bg-gradient-to-tr from-orange-400/25 via-rose-400/20 to-purple-400/15 blur-2xl pointer-events-none animate-phoenix-core"></div>
 
-            <!-- Faint Phoenix Silhouette Watermark to the left (Matching reference image) -->
             <div class="absolute -left-12 -top-4 w-[92%] h-[92%] pointer-events-none opacity-20 filter blur-[0.5px]">
               <img src="images/phoenix-hero.png" alt="" class="w-full h-full object-contain" style="filter: hue-rotate(270deg) saturate(1.8) opacity(0.35);">
             </div>
 
-            <!-- Floating Phoenix Container (Gentle Wing Hover Levitation) -->
             <div class="relative w-full h-full flex items-center justify-center pointer-events-none animate-float-bob">
-              <!-- Phoenix Bird Image -->
               <img
                 src="images/phoenix-hero.png"
                 alt="ShreeTech Phoenix Bird Icon"
                 class="w-full h-full object-contain select-none pointer-events-auto filter drop-shadow-[0_20px_45px_rgba(255,107,0,0.35)] transition-transform duration-300 hover:scale-105"
               >
 
-              <!-- Luminous Light Sweep Layer: Masked strictly to the Bird's Wings and Body -->
               <div
                 class="absolute inset-0 pointer-events-none overflow-hidden"
                 style="
@@ -256,7 +307,6 @@ require_once __DIR__ . '/includes/header.php';
                   mask-position: center;
                 "
               >
-                <!-- Diagonal cascading light sheen -->
                 <div
                   class="absolute inset-0 w-[220%] h-[220%] -top-[60%] -left-[60%] pointer-events-none animate-sheen-diag"
                   style="
@@ -265,7 +315,6 @@ require_once __DIR__ . '/includes/header.php';
                   "
                 ></div>
 
-                <!-- Vertical ethereal light cascade -->
                 <div
                   class="absolute inset-0 pointer-events-none animate-sheen-vert"
                   style="
@@ -275,7 +324,7 @@ require_once __DIR__ . '/includes/header.php';
                 ></div>
               </div>
 
-              <!-- Delicate Glowing Light Feathers / Embers falling down across the Bird's Wings & Body -->
+              <!-- Delicate Glowing Light Feathers falling down across the Bird -->
               <div class="absolute inset-0 pointer-events-none overflow-hidden">
                 <?php
                 $feathers = [
@@ -325,9 +374,10 @@ require_once __DIR__ . '/includes/header.php';
   </div>
 </section>
 
-<!-- 2. ORANGE-TINT SECTION: MULTI-PAGE NAVIGATION DIRECTORY -->
-<section id="directory" class="relative py-20 sm:py-28 bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-20">
-  <!-- Subtle Ambient Corner Blooms -->
+<!-- =========================================================================
+     2. QUICK INTERACTIVE DIRECTORY (#directory)
+     ========================================================================= -->
+<section id="directory" class="relative py-20 sm:py-28 bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
   <div class="absolute top-1/4 -right-32 w-[36rem] h-[36rem] bg-[#FF6B00]/5 rounded-full blur-[140px] pointer-events-none"></div>
   <div class="absolute bottom-10 -left-32 w-[34rem] h-[34rem] bg-[#C01858]/4 rounded-full blur-[140px] pointer-events-none"></div>
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -342,17 +392,15 @@ require_once __DIR__ . '/includes/header.php';
         Engineering Digital Excellence Across Every Dimension
       </h2>
       <p class="mt-4 text-base sm:text-lg text-[#475569] font-normal leading-relaxed font-body">
-        Browse our dedicated sections to learn about our engineering team, explore our services,
-        review our battle-tested tech stack, and see our work.
+        Browse our core chapters to learn about our engineering team, explore our services,
+        review our battle-tested tech stack, and see verified client deployments.
       </p>
     </div>
 
     <!-- 3D Flip Directory Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <?php foreach ($directorySections as $secIdx => $sec): 
-        $cardTargetId = str_replace('.php', '', $sec['href']);
-      ?>
-        <div id="<?php echo $cardTargetId; ?>" class="flip-card-wrapper h-[340px] sm:h-[350px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo ($secIdx + 1); ?> scroll-mt-28">
+      <?php foreach ($directorySections as $secIdx => $sec): ?>
+        <div class="flip-card-wrapper h-[340px] sm:h-[350px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo ($secIdx + 1); ?>">
           <div class="flip-card-inner">
             
             <!-- FRONT FACE -->
@@ -428,40 +476,1180 @@ require_once __DIR__ . '/includes/header.php';
         </div>
       <?php endforeach; ?>
     </div>
+  </div>
+</section>
 
-    <!-- Trust Highlights Banner -->
-    <div class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 pt-10 border-t border-[#F1E6EE]">
-      <div class="flex items-center gap-3.5 bg-white p-4 rounded-2xl border border-[#F1E6EE] shadow-xs">
-        <div class="w-10 h-10 rounded-xl bg-[#FFF4EA] text-[#FF6B00] border border-[#FF6B00]/20 flex items-center justify-center shrink-0">
-          <i data-lucide="shield-check" class="w-5 h-5"></i>
+<!-- =========================================================================
+     3. ABOUT SHREE TECH SECTION (#about)
+     ========================================================================= -->
+<section id="about" class="relative py-20 sm:py-28 bg-transparent overflow-hidden scroll-mt-24">
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      
+      <!-- Left Column: Story & Deliverables -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6]">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+          <span>About Shree Tech</span>
         </div>
-        <div>
-          <div class="text-sm font-bold text-[#0F172A] font-heading">Enterprise Security</div>
-          <div class="text-xs text-[#475569] font-body">ISO & GDPR compliant practices</div>
+
+        <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight leading-tight font-heading">
+          SHREETECH Internship Training And Development In Madurai
+        </h2>
+
+        <p class="text-base text-[#475569] leading-relaxed font-normal font-body">
+          SHREETECH We would be happy to collaborate with you to present you to the information technology solutions we have to offer. Shreetech Hub, which was founded in 2015, is a pioneer in offering IT infrastructure and solutions across a range of platforms. Since their inception, businesses have been using Shreetech. Shreetech believes in going above and beyond the duty of a simple solution provider to its clientele by fusing intuition and rigour with practical business acumen. Shreetech gives consumers access to technology through the delivery of simple solutions that increase productivity.
+        </p>
+
+        <p class="text-sm text-[#475569] leading-relaxed font-normal font-body">
+          We are a skilled team of professionals, having more than 15 years of experience in Web and Mobile Application Development. We have 40+ employees with Business Analyst, Designer, Developers & DevOps team and are ready to take up new projects any time and we assure we meet the right deadlines with high quality.
+        </p>
+
+        <!-- Core Achievements -->
+        <div class="glass-card p-6 rounded-3xl space-y-3.5 border border-[#F1E6EE]">
+          <?php
+          $achievements = [
+              'Full-stack engineering capabilities from concept through multi-cloud deployment',
+              'Strict adherence to Domain-Driven Design, clean architecture, and automated testing',
+              'Transparent agile communication with direct access to senior developers',
+              'Guaranteed response SLAs and dedicated ongoing maintenance support'
+          ];
+          foreach ($achievements as $ach): ?>
+            <div class="flex items-start gap-3">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-[#FF6B00] shrink-0 mt-0.5"></i>
+              <span class="text-sm text-[#0F172A] font-medium font-body"><?php echo htmlspecialchars($ach); ?></span>
+            </div>
+          <?php endforeach; ?>
+        </div>
+
+        <div class="pt-2">
+          <a
+            href="#services"
+            class="inline-flex items-center gap-2 text-sm font-semibold text-[#FF6B00] hover:text-[#C01858] transition-colors group cursor-pointer font-body"
+          >
+            <span>Read More About Our Engineering Practices</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+          </a>
         </div>
       </div>
 
-      <div class="flex items-center gap-3.5 bg-white p-4 rounded-2xl border border-[#F1E6EE] shadow-xs">
-        <div class="w-10 h-10 rounded-xl bg-[#FFF0F5] text-[#C01858] border border-[#C01858]/20 flex items-center justify-center shrink-0">
-          <i data-lucide="zap" class="w-5 h-5"></i>
+      <!-- Right Column: Visual Workplace & Stat Counters -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="relative rounded-3xl overflow-hidden glass-card glass-card-hover p-2.5 shadow-2xl group">
+          <div class="rounded-2xl overflow-hidden relative">
+            <img
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80"
+              alt="Shree Tech software engineering team collaborating on architecture"
+              class="w-full h-72 sm:h-80 object-cover group-hover:scale-102 transition-transform duration-500"
+            >
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-80"></div>
+            <div class="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-white/95 border border-[#F1E6EE] flex items-center justify-between text-xs text-[#0F172A] shadow-sm">
+              <span class="font-bold text-[#0F172A] font-heading">Shree Tech Engineering Labs</span>
+              <span class="text-[#475569] font-medium font-body">Sprint Planning</span>
+            </div>
+          </div>
         </div>
-        <div>
-          <div class="text-sm font-bold text-[#0F172A] font-heading">High-Speed Execution</div>
-          <div class="text-xs text-[#475569] font-body">Agile two-week sprint delivery</div>
-        </div>
-      </div>
 
-      <div class="flex items-center gap-3.5 bg-white p-4 rounded-2xl border border-[#F1E6EE] shadow-xs">
-        <div class="w-10 h-10 rounded-xl bg-[#F5F0FF] text-[#8B5CF6] border border-[#8B5CF6]/20 flex items-center justify-center shrink-0">
-          <i data-lucide="globe" class="w-5 h-5"></i>
-        </div>
-        <div>
-          <div class="text-sm font-bold text-[#0F172A] font-heading">Global Collaboration</div>
-          <div class="text-xs text-[#475569] font-body">Seamless remote engineering teams</div>
+        <!-- 4 Statistics in 3D Flip Cards with Count-Up -->
+        <div class="grid grid-cols-2 gap-4">
+          <?php
+          $stats = [
+              ['value' => 100, 'suffix' => '+', 'label' => 'Delivered Projects', 'sublabel' => 'Web, mobile & cloud SaaS', 'detail' => 'Delivered across 12 countries for FinTech, MedTech, and high-growth enterprise SaaS.'],
+              ['value' => 99, 'suffix' => '%', 'label' => 'Client Retention', 'sublabel' => 'Long-term technology partners', 'detail' => 'Sustained multi-year engineering partnerships with predictable ongoing delivery SLAs.'],
+              ['value' => 10, 'suffix' => '+', 'label' => 'Years Experience', 'sublabel' => 'Established engineering record', 'detail' => 'A decade of architecting distributed systems, cloud migrations, and product launches.'],
+              ['value' => 45, 'suffix' => '+', 'label' => 'Senior Engineers', 'sublabel' => 'Specialized across full stack', 'detail' => 'Elite technical directors and full-stack devs specialized in React, Node, Python & Cloud.']
+          ];
+          foreach ($stats as $sIdx => $st): ?>
+            <div class="flip-card-wrapper h-36 sm:h-40 w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo ($sIdx + 1); ?>">
+              <div class="flip-card-inner">
+                <!-- Front -->
+                <div class="flip-card-front glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
+                  <div class="card-spotlight-layer"></div>
+                  <div>
+                    <div class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-stat group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#FF6B00] group-hover:to-[#C01858] transition-all duration-300">
+                      <span class="stat-counter-number" data-target="<?php echo $st['value']; ?>">0</span><?php echo $st['suffix']; ?>
+                    </div>
+                    <div class="text-sm font-bold text-[#0F172A] mt-1"><?php echo htmlspecialchars($st['label']); ?></div>
+                    <div class="text-xs text-[#475569] mt-0.5"><?php echo htmlspecialchars($st['sublabel']); ?></div>
+                  </div>
+                  <div class="flex items-center justify-between text-[10px] text-[#475569] group-hover:text-[#C01858] transition-colors pt-2 border-t border-[#F1E6EE]">
+                    <span>Flip for detail</span>
+                    <i data-lucide="rotate-cw" class="w-3 h-3 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500"></i>
+                  </div>
+                </div>
+
+                <!-- Back -->
+                <div class="flip-card-back glass-card p-4 sm:p-5 rounded-2xl flex flex-col justify-between border-2 border-[#C01858] shadow-md">
+                  <div>
+                    <div class="flex items-center justify-between mb-1">
+                      <span class="text-[10px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body">
+                        Verified Metric
+                      </span>
+                      <i data-lucide="sparkles" class="w-3 h-3 text-[#8B5CF6]"></i>
+                    </div>
+                    <div class="text-xs font-bold text-[#0F172A] font-heading mt-1"><?php echo htmlspecialchars($st['label']); ?></div>
+                    <p class="text-[11px] text-[#475569] font-normal leading-relaxed mt-1 font-body">
+                      <?php echo htmlspecialchars($st['detail']); ?>
+                    </p>
+                  </div>
+                  <div class="flex items-center gap-1.5 text-[10px] text-[#FF6B00] font-semibold pt-1 border-t border-[#F1E6EE]">
+                    <i data-lucide="check-circle-2" class="w-3 h-3 shrink-0"></i>
+                    <span>Enterprise Benchmark</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <?php endforeach; ?>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- =========================================================================
+     4. WHY CHOOSE US SECTION (#why-us)
+     ========================================================================= -->
+<section id="why-us" class="relative py-28 sm:py-36 bg-[#FFF0F5]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mb-16">
+      <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+        <span>Why Choose Shree Tech</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
+        Engineering Rigor. Transparent Communication. Measurable Outcomes.
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-[#475569] font-normal leading-relaxed font-body">
+        We operate with the standards of an elite in-house engineering team. Here is how our engineering
+        principles translate into clear business advantages for our clients.
+      </p>
+    </div>
+
+    <!-- 6 Advantages in 3D Flip Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      <?php foreach ($whyChooseUsData as $idx => $item): ?>
+        <div class="flip-card-wrapper h-[380px] sm:h-[400px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo ($idx + 1); ?>">
+          <div class="flip-card-inner">
+            <!-- Front -->
+            <div class="flip-card-front glass-card p-6 sm:p-8 rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-500">
+              <div class="card-spotlight-layer"></div>
+              <div>
+                <div class="flex items-center justify-between mb-5">
+                  <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs">
+                    <i data-lucide="<?php echo htmlspecialchars($item['iconName']); ?>" class="w-5 h-5"></i>
+                  </div>
+                  <span class="text-xs font-bold font-stat text-[#475569]/60 group-hover:text-[#FF6B00] transition-colors duration-300">
+                    0<?php echo $idx + 1; ?>
+                  </span>
+                </div>
+
+                <h3 class="text-lg font-bold text-[#0F172A] mb-2.5 group-hover:text-[#C01858] transition-colors duration-300 font-heading">
+                  <?php echo htmlspecialchars($item['title']); ?>
+                </h3>
+                <p class="text-sm text-[#475569] leading-relaxed font-normal font-body">
+                  <?php echo htmlspecialchars($item['description']); ?>
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-[#475569] group-hover:text-[#C01858] transition-colors">
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] transition-transform duration-500 group-hover:rotate-180"></i>
+                  <span>Hover to Flip</span>
+                </div>
+                <span class="text-xs font-black font-stat text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] to-[#C01858] tracking-tight">
+                  <?php echo htmlspecialchars($item['metric']); ?>
+                </span>
+              </div>
+            </div>
+
+            <!-- Back -->
+            <div class="flip-card-back glass-card p-6 sm:p-8 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-3.5">
+                  <span class="text-[11px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-3 py-0.5 rounded-full font-body uppercase tracking-wider">
+                    Engineering Standard
+                  </span>
+                  <span class="text-[11px] font-semibold text-[#475569] font-body flex items-center gap-1">
+                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
+                    Guaranteed
+                  </span>
+                </div>
+
+                <h4 class="text-base font-bold text-[#0F172A] font-heading mb-3">
+                  <?php echo htmlspecialchars($item['title']); ?>
+                </h4>
+
+                <div class="space-y-2.5">
+                  <?php foreach ($item['guarantees'] as $g): ?>
+                    <div class="flex items-start gap-2.5 text-xs text-[#475569] font-medium font-body leading-snug">
+                      <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
+                      <span><?php echo htmlspecialchars($g); ?></span>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+
+              <div class="relative z-10 pt-4 border-t border-[#F1E6EE]">
+                <a
+                  href="#contact"
+                  class="glass-btn-primary w-full py-2.5 px-4 rounded-2xl text-white font-semibold text-xs sm:text-sm font-body flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                >
+                  <span>Partner With Us</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     5. ENGINEERING SERVICES SECTION (#services)
+     ========================================================================= -->
+<section id="services" class="relative py-20 sm:py-28 bg-transparent overflow-hidden scroll-mt-24">
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="max-w-3xl mb-16">
+      <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+        <span>Our Services</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
+        Comprehensive Software Engineering & Technical Consulting
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-[#475569] font-normal leading-relaxed font-body">
+        We provide end-to-end technology services tailored to modern enterprise requirements. Explore
+        our eight core service disciplines engineered with clean, frosted glassmorphism UI.
+      </p>
+    </div>
+
+    <!-- 8 Services in 3D Flip Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <?php foreach ($servicesData as $idx => $service): ?>
+        <div class="flip-card-wrapper h-[380px] sm:h-[400px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo (($idx % 4) + 1); ?>">
+          <div class="flip-card-inner">
+            
+            <!-- Front Face -->
+            <div class="flip-card-front glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-500">
+              <div class="card-spotlight-layer"></div>
+              <div>
+                <div class="flex items-center justify-between mb-5">
+                  <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white group-hover:scale-105 transition-all duration-300 shadow-xs">
+                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-6 h-6"></i>
+                  </div>
+                  <span class="text-xs font-bold font-stat text-[#475569]/60 group-hover:text-[#FF6B00] transition-colors">
+                    0<?php echo $idx + 1; ?>
+                  </span>
+                </div>
+
+                <h3 class="text-lg font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors duration-300 font-heading mb-2.5">
+                  <?php echo htmlspecialchars($service['title']); ?>
+                </h3>
+
+                <p class="text-xs sm:text-sm text-[#475569] font-normal leading-relaxed">
+                  <?php echo htmlspecialchars($service['description']); ?>
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
+                <span class="text-xs font-semibold text-[#475569] group-hover:text-[#C01858] transition-colors duration-300 font-body flex items-center gap-1.5">
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] transition-transform duration-500 group-hover:rotate-180"></i>
+                  <span>Hover to Flip</span>
+                </span>
+                <div class="w-8 h-8 rounded-full bg-white border border-[#F1E6EE] group-hover:border-[#C01858] group-hover:bg-[#C01858] text-[#475569] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-xs">
+                  <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="flip-card-back glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-3.5">
+                  <span class="text-[11px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-3 py-0.5 rounded-full font-body uppercase tracking-wider">
+                    Key Deliverables
+                  </span>
+                  <span class="text-[11px] font-semibold text-[#475569] font-body flex items-center gap-1">
+                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
+                    Included Scope
+                  </span>
+                </div>
+
+                <h4 class="text-base font-bold text-[#0F172A] font-heading mb-3">
+                  <?php echo htmlspecialchars($service['title']); ?>
+                </h4>
+
+                <div class="space-y-2">
+                  <?php foreach ($service['deliverables'] as $item): ?>
+                    <div class="flex items-start gap-2 text-xs text-[#475569] font-medium">
+                      <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#FF6B00] shrink-0 mt-0.5"></i>
+                      <span class="leading-snug"><?php echo htmlspecialchars($item); ?></span>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+
+              <div class="relative z-10 pt-4 border-t border-[#F1E6EE]">
+                <a
+                  href="#contact"
+                  class="glass-btn-primary w-full py-2.5 px-4 rounded-2xl text-white font-semibold text-xs sm:text-sm font-body flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                >
+                  <span>Discuss Requirement</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     6. CORE TECHNOLOGY STACK SECTION (#technologies)
+     ========================================================================= -->
+<section id="technologies" class="relative py-20 sm:py-28 bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="max-w-3xl mb-12">
+      <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+        <span>Core Technology Stack</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
+        Battle-Tested Modern Technologies
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-[#475569] font-normal leading-relaxed font-body">
+        We build with reliable, industry-standard languages and frameworks that guarantee long-term
+        maintainability, enterprise scalability, and developer ergonomics.
+      </p>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="flex flex-wrap items-center gap-2 pb-8 border-b border-[#F1E6EE]">
+      <?php foreach ($techCategories as $cat): ?>
+        <button
+          type="button"
+          data-category="<?php echo htmlspecialchars($cat); ?>"
+          class="tech-filter-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-2xl transition-all cursor-pointer font-body <?php echo ($cat === 'All') ? 'glass-btn-primary shadow-sm text-white' : 'glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]'; ?>"
+        >
+          <?php echo htmlspecialchars($cat); ?>
+        </button>
+      <?php endforeach; ?>
+    </div>
+
+    <!-- Technology Showcase Strip (Single Unified Strip with Category Sequencing) -->
+    <div class="mt-10">
+      
+      <!-- Active Category Header & Description -->
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-2 border-b border-[#F1E6EE] mb-6">
+        <h3 id="active-category-title" class="text-xl font-bold text-[#0F172A] font-heading">
+          All Technology Disciplines
+        </h3>
+        <span id="active-category-desc" class="text-xs text-[#475569] font-normal font-body">
+          Comprehensive enterprise ecosystem across frontend, backend, databases, mobile, and cloud engineering.
+        </span>
+      </div>
+
+      <!-- 1. Master Single Strip for "All" -->
+      <div class="tech-category-group" data-category="All">
+        <div 
+          class="tech-marquee-wrapper relative w-full overflow-hidden py-4" 
+          style="--marquee-duration: <?php echo $categoryDurations['All']; ?>;"
+        >
+          <div class="pointer-events-none absolute left-0 inset-y-0 w-12 sm:w-24 md:w-36 bg-gradient-to-r from-white via-white/85 to-transparent z-10"></div>
+          <div class="pointer-events-none absolute right-0 inset-y-0 w-12 sm:w-24 md:w-36 bg-gradient-to-l from-white via-white/85 to-transparent z-10"></div>
+
+          <div class="tech-marquee-track marquee-left">
+            <div class="tech-marquee-group" aria-hidden="false">
+              <?php foreach ($allTechnologies as $tech): 
+                renderShowcaseCard($tech, $tech['category']);
+              endforeach; ?>
+            </div>
+
+            <div class="tech-marquee-group" aria-hidden="true">
+              <?php foreach ($allTechnologies as $tech): 
+                renderShowcaseCard($tech, $tech['category']);
+              endforeach; ?>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Category-Specific Strips -->
+      <?php foreach ($technologyGroups as $group): 
+        $catName = $group['category'];
+        $duration = $categoryDurations[$catName] ?? '32s';
+        $catItems = array_merge($group['items'], $group['items']);
+      ?>
+        <div class="tech-category-group hidden" data-category="<?php echo htmlspecialchars($catName); ?>">
+          <div 
+            class="tech-marquee-wrapper relative w-full overflow-hidden py-4" 
+            style="--marquee-duration: <?php echo htmlspecialchars($duration); ?>;"
+          >
+            <div class="pointer-events-none absolute left-0 inset-y-0 w-12 sm:w-24 md:w-36 bg-gradient-to-r from-white via-white/85 to-transparent z-10"></div>
+            <div class="pointer-events-none absolute right-0 inset-y-0 w-12 sm:w-24 md:w-36 bg-gradient-to-l from-white via-white/85 to-transparent z-10"></div>
+
+            <div class="tech-marquee-track marquee-left">
+              <div class="tech-marquee-group" aria-hidden="false">
+                <?php foreach ($catItems as $tech): 
+                  renderShowcaseCard($tech, $catName);
+                endforeach; ?>
+              </div>
+
+              <div class="tech-marquee-group" aria-hidden="true">
+                <?php foreach ($catItems as $tech): 
+                  renderShowcaseCard($tech, $catName);
+                endforeach; ?>
+              </div>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     7. FEATURED PROJECTS SECTION (#projects) - 3D STACKING CARD DECK
+     ========================================================================= -->
+<section id="projects" class="relative w-full bg-[#FFF0F5]/25 border-y border-[#F1E6EE] select-none scroll-mt-24">
+  
+  <!-- SCROLL-CONTROLLED PINNED STACKING TRACK -->
+  <div id="projects-pin-track" class="relative w-full">
+    
+    <!-- STICKY VIEWPORT STAGE (PERFECT FULL-VIEW ALIGNMENT: ZERO CLIPPING & SAFE NAVBAR CLEARANCE) -->
+    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-20 sm:pt-24 pb-4 px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header (Cleanly Spaced Below Floating Navbar) -->
+      <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-2 sm:mb-2.5 shrink-0">
+        <div class="glass-pill inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-1 shadow-xs">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+          <span>Selected Case Studies</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-[#0F172A] tracking-tight font-heading mb-1.5">
+          Featured Client Deployments
+        </h2>
+
+        <!-- Category Filter Pills -->
+        <div class="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5">
+          <button
+            type="button"
+            data-category="all"
+            class="project-filter-btn px-3 py-0.5 sm:py-1 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-primary shadow-xs text-white"
+          >
+            All Projects
+          </button>
+          <button
+            type="button"
+            data-category="web"
+            class="project-filter-btn px-3 py-0.5 sm:py-1 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
+          >
+            Web Applications
+          </button>
+          <button
+            type="button"
+            data-category="enterprise"
+            class="project-filter-btn px-3 py-0.5 sm:py-1 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
+          >
+            Enterprise SaaS
+          </button>
+          <button
+            type="button"
+            data-category="mobile"
+            class="project-filter-btn px-3 py-0.5 sm:py-1 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
+          >
+            Mobile Apps
+          </button>
+          <button
+            type="button"
+            data-category="cloud"
+            class="project-filter-btn px-3 py-0.5 sm:py-1 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
+          >
+            Cloud Infrastructure
+          </button>
+        </div>
+      </div>
+
+      <!-- STACKING CARDS DECK (BALANCED MEDIUM CARD PRESENTATION ACCORDING TO TEMPLATE) -->
+      <div class="stacking-deck-container relative w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl mx-auto flex flex-col justify-start items-center">
+        <div class="stacking-cards-deck relative w-full h-[380px] sm:h-[410px] md:h-[430px] lg:h-[450px]">
+          <?php 
+          $iconMap = [
+              'apex-finance' => 'trending-up',
+              'health-cloud' => 'activity',
+              'fleet-mobile' => 'truck',
+              'luxury-commerce' => 'shopping-bag',
+              'cloud-security' => 'shield-check',
+              'ai-intelligence' => 'cpu',
+              'web' => 'globe',
+              'enterprise' => 'cpu',
+              'mobile' => 'truck',
+              'cloud' => 'shield-check',
+          ];
+          foreach ($projectsData as $idx => $project): 
+              $icon = $iconMap[$project['id']] ?? $iconMap[$project['category']] ?? 'sparkles';
+              $cardNumber = str_pad($idx + 1, 2, '0', STR_PAD_LEFT);
+          ?>
+            <!-- Dynamic Project Stacking Card ($idx: <?php echo $idx; ?>) -->
+            <article
+              class="stacking-card-item project-card-item"
+              data-card-index="<?php echo $idx; ?>"
+              data-category="<?php echo htmlspecialchars($project['category']); ?>"
+              style="--stack-idx: <?php echo $idx; ?>;"
+            >
+              <!-- Card Outer Shell: White card with 1.5px subtle border & shadow -->
+              <div class="stacking-card-box">
+                
+                <!-- TOP HEADER BAR (Folder Tab / Ticket Header from Reference Video in White) -->
+                <div class="stacking-card-header px-4 sm:px-6 lg:px-8 flex items-center justify-between select-none">
+                  <!-- Left Decorative Rivet Dot & Index -->
+                  <div class="flex items-center gap-2 sm:gap-3">
+                    <span class="card-rivet" aria-hidden="true"></span>
+                    <span class="font-stat text-[11px] sm:text-xs font-black tracking-widest uppercase text-[#C01858]">
+                      // <?php echo $cardNumber; ?>
+                    </span>
+                  </div>
+
+                  <!-- Center: Project Title / Main Headline in Bold Uppercase -->
+                  <div class="font-heading font-black text-xs sm:text-sm md:text-base tracking-wider uppercase truncate px-3 text-[#0F172A] text-center flex-1">
+                    <span><?php echo htmlspecialchars($project['title']); ?></span>
+                  </div>
+
+                  <!-- Right Decorative Rivet Dot & Year Tag -->
+                  <div class="flex items-center gap-2 sm:gap-3">
+                    <span class="text-[10px] sm:text-xs font-bold tracking-wider font-heading text-[#64748B] hidden sm:inline">
+                      <?php echo htmlspecialchars($project['year']); ?>
+                    </span>
+                    <span class="card-rivet" aria-hidden="true"></span>
+                  </div>
+                </div>
+
+                <!-- WHITE CARD BODY (#FFFFFF) CLEAN CONTEMPORARY THEME - FULL-WIDTH SHOWCASE IMAGE -->
+                <div class="stacking-card-body p-3 sm:p-4 text-[#0F172A] bg-white">
+                  <?php
+                    $imgFit = $project['imageFit'] ?? 'cover';
+                    $imgBgStyle = isset($project['imageBg']) ? 'style="background-color: ' . htmlspecialchars($project['imageBg']) . ';"' : '';
+                  ?>
+                  <div
+                    class="open-project-modal relative w-full h-[280px] sm:h-[310px] md:h-[330px] lg:h-[350px] group overflow-hidden rounded-2xl border border-[#F1E6EE] bg-slate-50 flex items-center justify-center shadow-md cursor-pointer select-none"
+                    <?php echo $imgBgStyle; ?>
+                    data-title="<?php echo htmlspecialchars($project['title']); ?>"
+                    data-client="<?php echo htmlspecialchars($project['client']); ?>"
+                    data-summary="<?php echo htmlspecialchars($project['summary']); ?>"
+                    data-category="<?php echo htmlspecialchars($project['categoryLabel']); ?>"
+                    data-metric-val="<?php echo htmlspecialchars($project['metrics']['value']); ?>"
+                    data-metric-label="<?php echo htmlspecialchars($project['metrics']['label']); ?>"
+                  >
+                    <img
+                      src="<?php echo htmlspecialchars($project['imageUrl']); ?>"
+                      alt="<?php echo htmlspecialchars($project['title']); ?>"
+                      class="w-full h-full <?php echo ($imgFit === 'contain') ? 'object-contain object-center' : 'object-cover object-top'; ?> transition-transform duration-500 group-hover:scale-102"
+                      loading="lazy"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+
+                    <!-- Top-left Year Tag -->
+                    <div class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#F1E6EE] text-[11px] font-bold text-[#0F172A] font-heading shadow-xs">
+                      <span><?php echo htmlspecialchars($project['year']); ?></span>
+                    </div>
+
+                    <!-- Bottom-left Category Tag -->
+                    <div class="absolute bottom-3.5 left-3.5 px-3 py-1 rounded-full bg-[#FF6B00] text-[11px] font-bold text-white uppercase tracking-wider font-heading shadow-xs">
+                      <span><?php echo htmlspecialchars($project['categoryLabel']); ?></span>
+                    </div>
+
+                    <!-- Circular Tech Icon Badge -->
+                    <div class="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-white/95 backdrop-blur-md border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] shadow-sm">
+                      <i data-lucide="<?php echo $icon; ?>" class="w-4 h-4 text-[#FF6B00]"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          <?php endforeach; ?>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     8. CLIENT TESTIMONIALS SECTION (#testimonials)
+     ========================================================================= -->
+<section id="testimonials" class="relative py-28 sm:py-36 bg-[#F5F0FF]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+        <span>Client Testimonials</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
+        Trusted by Technology Leaders
+      </h2>
+      <p class="mt-3 text-base text-[#475569] font-normal font-body">
+        Read what engineering and product executives say about partnering with Shree Tech.
+      </p>
+    </div>
+
+    <!-- Testimonials Scrollable Row -->
+    <div class="relative w-full overflow-hidden py-4">
+      <div class="pointer-events-none absolute left-0 inset-y-0 w-16 sm:w-28 bg-gradient-to-r from-[#F5F0FF] via-[#F5F0FF]/85 to-transparent z-20"></div>
+      <div class="pointer-events-none absolute right-0 inset-y-0 w-16 sm:w-28 bg-gradient-to-l from-[#F5F0FF] via-[#F5F0FF]/85 to-transparent z-20"></div>
+
+      <div
+        id="testimonials-track"
+        class="flex w-full overflow-x-auto no-scrollbar gap-5 sm:gap-7 select-none scroll-smooth py-2 px-4"
+      >
+        <?php foreach ($marqueeTestimonials as $t): ?>
+          <div class="w-[360px] sm:w-[440px] h-[330px] sm:h-[350px] shrink-0 flip-card-wrapper group cursor-pointer select-none">
+            <div class="flip-card-inner">
+              
+              <!-- Front -->
+              <div class="flip-card-front glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
+                <div>
+                  <div class="flex items-center justify-between mb-4">
+                    <i data-lucide="quote" class="w-10 h-10 text-[#FF6B00]/25 group-hover:text-[#FF6B00]/40 transition-all duration-300"></i>
+                    <div class="flex items-center gap-1">
+                      <?php for ($r = 0; $r < $t['rating']; $r++): ?>
+                        <i data-lucide="star" class="w-3.5 h-3.5 fill-[#FF6B00] text-[#FF6B00]"></i>
+                      <?php endfor; ?>
+                    </div>
+                  </div>
+
+                  <p class="text-xs sm:text-sm text-[#475569] font-normal font-body leading-relaxed line-clamp-4 italic">
+                    &ldquo;<?php echo htmlspecialchars($t['content']); ?>&rdquo;
+                  </p>
+                </div>
+
+                <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-11 h-11 rounded-xl p-[2px] bg-gradient-to-tr from-[#FF6B00] via-[#C01858] to-[#8B5CF6] shadow-xs shrink-0">
+                      <img src="<?php echo htmlspecialchars($t['imageUrl']); ?>" alt="<?php echo htmlspecialchars($t['name']); ?>" class="w-full h-full rounded-[10px] object-cover">
+                    </div>
+                    <div class="min-w-0">
+                      <div class="text-xs font-bold text-[#0F172A] font-heading truncate"><?php echo htmlspecialchars($t['name']); ?></div>
+                      <div class="text-[11px] text-[#475569] font-medium font-body truncate">
+                        <?php echo htmlspecialchars($t['designation']); ?>, <span class="text-[#FF6B00] font-semibold"><?php echo htmlspecialchars($t['company']); ?></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center gap-1 text-[11px] font-semibold text-[#475569] group-hover:text-[#C01858] transition-colors shrink-0 pl-2">
+                    <i data-lucide="rotate-cw" class="w-3 h-3 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500"></i>
+                    <span>Flip</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Back -->
+              <div class="flip-card-back glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
+                <div class="relative z-10">
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="text-[10px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body">
+                      Verified Client Review
+                    </span>
+                    <div class="flex items-center gap-1 text-[11px] font-semibold text-[#475569] font-body">
+                      <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
+                      5.0 Rating
+                    </div>
+                  </div>
+
+                  <h4 class="text-sm font-bold text-[#0F172A] font-heading mb-1">
+                    <?php echo htmlspecialchars($t['company']); ?>
+                  </h4>
+                  <div class="text-[11px] text-[#475569] font-body mb-3">
+                    Client Contact: <?php echo htmlspecialchars($t['name']); ?> (<?php echo htmlspecialchars($t['designation']); ?>)
+                  </div>
+
+                  <div class="space-y-2">
+                    <div class="flex items-start gap-2 text-xs text-[#475569] font-medium font-body leading-snug">
+                      <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
+                      <span><strong>Scope:</strong> <?php echo htmlspecialchars($t['scope']); ?></span>
+                    </div>
+                    <div class="flex items-start gap-2 text-xs text-[#475569] font-medium font-body leading-snug">
+                      <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
+                      <span><strong>Tech:</strong> <?php echo htmlspecialchars($t['stack']); ?></span>
+                    </div>
+                    <div class="flex items-start gap-2 text-xs text-[#475569] font-medium font-body leading-snug">
+                      <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
+                      <span><strong>Outcome:</strong> <?php echo htmlspecialchars($t['outcome']); ?></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="relative z-10 pt-3 border-t border-[#F1E6EE]">
+                  <a
+                    href="#contact"
+                    class="glass-btn-primary w-full py-2 px-4 rounded-xl text-white font-semibold text-xs font-body flex items-center justify-center gap-1.5 shadow-md"
+                  >
+                    <span>Discuss Similar Project</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+
+    <!-- Controls: Left & Right Buttons -->
+    <div class="mt-6 flex items-center justify-end">
+      <div class="flex items-center gap-2.5">
+        <button
+          id="testimonials-prev"
+          aria-label="Previous testimonial"
+          class="glass-btn-secondary p-3 rounded-2xl text-[#0F172A] hover:text-[#C01858] hover:border-[#C01858] active:scale-95 transition-all cursor-pointer shadow-xs"
+          title="Previous (Left Arrow key)"
+        >
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </button>
+        <button
+          id="testimonials-next"
+          aria-label="Next testimonial"
+          class="glass-btn-secondary p-3 rounded-2xl text-[#0F172A] hover:text-[#C01858] hover:border-[#C01858] active:scale-95 transition-all cursor-pointer shadow-xs"
+          title="Next (Right Arrow key)"
+        >
+          <i data-lucide="chevron-right" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     9. CONTACT & CONSULTATION SECTION (#contact)
+     ========================================================================= -->
+<section id="contact" class="relative py-20 sm:py-28 bg-transparent overflow-hidden scroll-mt-24">
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      
+      <!-- Left Side: Contact Channels (5 Cols) -->
+      <div class="lg:col-span-5 space-y-8 reveal-init reveal-left">
+        <div>
+          <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+            <span>Start a Conversation</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight leading-tight font-heading">
+            Let&apos;s Discuss Your Project
+          </h2>
+          <p class="mt-4 text-base text-[#475569] font-normal leading-relaxed font-body">
+            Whether you are modernizing a legacy software platform, launching a new digital product,
+            or scaling your engineering squad, our senior architects are ready to assist.
+          </p>
+        </div>
+
+        <!-- Direct Channels in 3D Flip Cards -->
+        <div class="space-y-4">
+          
+          <!-- Email Flip Card -->
+          <div class="flip-card-wrapper h-24 sm:h-28 w-full select-none group cursor-pointer">
+            <div class="flip-card-inner">
+              <div class="flip-card-front glass-card p-4 rounded-3xl flex items-center justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
+                <div class="flex items-center gap-4 min-w-0">
+                  <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white group-hover:scale-105 transition-all duration-300 shrink-0 shadow-xs">
+                    <i data-lucide="mail" class="w-5 h-5"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="text-xs text-[#475569] font-medium font-body">Direct Inquiries</div>
+                    <div class="text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors font-heading truncate">
+                      contact@shreetech.com
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end gap-1 shrink-0 pl-2">
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500"></i>
+                  <span class="text-[10px] text-[#475569] font-body">Flip</span>
+                </div>
+              </div>
+
+              <div class="flip-card-back glass-card p-4 rounded-3xl flex items-center justify-between border-2 border-[#C01858] shadow-md">
+                <div class="min-w-0 flex-1 pr-3">
+                  <div class="flex items-center gap-1.5 mb-1">
+                    <span class="text-[10px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body">
+                      Priority Email
+                    </span>
+                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00] shrink-0"></i>
+                  </div>
+                  <div class="text-xs text-[#475569] font-medium font-body truncate">
+                    Average response: &lt; 2 business hours
+                  </div>
+                </div>
+                <a
+                  href="mailto:contact@shreetech.com"
+                  class="glass-btn-primary px-3.5 py-2 rounded-xl text-white font-semibold text-xs flex items-center gap-1 shrink-0 shadow-xs hover:scale-105 transition-transform font-body"
+                >
+                  <span>Email Us</span>
+                  <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phone Flip Card -->
+          <div class="flip-card-wrapper h-24 sm:h-28 w-full select-none group cursor-pointer">
+            <div class="flip-card-inner">
+              <div class="flip-card-front glass-card p-4 rounded-3xl flex items-center justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
+                <div class="flex items-center gap-4 min-w-0">
+                  <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white group-hover:scale-105 transition-all duration-300 shrink-0 shadow-xs">
+                    <i data-lucide="phone" class="w-5 h-5"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="text-xs text-[#475569] font-medium font-body">Direct Hotline</div>
+                    <div class="text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors font-heading truncate">
+                      +1 (800) 840-2030
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end gap-1 shrink-0 pl-2">
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500"></i>
+                  <span class="text-[10px] text-[#475569] font-body">Flip</span>
+                </div>
+              </div>
+
+              <div class="flip-card-back glass-card p-4 rounded-3xl flex items-center justify-between border-2 border-[#C01858] shadow-md">
+                <div class="min-w-0 flex-1 pr-3">
+                  <div class="flex items-center gap-1.5 mb-1">
+                    <span class="text-[10px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body">
+                      Live Dispatch
+                    </span>
+                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00] shrink-0"></i>
+                  </div>
+                  <div class="text-xs text-[#475569] font-medium font-body truncate">
+                    Available Mon–Fri, 8am–7pm EST
+                  </div>
+                </div>
+                <a
+                  href="tel:+18008402030"
+                  class="glass-btn-primary px-3.5 py-2 rounded-xl text-white font-semibold text-xs flex items-center gap-1 shrink-0 shadow-xs hover:scale-105 transition-transform font-body"
+                >
+                  <span>Call Now</span>
+                  <i data-lucide="phone" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Headquarters Flip Card -->
+          <div class="flip-card-wrapper h-24 sm:h-28 w-full select-none group cursor-pointer">
+            <div class="flip-card-inner">
+              <div class="flip-card-front glass-card p-4 rounded-3xl flex items-center justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
+                <div class="flex items-center gap-4 min-w-0">
+                  <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white group-hover:scale-105 transition-all duration-300 shrink-0 shadow-xs">
+                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="text-xs text-[#475569] font-medium font-body">Headquarters</div>
+                    <div class="text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors font-heading truncate">
+                      500 Howard St, San Francisco
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end gap-1 shrink-0 pl-2">
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500"></i>
+                  <span class="text-[10px] text-[#475569] font-body">Flip</span>
+                </div>
+              </div>
+
+              <div class="flip-card-back glass-card p-4 rounded-3xl flex items-center justify-between border-2 border-[#C01858] shadow-md">
+                <div class="min-w-0 flex-1 pr-3">
+                  <div class="flex items-center gap-1.5 mb-1">
+                    <span class="text-[10px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body">
+                      Bay Area HQ
+                    </span>
+                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00] shrink-0"></i>
+                  </div>
+                  <div class="text-xs text-[#475569] font-medium font-body truncate">
+                    Suite 400, SF Financial District
+                  </div>
+                </div>
+                <a
+                  href="https://maps.google.com/?q=500+Howard+Street+San+Francisco+CA+94105"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="glass-btn-primary px-3.5 py-2 rounded-xl text-white font-semibold text-xs flex items-center gap-1 shrink-0 shadow-xs hover:scale-105 transition-transform font-body"
+                >
+                  <span>View Map</span>
+                  <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Channels -->
+        <div class="pt-2">
+          <div class="text-xs text-[#475569] font-medium mb-3">Direct Channels</div>
+          <div class="flex items-center gap-3">
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-btn-secondary w-10 h-10 rounded-2xl text-[#475569] hover:text-[#C01858] hover:border-[#C01858] flex items-center justify-center cursor-pointer shadow-xs transition-colors"
+              aria-label="GitHub"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-btn-secondary w-10 h-10 rounded-2xl text-[#475569] hover:text-[#C01858] hover:border-[#C01858] flex items-center justify-center cursor-pointer shadow-xs transition-colors"
+              aria-label="LinkedIn"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.65 1.65 0 1 0-.02-3.3 1.65 1.65 0 0 0 .02 3.3m1.4 9.74v-8.37H5.06v8.37h2.8z"/>
+              </svg>
+            </a>
+            <a
+              href="https://x.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-btn-secondary w-10 h-10 rounded-2xl text-[#475569] hover:text-[#C01858] hover:border-[#C01858] flex items-center justify-center cursor-pointer shadow-xs transition-colors"
+              aria-label="Twitter / X"
+            >
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Contact Form (7 Cols) -->
+      <div class="lg:col-span-7 reveal-init reveal-right">
+        <div class="p-8 sm:p-10 rounded-3xl glass-card contact-form-card border border-white/80 shadow-2xl relative overflow-hidden">
+          
+          <?php if ($formSubmitted): ?>
+            <div id="contact-success" class="py-12 text-center space-y-4">
+              <div class="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mx-auto shadow-xs">
+                <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+              </div>
+              <h3 class="text-2xl font-black text-[#0F172A] font-heading">Inquiry Transmitted</h3>
+              <p class="text-sm text-[#475569] max-w-md mx-auto leading-relaxed font-normal font-body">
+                We have received your project inquiry. A senior technical director will review your
+                scope and respond within one business day.
+              </p>
+              <a
+                href="#contact"
+                class="glass-btn-secondary mt-4 inline-block px-6 py-2.5 rounded-2xl text-xs font-semibold text-[#0F172A] cursor-pointer"
+              >
+                Submit Another Inquiry
+              </a>
+            </div>
+          <?php else: ?>
+            <form id="contact-form" method="POST" action="#contact" class="space-y-6" data-ajax="false">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                
+                <!-- Full Name -->
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-2 font-heading">
+                    Full Name <span class="text-[#FF6B00]">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value="<?php echo htmlspecialchars($formData['name']); ?>"
+                    placeholder="Elena Vance"
+                    class="w-full px-4 py-3 rounded-2xl glass-input text-sm text-[#0F172A]"
+                  >
+                  <?php if (isset($formErrors['name'])): ?>
+                    <div class="flex items-center gap-1 text-xs text-[#C01858] mt-1.5 font-medium">
+                      <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                      <span><?php echo htmlspecialchars($formErrors['name']); ?></span>
+                    </div>
+                  <?php endif; ?>
+                </div>
+
+                <!-- Business Email -->
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-2 font-heading">
+                    Business Email <span class="text-[#FF6B00]">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value="<?php echo htmlspecialchars($formData['email']); ?>"
+                    placeholder="elena@company.com"
+                    class="w-full px-4 py-3 rounded-2xl glass-input text-sm text-[#0F172A]"
+                  >
+                  <?php if (isset($formErrors['email'])): ?>
+                    <div class="flex items-center gap-1 text-xs text-[#C01858] mt-1.5 font-medium">
+                      <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                      <span><?php echo htmlspecialchars($formErrors['email']); ?></span>
+                    </div>
+                  <?php endif; ?>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Phone Number -->
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-2 font-heading">
+                    Phone Number <span class="text-[#FF6B00]">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    value="<?php echo htmlspecialchars($formData['phone']); ?>"
+                    placeholder="+1 (555) 000-0000"
+                    class="w-full px-4 py-3 rounded-2xl glass-input text-sm font-stat text-[#0F172A]"
+                  >
+                  <?php if (isset($formErrors['phone'])): ?>
+                    <div class="flex items-center gap-1 text-xs text-[#C01858] mt-1.5 font-medium">
+                      <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                      <span><?php echo htmlspecialchars($formErrors['phone']); ?></span>
+                    </div>
+                  <?php endif; ?>
+                </div>
+
+                <!-- Service Selection -->
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-2 font-heading">
+                    Service Offering
+                  </label>
+                  <select
+                    name="service"
+                    class="w-full px-4 py-3 rounded-2xl glass-input text-sm text-[#0F172A] cursor-pointer"
+                  >
+                    <?php
+                    $servicesList = [
+                        'Website Development',
+                        'Mobile Application Development',
+                        'Custom Software Development',
+                        'UI/UX Design',
+                        'E-Commerce Development',
+                        'Cloud & DevOps',
+                        'Digital Transformation',
+                        'AI & Automation'
+                    ];
+                    foreach ($servicesList as $srv): ?>
+                      <option value="<?php echo htmlspecialchars($srv); ?>" <?php echo ($formData['service'] === $srv) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($srv); ?>
+                      </option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Message -->
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-2 font-heading">
+                  Project Description <span class="text-[#FF6B00]">*</span>
+                </label>
+                <textarea
+                  name="message"
+                  rows="4"
+                  required
+                  placeholder="Please share details about your requirements, timeline, or architecture challenges..."
+                  class="w-full px-4 py-3 rounded-2xl glass-input text-sm resize-none text-[#0F172A]"
+                ><?php echo htmlspecialchars($formData['message']); ?></textarea>
+                <?php if (isset($formErrors['message'])): ?>
+                  <div class="flex items-center gap-1 text-xs text-[#C01858] mt-1.5 font-medium">
+                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                    <span><?php echo htmlspecialchars($formErrors['message']); ?></span>
+                  </div>
+                <?php endif; ?>
+              </div>
+
+              <!-- Submit Button -->
+              <button
+                type="submit"
+                class="glass-btn-primary w-full py-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md text-white"
+              >
+                <span>Submit Project Inquiry</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+
+              <div class="flex items-center justify-center gap-1.5 text-center text-xs text-[#475569] font-medium font-body">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+                <span>Protected under Non-Disclosure Agreement (NDA)</span>
+              </div>
+            </form>
+          <?php endif; ?>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     10. CASE STUDY DETAIL MODAL (FOR PROJECT CARDS)
+     ========================================================================= -->
+<div id="project-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md">
+  <div class="modal-dialog-box relative w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl bg-white border border-[#F1E6EE] shadow-2xl">
+    
+    <!-- Close Button -->
+    <button
+      id="modal-close"
+      type="button"
+      class="absolute top-5 right-5 p-2.5 rounded-2xl bg-white text-[#475569] hover:text-[#0F172A] border border-[#F1E6EE] shadow-xs transition-colors cursor-pointer"
+      aria-label="Close dialog"
+    >
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+
+    <div class="flex items-center gap-3 mb-3">
+      <span id="modal-category" class="glass-pill px-3 py-1 rounded-xl text-xs font-semibold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE]"></span>
+      <span id="modal-client" class="text-xs text-[#475569] font-medium"></span>
+    </div>
+
+    <h3 id="modal-title" class="text-2xl font-black text-[#0F172A] mb-2 font-heading"></h3>
+    <p id="modal-summary" class="text-sm text-[#475569] leading-relaxed font-normal font-body"></p>
+
+    <div class="mt-6 p-4 rounded-2xl bg-white border border-[#F1E6EE] shadow-xs flex items-center justify-between">
+      <div>
+        <div class="text-xs text-[#475569] font-medium">Primary Impact Metric</div>
+        <div id="modal-metric-val" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] to-[#C01858] font-stat tracking-tight mt-0.5"></div>
+      </div>
+      <div id="modal-metric-label" class="text-xs text-[#475569] font-semibold"></div>
+    </div>
+
+    <div class="mt-6 space-y-3">
+      <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] font-heading">
+        Architectural Highlights
+      </h4>
+      <div class="space-y-2 text-xs sm:text-sm text-[#475569] font-body">
+        <div class="flex items-start gap-2">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
+          <span>Sub-second response latencies verified under peak production load</span>
+        </div>
+        <div class="flex items-start gap-2">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
+          <span>Strict TypeScript type safety ensuring zero unhandled runtime exceptions</span>
+        </div>
+        <div class="flex items-start gap-2">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
+          <span>Automated CI/CD build and testing pipeline with zero-downtime rolling deploys</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-4 border-t border-[#F1E6EE] flex justify-end">
+      <a
+        href="#contact"
+        id="modal-discuss-btn"
+        class="glass-btn-primary px-6 py-2.5 rounded-2xl font-semibold text-xs sm:text-sm cursor-pointer inline-flex items-center font-body text-white shadow-md"
+      >
+        Discuss a Similar Project
+      </a>
+    </div>
+  </div>
+</div>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

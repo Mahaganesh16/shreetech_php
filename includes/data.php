@@ -14,12 +14,12 @@ $companyInfo = [
 ];
 
 $navLinks = [
-    ['label' => 'Home', 'href' => 'index.php', 'page' => 'home'],
-    ['label' => 'About', 'href' => 'about.php', 'page' => 'about'],
-    ['label' => 'Services', 'href' => 'services.php', 'page' => 'services'],
-    ['label' => 'Technologies', 'href' => 'technologies.php', 'page' => 'technologies'],
-    ['label' => 'Projects', 'href' => 'projects.php', 'page' => 'projects'],
-    ['label' => 'Contact', 'href' => 'contact.php', 'page' => 'contact'],
+    ['label' => 'Home', 'href' => '#home', 'page' => 'home'],
+    ['label' => 'About', 'href' => '#about', 'page' => 'about'],
+    ['label' => 'Services', 'href' => '#services', 'page' => 'services'],
+    ['label' => 'Technologies', 'href' => '#technologies', 'page' => 'technologies'],
+    ['label' => 'Projects', 'href' => '#projects', 'page' => 'projects'],
+    ['label' => 'Contact', 'href' => '#contact', 'page' => 'contact'],
 ];
 
 $servicesData = [
@@ -509,4 +509,56 @@ function getMarqueeSet($items, $minTotal = 12) {
         $baseSet = array_merge($baseSet, $items);
     }
     return array_merge($baseSet, $baseSet);
+}
+
+if (!function_exists('renderShowcaseCard')) {
+    function renderShowcaseCard($tech, $catName) {
+    ?>
+      <div class="tech-card-item w-[280px] sm:w-[310px] md:w-[330px] h-[96px] sm:h-[104px] shrink-0 flip-card-wrapper group cursor-pointer select-none">
+        <div class="flip-card-inner">
+          <!-- Front Face -->
+          <div class="flip-card-front glass-card p-3 sm:p-3.5 rounded-2xl flex items-center gap-3 sm:gap-3.5 border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white border border-[#F1E6EE] flex items-center justify-center shrink-0 p-2 sm:p-2.5 shadow-xs">
+              <?php echo renderTechLogo($tech['iconComponent'], 'w-full h-full object-contain'); ?>
+            </div>
+            <div class="overflow-hidden min-w-0 flex-1">
+              <div class="flex items-center justify-between gap-1 mb-0.5">
+                <span class="text-[8px] sm:text-[9px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body shrink-0">
+                  <?php echo htmlspecialchars($catName); ?>
+                </span>
+                <i data-lucide="rotate-cw" class="w-3 h-3 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500 shrink-0"></i>
+              </div>
+              <h4 class="text-xs sm:text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading">
+                <?php echo htmlspecialchars($tech['name']); ?>
+              </h4>
+              <p class="text-[10px] sm:text-[11px] text-[#475569] truncate mt-0.5 font-normal font-body">
+                <?php echo htmlspecialchars($tech['description']); ?>
+              </p>
+            </div>
+          </div>
+
+          <!-- Back Face -->
+          <div class="flip-card-back glass-card p-3 rounded-2xl flex items-center justify-between gap-3 border-2 border-[#C01858] shadow-md">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 mb-1">
+                <span class="text-[8px] sm:text-[9px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body">
+                  <?php echo htmlspecialchars($catName); ?>
+                </span>
+                <span class="text-[10px] sm:text-[11px] font-bold text-[#0F172A] font-heading truncate">
+                  <?php echo htmlspecialchars($tech['name']); ?>
+                </span>
+              </div>
+              <div class="flex items-center gap-1 text-[9px] sm:text-[10px] text-[#475569] font-medium font-body truncate">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#FF6B00] shrink-0"></i>
+                <span>Production-Hardened</span>
+              </div>
+            </div>
+            <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center shrink-0 text-[#FF6B00]">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    <?php
+    }
 }
