@@ -204,16 +204,16 @@ $projectsData = [
     ],
     [
         'id' => 'luxury-commerce',
-        'title' => 'Aura Luxury Headless Storefront',
+        'title' => 'Eekai Charitable Trust Portal',
         'category' => 'web',
-        'categoryLabel' => 'E-Commerce',
-        'client' => 'Maison Aura Paris',
+        'categoryLabel' => 'Non-Profit & Crowdfunding',
+        'client' => 'Eekai Foundation',
         'year' => '2025',
-        'summary' => 'International multi-currency headless e-commerce experience with sub-second page loads, global CDN edge caching, and localized checkout in 32 markets.',
-        'technologies' => ['Next.js', 'Shopify Plus API', 'TypeScript', 'Tailwind CSS'],
-        'imageUrl' => 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
+        'summary' => 'Comprehensive non-profit crowdfunding and donor engagement platform featuring secure multi-tier donation processing, cause campaign tracking, and community outreach management.',
+        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'Razorpay API'],
+        'imageUrl' => 'assets/images/eekai-trust.png',
         'layoutSpan' => 'standard',
-        'metrics' => ['label' => 'Conversion Lift', 'value' => '+42%']
+        'metrics' => ['label' => 'Lives Impacted', 'value' => '50,000+']
     ],
     [
         'id' => 'cloud-security',
