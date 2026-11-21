@@ -1110,14 +1110,14 @@ require_once __DIR__ . '/includes/header.php';
         class="flex w-full overflow-x-auto no-scrollbar gap-5 sm:gap-7 select-none scroll-smooth py-2 px-4"
       >
         <?php foreach ($marqueeTestimonials as $t): ?>
-          <div class="w-[360px] sm:w-[440px] h-[330px] sm:h-[350px] shrink-0 flip-card-wrapper group cursor-pointer select-none">
+          <div class="w-[360px] sm:w-[440px] h-[270px] sm:h-[280px] shrink-0 flip-card-wrapper group cursor-pointer select-none">
             <div class="flip-card-inner">
               
               <!-- Front -->
-              <div class="flip-card-front glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
+              <div class="flip-card-front glass-card p-5 sm:p-6 rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
                 <div>
-                  <div class="flex items-center justify-between mb-4">
-                    <i data-lucide="quote" class="w-10 h-10 text-[#FF6B00]/25 group-hover:text-[#FF6B00]/40 transition-all duration-300"></i>
+                  <div class="flex items-center justify-between mb-3">
+                    <i data-lucide="quote" class="w-8 h-8 text-[#FF6B00]/25 group-hover:text-[#FF6B00]/40 transition-all duration-300"></i>
                     <div class="flex items-center gap-1">
                       <?php for ($r = 0; $r < $t['rating']; $r++): ?>
                         <i data-lucide="star" class="w-3.5 h-3.5 fill-[#FF6B00] text-[#FF6B00]"></i>
@@ -1130,9 +1130,9 @@ require_once __DIR__ . '/includes/header.php';
                   </p>
                 </div>
 
-                <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
+                <div class="pt-3.5 border-t border-[#F1E6EE] flex items-center justify-between">
                   <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-11 h-11 rounded-xl p-[2px] bg-gradient-to-tr from-[#FF6B00] via-[#C01858] to-[#8B5CF6] shadow-xs shrink-0">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl p-[2px] bg-gradient-to-tr from-[#FF6B00] via-[#C01858] to-[#8B5CF6] shadow-xs shrink-0">
                       <img src="<?php echo htmlspecialchars($t['imageUrl']); ?>" alt="<?php echo htmlspecialchars($t['name']); ?>" class="w-full h-full rounded-[10px] object-cover">
                     </div>
                     <div class="min-w-0">
@@ -1151,9 +1151,9 @@ require_once __DIR__ . '/includes/header.php';
               </div>
 
               <!-- Back -->
-              <div class="flip-card-back glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
+              <div class="flip-card-back glass-card p-4 sm:p-5 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
                 <div class="relative z-10">
-                  <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center justify-between mb-2">
                     <span class="text-[10px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body">
                       Verified Client Review
                     </span>
@@ -1163,14 +1163,14 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                   </div>
 
-                  <h4 class="text-sm font-bold text-[#0F172A] font-heading mb-1">
+                  <h4 class="text-sm font-bold text-[#0F172A] font-heading mb-0.5">
                     <?php echo htmlspecialchars($t['company']); ?>
                   </h4>
-                  <div class="text-[11px] text-[#334155] font-medium font-body mb-3">
+                  <div class="text-[11px] text-[#334155] font-medium font-body mb-2">
                     Client Contact: <?php echo htmlspecialchars($t['name']); ?> (<?php echo htmlspecialchars($t['designation']); ?>)
                   </div>
 
-                  <div class="space-y-2">
+                  <div class="space-y-1.5">
                     <div class="flex items-start gap-2 text-xs text-[#1E293B] font-medium font-body leading-snug">
                       <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
                       <span><strong>Scope:</strong> <?php echo htmlspecialchars($t['scope']); ?></span>
@@ -1186,10 +1186,10 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
                 </div>
 
-                <div class="relative z-10 pt-3 border-t border-[#F1E6EE]">
+                <div class="relative z-10 pt-2.5 border-t border-[#F1E6EE]">
                   <a
                     href="#contact"
-                    class="glass-btn-primary w-full py-2 px-4 rounded-xl text-white font-semibold text-xs font-body flex items-center justify-center gap-1.5 shadow-md"
+                    class="glass-btn-primary w-full py-1.5 px-4 rounded-xl text-white font-semibold text-xs font-body flex items-center justify-center gap-1.5 shadow-md"
                   >
                     <span>Discuss Similar Project</span>
                     <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
