@@ -1,13 +1,13 @@
 /* =========================================================================
-   ORBIT SERVICES ANIMATION SYSTEM (DOMINIK KOCH ARCHITECTURE)
+   ORBIT SERVICES ANIMATION SYSTEM (CENTER-FOCUSED HORIZONTAL ORBIT)
    ========================================================================= */
 
 .orbit-container {
   position: relative;
   width: 100%;
   max-width: 1260px;
-  min-height: 580px;
-  height: 600px;
+  min-height: 680px;
+  height: 720px;
   margin: 0 auto;
   user-select: none;
   -webkit-user-select: none;
@@ -24,6 +24,7 @@
   cursor: grabbing !important;
 }
 
+/* Horizontal Smooth Elliptical Orbit Line - Thin Light Pink */
 .orbit-path-svg {
   position: absolute;
   inset: 0;
@@ -31,8 +32,18 @@
   height: 100%;
   pointer-events: none;
   overflow: visible;
+  z-index: 5;
 }
 
+.orbit-path-line {
+  stroke: rgba(244, 114, 182, 0.45);
+  stroke-width: 1.75;
+  fill: none;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px rgba(255, 107, 130, 0.22));
+}
+
+/* Inactive Small Orbit Cards */
 .orbit-item {
   position: absolute;
   top: 0;
@@ -48,71 +59,78 @@
   cursor: pointer;
 }
 
+/* When a card reaches center down line, its full version is highlighted in center */
+.orbit-item.is-active {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  transition: opacity 0.35s ease;
+}
+
 .orbit-item-inner {
   width: 100%;
   height: 100%;
   position: relative;
-  border-radius: 1.25rem;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  border-radius: 1rem;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
   transform-origin: center center;
 }
 
 .orbit-item:hover .orbit-item-inner {
   transform: scale(var(--orbit-hover-scale, 1.08));
   border-color: #C01858 !important;
-  box-shadow:
-    0 20px 42px -10px rgba(192, 24, 88, 0.22),
-    0 0 22px rgba(255, 107, 0, 0.18) !important;
+  box-shadow: 0 10px 24px -4px rgba(192, 24, 88, 0.22) !important;
 }
 
-.orbit-item.is-active {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: scale(0.6) !important;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+/* Inactive Card Styling - Compact, Small, Clean White */
+.orbit-service-card {
+  height: 100%;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  border: 1px solid #F1E6EE;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  box-shadow: 0 6px 18px -4px rgba(15, 23, 42, 0.06) !important;
+  transition: all 0.25s ease;
 }
 
-/* Center Stage inside Orbit */
+/* Active Highlighted Full Card (Centered on Down Line) */
 .orbit-center-content {
   position: absolute;
-  top: 47%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: auto;
   z-index: 100;
   width: 100%;
-  max-width: 460px;
+  max-width: 490px;
   padding: 0 0.75rem;
 }
 
-/* Orbit Card Styling */
-.orbit-service-card {
-  height: 100%;
-  width: 100%;
-  padding: 0.65rem 0.85rem;
-  border-radius: 1.15rem;
-  display: flex;
-  align-items: center;
+.center-stage-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
   border: 1px solid #F1E6EE;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.82) 100%) !important;
-  backdrop-filter: blur(16px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border-radius: 1.75rem;
   box-shadow:
-    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
-    0 12px 28px -8px rgba(15, 23, 42, 0.08) !important;
-  transition: all 0.3s ease;
-}
-
-/* Ambient glow line for orbit path */
-.orbit-path-glow {
-  filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.35));
+    0 24px 60px -12px rgba(15, 23, 42, 0.12),
+    0 0 35px rgba(255, 107, 0, 0.12) !important;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (max-width: 768px) {
   .orbit-container {
-    min-height: 420px;
+    min-height: 580px;
+    height: 600px;
   }
   .orbit-center-content {
-    max-width: 340px;
+    max-width: 380px;
+    top: 50%;
   }
 }

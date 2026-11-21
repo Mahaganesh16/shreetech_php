@@ -760,52 +760,22 @@ require_once __DIR__ . '/includes/header.php';
         class="orbit-container"
         data-draggable=""
         data-intro=""
-        style="width: 100%; height: 600px;"
       >
-        <!-- Background SVG Orbit Path -->
+        <!-- Horizontal Smooth Elliptical Orbit Line (Light Pink) -->
         <svg
           class="orbit-path-svg"
           data-orbit-svg=""
           preserveAspectRatio="none"
-          style="z-index: 5;"
           aria-hidden="true"
         >
           <path
             data-orbit-path=""
             data-orbit-stroke=""
-            fill="none"
-            stroke="rgba(255, 107, 0, 0.28)"
-            stroke-linecap="round"
-            class="orbit-path-glow"
+            class="orbit-path-line"
           />
         </svg>
 
-        <!-- Layered SVG Orbit Path for Foreground Depth -->
-        <svg
-          class="orbit-path-svg"
-          data-orbit-svg=""
-          preserveAspectRatio="none"
-          style="z-index: 105;"
-          aria-hidden="true"
-        >
-          <defs>
-            <clipPath id="orbit-front-clip" clipPathUnits="userSpaceOnUse">
-              <rect data-orbit-clip="" />
-            </clipPath>
-          </defs>
-          <g clipPath="url(#orbit-front-clip)">
-            <path
-              data-orbit-stroke=""
-              data-orbit-path=""
-              fill="none"
-              stroke="rgba(192, 24, 88, 0.35)"
-              stroke-linecap="round"
-              class="orbit-path-glow"
-            />
-          </g>
-        </svg>
-
-        <!-- 8 Orbiting Service Cards (Remaining Go Small Satellite Cards) -->
+        <!-- 8 Orbiting Service Cards (Compact Satellite Cards) -->
         <?php foreach ($servicesData as $idx => $service): 
           $svcJson = json_encode([
             'id' => $service['id'],
@@ -823,16 +793,16 @@ require_once __DIR__ . '/includes/header.php';
           >
             <div class="orbit-item-inner">
               <div class="orbit-service-card group-hover:border-[#C01858]">
-                <div class="flex items-center gap-2.5 w-full">
-                  <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
-                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-4 h-4"></i>
+                <div class="flex items-center gap-2 w-full">
+                  <div class="w-7 h-7 rounded-lg bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
+                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-3.5 h-3.5"></i>
                   </div>
                   <div class="min-w-0 flex-1">
                     <div class="flex items-center justify-between gap-1 mb-0.5">
                       <span class="text-[9px] font-bold font-stat text-[#FF6B00]">0<?php echo $idx + 1; ?></span>
                       <i data-lucide="sparkles" class="w-2.5 h-2.5 text-[#C01858] opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </div>
-                    <h4 class="text-xs font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight">
+                    <h4 class="text-[11px] font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight">
                       <?php echo htmlspecialchars($service['title']); ?>
                     </h4>
                   </div>

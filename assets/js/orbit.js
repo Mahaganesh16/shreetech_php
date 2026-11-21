@@ -52,21 +52,21 @@
       this.options = Object.assign(
         {
           baseWidth: 1400,
-          radiusX: 560,
-          radiusY: 200,
-          rotation: -5,
+          radiusX: 620,
+          radiusY: 195,
+          rotation: 0,
           duration: 38,
-          itemWidth: 155,
-          itemHeight: 70,
+          itemWidth: 125,
+          itemHeight: 50,
           direction: 'normal',
           fill: true,
-          pathWidth: 2,
+          pathWidth: 1.75,
           pathDash: 0,
           easing: 'linear',
           paused: false,
           depth: 0.55,
           hoverScale: 1.08,
-          hoverSpeed: 0.2,
+          hoverSpeed: 0,
           draggable: true,
           clickToFront: true,
           intro: true,
@@ -230,6 +230,15 @@
         stroke.style.strokeWidth = String(this.options.pathWidth / this.st.scale);
       }
       this.applyDash(1);
+
+      // Keep active center card aligned with down line (resting at front-center of orbit)
+      const centerContent = this.root.querySelector('.orbit-center-content');
+      if (centerContent && this.st.lut) {
+        const frontPoint = this.sample(this.st.front);
+        const frontY = (frontPoint[1] - cy) * this.st.scale + this.st.height / 2;
+        const cardElevate = this.st.width < 768 ? 20 : 35;
+        centerContent.style.top = `${Math.round(frontY - cardElevate)}px`;
+      }
     }
 
     applyDash(reveal) {
@@ -301,6 +310,13 @@
         const w = (d + 1) / 2;
         let scale = 1 + depth * (FRONT_GROW * w - BACK_SHRINK * (1 - w));
         let opacity = 1 - depth * BACK_DIM * (1 - w);
+
+        // Smooth proximity fade near center stage card so satellite cards emerge gracefully from behind
+        const distFromFront = Math.abs(wrapSigned(u - this.st.front));
+        if (distFromFront < 0.14) {
+          const proximityFade = clamp((distFromFront - 0.04) / 0.09, 0, 1);
+          opacity *= proximityFade;
+        }
 
         if (introRunning) {
           scale *= 0.7 + 0.3 * appear;
@@ -637,12 +653,12 @@
     // Instantiate engine
     const engine = new OrbitServicesEngine(orbitContainer, {
       baseWidth: 1400,
-      radiusX: 560,
-      radiusY: 200,
-      rotation: -5,
+      radiusX: 620,
+      radiusY: 195,
+      rotation: 0,
       duration: 38,
-      itemWidth: 155,
-      itemHeight: 70,
+      itemWidth: 125,
+      itemHeight: 50,
       depth: 0.55,
       showPath: true,
       draggable: true,
