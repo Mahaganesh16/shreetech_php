@@ -8,8 +8,8 @@
   'use strict';
 
   const SAMPLES = 720;
-  const FRONT_GROW = 0.3;
-  const BACK_SHRINK = 0.45;
+  const FRONT_GROW = 0.38;
+  const BACK_SHRINK = 0.38;
   const BACK_DIM = 0.55;
   const INTRO_SPREAD = 1.3;
   const INTRO_FADE = 0.45;
@@ -52,12 +52,12 @@
       this.options = Object.assign(
         {
           baseWidth: 1400,
-          radiusX: 590,
-          radiusY: 220,
-          rotation: -5,
+          radiusX: 620,
+          radiusY: 310,
+          rotation: -4,
           duration: 38,
-          itemWidth: 215,
-          itemHeight: 125,
+          itemWidth: 320,
+          itemHeight: 185,
           direction: 'normal',
           fill: true,
           pathWidth: 2,
@@ -618,11 +618,11 @@
       }
       if (centerDeliverables && Array.isArray(s.deliverables)) {
         centerDeliverables.innerHTML = s.deliverables
-          .slice(0, 2)
+          .slice(0, 3)
           .map(
             d => `
-            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[10.5px] font-semibold text-[#1E293B] bg-white border border-[#F1E6EE] shadow-xs">
-              <i data-lucide="check-circle-2" class="w-3 h-3 text-[#FF6B00]"></i>
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold text-[#1E293B] bg-white border border-[#F1E6EE] shadow-xs">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
               <span>${d}</span>
             </span>`
           )
@@ -637,12 +637,12 @@
     // Instantiate engine
     const engine = new OrbitServicesEngine(orbitContainer, {
       baseWidth: 1400,
-      radiusX: 590,
-      radiusY: 220,
-      rotation: -5,
+      radiusX: 620,
+      radiusY: 310,
+      rotation: -4,
       duration: 38,
-      itemWidth: 215,
-      itemHeight: 125,
+      itemWidth: 320,
+      itemHeight: 185,
       depth: 0.55,
       showPath: true,
       draggable: true,

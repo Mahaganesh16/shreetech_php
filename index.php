@@ -760,7 +760,7 @@ require_once __DIR__ . '/includes/header.php';
         class="orbit-container"
         data-draggable=""
         data-intro=""
-        style="width: 100%; height: 620px;"
+        style="width: 100%; height: 820px;"
       >
         <!-- Background SVG Orbit Path -->
         <svg
@@ -823,31 +823,31 @@ require_once __DIR__ . '/includes/header.php';
           >
             <div class="orbit-item-inner">
               <div class="orbit-service-card group-hover:border-[#C01858]">
-                <div class="flex items-center justify-between mb-1.5">
-                  <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs">
-                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-4 h-4"></i>
+                <div class="flex items-center justify-between mb-2">
+                  <div class="w-11 h-11 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs">
+                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-5 h-5"></i>
                   </div>
-                  <span class="text-[10px] font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] px-2 py-0.5 rounded-full border border-[#FF6B00]/20">
+                  <span class="text-xs font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] px-3 py-0.5 rounded-full border border-[#FF6B00]/20">
                     0<?php echo $idx + 1; ?>
                   </span>
                 </div>
 
-                <div>
-                  <h4 class="text-xs sm:text-[13px] font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading">
+                <div class="flex-1 flex flex-col justify-center my-1.5">
+                  <h4 class="text-base sm:text-lg font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading">
                     <?php echo htmlspecialchars($service['title']); ?>
                   </h4>
-                  <p class="text-[10px] sm:text-[11px] text-[#475569] line-clamp-2 mt-0.5 leading-snug font-body">
+                  <p class="text-xs sm:text-[13px] text-[#475569] line-clamp-3 mt-1 leading-relaxed font-body">
                     <?php echo htmlspecialchars($service['description']); ?>
                   </p>
                 </div>
 
-                <div class="pt-1.5 border-t border-[#F1E6EE] flex items-center justify-between text-[10px] text-[#C01858] font-semibold font-body">
-                  <span class="flex items-center gap-1">
-                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
+                <div class="pt-2 border-t border-[#F1E6EE] flex items-center justify-between text-xs text-[#C01858] font-semibold font-body">
+                  <span class="flex items-center gap-1.5">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
                     <span>Click to Focus</span>
                   </span>
-                  <div class="w-4 h-4 rounded-full bg-[#FFF4EA] group-hover:bg-[#C01858] text-[#FF6B00] group-hover:text-white flex items-center justify-center transition-all duration-300">
-                    <i data-lucide="arrow-right" class="w-2.5 h-2.5"></i>
+                  <div class="w-6 h-6 rounded-full bg-[#FFF4EA] group-hover:bg-[#C01858] text-[#FF6B00] group-hover:text-white flex items-center justify-center transition-all duration-300">
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                   </div>
                 </div>
               </div>
@@ -857,63 +857,63 @@ require_once __DIR__ . '/includes/header.php';
 
         <!-- Interactive Center Stage Hub -->
         <div class="orbit-center-content" data-orbit-center="">
-          <div class="center-stage-card glass-card p-5 sm:p-6 rounded-3xl border border-[#F1E6EE] shadow-xl text-center flex flex-col items-center relative overflow-hidden backdrop-blur-xl bg-white/85">
+          <div class="center-stage-card glass-card p-6 sm:p-7 rounded-3xl border border-[#F1E6EE] shadow-2xl text-center flex flex-col items-center relative overflow-hidden backdrop-blur-xl bg-white/92">
             <!-- Center Ambient Glow -->
-            <div class="absolute -top-10 -right-10 w-24 h-24 bg-[#FF6B00]/15 rounded-full blur-xl pointer-events-none"></div>
-            <div class="absolute -bottom-10 -left-10 w-24 h-24 bg-[#C01858]/15 rounded-full blur-xl pointer-events-none"></div>
+            <div class="absolute -top-10 -right-10 w-28 h-28 bg-[#FF6B00]/15 rounded-full blur-xl pointer-events-none"></div>
+            <div class="absolute -bottom-10 -left-10 w-28 h-28 bg-[#C01858]/15 rounded-full blur-xl pointer-events-none"></div>
 
             <!-- Center Service Icon -->
-            <div id="center-service-icon" class="relative z-10 w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#FFF4EA] to-white border border-[#FF6B00]/30 flex items-center justify-center text-[#FF6B00] shadow-md mb-2.5 transition-transform duration-300">
-              <i data-lucide="globe" class="w-6 h-6"></i>
+            <div id="center-service-icon" class="relative z-10 w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#FFF4EA] to-white border border-[#FF6B00]/30 flex items-center justify-center text-[#FF6B00] shadow-md mb-2.5 transition-transform duration-300">
+              <i data-lucide="globe" class="w-7 h-7"></i>
             </div>
 
             <!-- Badge -->
-            <span id="center-service-badge" class="relative z-10 glass-pill px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider text-[#8B5CF6] mb-1.5 shadow-xs">
+            <span id="center-service-badge" class="relative z-10 glass-pill px-3.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#8B5CF6] mb-2 shadow-xs">
               Service 01
             </span>
 
             <!-- Title -->
-            <h3 id="center-service-title" class="relative z-10 text-base sm:text-lg font-black text-[#0F172A] font-heading tracking-tight mb-1.5 transition-all">
+            <h3 id="center-service-title" class="relative z-10 text-xl sm:text-2xl font-black text-[#0F172A] font-heading tracking-tight mb-2 transition-all">
               Website Development
             </h3>
 
             <!-- Description -->
-            <p id="center-service-desc" class="relative z-10 text-xs sm:text-[13px] text-[#475569] font-normal leading-relaxed mb-3 max-w-xs line-clamp-2">
+            <p id="center-service-desc" class="relative z-10 text-xs sm:text-sm text-[#475569] font-normal leading-relaxed mb-3.5 max-w-sm line-clamp-2 sm:line-clamp-3">
               High-performance corporate websites and modern web platforms built with Next.js, React, and TypeScript.
             </p>
 
             <!-- Deliverables Tags -->
-            <div id="center-service-deliverables" class="relative z-10 flex flex-wrap items-center justify-center gap-1.5 mb-4 max-w-xs min-h-[28px]">
+            <div id="center-service-deliverables" class="relative z-10 flex flex-wrap items-center justify-center gap-1.5 mb-4 max-w-sm min-h-[30px]">
               <!-- Injected dynamically by orbit.js -->
             </div>
 
             <!-- Actions -->
-            <div class="relative z-10 flex items-center gap-2.5 w-full justify-center">
+            <div class="relative z-10 flex items-center gap-3 w-full justify-center">
               <a
                 href="#contact"
-                class="glass-btn-primary px-4 py-2 rounded-xl text-white font-semibold text-xs flex items-center gap-1.5 shadow-md hover:scale-102 transition-transform"
+                class="glass-btn-primary px-5 py-2.5 rounded-xl text-white font-semibold text-xs sm:text-sm flex items-center gap-2 shadow-md hover:scale-102 transition-transform"
               >
                 <span>Discuss Requirement</span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </a>
 
               <!-- Prev / Next Orbit Stepper -->
-              <div class="flex items-center gap-1">
+              <div class="flex items-center gap-1.5">
                 <button
                   id="orbit-prev-btn"
                   type="button"
-                  class="p-2 rounded-xl glass-btn-secondary text-[#0F172A] hover:text-[#C01858] transition-colors cursor-pointer shadow-xs"
+                  class="p-2.5 rounded-xl glass-btn-secondary text-[#0F172A] hover:text-[#C01858] transition-colors cursor-pointer shadow-xs"
                   title="Previous Service (Rotate Orbit)"
                 >
-                  <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                  <i data-lucide="chevron-left" class="w-4 h-4"></i>
                 </button>
                 <button
                   id="orbit-next-btn"
                   type="button"
-                  class="p-2 rounded-xl glass-btn-secondary text-[#0F172A] hover:text-[#C01858] transition-colors cursor-pointer shadow-xs"
+                  class="p-2.5 rounded-xl glass-btn-secondary text-[#0F172A] hover:text-[#C01858] transition-colors cursor-pointer shadow-xs"
                   title="Next Service (Rotate Orbit)"
                 >
-                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
                 </button>
               </div>
             </div>
