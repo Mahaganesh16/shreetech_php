@@ -564,7 +564,7 @@ require_once __DIR__ . '/includes/header.php';
           />
         </svg>
 
-        <!-- 8 Orbiting Service Cards with Continuous Flow Morphing (Small -> Big at Center -> Small Outside) -->
+        <!-- 8 Smooth Animated Service Cards (Exchange Size & Position Along Orbit) -->
         <?php foreach ($servicesData as $idx => $service): 
           $svcJson = json_encode([
             'id' => $service['id'],
@@ -575,22 +575,23 @@ require_once __DIR__ . '/includes/header.php';
           ]);
         ?>
           <div
-            class="orbit-item group"
+            class="orbit-item group<?php echo $idx === 0 ? ' is-active' : ''; ?>"
             data-orbit-item="<?php echo $idx; ?>"
+            data-service-index="<?php echo $idx; ?>"
             data-clickable=""
             data-service-json="<?php echo htmlspecialchars($svcJson, ENT_QUOTES, 'UTF-8'); ?>"
           >
             <div class="orbit-item-inner">
               <div class="orbit-service-card group-hover:border-[#C01858]">
                 
-                <!-- Center Stage Ambient Glows (Smoothly visible when active at center) -->
+                <!-- Ambient Glows (Smoothly visible when active featured card) -->
                 <div class="card-ambient-glows pointer-events-none">
                   <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#FF6B00]/15 rounded-full blur-xl"></div>
                   <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-[#C01858]/15 rounded-full blur-xl"></div>
                 </div>
 
-                <!-- 1. COMPACT PREVIEW (Visible when Satellite Card in orbit) -->
-                <div class="card-compact-view flex flex-col justify-between h-full w-full">
+                <!-- 1. COMPACT PREVIEW (Visible on Inactive Small Cards) -->
+                <div class="card-compact-view">
                   <!-- Top Row: Icon + Service Number Badge -->
                   <div class="flex items-center justify-between w-full mb-1">
                     <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
@@ -621,26 +622,26 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
                 </div>
 
-                <!-- 2. FULL DETAILS (Smoothly expands when arriving at Center Down-Line) -->
-                <div class="card-full-view flex flex-col items-center justify-between text-center h-full w-full relative z-10">
-                  <!-- Top Row: Icon + Badge + Title + Description -->
+                <!-- 2. FULL DETAILS (Visible on Large Featured Active Card) -->
+                <div class="card-full-view">
+                  <!-- Top Section: Large Icon + Badge + Title + Description -->
                   <div class="flex flex-col items-center w-full">
-                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#FFF4EA] to-white border border-[#FF6B00]/30 flex items-center justify-center text-[#FF6B00] shadow-md mb-1.5 shrink-0">
-                      <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-6 h-6"></i>
+                    <div class="w-13 h-13 rounded-2xl bg-gradient-to-tr from-[#FFF4EA] to-white border border-[#FF6B00]/30 flex items-center justify-center text-[#FF6B00] shadow-md mb-2 shrink-0">
+                      <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-6.5 h-6.5"></i>
                     </div>
-                    <span class="glass-pill px-3 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#8B5CF6] mb-1 shadow-xs shrink-0">
+                    <span class="glass-pill px-3.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#8B5CF6] mb-1.5 shadow-xs shrink-0">
                       Service 0<?php echo $idx + 1; ?>
                     </span>
-                    <h3 class="text-xl sm:text-[22px] font-black text-[#0F172A] font-heading tracking-tight mb-1 leading-tight">
+                    <h3 class="text-xl sm:text-2xl font-black text-[#0F172A] font-heading tracking-tight mb-1.5 leading-tight">
                       <?php echo htmlspecialchars($service['title']); ?>
                     </h3>
-                    <p class="text-xs sm:text-[12.5px] text-[#475569] font-normal leading-relaxed mb-2.5 max-w-sm line-clamp-2 sm:line-clamp-3">
+                    <p class="text-xs sm:text-[13px] text-[#475569] font-normal leading-relaxed mb-3 max-w-sm line-clamp-2 sm:line-clamp-3">
                       <?php echo htmlspecialchars($service['description']); ?>
                     </p>
                   </div>
 
-                  <!-- Middle: 3 Deliverables Checklist Tags -->
-                  <div class="flex flex-wrap items-center justify-center gap-1.5 mb-2.5 max-w-sm">
+                  <!-- Middle Section: 3 Deliverables Checklist Tags -->
+                  <div class="flex flex-wrap items-center justify-center gap-1.5 mb-3 max-w-sm">
                     <?php foreach (array_slice($service['deliverables'], 0, 3) as $deliverable): ?>
                       <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold text-[#1E293B] bg-white border border-[#F1E6EE] shadow-xs">
                         <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
@@ -649,25 +650,25 @@ require_once __DIR__ . '/includes/header.php';
                     <?php endforeach; ?>
                   </div>
 
-                  <!-- Bottom: CTA Button + Prev/Next Orbit Steppers -->
-                  <div class="flex items-center gap-2.5 w-full justify-center shrink-0 pt-0.5">
+                  <!-- Bottom Section: CTA Button + Prev/Next Orbit Steppers -->
+                  <div class="flex items-center gap-2.5 w-full justify-center shrink-0 pt-1">
                     <a
                       href="#contact"
-                      class="glass-btn-primary px-4 py-2 rounded-xl text-white font-semibold text-xs sm:text-sm flex items-center gap-1.5 shadow-md hover:scale-102 transition-transform"
+                      class="glass-btn-primary px-5 py-2.5 rounded-xl text-white font-semibold text-xs sm:text-sm flex items-center gap-2 shadow-md hover:scale-102 transition-transform"
                     >
                       <span>Discuss Requirement</span>
-                      <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                      <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
                     <button
                       type="button"
-                      class="orbit-prev-btn p-2 rounded-xl glass-btn-secondary text-[#0F172A] hover:text-[#C01858] transition-colors cursor-pointer shadow-xs"
+                      class="orbit-prev-btn p-2.5 rounded-xl glass-btn-secondary text-[#0F172A] hover:text-[#C01858] transition-colors cursor-pointer shadow-xs"
                       title="Previous Service"
                     >
                       <i data-lucide="chevron-left" class="w-4 h-4"></i>
                     </button>
                     <button
                       type="button"
-                      class="orbit-next-btn p-2 rounded-xl glass-btn-secondary text-[#0F172A] hover:text-[#C01858] transition-colors cursor-pointer shadow-xs"
+                      class="orbit-next-btn p-2.5 rounded-xl glass-btn-secondary text-[#0F172A] hover:text-[#C01858] transition-colors cursor-pointer shadow-xs"
                       title="Next Service"
                     >
                       <i data-lucide="chevron-right" class="w-4 h-4"></i>

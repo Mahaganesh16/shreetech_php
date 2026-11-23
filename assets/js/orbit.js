@@ -1,50 +1,9 @@
 /**
- * Shree Tech - 3D Orbit Services Interactive Engine
- * Based on OrbitImages architecture by Dominik Koch (https://x.com/dominikkoch)
- * Implemented in pure Vanilla JavaScript for high performance, smooth 60 FPS 3D rendering.
+ * Shree Tech - Smooth Orbit Services Carousel Engine
+ * Pure JavaScript with GPU-Accelerated CSS Transitions
  */
-
 (function () {
   'use strict';
-
-  const SAMPLES = 720;
-  const FRONT_GROW = 0.2;
-  const BACK_SHRINK = 0.35;
-  const BACK_DIM = 0.55;
-  const INTRO_SPREAD = 1.3;
-  const INTRO_FADE = 0.45;
-  const DRAG_THRESHOLD = 5;
-
-  function generateEllipsePath(cx, cy, rx, ry) {
-    return `M ${cx - rx} ${cy} A ${rx} ${ry} 0 1 0 ${cx + rx} ${cy} A ${rx} ${ry} 0 1 0 ${cx - rx} ${cy}`;
-  }
-
-  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-  const wrapSigned = value => value - Math.round(value);
-
-  const cubicBezier = (x1, y1, x2, y2) => {
-    const sample = (a1, a2, t) => ((1 - 3 * a2 + 3 * a1) * t + (3 * a2 - 6 * a1)) * t * t + 3 * a1 * t;
-    const slope = (a1, a2, t) => 3 * (1 - 3 * a2 + 3 * a1) * t * t + 2 * (3 * a2 - 6 * a1) * t + 3 * a1;
-    return x => {
-      if (x <= 0 || x >= 1) return x;
-      let t = x;
-      for (let i = 0; i < 8; i++) {
-        const s = slope(x1, x2, t);
-        if (Math.abs(s) < 1e-6) break;
-        t = clamp(t - (sample(x1, x2, t) - x) / s, 0, 1);
-      }
-      return sample(y1, y2, t);
-    };
-  };
-
-  const EASINGS = {
-    linear: t => t,
-    easeIn: cubicBezier(0.42, 0, 1, 1),
-    easeOut: cubicBezier(0, 0, 0.58, 1),
-    easeInOut: cubicBezier(0.42, 0, 0.58, 1)
-  };
-
-  const easeOutQuint = t => 1 - Math.pow(1 - t, 5);
 
   class OrbitServicesEngine {
     constructor(root, options = {}) {
@@ -52,656 +11,266 @@
       this.options = Object.assign(
         {
           baseWidth: 1400,
-          radiusX: 620,
-          radiusY: 205,
-          rotation: 0,
-          duration: 38,
-          itemWidth: 235,
-          itemHeight: 175,
-          direction: 'reverse',
-          fill: true,
-          pathWidth: 1.75,
-          pathDash: 0,
-          easing: 'linear',
-          paused: false,
-          depth: 0.55,
-          hoverScale: 1.08,
-          hoverSpeed: 0,
-          draggable: true,
-          clickToFront: true,
-          intro: true,
+          autoRotate: true,
+          interval: 5500,
           onActiveChange: null
         },
         options
       );
 
-      const query = typeof window.matchMedia === 'function' ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
-      this.st = {
-        lut: null,
-        length: 0,
-        front: 0,
-        yMid: 0,
-        yHalf: 1,
-        bbox: [0, 0, 1, 1],
-        width: 0,
-        height: 0,
-        scale: 0,
-        itemW: this.options.itemWidth,
-        itemH: this.options.itemHeight,
-        items: [],
-        strokes: [],
-        lap: 0,
-        manual: 0,
-        glide: 0,
-        speed: 1,
-        drag: null,
-        seek: null,
-        hovered: false,
-        hoverIndex: -1,
-        suppressUntil: 0,
-        introStart: -1,
-        introDone: !this.options.intro,
-        visible: typeof IntersectionObserver === 'undefined',
-        reduced: !!query?.matches,
-        raf: 0,
-        last: 0,
-        destroyed: false,
-        activeIdx: -1
-      };
+      this.items = Array.from(this.root.querySelectorAll('[data-orbit-item]'));
+      this.count = this.items.length;
+      this.activeIndex = 0; // Starts with Service 01 active at center
+      this.timer = null;
+      this.isPaused = false;
+      this.touchStartX = 0;
+      this.touchStartY = 0;
 
-      this.st.speed = this.st.reduced || this.options.paused ? 0 : 1;
+      this.init();
+    }
 
-      this.initPath();
+    init() {
+      if (!this.root || !this.count) return;
+
+      this.build();
+      this.update(false); // Initial positioning without animation delay
       this.bindEvents();
-      this.refresh();
-    }
+      this.startAutoRotate();
 
-    initPath() {
-      const center = this.options.baseWidth / 2;
-      const d = generateEllipsePath(center, center, this.options.radiusX, this.options.radiusY);
-      const paths = this.root.querySelectorAll('[data-orbit-path]');
-      paths.forEach(p => {
-        p.setAttribute('d', d);
-        p.setAttribute('transform', `rotate(${this.options.rotation} ${center} ${center})`);
-      });
-    }
-
-    collect() {
-      this.st.items = Array.from(this.root.querySelectorAll('[data-orbit-item]')).map((el, i) => ({
-        el,
-        index: i,
-        t: '',
-        o: '',
-        z: ''
-      }));
-      this.st.strokes = Array.from(this.root.querySelectorAll('[data-orbit-stroke]'));
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
     }
 
     build() {
-      const path = this.root.querySelector('[data-orbit-path]');
-      let length = 0;
-      try {
-        length = path ? path.getTotalLength() : 0;
-      } catch {
-        length = 0;
-      }
-      if (!path || !length || !isFinite(length)) {
-        this.st.lut = null;
-        return;
-      }
+      this.width = this.root.clientWidth || 1200;
+      this.height = this.root.clientHeight || 760;
+      this.isMobile = this.width < 768;
 
-      const lut = new Float32Array(SAMPLES * 2);
-      const angle = (this.options.rotation * Math.PI) / 180;
-      const cos = Math.cos(angle);
-      const sin = Math.sin(angle);
-      const origin = this.options.baseWidth / 2;
-      let x0 = Infinity,
-        x1 = -Infinity,
-        y0 = Infinity,
-        y1 = -Infinity;
-      let front = 0;
-
-      for (let i = 0; i < SAMPLES; i++) {
-        const point = path.getPointAtLength((i / SAMPLES) * length);
-        const dx = point.x - origin;
-        const dy = point.y - origin;
-        const x = origin + dx * cos - dy * sin;
-        const y = origin + dx * sin + dy * cos;
-        lut[i * 2] = x;
-        lut[i * 2 + 1] = y;
-        x0 = Math.min(x0, x);
-        x1 = Math.max(x1, x);
-        y0 = Math.min(y0, y);
-        y1 = Math.max(y1, y);
-        if (y > lut[front * 2 + 1] + 1e-6) front = i;
+      // Calculate horizontal elliptical path geometry
+      if (this.isMobile) {
+        this.rx = Math.min(360, this.width * 0.44);
+        this.ry = Math.min(130, this.height * 0.22);
+        this.cx = this.width / 2;
+        this.cy = this.height / 2 - 10;
+      } else {
+        this.rx = Math.min(580, this.width * 0.43);
+        this.ry = Math.min(185, this.height * 0.24);
+        this.cx = this.width / 2;
+        this.cy = this.height / 2 - 15;
       }
 
-      this.st.lut = lut;
-      this.st.length = length;
-      this.st.front = front / SAMPLES;
-      this.st.yMid = (y0 + y1) / 2;
-      this.st.yHalf = Math.max(1e-3, (y1 - y0) / 2);
-      const depth = clamp(this.options.depth, 0, 1);
-      const margin = (this.options.itemWidth / 2) * (1 + depth * FRONT_GROW) * Math.max(1, this.options.hoverScale) + 4;
-      this.st.bbox = [x0 - margin, y0 - margin, x1 + margin, y1 + margin];
+      // Update SVG path for exact visual orbit guide line
+      const pathEl = this.root.querySelector('[data-orbit-path]');
+      if (pathEl) {
+        const d = `M ${this.cx - this.rx} ${this.cy} A ${this.rx} ${this.ry} 0 1 0 ${this.cx + this.rx} ${this.cy} A ${this.rx} ${this.ry} 0 1 0 ${this.cx - this.rx} ${this.cy}`;
+        pathEl.setAttribute('d', d);
+      }
 
-      // Ensure Service 01 (item 0) displays in center on initial load
-      if (!this.st.initializedPosition) {
-        this.st.manual = wrapSigned(this.st.front);
-        this.st.initializedPosition = true;
+      const svgEl = this.root.querySelector('[data-orbit-svg]');
+      if (svgEl) {
+        svgEl.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
       }
     }
 
-    layout() {
-      this.st.width = this.root.clientWidth;
-      this.st.height = this.root.clientHeight || 520;
-      if (!this.st.lut) return;
+    update(animate = true) {
+      if (!this.items.length) return;
 
-      const [bx0, by0, bx1, by1] = this.st.bbox;
-      const scale = Math.min(this.st.width / (bx1 - bx0), this.st.height / (by1 - by0));
-      this.st.scale = scale > 0 && isFinite(scale) ? scale : 0;
+      const isMobile = this.isMobile;
 
-      // Sizing definition for compact vs center-active cards
-      const isMobile = this.st.width < 640;
-      this.st.isMobile = isMobile;
-      this.st.baseW = isMobile ? 180 : 235;
-      this.st.baseH = isMobile ? 135 : 175;
-      this.st.activeW = isMobile ? 350 : 480;
-      this.st.activeH = isMobile ? 390 : 485;
+      for (let i = 0; i < this.count; i++) {
+        const it = this.items[i];
+        // Relative slot distance from current active index
+        const relIdx = (i - this.activeIndex + this.count) % this.count;
+        const isCenter = relIdx === 0;
 
-      if (!this.st.scale) return;
-      const vw = this.st.width / this.st.scale;
-      const vh = this.st.height / this.st.scale;
-      const cx = (bx0 + bx1) / 2;
-      const cy = (by0 + by1) / 2;
+        // Angle around horizontal ellipse:
+        // relIdx = 0: PI / 2 (90 deg, bottom center down-line)
+        // relIdx = 1: next upcoming card (bottom right)
+        // relIdx = 7: previous card (bottom left)
+        const angle = Math.PI / 2 - relIdx * (2 * Math.PI / this.count);
+        const px = this.cx + this.rx * Math.cos(angle);
+        const py = this.cy + this.ry * Math.sin(angle);
+        const depth = Math.sin(angle); // 1 = front bottom, -1 = back top
 
-      this.root.querySelectorAll('[data-orbit-svg]').forEach(svg => {
-        svg.setAttribute('viewBox', `${cx - vw / 2} ${cy - vh / 2} ${vw} ${vh}`);
-      });
+        let w, h, sx, sy, zIndex, transform;
 
-      const clip = this.root.querySelector('[data-orbit-clip]');
-      if (clip) {
-        clip.setAttribute('x', String(cx - vw));
-        clip.setAttribute('y', String(this.st.yMid));
-        clip.setAttribute('width', String(vw * 2));
-        clip.setAttribute('height', String(vh * 2));
-      }
+        if (isCenter) {
+          // Large Featured Card at Focus Center
+          w = isMobile ? 340 : 480;
+          h = isMobile ? 380 : 420;
+          const elevate = isMobile ? 18 : 36;
+          sx = Math.round(px - w / 2);
+          sy = Math.round(py - h / 2 - elevate);
+          zIndex = 100;
+          transform = `translate3d(${sx}px, ${sy}px, 0px) scale(1)`;
 
-      for (const stroke of this.st.strokes) {
-        stroke.style.strokeWidth = String(this.options.pathWidth / this.st.scale);
-      }
-      this.applyDash(1);
-
-      // Keep active center card aligned with down line (resting at front-center of orbit)
-      const centerContent = this.root.querySelector('.orbit-center-content');
-      if (centerContent && this.st.lut) {
-        const frontPoint = this.sample(this.st.front);
-        const frontY = (frontPoint[1] - cy) * this.st.scale + this.st.height / 2;
-        const cardElevate = this.st.width < 768 ? 20 : 35;
-        centerContent.style.top = `${Math.round(frontY - cardElevate)}px`;
-      }
-    }
-
-    applyDash(reveal) {
-      const dash = this.options.pathDash > 0 && this.st.scale ? this.options.pathDash / this.st.scale : 0;
-      for (const stroke of this.st.strokes) {
-        if (reveal < 1 && !dash) {
-          stroke.style.strokeDasharray = `${this.st.length} ${this.st.length}`;
-          stroke.style.strokeDashoffset = String(this.st.length * (1 - reveal));
-          stroke.style.opacity = '';
+          it.classList.add('is-active');
         } else {
-          stroke.style.strokeDasharray = dash ? `${dash} ${dash * 1.6}` : '';
-          stroke.style.strokeDashoffset = '';
-          stroke.style.opacity = reveal < 1 ? String(reveal) : '';
-        }
-      }
-    }
+          // Small Compact Satellite Card
+          w = isMobile ? 180 : 235;
+          h = isMobile ? 135 : 175;
+          sx = Math.round(px - w / 2);
+          sy = Math.round(py - h / 2);
 
-    sample(u) {
-      const f = (((u % 1) + 1) % 1) * SAMPLES;
-      const i0 = Math.floor(f) % SAMPLES;
-      const i1 = (i0 + 1) % SAMPLES;
-      const t = f - Math.floor(f);
-      const lut = this.st.lut;
-      return [lut[i0 * 2] + (lut[i1 * 2] - lut[i0 * 2]) * t, lut[i0 * 2 + 1] + (lut[i1 * 2 + 1] - lut[i0 * 2 + 1]) * t];
-    }
+          // Subtle organic depth scale for 3D realism
+          const depthNorm = (depth + 1) / 2; // 0 (back) to 1 (front sides)
+          const scale = 0.88 + 0.12 * depthNorm;
+          zIndex = 10 + Math.round(depthNorm * 40);
+          transform = `translate3d(${sx}px, ${sy}px, 0px) scale(${scale.toFixed(3)})`;
 
-    progress() {
-      const ease = EASINGS[this.options.easing] || EASINGS.linear;
-      const whole = Math.floor(this.st.lap);
-      return (whole + ease(this.st.lap - whole)) * (this.options.direction === 'reverse' ? -1 : 1) + this.st.manual;
-    }
-
-    offsetOf(index, count) {
-      if (this.options.fill) return index / Math.max(1, count);
-      return (-index * this.options.itemWidth * 1.3) / Math.max(1, this.st.length);
-    }
-
-    write(it, key, prop, value) {
-      if (it[key] !== value) {
-        it[key] = value;
-        it.el.style[prop] = value;
-      }
-    }
-
-    render(now) {
-      if (!this.st.lut || !this.st.scale) return;
-      const p = this.progress();
-      const count = this.st.items.length;
-      const depth = clamp(this.options.depth, 0, 1);
-      const [bx0, by0, bx1, by1] = this.st.bbox;
-      const cx = (bx0 + bx1) / 2;
-      const cy = (by0 + by1) / 2;
-      const introRunning = this.st.introStart >= 0;
-      const elapsed = introRunning ? (now - this.st.introStart) / 1000 : 0;
-      const spread = introRunning ? easeOutQuint(clamp(elapsed / INTRO_SPREAD, 0, 1)) : 1;
-      const appear = introRunning ? clamp(elapsed / INTRO_FADE, 0, 1) : 1;
-
-      let closestIdx = -1;
-      let maxDepth = -Infinity;
-
-      for (let i = 0; i < count; i++) {
-        const it = this.st.items[i];
-        let u = p + this.offsetOf(i, count);
-        if (introRunning) u = this.st.front + wrapSigned(u - this.st.front) * spread;
-        const [x, y] = this.sample(u);
-        const d = clamp((y - this.st.yMid) / this.st.yHalf, -1, 1);
-        const w = (d + 1) / 2;
-        let scale = 1 + depth * (FRONT_GROW * w - BACK_SHRINK * (1 - w));
-        let opacity = 1 - depth * BACK_DIM * (1 - w);
-
-        // Continuous Flow Morphing: compute proximity to center stage (down line)
-        const distFromFront = Math.abs(wrapSigned(u - this.st.front));
-        const activeSpan = 0.125;
-        const centerProximity = clamp(1 - distFromFront / activeSpan, 0, 1);
-        // Smooth cubic ease: 0 at outer edges, smoothly ramps to 1 at front center
-        const pCenter = centerProximity * centerProximity * (3 - 2 * centerProximity);
-
-        // Smooth physical size interpolation: card smoothly grows as it reaches center, and shrinks as it leaves!
-        const curW = this.st.baseW + (this.st.activeW - this.st.baseW) * pCenter;
-        const curH = this.st.baseH + (this.st.activeH - this.st.baseH) * pCenter;
-
-        const itemW = Math.round(curW * this.st.scale);
-        const itemH = Math.round(curH * this.st.scale);
-
-        if (it.wStr !== itemW) {
-          it.wStr = itemW;
-          it.el.style.width = `${itemW}px`;
-        }
-        if (it.hStr !== itemH) {
-          it.hStr = itemH;
-          it.el.style.height = `${itemH}px`;
+          it.classList.remove('is-active');
         }
 
-        // Smooth elevation towards front center
-        const elevate = Math.round(pCenter * (this.st.isMobile ? 20 : 46));
-
-        const halfW = itemW / 2;
-        const halfH = itemH / 2;
-        const sx = (x - cx) * this.st.scale + this.st.width / 2 - halfW;
-        const sy = (y - cy) * this.st.scale + this.st.height / 2 - halfH - elevate;
-
-        // Active center card gets highest z-index
-        let z = depth > 0 ? (d <= 0 ? 10 + Math.round((d + 1) * 80) : 110 + Math.round(d * 80)) : 1;
-        if (pCenter > 0.05) z = 250 + Math.round(pCenter * 200);
-        if (i === this.st.hoverIndex) z += 50;
-
-        // Toggle full view vs compact view smoothly at center threshold
-        if (pCenter > 0.50) {
-          if (!it.el.classList.contains('is-center-active')) {
-            it.el.classList.add('is-center-active');
-          }
-        } else {
-          if (it.el.classList.contains('is-center-active')) {
-            it.el.classList.remove('is-center-active');
-          }
-        }
-
-        if (introRunning) {
-          scale *= 0.7 + 0.3 * appear;
-          opacity *= appear * appear * (3 - 2 * appear);
-        }
-
-        this.write(
-          it,
-          't',
-          'transform',
-          `translate3d(${sx.toFixed(2)}px, ${sy.toFixed(2)}px, 0px)`
-        );
-        this.write(it, 'o', 'opacity', opacity > 0.999 ? '1' : opacity.toFixed(3));
-        this.write(it, 'z', 'zIndex', String(z));
-
-        if (d > maxDepth) {
-          maxDepth = d;
-          closestIdx = i;
-        }
+        // Apply hardware-accelerated transform & positioning
+        it.style.transform = transform;
+        it.style.zIndex = String(zIndex);
       }
 
-      // Track active front-most item
-      if (closestIdx !== -1 && closestIdx !== this.st.activeIdx) {
-        this.st.activeIdx = closestIdx;
-        if (typeof this.options.onActiveChange === 'function') {
-          this.options.onActiveChange(closestIdx);
-        }
-      }
-
-      if (introRunning) this.applyDash(easeOutQuint(clamp(elapsed / INTRO_SPREAD, 0, 1)));
-    }
-
-    frame(now) {
-      this.st.raf = 0;
-      if (this.st.destroyed) return;
-      const dt = this.st.last ? clamp((now - this.st.last) / 1000, 0, 0.1) : 0;
-      this.st.last = now;
-      let busy = false;
-
-      if (this.st.lut && this.st.scale && this.st.introStart === -1 && !this.st.introDone && this.st.visible) {
-        if (this.options.intro && !this.st.reduced) {
-          this.st.introStart = now;
-        } else {
-          this.st.introDone = true;
-        }
-        this.root.removeAttribute('data-intro');
-      }
-
-      if (this.st.introStart >= 0) {
-        if ((now - this.st.introStart) / 1000 >= INTRO_SPREAD) {
-          this.st.introStart = -2;
-          this.st.introDone = true;
-          this.applyDash(1);
-        } else {
-          busy = true;
-        }
-      }
-
-      const want = this.options.paused || this.st.reduced ? 0 : this.st.hovered ? clamp(this.options.hoverSpeed, 0, 1) : 1;
-      if (this.st.speed !== want) {
-        this.st.speed += (want - this.st.speed) * (1 - Math.exp(-dt / 0.35));
-        if (Math.abs(this.st.speed - want) < 0.002) this.st.speed = want;
-        busy = true;
-      }
-
-      if (this.st.speed > 0 && this.options.duration > 0) {
-        this.st.lap += (dt * this.st.speed) / this.options.duration;
-        busy = true;
-      }
-
-      if (this.st.drag?.active) {
-        busy = true;
-      } else if (this.st.seek) {
-        this.st.seek.t = Math.min(1, this.st.seek.t + dt / this.st.seek.dur);
-        const t = this.st.seek.t;
-        // Quintic smooth camera in-out easing for silky animations
-        const e = t < 0.5 ? 16 * Math.pow(t, 5) : 1 - Math.pow(-2 * t + 2, 5) / 2;
-        this.st.manual = this.st.seek.from + this.st.seek.delta * e;
-        if (this.st.seek.t >= 1) this.st.seek = null;
-        busy = true;
-      } else if (this.st.glide) {
-        this.st.manual += this.st.glide * dt;
-        this.st.glide *= Math.exp(-dt / 0.7);
-        if (Math.abs(this.st.glide) < 0.0004) this.st.glide = 0;
-        busy = true;
-      }
-
-      this.render(now);
-      const whole = Math.floor(this.st.lap);
-      if (whole) this.st.lap -= whole;
-      if (!this.st.drag && !this.st.seek) this.st.manual -= Math.floor(this.st.manual);
-      if (busy && this.st.visible && !this.st.destroyed) {
-        this.st.raf = requestAnimationFrame(t => this.frame(t));
+      if (typeof this.options.onActiveChange === 'function') {
+        this.options.onActiveChange(this.activeIndex);
       }
     }
 
-    wake() {
-      if (this.st.raf || this.st.destroyed || !this.st.visible) return;
-      this.st.last = 0;
-      this.st.raf = requestAnimationFrame(t => this.frame(t));
+    setActive(index) {
+      if (this.activeIndex === index) return;
+      this.activeIndex = (index + this.count) % this.count;
+      this.update(true);
+      this.resetAutoRotate();
     }
 
-    local(e) {
-      const r = this.root.getBoundingClientRect();
-      const k = this.root.offsetWidth ? r.width / this.root.offsetWidth || 1 : 1;
-      return [(e.clientX - r.left) / k, (e.clientY - r.top) / k];
+    next() {
+      this.setActive((this.activeIndex + 1) % this.count);
     }
 
-    dragRate() {
-      if (!this.st.lut || !this.st.scale) return 0;
-      const a = this.sample(this.st.front - 3 / SAMPLES);
-      const b = this.sample(this.st.front + 3 / SAMPLES);
-      const along = ((b[0] - a[0]) / (6 / SAMPLES)) * this.st.scale;
-      const floor = this.st.length * this.st.scale * 0.35;
-      return Math.abs(along) < floor ? Math.sign(along || 1) * floor : along;
+    prev() {
+      this.setActive((this.activeIndex - 1 + this.count) % this.count);
     }
 
-    itemIndex(target) {
-      const el = target instanceof Element ? target.closest('[data-orbit-item]') : null;
-      return el && this.root.contains(el) ? Number(el.getAttribute('data-orbit-item')) : -1;
+    startAutoRotate() {
+      if (!this.options.autoRotate) return;
+      this.stopAutoRotate();
+      this.timer = setInterval(() => {
+        if (!this.isPaused) {
+          this.next();
+        }
+      }, this.options.interval);
     }
 
-    bringToFront(index) {
-      if (!this.st.lut || index < 0) return;
-      const u = this.progress() + this.offsetOf(index, this.st.items.length);
-      const delta = wrapSigned(this.st.front - u);
-      this.st.glide = 0;
-      this.st.seek = { from: this.st.manual, delta, t: 0, dur: Math.max(0.65, 0.55 + Math.abs(delta) * 1.5) };
-      this.wake();
+    stopAutoRotate() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+    }
+
+    resetAutoRotate() {
+      if (this.options.autoRotate) {
+        this.startAutoRotate();
+      }
     }
 
     bindEvents() {
-      const root = this.root;
+      // 1. Next / Previous Buttons across all cards
+      this.root.querySelectorAll('.orbit-next-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.next();
+        });
+      });
 
-      // Smooth mouse wheel / trackpad scroll animation along orbit
-      root.addEventListener(
-        'wheel',
+      this.root.querySelectorAll('.orbit-prev-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.prev();
+        });
+      });
+
+      // 2. Click any inactive satellite card to bring it to center focus
+      this.items.forEach((item, idx) => {
+        item.addEventListener('click', e => {
+          // If already active or clicked on an action button/link, don't trigger parent click
+          if (idx === this.activeIndex) return;
+          if (e.target.closest('a') || e.target.closest('button')) return;
+          e.preventDefault();
+          this.setActive(idx);
+        });
+      });
+
+      // 3. Pause auto-rotate on hover
+      this.root.addEventListener('mouseenter', () => {
+        this.isPaused = true;
+      });
+
+      this.root.addEventListener('mouseleave', () => {
+        this.isPaused = false;
+      });
+
+      // 4. Touch swipe gesture support for mobile & tablet
+      this.root.addEventListener(
+        'touchstart',
         e => {
-          const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-          if (Math.abs(delta) < 2) return;
-          const dir = Math.sign(delta);
-          this.st.glide += dir * Math.min(Math.abs(delta) * 0.00032, 0.1);
-          this.st.glide = clamp(this.st.glide, -0.35, 0.35);
-          this.wake();
+          if (e.touches && e.touches[0]) {
+            this.touchStartX = e.touches[0].clientX;
+            this.touchStartY = e.touches[0].clientY;
+          }
         },
         { passive: true }
       );
 
-      root.addEventListener('pointerenter', () => {
-        this.st.hovered = true;
-        this.wake();
-      });
+      this.root.addEventListener(
+        'touchend',
+        e => {
+          if (!this.touchStartX) return;
+          const endX = e.changedTouches[0].clientX;
+          const endY = e.changedTouches[0].clientY;
+          const diffX = endX - this.touchStartX;
+          const diffY = endY - this.touchStartY;
 
-      root.addEventListener('pointerleave', () => {
-        this.st.hovered = false;
-        this.st.hoverIndex = -1;
-        this.wake();
-      });
-
-      root.addEventListener('pointerover', e => {
-        const index = this.itemIndex(e.target);
-        if (index !== this.st.hoverIndex) {
-          this.st.hoverIndex = index;
-          if (this.st.lut) this.render(performance.now());
-        }
-      });
-
-      root.addEventListener('pointerdown', e => {
-        if (!this.options.draggable || (e.pointerType === 'mouse' && e.button !== 0)) return;
-        if (e.target instanceof Element && e.target.closest('[data-orbit-center]')) return;
-        const [x, y] = this.local(e);
-        this.st.drag = { id: e.pointerId, x, y, active: false, samples: [], rate: this.dragRate(), anchor: 0, manual: 0 };
-      });
-
-      root.addEventListener('pointermove', e => {
-        const d = this.st.drag;
-        if (!d || e.pointerId !== d.id) return;
-        const [x, y] = this.local(e);
-        const along = x - d.x;
-
-        if (!d.active) {
-          if (Math.abs(along) < DRAG_THRESHOLD) return;
-          if (Math.abs(y - d.y) > Math.abs(along)) {
-            this.st.drag = null;
-            return;
+          // Only trigger if horizontal swipe is prominent
+          if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+            if (diffX < 0) {
+              this.next(); // Swipe left -> advance to next card
+            } else {
+              this.prev(); // Swipe right -> back to previous card
+            }
           }
-          d.active = true;
-          d.anchor = along;
-          d.manual = this.st.manual;
-          this.st.seek = null;
-          this.st.glide = 0;
-          try {
-            root.setPointerCapture(e.pointerId);
-          } catch {}
-          root.setAttribute('data-dragging', '');
-        }
+          this.touchStartX = 0;
+        },
+        { passive: true }
+      );
 
-        if (d.rate) this.st.manual = d.manual + (along - d.anchor) / d.rate;
-        const now = performance.now();
-        d.samples.push([now, along]);
-        while (d.samples.length > 2 && now - d.samples[0][0] > 100) d.samples.shift();
-        this.wake();
+      // 5. Responsive window resize handling
+      let resizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          this.build();
+          this.update(false);
+        }, 150);
       });
-
-      const endDrag = (e, cancelled) => {
-        const d = this.st.drag;
-        if (!d || e.pointerId !== d.id) return;
-        this.st.drag = null;
-        if (!d.active) return;
-        root.removeAttribute('data-dragging');
-        try {
-          root.releasePointerCapture(e.pointerId);
-        } catch {}
-
-        const now = performance.now();
-        this.st.suppressUntil = now + 400;
-        const s = d.samples;
-        if (!cancelled && s.length > 1 && d.rate) {
-          const [t0, a0] = s[0];
-          const [t1, a1] = s[s.length - 1];
-          if (t1 > t0 && now - t1 < 80) {
-            this.st.glide = clamp((((a1 - a0) / (t1 - t0)) * 1000) / d.rate, -3, 3);
-          }
-        }
-        this.wake();
-      };
-
-      root.addEventListener('pointerup', e => endDrag(e, false));
-      root.addEventListener('pointercancel', e => endDrag(e, true));
-      root.addEventListener('lostpointercapture', e => endDrag(e, true));
-
-      root.addEventListener('click', e => {
-        if (performance.now() < this.st.suppressUntil) {
-          e.preventDefault();
-          e.stopPropagation();
-          this.st.suppressUntil = 0;
-          return;
-        }
-        const index = this.itemIndex(e.target);
-        if (index >= 0) {
-          if (this.options.clickToFront) this.bringToFront(index);
-        }
-      });
-
-      if (typeof ResizeObserver !== 'undefined') {
-        const ro = new ResizeObserver(() => {
-          this.layout();
-          this.render(performance.now());
-          this.wake();
-        });
-        ro.observe(root);
-      }
-
-      if (typeof IntersectionObserver !== 'undefined') {
-        const io = new IntersectionObserver(
-          entries => {
-            this.st.visible = entries[entries.length - 1].isIntersecting;
-            if (this.st.visible) this.wake();
-          },
-          { threshold: 0.05 }
-        );
-        io.observe(root);
-      }
-
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) this.wake();
-      });
-      window.addEventListener('resize', () => this.wake());
-    }
-
-    refresh() {
-      this.collect();
-      this.build();
-      this.layout();
-      this.render(performance.now());
-      this.wake();
     }
   }
 
-  // =========================================================================
-  // INITIALIZATION ON DOM READY
-  // =========================================================================
-  function initOrbitServices() {
-    const orbitContainer = document.getElementById('services-orbit-container');
-    if (!orbitContainer) return;
+  // Auto-initialize when DOM is ready
+  function init() {
+    const container = document.getElementById('services-orbit-container');
+    if (!container) return;
 
-    // Service data cache from data attributes
-    const serviceItems = Array.from(orbitContainer.querySelectorAll('[data-orbit-item]'));
-    const servicesMeta = serviceItems.map(el => {
-      try {
-        return JSON.parse(el.getAttribute('data-service-json') || '{}');
-      } catch {
-        return {};
-      }
-    });
-
-    // Instantiate engine
-    const engine = new OrbitServicesEngine(orbitContainer, {
+    const engine = new OrbitServicesEngine(container, {
       baseWidth: 1400,
-      radiusX: 620,
-      radiusY: 205,
-      rotation: 0,
-      duration: 38,
-      itemWidth: 235,
-      itemHeight: 175,
-      direction: 'reverse',
-      depth: 0.55,
-      showPath: true,
-      draggable: true,
-      clickToFront: true
+      autoRotate: true,
+      interval: 5000
     });
 
-    // Prev / Next button step controls on all cards
-    orbitContainer.querySelectorAll('.orbit-prev-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.preventDefault();
-        e.stopPropagation();
-        const count = serviceItems.length;
-        const cur = engine.st.activeIdx >= 0 ? engine.st.activeIdx : 0;
-        const target = (cur - 1 + count) % count;
-        engine.bringToFront(target);
-      });
-    });
-
-    orbitContainer.querySelectorAll('.orbit-next-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.preventDefault();
-        e.stopPropagation();
-        const count = serviceItems.length;
-        const cur = engine.st.activeIdx >= 0 ? engine.st.activeIdx : 0;
-        const target = (cur + 1) % count;
-        engine.bringToFront(target);
-      });
-    });
-
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
-
-    // Expose engine to global window for external access
     window.__shreeTechOrbit = engine;
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initOrbitServices);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    initOrbitServices();
+    init();
   }
 })();
