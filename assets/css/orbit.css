@@ -6,8 +6,8 @@
   position: relative;
   width: 100%;
   max-width: 1360px;
-  min-height: 760px;
-  height: 800px;
+  min-height: 780px;
+  height: 820px;
   margin: 0 auto;
   user-select: none;
   -webkit-user-select: none;
@@ -48,8 +48,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 235px;
-  height: 175px;
+  width: 205px;
+  height: 142px;
   transform-origin: center center;
   will-change: transform, width, height, z-index;
   pointer-events: auto;
@@ -63,8 +63,8 @@
 
 /* Active Featured Center Card (Large, Focused, Elevated) */
 .orbit-item.is-active {
-  width: 480px;
-  height: 420px;
+  width: 440px;
+  height: 400px;
   cursor: default;
   z-index: 100 !important;
 }
@@ -73,7 +73,7 @@
   width: 100%;
   height: 100%;
   position: relative;
-  border-radius: 1.5rem;
+  border-radius: 1.25rem;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   transform-origin: center center;
 }
@@ -87,12 +87,12 @@
   width: 100%;
   height: 100%;
   position: relative;
-  border-radius: 1.5rem;
+  border-radius: 1.25rem;
   border: 1.5px solid #F1E6EE;
   background: rgba(255, 255, 255, 0.96) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  box-shadow: 0 10px 28px -4px rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08) !important;
   overflow: hidden;
   box-sizing: border-box;
   transition:
@@ -104,7 +104,7 @@
 
 .orbit-item:not(.is-active):hover .orbit-service-card {
   border-color: #C01858 !important;
-  box-shadow: 0 14px 34px -4px rgba(192, 24, 88, 0.22) !important;
+  box-shadow: 0 12px 30px -4px rgba(192, 24, 88, 0.2) !important;
 }
 
 .orbit-item.is-active .orbit-service-card {
@@ -120,7 +120,7 @@
 .card-compact-view {
   position: absolute;
   inset: 0;
-  padding: 0.85rem 1rem;
+  padding: 0.75rem 0.9rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -44,18 +44,24 @@
 
     build() {
       this.width = this.root.clientWidth || 1200;
-      this.height = this.root.clientHeight || 760;
+      this.height = this.root.clientHeight || 800;
       this.isMobile = this.width < 768;
+      this.isTablet = this.width >= 768 && this.width < 1100;
 
       // Calculate horizontal elliptical path geometry
       if (this.isMobile) {
-        this.rx = Math.min(360, this.width * 0.44);
-        this.ry = Math.min(130, this.height * 0.22);
+        this.rx = Math.min(340, this.width * 0.42);
+        this.ry = Math.min(145, this.height * 0.22);
         this.cx = this.width / 2;
         this.cy = this.height / 2 - 10;
+      } else if (this.isTablet) {
+        this.rx = Math.min(410, this.width * 0.38);
+        this.ry = Math.min(195, this.height * 0.25);
+        this.cx = this.width / 2;
+        this.cy = this.height / 2 - 15;
       } else {
-        this.rx = Math.min(580, this.width * 0.43);
-        this.ry = Math.min(185, this.height * 0.24);
+        this.rx = Math.min(495, Math.round(this.width * 0.385));
+        this.ry = Math.min(225, Math.round(this.height * 0.275));
         this.cx = this.width / 2;
         this.cy = this.height / 2 - 15;
       }
@@ -97,9 +103,9 @@
 
         if (isCenter) {
           // Large Featured Card at Focus Center
-          w = isMobile ? 340 : 480;
-          h = isMobile ? 380 : 420;
-          const elevate = isMobile ? 18 : 36;
+          w = isMobile ? 330 : (this.isTablet ? 380 : 440);
+          h = isMobile ? 370 : (this.isTablet ? 370 : 400);
+          const elevate = isMobile ? 18 : 32;
           sx = Math.round(px - w / 2);
           sy = Math.round(py - h / 2 - elevate);
           zIndex = 100;
@@ -108,14 +114,14 @@
           it.classList.add('is-active');
         } else {
           // Small Compact Satellite Card
-          w = isMobile ? 180 : 235;
-          h = isMobile ? 135 : 175;
+          w = isMobile ? 165 : (this.isTablet ? 180 : 205);
+          h = isMobile ? 120 : (this.isTablet ? 130 : 142);
           sx = Math.round(px - w / 2);
           sy = Math.round(py - h / 2);
 
           // Subtle organic depth scale for 3D realism
           const depthNorm = (depth + 1) / 2; // 0 (back) to 1 (front sides)
-          const scale = 0.88 + 0.12 * depthNorm;
+          const scale = 0.92 + 0.08 * depthNorm;
           zIndex = 10 + Math.round(depthNorm * 40);
           transform = `translate3d(${sx}px, ${sy}px, 0px) scale(${scale.toFixed(3)})`;
 

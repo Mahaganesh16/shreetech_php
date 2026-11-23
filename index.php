@@ -623,28 +623,28 @@ require_once __DIR__ . '/includes/header.php';
                 <!-- 1. COMPACT PREVIEW (Visible on Inactive Small Cards) -->
                 <div class="card-compact-view">
                   <!-- Top Row: Icon + Service Number Badge -->
-                  <div class="flex items-center justify-between w-full mb-1">
-                    <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
-                      <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-4 h-4"></i>
+                  <div class="flex items-center justify-between w-full mb-0.5">
+                    <div class="w-7 h-7 rounded-lg bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
+                      <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-3.5 h-3.5"></i>
                     </div>
-                    <span class="text-xs font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] border border-[#FF6B00]/25 px-2.5 py-0.5 rounded-full shadow-2xs">
+                    <span class="text-[11px] font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] border border-[#FF6B00]/25 px-2 py-0.5 rounded-full shadow-2xs">
                       0<?php echo $idx + 1; ?>
                     </span>
                   </div>
 
                   <!-- Middle: Title + 2-Line Description Snippet -->
-                  <div class="w-full min-w-0 my-1">
-                    <h4 class="text-[13px] sm:text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-snug mb-1">
+                  <div class="w-full min-w-0 my-0.5">
+                    <h4 class="text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight mb-0.5">
                       <?php echo htmlspecialchars($service['title']); ?>
                     </h4>
-                    <p class="text-[11px] text-[#475569] leading-snug line-clamp-2 font-normal font-body">
+                    <p class="text-[10.5px] text-[#475569] leading-tight line-clamp-2 font-normal font-body">
                       <?php echo htmlspecialchars($service['description']); ?>
                     </p>
                   </div>
 
                   <!-- Bottom Row: Click to Focus Indicator -->
-                  <div class="flex items-center justify-between pt-1.5 border-t border-[#F1E6EE]/80 text-[10px] font-semibold text-[#8B5CF6] group-hover:text-[#C01858] transition-colors">
-                    <span class="inline-flex items-center gap-1.5">
+                  <div class="flex items-center justify-between pt-1 border-t border-[#F1E6EE]/80 text-[10px] font-semibold text-[#8B5CF6] group-hover:text-[#C01858] transition-colors">
+                    <span class="inline-flex items-center gap-1">
                       <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
                       <span>Click to Focus</span>
                     </span>
