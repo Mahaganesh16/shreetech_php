@@ -201,18 +201,13 @@
       const scale = Math.min(this.st.width / (bx1 - bx0), this.st.height / (by1 - by0));
       this.st.scale = scale > 0 && isFinite(scale) ? scale : 0;
 
-      // Adjust item sizing responsively with guaranteed content containment
+      // Sizing definition for compact vs center-active cards
       const isMobile = this.st.width < 640;
-      const baseW = isMobile ? 180 : this.options.itemWidth;
-      const baseH = isMobile ? 135 : this.options.itemHeight;
-
-      this.st.itemW = Math.max(isMobile ? 175 : 220, Math.round(baseW * this.st.scale));
-      this.st.itemH = Math.max(isMobile ? 135 : 172, Math.round(baseH * this.st.scale));
-
-      for (const it of this.st.items) {
-        it.el.style.width = `${this.st.itemW}px`;
-        it.el.style.height = `${this.st.itemH}px`;
-      }
+      this.st.isMobile = isMobile;
+      this.st.baseW = isMobile ? 180 : 235;
+      this.st.baseH = isMobile ? 135 : 175;
+      this.st.activeW = isMobile ? 350 : 480;
+      this.st.activeH = isMobile ? 390 : 485;
 
       if (!this.st.scale) return;
       const vw = this.st.width / this.st.scale;
@@ -297,8 +292,6 @@
       const [bx0, by0, bx1, by1] = this.st.bbox;
       const cx = (bx0 + bx1) / 2;
       const cy = (by0 + by1) / 2;
-      const halfW = this.st.itemW / 2;
-      const halfH = this.st.itemH / 2;
       const introRunning = this.st.introStart >= 0;
       const elapsed = introRunning ? (now - this.st.introStart) / 1000 : 0;
       const spread = introRunning ? easeOutQuint(clamp(elapsed / INTRO_SPREAD, 0, 1)) : 1;
@@ -317,11 +310,51 @@
         let scale = 1 + depth * (FRONT_GROW * w - BACK_SHRINK * (1 - w));
         let opacity = 1 - depth * BACK_DIM * (1 - w);
 
-        // Smooth proximity fade near center stage card so satellite cards emerge gracefully from behind
+        // Continuous Flow Morphing: compute proximity to center stage (down line)
         const distFromFront = Math.abs(wrapSigned(u - this.st.front));
-        if (distFromFront < 0.20) {
-          const proximityFade = clamp((distFromFront - 0.08) / 0.11, 0, 1);
-          opacity *= proximityFade;
+        const activeSpan = 0.125;
+        const centerProximity = clamp(1 - distFromFront / activeSpan, 0, 1);
+        // Smooth cubic ease: 0 at outer edges, smoothly ramps to 1 at front center
+        const pCenter = centerProximity * centerProximity * (3 - 2 * centerProximity);
+
+        // Smooth physical size interpolation: card smoothly grows as it reaches center, and shrinks as it leaves!
+        const curW = this.st.baseW + (this.st.activeW - this.st.baseW) * pCenter;
+        const curH = this.st.baseH + (this.st.activeH - this.st.baseH) * pCenter;
+
+        const itemW = Math.round(curW * this.st.scale);
+        const itemH = Math.round(curH * this.st.scale);
+
+        if (it.wStr !== itemW) {
+          it.wStr = itemW;
+          it.el.style.width = `${itemW}px`;
+        }
+        if (it.hStr !== itemH) {
+          it.hStr = itemH;
+          it.el.style.height = `${itemH}px`;
+        }
+
+        // Smooth elevation towards front center
+        const elevate = Math.round(pCenter * (this.st.isMobile ? 20 : 46));
+
+        const halfW = itemW / 2;
+        const halfH = itemH / 2;
+        const sx = (x - cx) * this.st.scale + this.st.width / 2 - halfW;
+        const sy = (y - cy) * this.st.scale + this.st.height / 2 - halfH - elevate;
+
+        // Active center card gets highest z-index
+        let z = depth > 0 ? (d <= 0 ? 10 + Math.round((d + 1) * 80) : 110 + Math.round(d * 80)) : 1;
+        if (pCenter > 0.05) z = 250 + Math.round(pCenter * 200);
+        if (i === this.st.hoverIndex) z += 50;
+
+        // Toggle full view vs compact view smoothly at center threshold
+        if (pCenter > 0.50) {
+          if (!it.el.classList.contains('is-center-active')) {
+            it.el.classList.add('is-center-active');
+          }
+        } else {
+          if (it.el.classList.contains('is-center-active')) {
+            it.el.classList.remove('is-center-active');
+          }
         }
 
         if (introRunning) {
@@ -329,16 +362,11 @@
           opacity *= appear * appear * (3 - 2 * appear);
         }
 
-        const sx = (x - cx) * this.st.scale + this.st.width / 2 - halfW;
-        const sy = (y - cy) * this.st.scale + this.st.height / 2 - halfH;
-        let z = depth > 0 ? (d <= 0 ? 10 + Math.round((d + 1) * 80) : 110 + Math.round(d * 80)) : 1;
-        if (i === this.st.hoverIndex) z += 200;
-
         this.write(
           it,
           't',
           'transform',
-          `translate3d(${sx.toFixed(2)}px, ${sy.toFixed(2)}px, 0px) scale(${scale.toFixed(4)})`
+          `translate3d(${sx.toFixed(2)}px, ${sy.toFixed(2)}px, 0px)`
         );
         this.write(it, 'o', 'opacity', opacity > 0.999 ? '1' : opacity.toFixed(3));
         this.write(it, 'z', 'zIndex', String(z));
@@ -352,13 +380,6 @@
       // Track active front-most item
       if (closestIdx !== -1 && closestIdx !== this.st.activeIdx) {
         this.st.activeIdx = closestIdx;
-        this.st.items.forEach((it, idx) => {
-          if (idx === closestIdx) {
-            it.el.classList.add('is-active');
-          } else {
-            it.el.classList.remove('is-active');
-          }
-        });
         if (typeof this.options.onActiveChange === 'function') {
           this.options.onActiveChange(closestIdx);
         }
@@ -631,47 +652,6 @@
       }
     });
 
-    // Center Stage DOM references
-    const centerIcon = document.getElementById('center-service-icon');
-    const centerBadge = document.getElementById('center-service-badge');
-    const centerTitle = document.getElementById('center-service-title');
-    const centerDesc = document.getElementById('center-service-desc');
-    const centerDeliverables = document.getElementById('center-service-deliverables');
-
-    function updateCenterStage(idx) {
-      const s = servicesMeta[idx];
-      if (!s) return;
-
-      if (centerIcon) {
-        centerIcon.innerHTML = `<i data-lucide="${s.iconName || 'sparkles'}" class="w-7 h-7"></i>`;
-      }
-      if (centerBadge) {
-        centerBadge.textContent = `Service 0${idx + 1}`;
-      }
-      if (centerTitle) {
-        centerTitle.textContent = s.title || '';
-      }
-      if (centerDesc) {
-        centerDesc.textContent = s.description || '';
-      }
-      if (centerDeliverables && Array.isArray(s.deliverables)) {
-        centerDeliverables.innerHTML = s.deliverables
-          .slice(0, 3)
-          .map(
-            d => `
-            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold text-[#1E293B] bg-white border border-[#F1E6EE] shadow-xs">
-              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-              <span>${d}</span>
-            </span>`
-          )
-          .join('');
-      }
-
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-      }
-    }
-
     // Instantiate engine
     const engine = new OrbitServicesEngine(orbitContainer, {
       baseWidth: 1400,
@@ -685,19 +665,12 @@
       depth: 0.55,
       showPath: true,
       draggable: true,
-      clickToFront: true,
-      onActiveChange: updateCenterStage
+      clickToFront: true
     });
 
-    // Initial update
-    updateCenterStage(0);
-
-    // Prev / Next button step controls
-    const prevBtn = document.getElementById('orbit-prev-btn');
-    const nextBtn = document.getElementById('orbit-next-btn');
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', e => {
+    // Prev / Next button step controls on all cards
+    orbitContainer.querySelectorAll('.orbit-prev-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
         const count = serviceItems.length;
@@ -705,10 +678,10 @@
         const target = (cur - 1 + count) % count;
         engine.bringToFront(target);
       });
-    }
+    });
 
-    if (nextBtn) {
-      nextBtn.addEventListener('click', e => {
+    orbitContainer.querySelectorAll('.orbit-next-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
         const count = serviceItems.length;
@@ -716,6 +689,10 @@
         const target = (cur + 1) % count;
         engine.bringToFront(target);
       });
+    });
+
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
     }
 
     // Expose engine to global window for external access

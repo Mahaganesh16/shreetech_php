@@ -59,33 +59,26 @@
   cursor: pointer;
 }
 
-/* When a card reaches center down line, its full version is highlighted in center */
-.orbit-item.is-active {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  visibility: hidden !important;
-  transition: opacity 0.35s ease;
-}
-
+/* Inactive & Active Orbit Cards with Continuous Flow Morphing */
 .orbit-item-inner {
   width: 100%;
   height: 100%;
   position: relative;
-  border-radius: 1.25rem;
+  border-radius: 1.5rem;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   transform-origin: center center;
 }
 
 .orbit-item:hover .orbit-item-inner {
-  transform: scale(var(--orbit-hover-scale, 1.08));
+  transform: scale(var(--orbit-hover-scale, 1.05));
 }
 
-/* Inactive Satellite Cards - Enlarged with Clean Content Preview */
 .orbit-service-card {
   height: 100%;
   width: 100%;
   padding: 0.85rem 1rem;
-  border-radius: 1.25rem;
+  border-radius: 1.5rem;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -96,7 +89,7 @@
   box-shadow: 0 10px 28px -4px rgba(15, 23, 42, 0.08) !important;
   overflow: hidden;
   box-sizing: border-box;
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, padding 0.3s ease;
 }
 
 .orbit-item:hover .orbit-service-card {
@@ -104,28 +97,62 @@
   box-shadow: 0 12px 30px -4px rgba(192, 24, 88, 0.22) !important;
 }
 
-/* Active Highlighted Full Card (Centered on Down Line) */
-.orbit-center-content {
-  position: absolute;
-  top: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+/* 1. Compact View (Default for Satellite Cards in orbit) */
+.card-compact-view {
+  display: flex;
+  opacity: 1;
+  transition: opacity 0.25s ease;
   pointer-events: auto;
-  z-index: 100;
-  width: 100%;
-  max-width: 510px;
-  padding: 0 0.75rem;
 }
 
-.center-stage-card {
-  position: relative;
-  background: #ffffff !important;
-  border: 1px solid #F1E6EE;
+/* 2. Full View (Revealed when card arrives at Center Down-Line) */
+.card-full-view {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+.card-ambient-glows {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+/* Active Highlighted Full Card (Centered on Down Line) */
+.orbit-item.is-center-active {
+  cursor: default;
+}
+
+.orbit-item.is-center-active .orbit-item-inner {
+  transform: none !important;
+}
+
+.orbit-item.is-center-active .orbit-service-card {
+  padding: 1.25rem 1.5rem;
   border-radius: 1.75rem;
+  border-color: #F1E6EE !important;
+  background: #ffffff !important;
   box-shadow:
-    0 24px 60px -12px rgba(15, 23, 42, 0.12),
-    0 0 35px rgba(255, 107, 0, 0.12) !important;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    0 24px 60px -12px rgba(15, 23, 42, 0.14),
+    0 0 35px rgba(255, 107, 0, 0.14) !important;
+}
+
+.orbit-item.is-center-active .card-compact-view {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.orbit-item.is-center-active .card-full-view {
+  display: flex !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto !important;
+}
+
+.orbit-item.is-center-active .card-ambient-glows {
+  opacity: 1 !important;
 }
 
 @media (max-width: 768px) {
