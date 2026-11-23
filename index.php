@@ -612,7 +612,7 @@ require_once __DIR__ . '/includes/header.php';
             data-service-json="<?php echo htmlspecialchars($svcJson, ENT_QUOTES, 'UTF-8'); ?>"
           >
             <div class="orbit-item-inner">
-              <div class="orbit-service-card group-hover:border-[#C01858]">
+              <div class="orbit-service-card">
                 
                 <!-- Ambient Glows (Smoothly visible when active featured card) -->
                 <div class="card-ambient-glows pointer-events-none">
