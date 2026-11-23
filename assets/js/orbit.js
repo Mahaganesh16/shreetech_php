@@ -53,12 +53,12 @@
         {
           baseWidth: 1400,
           radiusX: 620,
-          radiusY: 200,
+          radiusY: 205,
           rotation: 0,
           duration: 38,
-          itemWidth: 215,
-          itemHeight: 110,
-          direction: 'normal',
+          itemWidth: 225,
+          itemHeight: 135,
+          direction: 'reverse',
           fill: true,
           pathWidth: 1.75,
           pathDash: 0,
@@ -184,6 +184,12 @@
       const depth = clamp(this.options.depth, 0, 1);
       const margin = (this.options.itemWidth / 2) * (1 + depth * FRONT_GROW) * Math.max(1, this.options.hoverScale) + 4;
       this.st.bbox = [x0 - margin, y0 - margin, x1 + margin, y1 + margin];
+
+      // Ensure Service 01 (item 0) displays in center on initial load
+      if (!this.st.initializedPosition) {
+        this.st.manual = wrapSigned(this.st.front);
+        this.st.initializedPosition = true;
+      }
     }
 
     layout() {
@@ -197,8 +203,8 @@
 
       // Adjust item sizing responsively
       const isMobile = this.st.width < 640;
-      const baseW = isMobile ? 165 : this.options.itemWidth;
-      const baseH = isMobile ? 85 : this.options.itemHeight;
+      const baseW = isMobile ? 180 : this.options.itemWidth;
+      const baseH = isMobile ? 105 : this.options.itemHeight;
 
       this.st.itemW = baseW * this.st.scale;
       this.st.itemH = baseH * this.st.scale;
@@ -670,11 +676,12 @@
     const engine = new OrbitServicesEngine(orbitContainer, {
       baseWidth: 1400,
       radiusX: 620,
-      radiusY: 200,
+      radiusY: 205,
       rotation: 0,
       duration: 38,
-      itemWidth: 215,
-      itemHeight: 110,
+      itemWidth: 225,
+      itemHeight: 135,
+      direction: 'reverse',
       depth: 0.55,
       showPath: true,
       draggable: true,

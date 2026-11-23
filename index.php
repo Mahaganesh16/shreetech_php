@@ -564,7 +564,7 @@ require_once __DIR__ . '/includes/header.php';
           />
         </svg>
 
-        <!-- 8 Orbiting Service Cards (Enlarged Cards with Half Content Preview) -->
+        <!-- 8 Orbiting Service Cards (Enlarged Height Cards with Half Content Preview) -->
         <?php foreach ($servicesData as $idx => $service): 
           $svcJson = json_encode([
             'id' => $service['id'],
@@ -583,32 +583,32 @@ require_once __DIR__ . '/includes/header.php';
             <div class="orbit-item-inner">
               <div class="orbit-service-card group-hover:border-[#C01858] flex flex-col justify-between">
                 <!-- Top Row: Icon + Service Number Badge -->
-                <div class="flex items-center justify-between w-full">
-                  <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
-                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-4 h-4"></i>
+                <div class="flex items-center justify-between w-full mb-1">
+                  <div class="w-9 h-9 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
+                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-4.5 h-4.5"></i>
                   </div>
-                  <span class="text-[10px] font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] border border-[#FF6B00]/25 px-2 py-0.5 rounded-full">
+                  <span class="text-xs font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] border border-[#FF6B00]/25 px-2.5 py-0.5 rounded-full shadow-2xs">
                     0<?php echo $idx + 1; ?>
                   </span>
                 </div>
 
-                <!-- Middle: Title + 2-Line Description Snippet (Half Content) -->
+                <!-- Middle: Title + 3-Line Description Snippet (Clear Half Content) -->
                 <div class="w-full min-w-0 my-1">
-                  <h4 class="text-xs sm:text-[13px] font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight mb-1">
+                  <h4 class="text-[13px] sm:text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-snug mb-1">
                     <?php echo htmlspecialchars($service['title']); ?>
                   </h4>
-                  <p class="text-[10px] sm:text-[11px] text-[#475569] leading-snug line-clamp-2 font-normal font-body">
+                  <p class="text-[11px] text-[#475569] leading-relaxed line-clamp-3 font-normal font-body">
                     <?php echo htmlspecialchars($service['description']); ?>
                   </p>
                 </div>
 
                 <!-- Bottom Row: Click to Focus Indicator -->
-                <div class="flex items-center justify-between pt-1 border-t border-[#F1E6EE]/80 text-[9px] font-semibold text-[#8B5CF6] group-hover:text-[#C01858] transition-colors">
-                  <span class="inline-flex items-center gap-1">
-                    <i data-lucide="sparkles" class="w-2.5 h-2.5 text-[#FF6B00]"></i>
+                <div class="flex items-center justify-between pt-1.5 border-t border-[#F1E6EE]/80 text-[10px] font-semibold text-[#8B5CF6] group-hover:text-[#C01858] transition-colors">
+                  <span class="inline-flex items-center gap-1.5">
+                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
                     <span>Click to Focus</span>
                   </span>
-                  <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-0.5 transition-transform"></i>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
                 </div>
               </div>
             </div>
