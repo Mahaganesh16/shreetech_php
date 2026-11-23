@@ -68,7 +68,7 @@ $openPositions = [
 <!-- =========================================================================
      1. CAREERS HERO SECTION
      ========================================================================= -->
-<section class="relative pt-32 pb-16 sm:pt-40 sm:pb-24 overflow-hidden">
+<section class="relative pt-24 pb-12 sm:pt-36 sm:pb-20 md:pt-40 md:pb-24 overflow-hidden">
   <!-- Ambient Colorful Glows -->
   <div class="absolute top-20 left-1/2 -translate-x-1/2 w-[650px] h-[320px] bg-gradient-to-tr from-[#FF6B00]/12 via-[#C01858]/10 to-[#8B5CF6]/12 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -114,10 +114,10 @@ $openPositions = [
 <!-- =========================================================================
      2. WORK AT SHREETECH SECTION
      ========================================================================= -->
-<section class="relative py-20 sm:py-28 bg-[#FFF0F5]/25 border-y border-[#F1E6EE] backdrop-blur-xs">
+<section class="relative py-14 sm:py-20 md:py-28 bg-[#FFF0F5]/25 border-y border-[#F1E6EE] backdrop-blur-xs">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <div class="max-w-3xl mb-12">
+    <div class="max-w-3xl mb-8 sm:mb-12">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="users-2" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Work Culture</span>
@@ -179,10 +179,10 @@ $openPositions = [
 <!-- =========================================================================
      3. OPENING POSITIONS SECTION
      ========================================================================= -->
-<section id="openings" class="relative py-20 sm:py-28 bg-transparent scroll-mt-24">
+<section id="openings" class="relative py-14 sm:py-20 md:py-28 bg-transparent scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <div class="max-w-3xl mb-12">
+    <div class="max-w-3xl mb-8 sm:mb-12">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-[#C01858] mb-3">
         <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Current Openings</span>
@@ -264,10 +264,10 @@ $openPositions = [
 <!-- =========================================================================
      4. HIRING STEPS SECTION
      ========================================================================= -->
-<section class="relative py-20 sm:py-28 bg-[#FFF4EA]/20 border-y border-[#F1E6EE] backdrop-blur-xs">
+<section class="relative py-14 sm:py-20 md:py-28 bg-[#FFF4EA]/20 border-y border-[#F1E6EE] backdrop-blur-xs">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     
-    <div class="max-w-2xl mx-auto mb-12">
+    <div class="max-w-2xl mx-auto mb-8 sm:mb-12">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="git-merge" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Streamlined Hiring</span>
@@ -329,14 +329,14 @@ $openPositions = [
 <!-- =========================================================================
      5. SUBMIT YOUR RESUME SECTION (Exact UI from user image 3)
      ========================================================================= -->
-<section id="submit-resume" class="relative py-20 sm:py-28 bg-transparent scroll-mt-24">
+<section id="submit-resume" class="relative py-14 sm:py-20 md:py-28 bg-transparent scroll-mt-24">
   <!-- Subtle Ambient Glow -->
   <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-to-tr from-[#FF6B00]/10 via-[#C01858]/10 to-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none"></div>
 
   <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Form Container Card -->
-    <div class="glass-card p-7 sm:p-10 md:p-12 rounded-3xl border border-[#F1E6EE] shadow-2xl bg-white/90 backdrop-blur-xl">
+    <div class="glass-card p-5 sm:p-8 md:p-12 rounded-2xl sm:rounded-3xl border border-[#F1E6EE] shadow-2xl bg-white/90 backdrop-blur-xl">
       
       <!-- Red Form Title -->
       <div class="text-center mb-8">

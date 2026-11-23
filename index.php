@@ -99,19 +99,19 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      1. HERO SECTION (#home)
      ========================================================================= -->
-<section id="home" class="relative pt-28 pb-12 sm:pt-32 sm:pb-16 overflow-hidden flex items-center scroll-mt-24">
+<section id="home" class="relative pt-20 pb-10 sm:pt-28 sm:pb-14 md:pt-32 md:pb-16 overflow-hidden flex items-center scroll-mt-24">
   <!-- Subtle Ambient Corner Blooms -->
   <div class="absolute top-1/4 -left-32 w-[38rem] h-[38rem] bg-[#FF6B00]/6 rounded-full blur-[140px] pointer-events-none"></div>
   <div class="absolute top-1/3 -right-32 w-[42rem] h-[42rem] bg-[#C01858]/5 rounded-full blur-[150px] pointer-events-none"></div>
   <div class="absolute bottom-10 left-1/3 w-[34rem] h-[34rem] bg-[#8B5CF6]/5 rounded-full blur-[140px] pointer-events-none"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 items-center">
       
       <!-- Left Column: Headline & Action Buttons -->
       <div class="lg:col-span-7 flex flex-col items-start text-left z-10">
         <!-- Badge -->
-        <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[#8B5CF6] text-xs font-semibold tracking-wide mb-6">
+        <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[#8B5CF6] text-xs font-semibold tracking-wide mb-4 sm:mb-6">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
           <span>Enterprise IT & Modern Digital Experiences</span>
         </div>
@@ -129,15 +129,15 @@ require_once __DIR__ . '/includes/header.php';
         </h1>
 
         <!-- Description -->
-        <p class="mt-6 text-base sm:text-lg text-[#475569] max-w-xl font-normal leading-relaxed">
+        <p class="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-[#475569] max-w-xl font-normal leading-relaxed">
           ShreeTech is an emerging internship training startup lead by highly experienced professionals who unfold various industry chapters and worked with reputable organizations.
         </p>
 
         <!-- Dual Action Buttons -->
-        <div class="mt-8 sm:mt-10 flex flex-wrap items-center gap-4 w-full sm:w-auto">
+        <div class="mt-6 sm:mt-10 flex flex-wrap items-center gap-3.5 sm:gap-4 w-full sm:w-auto">
           <a
             href="#contact"
-            class="glass-btn-primary inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl font-semibold text-sm cursor-pointer shadow-lg w-full sm:w-auto"
+            class="glass-btn-primary inline-flex items-center justify-center gap-2.5 px-6 py-3 sm:px-7 sm:py-3.5 rounded-2xl font-semibold text-sm cursor-pointer shadow-lg w-full sm:w-auto"
           >
             <span>Get a Free Consultation!</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -145,7 +145,7 @@ require_once __DIR__ . '/includes/header.php';
 
           <a
             href="#about"
-            class="glass-btn-secondary inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl font-semibold text-sm cursor-pointer w-full sm:w-auto shadow-xs"
+            class="glass-btn-secondary inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-7 sm:py-3.5 rounded-2xl font-semibold text-sm cursor-pointer w-full sm:w-auto shadow-xs"
           >
             <i data-lucide="sparkles" class="w-4 h-4 text-[#FF6B00]"></i>
             <span>Know More</span>
@@ -154,7 +154,7 @@ require_once __DIR__ . '/includes/header.php';
       </div>
 
       <!-- Right Column: Hero Visual with Circular Round Orbiting Tools & Phoenix Bird -->
-      <div class="lg:col-span-5 relative flex items-center justify-center lg:justify-end min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] lg:translate-x-2 xl:translate-x-4">
+      <div class="lg:col-span-5 relative flex items-center justify-center lg:justify-end min-h-[300px] sm:min-h-[400px] lg:min-h-[480px] lg:translate-x-2 xl:translate-x-4">
         
         <!-- Shared Single Center Anchor -->
         <div class="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] lg:w-[390px] lg:h-[390px] xl:w-[420px] xl:h-[420px] flex items-center justify-center">
@@ -323,12 +323,12 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      2. ABOUT SHREE TECH SECTION (#about)
      ========================================================================= -->
-<section id="about" class="relative pt-10 pb-20 sm:pt-14 sm:pb-28 bg-transparent overflow-hidden scroll-mt-24">
+<section id="about" class="relative pt-8 pb-14 sm:pt-12 sm:pb-20 md:pb-28 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
       
       <!-- Left Column: Story & Deliverables -->
-      <div class="lg:col-span-6 space-y-6">
+      <div class="lg:col-span-6 space-y-4 sm:space-y-6">
         <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6]">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
           <span>About Shree Tech</span>
@@ -450,9 +450,9 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      4. WHY CHOOSE US SECTION (#why-us)
      ========================================================================= -->
-<section id="why-us" class="relative py-20 sm:py-28 bg-[#FFF0F5]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="why-us" class="relative py-14 sm:py-20 md:py-28 bg-[#FFF0F5]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mb-12">
+    <div class="max-w-3xl mb-8 sm:mb-12">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Why Choose Shree Tech</span>
@@ -467,12 +467,12 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 
     <!-- 6 Advantages in 3D Flip Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
       <?php foreach ($whyChooseUsData as $idx => $item): ?>
-        <div class="flip-card-wrapper h-[380px] sm:h-[400px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo ($idx + 1); ?>">
+        <div class="flip-card-wrapper h-[340px] sm:h-[370px] md:h-[400px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo ($idx + 1); ?>">
           <div class="flip-card-inner">
             <!-- Front -->
-            <div class="flip-card-front glass-card p-6 sm:p-8 rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-500">
+            <div class="flip-card-front glass-card p-5 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-500">
               <div class="card-spotlight-layer"></div>
               <div>
                 <div class="flex items-center justify-between mb-5">
@@ -550,11 +550,11 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      5. ENGINEERING SERVICES SECTION (#services)
      ========================================================================= -->
-<section id="services" class="relative py-20 sm:py-28 bg-transparent overflow-hidden scroll-mt-24">
+<section id="services" class="relative py-14 sm:py-20 md:py-28 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
-    <div class="max-w-3xl mb-12">
+    <div class="max-w-3xl mb-8 sm:mb-12">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Our Services</span>
@@ -724,11 +724,11 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      4. CORE TECHNOLOGY STACK SECTION (#technologies)
      ========================================================================= -->
-<section id="technologies" class="relative py-20 sm:py-28 bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="technologies" class="relative py-14 sm:py-20 md:py-28 bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
-    <div class="max-w-3xl mb-12">
+    <div class="max-w-3xl mb-8 sm:mb-12">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Core Technology Stack</span>
@@ -1132,10 +1132,10 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      8. CLIENT TESTIMONIALS SECTION (#testimonials)
      ========================================================================= -->
-<section id="testimonials" class="relative py-20 sm:py-28 bg-[#F5F0FF]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="testimonials" class="relative py-14 sm:py-20 md:py-28 bg-[#F5F0FF]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <div class="text-center max-w-2xl mx-auto mb-12">
+    <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Client Testimonials</span>
@@ -1277,12 +1277,12 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      9. CONTACT & CONSULTATION SECTION (#contact)
      ========================================================================= -->
-<section id="contact" class="relative py-20 sm:py-28 bg-transparent overflow-hidden scroll-mt-24">
+<section id="contact" class="relative py-14 sm:py-20 md:py-28 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-start">
       
       <!-- Left Side: Contact Channels (5 Cols) -->
-      <div class="lg:col-span-5 space-y-8 reveal-init reveal-left">
+      <div class="lg:col-span-5 space-y-6 sm:space-y-8 reveal-init reveal-left">
         <div>
           <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
             <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
