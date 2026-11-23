@@ -114,7 +114,7 @@ $openPositions = [
 <!-- =========================================================================
      2. WORK AT SHREETECH SECTION
      ========================================================================= -->
-<section class="relative py-16 sm:py-20 bg-[#FFF0F5]/25 border-y border-[#F1E6EE] backdrop-blur-xs">
+<section class="relative py-20 sm:py-28 bg-[#FFF0F5]/25 border-y border-[#F1E6EE] backdrop-blur-xs">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <div class="max-w-3xl mb-12">
@@ -264,7 +264,7 @@ $openPositions = [
 <!-- =========================================================================
      4. HIRING STEPS SECTION
      ========================================================================= -->
-<section class="relative py-16 bg-[#FFF4EA]/20 border-y border-[#F1E6EE] backdrop-blur-xs">
+<section class="relative py-20 sm:py-28 bg-[#FFF4EA]/20 border-y border-[#F1E6EE] backdrop-blur-xs">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     
     <div class="max-w-2xl mx-auto mb-12">

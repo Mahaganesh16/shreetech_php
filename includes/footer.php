@@ -5,7 +5,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
 ?>
 </main>
 
-<footer class="relative z-10 bg-white border-t border-[#F1E6EE] mt-16 sm:mt-20 pt-16 sm:pt-20 pb-12 overflow-hidden shadow-xs">
+<footer class="relative z-10 bg-white border-t border-[#F1E6EE] pt-16 sm:pt-20 pb-12 overflow-hidden shadow-xs">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-16 border-b border-[#F1E6EE]">
       

@@ -450,9 +450,9 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      4. WHY CHOOSE US SECTION (#why-us)
      ========================================================================= -->
-<section id="why-us" class="relative py-28 sm:py-36 bg-[#FFF0F5]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="why-us" class="relative py-20 sm:py-28 bg-[#FFF0F5]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mb-16">
+    <div class="max-w-3xl mb-12">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Why Choose Shree Tech</span>
@@ -974,7 +974,7 @@ require_once __DIR__ . '/includes/header.php';
   <div id="projects-pin-track" class="relative w-full">
     
     <!-- STICKY VIEWPORT STAGE (PERFECT FULL-VIEW ALIGNMENT: ZERO CLIPPING & SAFE NAVBAR CLEARANCE) -->
-    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-20 sm:pt-24 pb-4 px-4 sm:px-6 lg:px-8">
+    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-20 sm:pt-28 pb-8 px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header (Cleanly Spaced Below Floating Navbar) -->
       <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-2 sm:mb-2.5 shrink-0">
@@ -1132,10 +1132,10 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      8. CLIENT TESTIMONIALS SECTION (#testimonials)
      ========================================================================= -->
-<section id="testimonials" class="relative py-28 sm:py-36 bg-[#F5F0FF]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="testimonials" class="relative py-20 sm:py-28 bg-[#F5F0FF]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <div class="text-center max-w-2xl mx-auto mb-14">
+    <div class="text-center max-w-2xl mx-auto mb-12">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Client Testimonials</span>
