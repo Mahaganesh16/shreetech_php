@@ -671,7 +671,6 @@ function initShreeTech() {
   // =========================================================================
   const navTrackSections = [
     { id: 'home', navIndex: 0 },
-    { id: 'directory', navIndex: 0 },
     { id: 'about', navIndex: 1 },
     { id: 'why-us', navIndex: 1 },
     { id: 'services', navIndex: 2 },

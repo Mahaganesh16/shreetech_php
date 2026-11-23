@@ -41,90 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Directory flip cards for interactive quick overview
-$directorySections = [
-    [
-        'title' => 'About Shree Tech',
-        'description' => 'Dedicated software engineering team, enterprise delivery standards, and client-first culture.',
-        'href' => '#about',
-        'badge' => 'Company Profile',
-        'icon' => 'users',
-        'backBadge' => 'Core Highlights',
-        'backTitle' => 'Engineering Discipline',
-        'highlights' => [
-            '10+ Years enterprise software delivery record',
-            '45+ Senior full-stack developers & architects',
-            '99% Long-term client retention rate',
-            'ISO-aligned clean code & domain architecture'
-        ],
-        'ctaText' => 'Explore About Us'
-    ],
-    [
-        'title' => 'Engineering Services',
-        'description' => 'Custom software development, high-scale web platforms, mobile apps, and cloud architectures.',
-        'href' => '#services',
-        'badge' => 'Core Capabilities',
-        'icon' => 'code-2',
-        'backBadge' => '8 Core Offerings',
-        'backTitle' => 'End-to-End Delivery',
-        'highlights' => [
-            'Full-stack enterprise web platforms & SaaS',
-            'iOS & Android native & cross-platform apps',
-            'Resilient cloud architecture & serverless APIs',
-            'Legacy code modernization & DevOps automation'
-        ],
-        'ctaText' => 'Explore All Services'
-    ],
-    [
-        'title' => 'Technology Stack',
-        'description' => 'Modern, battle-tested frameworks across React, Node, Python, AWS, and native mobile compilation.',
-        'href' => '#technologies',
-        'badge' => 'Stack & Tools',
-        'icon' => 'cpu',
-        'backBadge' => 'Modern Tooling',
-        'backTitle' => 'Battle-Tested Tech',
-        'highlights' => [
-            'Frontend: Next.js 16, React 19 & TypeScript',
-            'Backend: Node.js, Python, Laravel & PHP',
-            'Databases: PostgreSQL, MongoDB & MySQL',
-            'Cloud & DevOps: AWS, Azure & Docker pipelines'
-        ],
-        'ctaText' => 'View Full Tech Stack'
-    ],
-    [
-        'title' => 'Featured Projects',
-        'description' => 'Case studies of enterprise SaaS applications, web portals, and mobile systems built for scale.',
-        'href' => '#projects',
-        'badge' => 'Client Success',
-        'icon' => 'briefcase',
-        'backBadge' => 'Verified Case Studies',
-        'backTitle' => 'Production Impact',
-        'highlights' => [
-            'Eyecatch Media: 1.2M+ monthly readers',
-            'Kiaura Research: 10,000+ publications',
-            'Blood Donor App: 25,000+ mapped donors',
-            'Eekai Trust & Indian Press Club portals'
-        ],
-        'ctaText' => 'Browse Case Studies'
-    ],
-    [
-        'title' => 'Contact & Consultation',
-        'description' => 'Discuss your technical roadmap, get detailed project estimates, and start your engineering partnership.',
-        'href' => '#contact',
-        'badge' => 'Start a Project',
-        'icon' => 'mail',
-        'backBadge' => 'Direct Engagement',
-        'backTitle' => 'Start a Conversation',
-        'highlights' => [
-            'Direct consultation with senior architects',
-            'Guaranteed 1-business-day scope reviews',
-            'Transparent agile milestones & fixed quotes',
-            'Comprehensive NDA & client IP protection'
-        ],
-        'ctaText' => 'Schedule Consultation'
-    ]
-];
-
 // Setup data for Technologies section
 $techCategories = ['All', 'Frontend', 'Backend', 'Database', 'Mobile', 'Cloud'];
 $allTechnologies = [];
@@ -375,112 +291,7 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <!-- =========================================================================
-     2. QUICK INTERACTIVE DIRECTORY (#directory)
-     ========================================================================= -->
-<section id="directory" class="relative py-20 sm:py-28 bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
-  <div class="absolute top-1/4 -right-32 w-[36rem] h-[36rem] bg-[#FF6B00]/5 rounded-full blur-[140px] pointer-events-none"></div>
-  <div class="absolute bottom-10 -left-32 w-[34rem] h-[34rem] bg-[#C01858]/4 rounded-full blur-[140px] pointer-events-none"></div>
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    
-    <!-- Section Header -->
-    <div class="max-w-3xl mb-12">
-      <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-        <span>Explore Shree Tech</span>
-      </div>
-      <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
-        Engineering Digital Excellence Across Every Dimension
-      </h2>
-      <p class="mt-4 text-base sm:text-lg text-[#475569] font-normal leading-relaxed font-body">
-        Browse our core chapters to learn about our engineering team, explore our services,
-        review our battle-tested tech stack, and see verified client deployments.
-      </p>
-    </div>
-
-    <!-- 3D Flip Directory Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <?php foreach ($directorySections as $secIdx => $sec): ?>
-        <div class="flip-card-wrapper h-[340px] sm:h-[350px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo ($secIdx + 1); ?>">
-          <div class="flip-card-inner">
-            
-            <!-- FRONT FACE -->
-            <div class="flip-card-front glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-500">
-              <div class="card-spotlight-layer"></div>
-              <div>
-                <div class="flex items-center justify-between mb-4">
-                  <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs">
-                    <i data-lucide="<?php echo htmlspecialchars($sec['icon']); ?>" class="w-6 h-6"></i>
-                  </div>
-                  <span class="text-[11px] font-semibold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-3 py-1 rounded-full font-body uppercase tracking-wider">
-                    <?php echo htmlspecialchars($sec['badge']); ?>
-                  </span>
-                </div>
-
-                <h3 class="text-lg sm:text-xl font-bold text-[#0F172A] mb-2 font-heading group-hover:text-[#C01858] transition-colors duration-300">
-                  <?php echo htmlspecialchars($sec['title']); ?>
-                </h3>
-                <p class="text-xs sm:text-sm text-[#334155] font-normal leading-relaxed font-body">
-                  <?php echo htmlspecialchars($sec['description']); ?>
-                </p>
-              </div>
-
-              <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
-                <span class="text-xs font-semibold text-[#334155] group-hover:text-[#C01858] transition-colors font-body flex items-center gap-1.5">
-                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500"></i>
-                  <span>Hover to Flip</span>
-                </span>
-                <div class="w-8 h-8 rounded-full bg-white border border-[#F1E6EE] group-hover:border-[#C01858] group-hover:bg-[#C01858] text-[#334155] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-xs">
-                  <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300"></i>
-                </div>
-              </div>
-            </div>
-
-            <!-- BACK FACE -->
-            <div class="flip-card-back glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
-              <div class="relative z-10">
-                <div class="flex items-center justify-between mb-3.5">
-                  <span class="text-[11px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-3 py-0.5 rounded-full font-body uppercase tracking-wider">
-                    <?php echo htmlspecialchars($sec['backBadge']); ?>
-                  </span>
-                  <span class="text-[11px] font-semibold text-[#334155] font-body flex items-center gap-1">
-                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
-                    Verified
-                  </span>
-                </div>
-
-                <h4 class="text-base font-bold text-[#0F172A] font-heading mb-3">
-                  <?php echo htmlspecialchars($sec['backTitle']); ?>
-                </h4>
-
-                <div class="space-y-2">
-                  <?php foreach ($sec['highlights'] as $item): ?>
-                    <div class="flex items-start gap-2.5 text-xs text-[#1E293B] font-medium font-body leading-snug">
-                      <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
-                      <span><?php echo htmlspecialchars($item); ?></span>
-                    </div>
-                  <?php endforeach; ?>
-                </div>
-              </div>
-
-              <div class="relative z-10 pt-4 border-t border-[#F1E6EE]">
-                <a
-                  href="<?php echo htmlspecialchars($sec['href']); ?>"
-                  class="glass-btn-primary w-full py-2.5 px-4 rounded-2xl text-white font-semibold text-xs sm:text-sm font-body flex items-center justify-center gap-2 cursor-pointer shadow-md"
-                >
-                  <span><?php echo htmlspecialchars($sec['ctaText']); ?></span>
-                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      <?php endforeach; ?>
-    </div>
-  </div>
-</section>
-
-<!-- =========================================================================
-     3. ABOUT SHREE TECH SECTION (#about)
+     2. ABOUT SHREE TECH SECTION (#about)
      ========================================================================= -->
 <section id="about" class="relative py-20 sm:py-28 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -712,41 +523,19 @@ require_once __DIR__ . '/includes/header.php';
 <section id="services" class="relative py-20 sm:py-28 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <!-- Section Header with Interactive 3D Orbit View vs Grid View Switcher -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-      <div class="max-w-3xl">
-        <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-          <span>Our Services</span>
-        </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
-          Comprehensive Software Engineering & Technical Consulting
-        </h2>
-        <p class="mt-4 text-base sm:text-lg text-[#334155] font-normal leading-relaxed font-body">
-          We provide end-to-end technology services tailored to modern enterprise requirements. Explore
-          our eight core service disciplines through interactive 3D orbital navigation.
-        </p>
+    <!-- Section Header -->
+    <div class="max-w-3xl mb-12">
+      <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
+        <span>Our Services</span>
       </div>
-
-      <!-- Interactive View Toggle -->
-      <div class="flex items-center gap-2 p-1.5 rounded-2xl glass-card border border-[#F1E6EE] shrink-0 self-start md:self-auto shadow-xs">
-        <button
-          id="btn-services-view-orbit"
-          type="button"
-          class="px-4 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer glass-btn-primary shadow-xs text-white flex items-center gap-1.5"
-        >
-          <i data-lucide="orbit" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-          <span>3D Orbit View</span>
-        </button>
-        <button
-          id="btn-services-view-grid"
-          type="button"
-          class="px-4 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] flex items-center gap-1.5"
-        >
-          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
-          <span>Grid View</span>
-        </button>
-      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading">
+        Comprehensive Software Engineering & Technical Consulting
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-[#334155] font-normal leading-relaxed font-body">
+        We provide end-to-end technology services tailored to modern enterprise requirements. Explore
+        our eight core service disciplines through interactive 3D orbital navigation.
+      </p>
     </div>
 
     <!-- 1. INTERACTIVE 3D ORBIT VIEW (DOMINIK KOCH ARCHITECTURE) -->
@@ -884,94 +673,11 @@ require_once __DIR__ . '/includes/header.php';
         <span>Drag horizontally to rotate orbit &bull; Click any card to focus</span>
       </div>
     </div>
-
-    <!-- 2. TRADITIONAL GRID VIEW CONTAINER (TOGGLEABLE) -->
-    <div id="services-grid-wrapper" class="hidden w-full">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <?php foreach ($servicesData as $idx => $service): ?>
-          <div class="flip-card-wrapper h-[380px] sm:h-[400px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo (($idx % 4) + 1); ?>">
-            <div class="flip-card-inner">
-              
-              <!-- Front Face -->
-              <div class="flip-card-front glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-500">
-                <div class="card-spotlight-layer"></div>
-                <div>
-                  <div class="flex items-center justify-between mb-5">
-                    <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white group-hover:scale-105 transition-all duration-300 shadow-xs">
-                      <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-6 h-6"></i>
-                    </div>
-                    <span class="text-xs font-bold font-stat text-[#475569]/60 group-hover:text-[#FF6B00] transition-colors">
-                      0<?php echo $idx + 1; ?>
-                    </span>
-                  </div>
-
-                  <h3 class="text-lg font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors duration-300 font-heading mb-2.5">
-                    <?php echo htmlspecialchars($service['title']); ?>
-                  </h3>
-
-                  <p class="text-xs sm:text-sm text-[#334155] font-normal leading-relaxed">
-                    <?php echo htmlspecialchars($service['description']); ?>
-                  </p>
-                </div>
-
-                <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
-                  <span class="text-xs font-semibold text-[#334155] group-hover:text-[#C01858] transition-colors duration-300 font-body flex items-center gap-1.5">
-                    <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] transition-transform duration-500 group-hover:rotate-180"></i>
-                    <span>Hover to Flip</span>
-                  </span>
-                  <div class="w-8 h-8 rounded-full bg-white border border-[#F1E6EE] group-hover:border-[#C01858] group-hover:bg-[#C01858] text-[#334155] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-xs">
-                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300"></i>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Back Face -->
-              <div class="flip-card-back glass-card p-6 sm:p-7 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
-                <div class="relative z-10">
-                  <div class="flex items-center justify-between mb-3.5">
-                    <span class="text-[11px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-3 py-0.5 rounded-full font-body uppercase tracking-wider">
-                      Key Deliverables
-                    </span>
-                    <span class="text-[11px] font-semibold text-[#334155] font-body flex items-center gap-1">
-                      <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
-                      Included Scope
-                    </span>
-                  </div>
-
-                  <h4 class="text-base font-bold text-[#0F172A] font-heading mb-3">
-                    <?php echo htmlspecialchars($service['title']); ?>
-                  </h4>
-
-                  <div class="space-y-2">
-                    <?php foreach ($service['deliverables'] as $item): ?>
-                      <div class="flex items-start gap-2 text-xs text-[#1E293B] font-medium">
-                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#FF6B00] shrink-0 mt-0.5"></i>
-                        <span class="leading-snug"><?php echo htmlspecialchars($item); ?></span>
-                      </div>
-                    <?php endforeach; ?>
-                  </div>
-                </div>
-
-                <div class="relative z-10 pt-4 border-t border-[#F1E6EE]">
-                  <a
-                    href="#contact"
-                    class="glass-btn-primary w-full py-2.5 px-4 rounded-2xl text-white font-semibold text-xs sm:text-sm font-body flex items-center justify-center gap-2 cursor-pointer shadow-md"
-                  >
-                    <span>Discuss Requirement</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      </div>
-    </div>
   </div>
 </section>
 
 <!-- =========================================================================
-     6. CORE TECHNOLOGY STACK SECTION (#technologies)
+     4. CORE TECHNOLOGY STACK SECTION (#technologies)
      ========================================================================= -->
 <section id="technologies" class="relative py-20 sm:py-28 bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

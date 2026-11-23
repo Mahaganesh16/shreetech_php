@@ -695,33 +695,6 @@
       });
     }
 
-    // View switcher: 3D Orbit View vs Grid View
-    const orbitViewBtn = document.getElementById('btn-services-view-orbit');
-    const gridViewBtn = document.getElementById('btn-services-view-grid');
-    const orbitWrapper = document.getElementById('services-orbit-wrapper');
-    const gridWrapper = document.getElementById('services-grid-wrapper');
-
-    if (orbitViewBtn && gridViewBtn && orbitWrapper && gridWrapper) {
-      orbitViewBtn.addEventListener('click', () => {
-        orbitViewBtn.className =
-          'px-4 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer glass-btn-primary shadow-xs text-white';
-        gridViewBtn.className =
-          'px-4 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858]';
-        orbitWrapper.classList.remove('hidden');
-        gridWrapper.classList.add('hidden');
-        engine.refresh();
-      });
-
-      gridViewBtn.addEventListener('click', () => {
-        gridViewBtn.className =
-          'px-4 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer glass-btn-primary shadow-xs text-white';
-        orbitViewBtn.className =
-          'px-4 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858]';
-        orbitWrapper.classList.add('hidden');
-        gridWrapper.classList.remove('hidden');
-      });
-    }
-
     // Expose engine to global window for external access
     window.__shreeTechOrbit = engine;
   }
