@@ -297,18 +297,18 @@ function initShreeTech() {
   const categoryMeta = {
     'All': {
       badge: 'Multi-Discipline Engineering',
-      title: 'All Technology Disciplines (Frontend, Backend, Database, Mobile, Cloud)',
-      desc: 'Comprehensive enterprise ecosystem featuring frontend languages (eg: HTML, CSS, JS), backend runtimes, databases, mobile frameworks, and cloud engineering.'
+      title: 'All Technology Disciplines (HTML Up · CSS Down Diagonal Stream)',
+      desc: 'Comprehensive enterprise ecosystem featuring frontend languages (eg: HTML5 Up, CSS3 Down), backend runtimes, databases, mobile frameworks, and cloud engineering.'
     },
     'Frontend': {
       badge: 'Client-Side Engineering',
-      title: 'Frontend Languages & UI Frameworks (eg: HTML, CSS, JavaScript)',
-      desc: 'Semantic markup standards (HTML5), modern responsive styling (CSS3), and reactive component architectures (React.js, Next.js).'
+      title: 'Frontend Languages & UI Frameworks (HTML Up · CSS Down)',
+      desc: 'Semantic HTML5 markup stream (Upper Lane) and modern responsive CSS3 styling stream (Lower Lane) scrolling diagonally from right to left.'
     },
     'Backend': {
       badge: 'Server Architecture',
-      title: 'Backend Frameworks & APIs (eg: Python, Laravel, PHP, Node.js)',
-      desc: 'Resilient server runtimes, event-driven microservices, and enterprise frameworks built for high concurrency and secure data APIs.'
+      title: 'Backend Frameworks & Server APIs (eg: Python, Laravel, PHP, Node.js)',
+      desc: 'Resilient server runtimes and enterprise frameworks built for high concurrency, microservices, and robust data APIs.'
     },
     'Database': {
       badge: 'Data Layer & Caching',
@@ -345,7 +345,7 @@ function initShreeTech() {
 
       techGroups.forEach((group) => {
         const match = group.getAttribute('data-category') === cat;
-        const tracks = group.querySelectorAll('.tech-column-track');
+        const tracks = group.querySelectorAll('.tech-row-track, .tech-column-track');
         if (match) {
           group.style.display = 'block';
           group.style.opacity = '0';

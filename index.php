@@ -41,23 +41,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Setup data for Technologies section
+// Setup data for Technologies section (Right-to-Left Diagonal Stream: HTML Up · CSS Down)
 $techCategories = ['All', 'Frontend', 'Backend', 'Database', 'Mobile', 'Cloud'];
 $techCategoryLabels = [
     'All'      => 'All Disciplines',
-    'Frontend' => 'Frontend (HTML, CSS, JS)',
+    'Frontend' => 'Frontend (HTML Up · CSS Down)',
     'Backend'  => 'Backend (PHP, Node, Python)',
     'Database' => 'Database (MySQL, Mongo)',
     'Mobile'   => 'Mobile (Flutter, Swift)',
     'Cloud'    => 'Cloud (AWS, Azure, Docker)',
 ];
-$allTechnologies = [];
-foreach ($technologyGroups as $group) {
-    foreach ($group['items'] as $item) {
-        $item['category'] = $group['category'];
-        $allTechnologies[] = $item;
-    }
-}
+
+// All Disciplines: Upper Stream (HTML5 Up & Core Languages)
+$allUpStream = [
+    ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo', 'category' => 'Frontend', 'tag' => 'HTML5 Language · UP'],
+    ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo', 'category' => 'Frontend', 'tag' => 'Frontend Language · UP'],
+    ['name' => 'Next.js', 'description' => 'Server-side rendering & App Router', 'iconComponent' => 'NextLogo', 'category' => 'Frontend', 'tag' => 'Full-Stack React · UP'],
+    ['name' => 'Python', 'description' => 'Data processing, APIs, and AI automation', 'iconComponent' => 'PythonLogo', 'category' => 'Backend', 'tag' => 'Backend Language · UP'],
+    ['name' => 'PHP', 'description' => 'Battle-tested server-side web scripting', 'iconComponent' => 'PhpLogo', 'category' => 'Backend', 'tag' => 'Server Scripting · UP'],
+    ['name' => 'Java', 'description' => 'Enterprise-grade robust application platform', 'iconComponent' => 'JavaLogo', 'category' => 'Backend', 'tag' => 'Enterprise Platform · UP'],
+    ['name' => 'Flutter', 'description' => 'Google native multi-platform compilation', 'iconComponent' => 'FlutterLogo', 'category' => 'Mobile', 'tag' => 'Mobile Compilation · UP'],
+    ['name' => 'AWS', 'description' => 'Global cloud infrastructure & services', 'iconComponent' => 'AwsLogo', 'category' => 'Cloud', 'tag' => 'Cloud Infrastructure · UP'],
+    ['name' => 'Docker', 'description' => 'Industry-standard container virtualization', 'iconComponent' => 'DockerLogo', 'category' => 'Cloud', 'tag' => 'Containerization · UP'],
+];
+
+// All Disciplines: Lower Stream (CSS3 Down & Frameworks/Databases)
+$allDownStream = [
+    ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo', 'category' => 'Frontend', 'tag' => 'CSS3 Styling · DOWN'],
+    ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces', 'iconComponent' => 'ReactLogo', 'category' => 'Frontend', 'tag' => 'UI Framework · DOWN'],
+    ['name' => 'Laravel', 'description' => 'Full-featured enterprise PHP web framework', 'iconComponent' => 'LaravelLogo', 'category' => 'Backend', 'tag' => 'MVC Framework · DOWN'],
+    ['name' => 'Node.js', 'description' => 'Event-driven asynchronous backend services', 'iconComponent' => 'NodeLogo', 'category' => 'Backend', 'tag' => 'Async Runtime · DOWN'],
+    ['name' => 'MySQL', 'description' => 'High-reliability transactional relational DB', 'iconComponent' => 'MySqlLogo', 'category' => 'Database', 'tag' => 'Relational DB · DOWN'],
+    ['name' => 'PostgreSQL', 'description' => 'Advanced open-source relational database', 'iconComponent' => 'PostgresLogo', 'category' => 'Database', 'tag' => 'Relational DB · DOWN'],
+    ['name' => 'MongoDB', 'description' => 'Document-based flexible NoSQL database', 'iconComponent' => 'MongoLogo', 'category' => 'Database', 'tag' => 'NoSQL Database · DOWN'],
+    ['name' => 'Redis', 'description' => 'In-memory high-speed caching & key-value store', 'iconComponent' => 'RedisLogo', 'category' => 'Database', 'tag' => 'In-Memory Cache · DOWN'],
+    ['name' => 'Swift', 'description' => 'High-performance, type-safe iOS architecture', 'iconComponent' => 'SwiftLogo', 'category' => 'Mobile', 'tag' => 'iOS Architecture · DOWN'],
+    ['name' => 'Kubernetes', 'description' => 'Automated container orchestration & scaling', 'iconComponent' => 'K8sLogo', 'category' => 'Cloud', 'tag' => 'Container Orchestration · DOWN'],
+];
+
+$allTechnologies = array_merge($allUpStream, $allDownStream);
 
 $categoryDurations = [
     'All'      => '50s',
@@ -734,7 +756,7 @@ require_once __DIR__ . '/includes/header.php';
       <?php endforeach; ?>
     </div>
 
-    <!-- Technology Showcase Stage (Diagonal Up & Down Scrolling Columns with Unique Headings) -->
+    <!-- Technology Showcase Stage (Diagonal Right-to-Left Rows: HTML Up · CSS Down) -->
     <div class="mt-8">
       
       <!-- Active Category Header & Description -->
@@ -745,110 +767,190 @@ require_once __DIR__ . '/includes/header.php';
             <span id="active-category-badge">Multi-Discipline Engineering</span>
           </span>
           <h3 id="active-category-title" class="text-xl sm:text-2xl font-black text-[#0F172A] font-heading">
-            All Technology Disciplines (Frontend, Backend, Database, Mobile, Cloud)
+            All Technology Disciplines (HTML Up · CSS Down Diagonal Stream)
           </h3>
         </div>
         <span id="active-category-desc" class="text-xs sm:text-sm text-[#475569] font-normal font-body max-w-xl">
-          Comprehensive enterprise ecosystem featuring frontend languages (eg: HTML, CSS, JS), backend runtimes, databases, mobile frameworks, and cloud engineering.
+          Comprehensive enterprise ecosystem featuring frontend languages (eg: HTML5 Up, CSS3 Down), backend runtimes, databases, mobile frameworks, and cloud engineering.
         </span>
       </div>
 
-      <!-- 1. Master Diagonal Grid for "All" -->
+      <!-- 1. Master Diagonal Right-to-Left Rows for "All" -->
       <div class="tech-category-group" data-category="All">
         <div class="tech-diagonal-stage relative w-full overflow-hidden">
           
           <!-- Edge Gradient Fade Masks (For Soft, Seamless Emergence) -->
           <div class="tech-fade-top pointer-events-none absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-white via-white/85 to-transparent z-20"></div>
           <div class="tech-fade-bottom pointer-events-none absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white via-white/85 to-transparent z-20"></div>
-          <div class="tech-fade-left pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 bg-gradient-to-r from-white via-white/85 to-transparent z-20"></div>
-          <div class="tech-fade-right pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-white via-white/85 to-transparent z-20"></div>
+          <div class="tech-fade-left pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-32 bg-gradient-to-r from-white via-white/85 to-transparent z-20"></div>
+          <div class="tech-fade-right pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-32 bg-gradient-to-l from-white via-white/85 to-transparent z-20"></div>
 
           <!-- Subtle Ambient Blooms -->
           <div class="absolute -top-16 -left-16 w-56 h-56 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none"></div>
           <div class="absolute -bottom-16 -right-16 w-56 h-56 bg-[#C01858]/10 rounded-full blur-3xl pointer-events-none"></div>
 
-          <!-- Tilted Multi-Column Diagonal Track -->
-          <div class="tech-diagonal-grid">
-            <?php 
-            $colDirections = ['up', 'down', 'up', 'down', 'up'];
-            $colDurations  = ['32s', '36s', '30s', '34s', '31s'];
+          <!-- Tilted Dual-Row Diagonal Matrix (Right-to-Left Scrolling) -->
+          <div class="tech-diagonal-matrix">
             
-            foreach ($technologyGroups as $cIdx => $group): 
-              $dir = $colDirections[$cIdx % count($colDirections)];
-              $dur = $colDurations[$cIdx % count($colDurations)];
-              $groupItems = $group['items'];
-            ?>
-              <div class="tech-column" style="--col-duration: <?php echo $dur; ?>;">
-                <div class="tech-column-track scroll-<?php echo $dir; ?>">
-                  
-                  <!-- Sequence Group 1 -->
-                  <div class="tech-column-group" aria-hidden="false">
-                    <!-- Unique Category Heading Banner -->
-                    <?php renderColumnHeaderCard($group['uniqueHeading'], $group['subtitle'], $group['badge'], $group['icon']); ?>
-                    
-                    <?php foreach ($groupItems as $tech): 
-                      renderShowcaseCard($tech, $group['category']);
-                    endforeach; ?>
+            <!-- Row 1: HTML5 & Core Languages (UP Stream) -->
+            <div class="tech-diagonal-row row-up" style="--row-duration: 36s;">
+              <div class="tech-row-track">
+                
+                <!-- Sequence Group 1 -->
+                <div class="tech-row-group" aria-hidden="false">
+                  <div class="tech-row-lane-pill pill-up">
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    <span>HTML5 & Languages (UP)</span>
                   </div>
-
-                  <!-- Sequence Group 2 (Duplicate for Seamless Infinite Loop) -->
-                  <div class="tech-column-group" aria-hidden="true">
-                    <!-- Unique Category Heading Banner -->
-                    <?php renderColumnHeaderCard($group['uniqueHeading'], $group['subtitle'], $group['badge'], $group['icon']); ?>
-                    
-                    <?php foreach ($groupItems as $tech): 
-                      renderShowcaseCard($tech, $group['category']);
-                    endforeach; ?>
-                  </div>
-
+                  <?php foreach ($allUpStream as $tech): 
+                    renderShowcaseCard($tech, $tech['category']);
+                  endforeach; ?>
                 </div>
+
+                <!-- Sequence Group 2 (Duplicate for Seamless Infinite Loop) -->
+                <div class="tech-row-group" aria-hidden="true">
+                  <div class="tech-row-lane-pill pill-up">
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                    <span>HTML5 & Languages (UP)</span>
+                  </div>
+                  <?php foreach ($allUpStream as $tech): 
+                    renderShowcaseCard($tech, $tech['category']);
+                  endforeach; ?>
+                </div>
+
               </div>
-            <?php endforeach; ?>
+            </div>
+
+            <!-- Row 2: CSS3 & Frameworks/Databases (DOWN Stream) -->
+            <div class="tech-diagonal-row row-down" style="--row-duration: 40s;">
+              <div class="tech-row-track">
+                
+                <!-- Sequence Group 1 -->
+                <div class="tech-row-group" aria-hidden="false">
+                  <div class="tech-row-lane-pill pill-down">
+                    <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
+                    <span>CSS3 & Styling / DB (DOWN)</span>
+                  </div>
+                  <?php foreach ($allDownStream as $tech): 
+                    renderShowcaseCard($tech, $tech['category']);
+                  endforeach; ?>
+                </div>
+
+                <!-- Sequence Group 2 (Duplicate for Seamless Infinite Loop) -->
+                <div class="tech-row-group" aria-hidden="true">
+                  <div class="tech-row-lane-pill pill-down">
+                    <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
+                    <span>CSS3 & Styling / DB (DOWN)</span>
+                  </div>
+                  <?php foreach ($allDownStream as $tech): 
+                    renderShowcaseCard($tech, $tech['category']);
+                  endforeach; ?>
+                </div>
+
+              </div>
+            </div>
+
           </div>
 
         </div>
       </div>
 
-      <!-- 2. Category-Specific Diagonal Views -->
+      <!-- 2. Category-Specific Diagonal Views (Right-to-Left Rows: Up & Down) -->
       <?php foreach ($technologyGroups as $group): 
         $catName = $group['category'];
         $groupItems = $group['items'];
-        $singleCols = [
-          ['items' => $groupItems, 'dir' => 'up', 'dur' => '28s'],
-          ['items' => array_reverse($groupItems), 'dir' => 'down', 'dur' => '30s'],
-          ['items' => $groupItems, 'dir' => 'up', 'dur' => '26s'],
-        ];
+        
+        // Split items cleanly between Row 1 (UP) and Row 2 (DOWN)
+        if ($catName === 'Frontend') {
+          $upItems = [
+            ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo', 'tag' => 'HTML5 Language · UP'],
+            ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo', 'tag' => 'JavaScript ESNext · UP'],
+            ['name' => 'Next.js', 'description' => 'Server-side rendering & App Router', 'iconComponent' => 'NextLogo', 'tag' => 'Next.js Framework · UP'],
+          ];
+          $downItems = [
+            ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo', 'tag' => 'CSS3 Styling · DOWN'],
+            ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces', 'iconComponent' => 'ReactLogo', 'tag' => 'React.js UI · DOWN'],
+            ['name' => 'CSS3', 'description' => 'CSS Flexbox, Grid & Modern Animation', 'iconComponent' => 'CssLogo', 'tag' => 'Responsive CSS · DOWN'],
+          ];
+          $upPillText = 'HTML5 Languages (UP)';
+          $downPillText = 'CSS3 Styling & UI (DOWN)';
+        } else {
+          $half = (int)ceil(count($groupItems) / 2);
+          $upItems = array_slice($groupItems, 0, $half);
+          $downItems = array_slice($groupItems, $half);
+          if (empty($downItems)) $downItems = $upItems;
+          $upPillText = $group['uniqueHeading'] . ' (UP)';
+          $downPillText = $group['uniqueHeading'] . ' (DOWN)';
+        }
+        
+        // Ensure enough items for seamless infinite horizontal loop
+        $upSeq = array_merge($upItems, $upItems, $upItems);
+        $downSeq = array_merge($downItems, $downItems, $downItems);
       ?>
         <div class="tech-category-group hidden" data-category="<?php echo htmlspecialchars($catName); ?>">
           <div class="tech-diagonal-stage relative w-full overflow-hidden">
             
             <div class="tech-fade-top pointer-events-none absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-white via-white/85 to-transparent z-20"></div>
             <div class="tech-fade-bottom pointer-events-none absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white via-white/85 to-transparent z-20"></div>
-            <div class="tech-fade-left pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 bg-gradient-to-r from-white via-white/85 to-transparent z-20"></div>
-            <div class="tech-fade-right pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-white via-white/85 to-transparent z-20"></div>
+            <div class="tech-fade-left pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-32 bg-gradient-to-r from-white via-white/85 to-transparent z-20"></div>
+            <div class="tech-fade-right pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-32 bg-gradient-to-l from-white via-white/85 to-transparent z-20"></div>
 
-            <div class="tech-diagonal-grid">
-              <?php foreach ($singleCols as $scIdx => $sc): ?>
-                <div class="tech-column" style="--col-duration: <?php echo $sc['dur']; ?>;">
-                  <div class="tech-column-track scroll-<?php echo $sc['dir']; ?>">
-                    
-                    <div class="tech-column-group" aria-hidden="false">
-                      <?php renderColumnHeaderCard($group['uniqueHeading'], $group['subtitle'], $group['badge'], $group['icon']); ?>
-                      <?php foreach ($sc['items'] as $tech): 
-                        renderShowcaseCard($tech, $catName);
-                      endforeach; ?>
+            <div class="tech-diagonal-matrix">
+              
+              <!-- Upper Stream: Up Animation -->
+              <div class="tech-diagonal-row row-up" style="--row-duration: 28s;">
+                <div class="tech-row-track">
+                  
+                  <div class="tech-row-group" aria-hidden="false">
+                    <div class="tech-row-lane-pill pill-up">
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                      <span><?php echo htmlspecialchars($upPillText); ?></span>
                     </div>
-
-                    <div class="tech-column-group" aria-hidden="true">
-                      <?php renderColumnHeaderCard($group['uniqueHeading'], $group['subtitle'], $group['badge'], $group['icon']); ?>
-                      <?php foreach ($sc['items'] as $tech): 
-                        renderShowcaseCard($tech, $catName);
-                      endforeach; ?>
-                    </div>
-
+                    <?php foreach ($upSeq as $tech): 
+                      renderShowcaseCard($tech, $catName);
+                    endforeach; ?>
                   </div>
+
+                  <div class="tech-row-group" aria-hidden="true">
+                    <div class="tech-row-lane-pill pill-up">
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                      <span><?php echo htmlspecialchars($upPillText); ?></span>
+                    </div>
+                    <?php foreach ($upSeq as $tech): 
+                      renderShowcaseCard($tech, $catName);
+                    endforeach; ?>
+                  </div>
+
                 </div>
-              <?php endforeach; ?>
+              </div>
+
+              <!-- Lower Stream: Down Animation -->
+              <div class="tech-diagonal-row row-down" style="--row-duration: 32s;">
+                <div class="tech-row-track">
+                  
+                  <div class="tech-row-group" aria-hidden="false">
+                    <div class="tech-row-lane-pill pill-down">
+                      <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
+                      <span><?php echo htmlspecialchars($downPillText); ?></span>
+                    </div>
+                    <?php foreach ($downSeq as $tech): 
+                      renderShowcaseCard($tech, $catName);
+                    endforeach; ?>
+                  </div>
+
+                  <div class="tech-row-group" aria-hidden="true">
+                    <div class="tech-row-lane-pill pill-down">
+                      <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
+                      <span><?php echo htmlspecialchars($downPillText); ?></span>
+                    </div>
+                    <?php foreach ($downSeq as $tech): 
+                      renderShowcaseCard($tech, $catName);
+                    endforeach; ?>
+                  </div>
+
+                </div>
+              </div>
+
             </div>
 
           </div>

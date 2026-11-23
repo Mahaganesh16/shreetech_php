@@ -535,7 +535,7 @@ if (!function_exists('renderShowcaseCard')) {
     function renderShowcaseCard($tech, $catName, $extraClasses = '') {
         $displayTag = $tech['tag'] ?? $catName;
     ?>
-      <div class="tech-card-item w-full shrink-0 flip-card-wrapper group cursor-pointer select-none <?php echo htmlspecialchars($extraClasses); ?>">
+      <div class="tech-card-item w-[285px] sm:w-[315px] md:w-[330px] shrink-0 flip-card-wrapper group cursor-pointer select-none <?php echo htmlspecialchars($extraClasses); ?>">
         <div class="flip-card-inner">
           <!-- Front Face -->
           <div class="flip-card-front glass-card p-3 sm:p-3.5 rounded-2xl flex items-center gap-3 sm:gap-3.5 border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
