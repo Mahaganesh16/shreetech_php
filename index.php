@@ -338,16 +338,16 @@ require_once __DIR__ . '/includes/header.php';
           SHREETECH Innovations And Web Development In Madurai
         </h2>
 
-        <p class="text-base text-[#475569] leading-relaxed font-normal font-body">
-          SHREETECH We would be happy to collaborate with you to present you to the information technology solutions we have to offer. Shreetech Hub, which was founded in 2015, is a pioneer in offering IT infrastructure and solutions across a range of platforms. Since their inception, businesses have been using Shreetech. Shreetech believes in going above and beyond the duty of a simple solution provider to its clientele by fusing intuition and rigour with practical business acumen. Shreetech gives consumers access to technology through the delivery of simple solutions that increase productivity.
+        <p class="text-base text-[#334155] leading-relaxed font-medium font-body">
+          <strong class="font-bold text-[#0F172A]">SHREETECH</strong> We would be happy to collaborate with you to present you to the information technology solutions we have to offer. Shreetech Hub, which was founded in 2015, is a pioneer in offering IT infrastructure and solutions across a range of platforms. Since their inception, businesses have been using Shreetech. Shreetech believes in going above and beyond the duty of a simple solution provider to its clientele by fusing intuition and rigour with practical business acumen. Shreetech gives consumers access to technology through the delivery of simple solutions that increase productivity.
         </p>
 
-        <p class="text-sm text-[#475569] leading-relaxed font-normal font-body">
+        <p class="text-base text-[#334155] leading-relaxed font-medium font-body">
           We are a skilled team of professionals, having more than 15 years of experience in Web and Mobile Application Development. We have 40+ employees with Business Analyst, Designer, Developers & DevOps team and are ready to take up new projects any time and we assure we meet the right deadlines with high quality.
         </p>
 
         <!-- Core Achievements -->
-        <div class="glass-card p-6 rounded-3xl space-y-3.5 border border-[#F1E6EE]">
+        <div class="glass-card p-6 rounded-3xl space-y-4 border border-[#F1E6EE]">
           <?php
           $achievements = [
               'Full-stack engineering capabilities from concept through multi-cloud deployment',
@@ -358,7 +358,7 @@ require_once __DIR__ . '/includes/header.php';
           foreach ($achievements as $ach): ?>
             <div class="flex items-start gap-3">
               <i data-lucide="check-circle-2" class="w-5 h-5 text-[#FF6B00] shrink-0 mt-0.5"></i>
-              <span class="text-sm text-[#0F172A] font-medium font-body"><?php echo htmlspecialchars($ach); ?></span>
+              <span class="text-[15px] sm:text-base text-[#0F172A] font-semibold font-body leading-snug"><?php echo htmlspecialchars($ach); ?></span>
             </div>
           <?php endforeach; ?>
         </div>
@@ -366,10 +366,10 @@ require_once __DIR__ . '/includes/header.php';
         <div class="pt-2">
           <a
             href="#services"
-            class="inline-flex items-center gap-2 text-sm font-semibold text-[#FF6B00] hover:text-[#C01858] transition-colors group cursor-pointer font-body"
+            class="inline-flex items-center gap-2 text-base font-bold text-[#FF6B00] hover:text-[#C01858] transition-colors group cursor-pointer font-body"
           >
             <span>Read More About Our Engineering Practices</span>
-            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            <i data-lucide="arrow-right" class="w-4.5 h-4.5 group-hover:translate-x-1 transition-transform"></i>
           </a>
         </div>
       </div>
