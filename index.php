@@ -99,7 +99,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      1. HERO SECTION (#home)
      ========================================================================= -->
-<section id="home" class="relative min-h-[90vh] pt-28 pb-20 md:pt-36 md:pb-28 overflow-hidden flex items-center scroll-mt-24">
+<section id="home" class="relative pt-28 pb-12 sm:pt-32 sm:pb-16 overflow-hidden flex items-center scroll-mt-24">
   <!-- Subtle Ambient Corner Blooms -->
   <div class="absolute top-1/4 -left-32 w-[38rem] h-[38rem] bg-[#FF6B00]/6 rounded-full blur-[140px] pointer-events-none"></div>
   <div class="absolute top-1/3 -right-32 w-[42rem] h-[42rem] bg-[#C01858]/5 rounded-full blur-[150px] pointer-events-none"></div>
@@ -323,7 +323,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      2. ABOUT SHREE TECH SECTION (#about)
      ========================================================================= -->
-<section id="about" class="relative py-20 sm:py-28 bg-transparent overflow-hidden scroll-mt-24">
+<section id="about" class="relative pt-10 pb-20 sm:pt-14 sm:pb-28 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
       
