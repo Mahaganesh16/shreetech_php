@@ -779,11 +779,9 @@ require_once __DIR__ . '/includes/header.php';
       <div class="tech-category-group" data-category="All">
         <div class="tech-diagonal-stage relative w-full overflow-hidden">
           
-          <!-- Edge Gradient Fade Masks (For Soft, Seamless Emergence) -->
-          <div class="tech-fade-top pointer-events-none absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-white via-white/85 to-transparent z-20"></div>
-          <div class="tech-fade-bottom pointer-events-none absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white via-white/85 to-transparent z-20"></div>
-          <div class="tech-fade-left pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-32 bg-gradient-to-r from-white via-white/85 to-transparent z-20"></div>
-          <div class="tech-fade-right pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-32 bg-gradient-to-l from-white via-white/85 to-transparent z-20"></div>
+          <!-- Subtle Narrow Edge Fades (Keep 90% Stage Crystal Clear) -->
+          <div class="tech-fade-left pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-14 bg-gradient-to-r from-[#F8FAFC]/90 to-transparent z-20"></div>
+          <div class="tech-fade-right pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-14 bg-gradient-to-l from-[#F8FAFC]/90 to-transparent z-20"></div>
 
           <!-- Subtle Ambient Blooms -->
           <div class="absolute -top-16 -left-16 w-56 h-56 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -890,10 +888,9 @@ require_once __DIR__ . '/includes/header.php';
         <div class="tech-category-group hidden" data-category="<?php echo htmlspecialchars($catName); ?>">
           <div class="tech-diagonal-stage relative w-full overflow-hidden">
             
-            <div class="tech-fade-top pointer-events-none absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-white via-white/85 to-transparent z-20"></div>
-            <div class="tech-fade-bottom pointer-events-none absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white via-white/85 to-transparent z-20"></div>
-            <div class="tech-fade-left pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-32 bg-gradient-to-r from-white via-white/85 to-transparent z-20"></div>
-            <div class="tech-fade-right pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-32 bg-gradient-to-l from-white via-white/85 to-transparent z-20"></div>
+            <!-- Subtle Narrow Edge Fades (Keep 90% Stage Crystal Clear) -->
+            <div class="tech-fade-left pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-14 bg-gradient-to-r from-[#F8FAFC]/90 to-transparent z-20"></div>
+            <div class="tech-fade-right pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-14 bg-gradient-to-l from-[#F8FAFC]/90 to-transparent z-20"></div>
 
             <div class="tech-diagonal-matrix">
               
