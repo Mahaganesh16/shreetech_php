@@ -546,15 +546,15 @@ if (!function_exists('renderShowcaseCard')) {
             </div>
             <div class="overflow-hidden min-w-0 flex-1">
               <div class="flex items-center justify-between gap-1 mb-1">
-                <span class="text-[9px] sm:text-[10px] font-bold text-[#7C3AED] bg-[#F5F3FF] border border-[#DDD6FE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body shrink-0 truncate max-w-[170px]">
+                <span class="text-[10px] sm:text-xs font-bold text-[#7C3AED] bg-[#F5F3FF] border border-[#DDD6FE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body shrink-0 truncate max-w-[170px]">
                   <?php echo htmlspecialchars($displayTag); ?>
                 </span>
                 <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500 shrink-0"></i>
               </div>
-              <h4 class="text-sm sm:text-base font-extrabold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight">
+              <h4 class="text-sm sm:text-base font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight">
                 <?php echo htmlspecialchars($tech['name']); ?>
               </h4>
-              <p class="text-[11px] sm:text-xs text-[#475569] truncate mt-0.5 font-medium font-body leading-normal">
+              <p class="text-xs text-[#475569] truncate mt-0.5 font-medium font-body leading-normal">
                 <?php echo htmlspecialchars($tech['description']); ?>
               </p>
             </div>
@@ -564,14 +564,14 @@ if (!function_exists('renderShowcaseCard')) {
           <div class="flip-card-back bg-white p-3.5 sm:p-4 rounded-2xl flex items-center justify-between gap-3 border-2 border-[#C01858] shadow-md">
             <div class="min-w-0 flex-1">
               <div class="flex items-center gap-2 mb-1.5">
-                <span class="text-[9px] sm:text-[10px] font-bold text-[#7C3AED] bg-[#F5F3FF] border border-[#DDD6FE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body truncate max-w-[120px]">
+                <span class="text-[10px] sm:text-xs font-bold text-[#7C3AED] bg-[#F5F3FF] border border-[#DDD6FE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body truncate max-w-[120px]">
                   <?php echo htmlspecialchars($catName); ?>
                 </span>
-                <span class="text-xs sm:text-sm font-extrabold text-[#0F172A] font-heading truncate">
+                <span class="text-sm sm:text-base font-bold text-[#0F172A] font-heading truncate">
                   <?php echo htmlspecialchars($tech['name']); ?>
                 </span>
               </div>
-              <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-[#0F172A] font-bold font-body truncate">
+              <div class="flex items-center gap-1.5 text-xs text-[#0F172A] font-semibold font-body truncate">
                 <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0"></i>
                 <span>Production-Hardened</span>
               </div>

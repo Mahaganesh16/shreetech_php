@@ -407,13 +407,13 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="flip-card-front glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
                   <div class="card-spotlight-layer"></div>
                   <div>
-                    <div class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-stat group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#FF6B00] group-hover:to-[#C01858] transition-all duration-300">
+                    <div class="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight font-stat group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#FF6B00] group-hover:to-[#C01858] transition-all duration-300">
                       <span class="stat-counter-number" data-target="<?php echo $st['value']; ?>">0</span><?php echo $st['suffix']; ?>
                     </div>
-                    <div class="text-base sm:text-[17px] font-black text-[#0F172A] mt-1.5 leading-snug"><?php echo htmlspecialchars($st['label']); ?></div>
-                    <div class="text-xs sm:text-[13px] text-[#334155] font-bold mt-1"><?php echo htmlspecialchars($st['sublabel']); ?></div>
+                    <div class="text-base font-bold text-[#0F172A] mt-1.5 leading-snug"><?php echo htmlspecialchars($st['label']); ?></div>
+                    <div class="text-sm font-medium text-[#475569] mt-1 leading-snug"><?php echo htmlspecialchars($st['sublabel']); ?></div>
                   </div>
-                  <div class="flex items-center justify-between text-xs text-[#334155] font-bold group-hover:text-[#C01858] transition-colors pt-2.5 border-t border-[#F1E6EE]">
+                  <div class="flex items-center justify-between text-xs font-semibold text-[#475569] group-hover:text-[#C01858] transition-colors pt-2.5 border-t border-[#F1E6EE]">
                     <span>Flip for detail</span>
                     <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500"></i>
                   </div>
@@ -423,17 +423,17 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="flip-card-back glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between border-2 border-[#C01858] shadow-md">
                   <div>
                     <div class="flex items-center justify-between mb-1.5">
-                      <span class="text-xs font-black text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body">
+                      <span class="text-xs font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body">
                         Verified Metric
                       </span>
                       <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#8B5CF6]"></i>
                     </div>
-                    <div class="text-sm sm:text-base font-black text-[#0F172A] font-heading mt-1.5 leading-snug"><?php echo htmlspecialchars($st['label']); ?></div>
-                    <p class="text-xs sm:text-[13px] text-[#0F172A] font-bold leading-relaxed mt-2 font-body">
+                    <div class="text-base font-bold text-[#0F172A] font-heading mt-1.5 leading-snug"><?php echo htmlspecialchars($st['label']); ?></div>
+                    <p class="text-sm font-medium text-[#334155] leading-relaxed mt-2 font-body">
                       <?php echo htmlspecialchars($st['detail']); ?>
                     </p>
                   </div>
-                  <div class="flex items-center gap-1.5 text-xs text-[#FF6B00] font-black pt-2 border-t border-[#F1E6EE]">
+                  <div class="flex items-center gap-1.5 text-xs font-semibold text-[#FF6B00] pt-2 border-t border-[#F1E6EE]">
                     <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0"></i>
                     <span>Enterprise Benchmark</span>
                   </div>
@@ -484,20 +484,20 @@ require_once __DIR__ . '/includes/header.php';
                   </span>
                 </div>
 
-                <h3 class="text-lg font-bold text-[#0F172A] mb-2.5 group-hover:text-[#C01858] transition-colors duration-300 font-heading">
+                <h3 class="text-base sm:text-lg font-bold text-[#0F172A] mb-2.5 group-hover:text-[#C01858] transition-colors duration-300 font-heading">
                   <?php echo htmlspecialchars($item['title']); ?>
                 </h3>
-                <p class="text-sm text-[#334155] leading-relaxed font-normal font-body">
+                <p class="text-sm text-[#475569] leading-relaxed font-medium font-body">
                   <?php echo htmlspecialchars($item['description']); ?>
                 </p>
               </div>
 
               <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
-                <div class="flex items-center gap-1.5 text-xs font-semibold text-[#334155] group-hover:text-[#C01858] transition-colors">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-[#64748B] group-hover:text-[#C01858] transition-colors">
                   <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] transition-transform duration-500 group-hover:rotate-180"></i>
                   <span>Hover to Flip</span>
                 </div>
-                <span class="text-xs font-black font-stat text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] to-[#C01858] tracking-tight">
+                <span class="text-xs font-bold font-stat text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] to-[#C01858] tracking-tight">
                   <?php echo htmlspecialchars($item['metric']); ?>
                 </span>
               </div>
@@ -507,22 +507,22 @@ require_once __DIR__ . '/includes/header.php';
             <div class="flip-card-back glass-card p-6 sm:p-8 rounded-3xl flex flex-col justify-between border-2 border-[#C01858] shadow-lg">
               <div class="relative z-10">
                 <div class="flex items-center justify-between mb-3.5">
-                  <span class="text-[11px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-3 py-0.5 rounded-full font-body uppercase tracking-wider">
+                  <span class="text-xs font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-3 py-0.5 rounded-full font-body uppercase tracking-wider">
                     Engineering Standard
                   </span>
-                  <span class="text-[11px] font-semibold text-[#334155] font-body flex items-center gap-1">
-                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
+                  <span class="text-xs font-semibold text-[#475569] font-body flex items-center gap-1">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
                     Guaranteed
                   </span>
                 </div>
 
-                <h4 class="text-base font-bold text-[#0F172A] font-heading mb-3">
+                <h4 class="text-base sm:text-lg font-bold text-[#0F172A] font-heading mb-3">
                   <?php echo htmlspecialchars($item['title']); ?>
                 </h4>
 
                 <div class="space-y-2.5">
                   <?php foreach ($item['guarantees'] as $g): ?>
-                    <div class="flex items-start gap-2.5 text-xs text-[#1E293B] font-medium font-body leading-snug">
+                    <div class="flex items-start gap-2.5 text-sm text-[#334155] font-medium font-body leading-relaxed">
                       <i data-lucide="check-circle-2" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
                       <span><?php echo htmlspecialchars($g); ?></span>
                     </div>
