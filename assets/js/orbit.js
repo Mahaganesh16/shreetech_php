@@ -56,8 +56,8 @@
           radiusY: 205,
           rotation: 0,
           duration: 38,
-          itemWidth: 225,
-          itemHeight: 135,
+          itemWidth: 235,
+          itemHeight: 175,
           direction: 'reverse',
           fill: true,
           pathWidth: 1.75,
@@ -201,13 +201,13 @@
       const scale = Math.min(this.st.width / (bx1 - bx0), this.st.height / (by1 - by0));
       this.st.scale = scale > 0 && isFinite(scale) ? scale : 0;
 
-      // Adjust item sizing responsively
+      // Adjust item sizing responsively with guaranteed content containment
       const isMobile = this.st.width < 640;
       const baseW = isMobile ? 180 : this.options.itemWidth;
-      const baseH = isMobile ? 105 : this.options.itemHeight;
+      const baseH = isMobile ? 135 : this.options.itemHeight;
 
-      this.st.itemW = baseW * this.st.scale;
-      this.st.itemH = baseH * this.st.scale;
+      this.st.itemW = Math.max(isMobile ? 175 : 220, Math.round(baseW * this.st.scale));
+      this.st.itemH = Math.max(isMobile ? 135 : 172, Math.round(baseH * this.st.scale));
 
       for (const it of this.st.items) {
         it.el.style.width = `${this.st.itemW}px`;
@@ -679,8 +679,8 @@
       radiusY: 205,
       rotation: 0,
       duration: 38,
-      itemWidth: 225,
-      itemHeight: 135,
+      itemWidth: 235,
+      itemHeight: 175,
       direction: 'reverse',
       depth: 0.55,
       showPath: true,

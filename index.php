@@ -564,7 +564,7 @@ require_once __DIR__ . '/includes/header.php';
           />
         </svg>
 
-        <!-- 8 Orbiting Service Cards (Enlarged Height Cards with Half Content Preview) -->
+        <!-- 8 Orbiting Service Cards (Enlarged Height Cards with Perfectly Contained Content) -->
         <?php foreach ($servicesData as $idx => $service): 
           $svcJson = json_encode([
             'id' => $service['id'],
@@ -584,20 +584,20 @@ require_once __DIR__ . '/includes/header.php';
               <div class="orbit-service-card group-hover:border-[#C01858] flex flex-col justify-between">
                 <!-- Top Row: Icon + Service Number Badge -->
                 <div class="flex items-center justify-between w-full mb-1">
-                  <div class="w-9 h-9 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
-                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-4.5 h-4.5"></i>
+                  <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
+                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-4 h-4"></i>
                   </div>
                   <span class="text-xs font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] border border-[#FF6B00]/25 px-2.5 py-0.5 rounded-full shadow-2xs">
                     0<?php echo $idx + 1; ?>
                   </span>
                 </div>
 
-                <!-- Middle: Title + 3-Line Description Snippet (Clear Half Content) -->
+                <!-- Middle: Title + 2-Line Description Snippet (Clean Half Content Preview) -->
                 <div class="w-full min-w-0 my-1">
                   <h4 class="text-[13px] sm:text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-snug mb-1">
                     <?php echo htmlspecialchars($service['title']); ?>
                   </h4>
-                  <p class="text-[11px] text-[#475569] leading-relaxed line-clamp-3 font-normal font-body">
+                  <p class="text-[11px] text-[#475569] leading-snug line-clamp-2 font-normal font-body">
                     <?php echo htmlspecialchars($service['description']); ?>
                   </p>
                 </div>
