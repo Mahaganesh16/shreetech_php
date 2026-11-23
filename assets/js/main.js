@@ -286,37 +286,44 @@ function initShreeTech() {
   }
 
   // =========================================================================
-  // 9. TECHNOLOGIES FILTER TABS WITH SINGLE STRIP SWITCHING & ANIMATION SYNC
+  // 9. TECHNOLOGIES FILTER TABS WITH DIAGONAL TRACK SWITCHING & ANIMATION SYNC
   // =========================================================================
   const techTabs = document.querySelectorAll('.tech-filter-btn');
   const techGroups = document.querySelectorAll('.tech-category-group');
   const activeTitle = document.getElementById('active-category-title');
   const activeDesc = document.getElementById('active-category-desc');
+  const activeBadge = document.getElementById('active-category-badge');
 
   const categoryMeta = {
     'All': {
-      title: 'All Technology Disciplines',
-      desc: 'Comprehensive enterprise ecosystem across frontend, backend, databases, mobile, and cloud engineering.'
+      badge: 'Multi-Discipline Engineering',
+      title: 'All Technology Disciplines (Frontend, Backend, Database, Mobile, Cloud)',
+      desc: 'Comprehensive enterprise ecosystem featuring frontend languages (eg: HTML, CSS, JS), backend runtimes, databases, mobile frameworks, and cloud engineering.'
     },
     'Frontend': {
-      title: 'Frontend Engineering',
-      desc: 'Modern, high-performance UI frameworks delivering accessible, responsive, and reactive web applications.'
+      badge: 'Client-Side Engineering',
+      title: 'Frontend Languages & UI Frameworks (eg: HTML, CSS, JavaScript)',
+      desc: 'Semantic markup standards (HTML5), modern responsive styling (CSS3), and reactive component architectures (React.js, Next.js).'
     },
     'Backend': {
-      title: 'Backend Engineering',
-      desc: 'Resilient server runtimes and enterprise frameworks built for high concurrency and robust data handling.'
+      badge: 'Server Architecture',
+      title: 'Backend Frameworks & APIs (eg: Python, Laravel, PHP, Node.js)',
+      desc: 'Resilient server runtimes, event-driven microservices, and enterprise frameworks built for high concurrency and secure data APIs.'
     },
     'Database': {
-      title: 'Database Engineering',
-      desc: 'Relational, document, and analytical databases engineered for data integrity and high transaction throughput.'
+      badge: 'Data Layer & Caching',
+      title: 'Database & Storage Systems (eg: MySQL, MongoDB, PostgreSQL, Redis)',
+      desc: 'Relational, document, and analytical databases engineered for extreme data integrity, ACID compliance, and sub-millisecond cache latency.'
     },
     'Mobile': {
-      title: 'Mobile Engineering',
-      desc: 'Cross-platform native mobile frameworks delivering fluid 60FPS experiences for iOS and Android.'
+      badge: 'Native & Multiplatform',
+      title: 'Mobile App Development (eg: Flutter, Swift, React Native, iOS)',
+      desc: 'Cross-platform native mobile compilation and platform-native frameworks delivering fluid 60FPS experiences for iOS and Android.'
     },
     'Cloud': {
-      title: 'Cloud Engineering',
-      desc: 'Secure, elastic cloud hosting and serverless infrastructures engineered for zero downtime.'
+      badge: 'Infrastructure & DevOps',
+      title: 'Cloud & DevOps Engineering (eg: AWS, Azure, Google Cloud, Docker)',
+      desc: 'Elastic cloud hosting, automated container orchestration, and serverless architectures engineered for 99.99% uptime.'
     }
   };
 
@@ -330,22 +337,23 @@ function initShreeTech() {
       btn.classList.add('glass-btn-primary', 'shadow-sm', 'text-white');
       btn.classList.remove('glass-btn-secondary', 'text-[#475569]');
 
-      if (categoryMeta[cat] && activeTitle && activeDesc) {
-        activeTitle.textContent = categoryMeta[cat].title;
-        activeDesc.textContent = categoryMeta[cat].desc;
+      if (categoryMeta[cat]) {
+        if (activeTitle) activeTitle.textContent = categoryMeta[cat].title;
+        if (activeDesc) activeDesc.textContent = categoryMeta[cat].desc;
+        if (activeBadge) activeBadge.textContent = categoryMeta[cat].badge;
       }
 
       techGroups.forEach((group) => {
         const match = group.getAttribute('data-category') === cat;
-        const track = group.querySelector('.tech-marquee-track');
+        const tracks = group.querySelectorAll('.tech-column-track');
         if (match) {
           group.style.display = 'block';
           group.style.opacity = '0';
           group.style.transform = 'translateY(10px)';
           group.style.transition = 'all 0.35s ease';
-          if (track) {
+          tracks.forEach((track) => {
             track.style.animationPlayState = 'running';
-          }
+          });
           setTimeout(() => {
             group.style.opacity = '1';
             group.style.transform = 'translateY(0)';

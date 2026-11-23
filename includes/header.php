@@ -61,13 +61,13 @@ $currentPage = $currentPage ?? 'home';
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Signature Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/style.css'); ?>">
 
   <!-- React Bits GooeyNav Stylesheet -->
-  <link rel="stylesheet" href="assets/css/gooey-nav.css">
+  <link rel="stylesheet" href="assets/css/gooey-nav.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/gooey-nav.css'); ?>">
 
   <!-- 3D Orbit Services Stylesheet -->
-  <link rel="stylesheet" href="assets/css/orbit.css">
+  <link rel="stylesheet" href="assets/css/orbit.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/orbit.css'); ?>">
 </head>
 <body class="bg-white text-[#475569] min-h-screen flex flex-col antialiased selection:bg-[#FF6B00]/15 selection:text-[#C01858] relative">
 

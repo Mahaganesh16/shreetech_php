@@ -143,12 +143,12 @@ if (!isset($navLinks) || !isset($servicesData)) {
 </footer>
 
 <!-- Core Script -->
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/main.js'); ?>"></script>
 
 <!-- React Bits GooeyNav Interactive Engine -->
-<script src="assets/js/gooey-nav.js"></script>
+<script src="assets/js/gooey-nav.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/gooey-nav.js'); ?>"></script>
 
 <!-- 3D Orbit Services Interactive Engine (Dominik Koch Architecture) -->
-<script src="assets/js/orbit.js"></script>
+<script src="assets/js/orbit.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/orbit.js'); ?>"></script>
 </body>
 </html>

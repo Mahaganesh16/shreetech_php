@@ -372,57 +372,77 @@ $whyChooseUsData = [
 $technologyGroups = [
     [
         'category' => 'Frontend',
-        'description' => 'Modern, high-performance UI frameworks delivering accessible, responsive, and reactive web applications.',
+        'uniqueHeading' => 'Frontend Languages & UI',
+        'subtitle' => 'HTML5, CSS3, JavaScript, React.js, Next.js',
+        'badge' => 'eg: HTML, CSS, JS',
+        'icon' => 'code',
+        'description' => 'Semantic markup, modern styling, and reactive component frameworks delivering fast, accessible, responsive web interfaces.',
         'items' => [
-            ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo'],
-            ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces', 'iconComponent' => 'ReactLogo'],
-            ['name' => 'Next.js', 'description' => 'Server-side rendering & App Router', 'iconComponent' => 'NextLogo'],
-            ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo'],
-            ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo'],
+            ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo', 'tag' => 'Frontend Language'],
+            ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo', 'tag' => 'Frontend Styling'],
+            ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo', 'tag' => 'Frontend Language'],
+            ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces', 'iconComponent' => 'ReactLogo', 'tag' => 'UI Framework'],
+            ['name' => 'Next.js', 'description' => 'Server-side rendering & App Router', 'iconComponent' => 'NextLogo', 'tag' => 'Full-Stack React'],
         ]
     ],
     [
         'category' => 'Backend',
-        'description' => 'Resilient server runtimes and enterprise frameworks built for high concurrency and robust data handling.',
+        'uniqueHeading' => 'Backend & Server Frameworks',
+        'subtitle' => 'PHP, Laravel, Python, Node.js, Java',
+        'badge' => 'eg: PHP, Python, Node',
+        'icon' => 'server',
+        'description' => 'Resilient server runtimes and enterprise frameworks built for high concurrency, microservices, and robust data handling.',
         'items' => [
-            ['name' => 'Python', 'description' => 'Data processing, APIs, and AI automation', 'iconComponent' => 'PythonLogo'],
-            ['name' => 'Laravel', 'description' => 'Full-featured enterprise PHP web framework', 'iconComponent' => 'LaravelLogo'],
-            ['name' => 'PHP', 'description' => 'Battle-tested server-side web scripting', 'iconComponent' => 'PhpLogo'],
-            ['name' => 'Node.js', 'description' => 'Event-driven asynchronous backend services', 'iconComponent' => 'NodeLogo'],
-            ['name' => 'Java', 'description' => 'Enterprise-grade robust application platform', 'iconComponent' => 'JavaLogo'],
+            ['name' => 'PHP', 'description' => 'Battle-tested server-side web scripting', 'iconComponent' => 'PhpLogo', 'tag' => 'Server Language'],
+            ['name' => 'Laravel', 'description' => 'Full-featured enterprise PHP web framework', 'iconComponent' => 'LaravelLogo', 'tag' => 'MVC Framework'],
+            ['name' => 'Python', 'description' => 'Data processing, APIs, and AI automation', 'iconComponent' => 'PythonLogo', 'tag' => 'Backend & AI'],
+            ['name' => 'Node.js', 'description' => 'Event-driven asynchronous backend services', 'iconComponent' => 'NodeLogo', 'tag' => 'Async Runtime'],
+            ['name' => 'Java', 'description' => 'Enterprise-grade robust application platform', 'iconComponent' => 'JavaLogo', 'tag' => 'Enterprise Platform'],
         ]
     ],
     [
         'category' => 'Database',
-        'description' => 'Relational, document, and analytical databases engineered for data integrity and high transaction throughput.',
+        'uniqueHeading' => 'Database & Storage Systems',
+        'subtitle' => 'MySQL, MongoDB, PostgreSQL, Redis, Firebase',
+        'badge' => 'eg: MySQL, Mongo, Redis',
+        'icon' => 'database',
+        'description' => 'Relational, document, and analytical databases engineered for extreme data integrity and high transaction throughput.',
         'items' => [
-            ['name' => 'MySQL', 'description' => 'High-reliability transactional relational DB', 'iconComponent' => 'MySqlLogo'],
-            ['name' => 'MongoDB', 'description' => 'Document-based flexible NoSQL database', 'iconComponent' => 'MongoLogo'],
-            ['name' => 'PostgreSQL', 'description' => 'Advanced open-source relational database', 'iconComponent' => 'PostgresLogo'],
-            ['name' => 'Redis', 'description' => 'In-memory high-speed caching & key-value store', 'iconComponent' => 'RedisLogo'],
-            ['name' => 'Firebase', 'description' => 'Real-time database, auth & cloud functions', 'iconComponent' => 'FirebaseLogo'],
+            ['name' => 'MySQL', 'description' => 'High-reliability transactional relational DB', 'iconComponent' => 'MySqlLogo', 'tag' => 'Relational DB'],
+            ['name' => 'MongoDB', 'description' => 'Document-based flexible NoSQL database', 'iconComponent' => 'MongoLogo', 'tag' => 'NoSQL Database'],
+            ['name' => 'PostgreSQL', 'description' => 'Advanced open-source relational database', 'iconComponent' => 'PostgresLogo', 'tag' => 'Relational DB'],
+            ['name' => 'Redis', 'description' => 'In-memory high-speed caching & key-value store', 'iconComponent' => 'RedisLogo', 'tag' => 'In-Memory Cache'],
+            ['name' => 'Firebase', 'description' => 'Real-time database, auth & cloud functions', 'iconComponent' => 'FirebaseLogo', 'tag' => 'Realtime DB'],
         ]
     ],
     [
         'category' => 'Mobile',
-        'description' => 'Cross-platform native mobile frameworks delivering fluid 60FPS experiences for iOS and Android.',
+        'uniqueHeading' => 'Mobile & Native Architecture',
+        'subtitle' => 'Flutter, React Native, Swift, iOS, Android',
+        'badge' => 'eg: Flutter, Swift, iOS',
+        'icon' => 'smartphone',
+        'description' => 'Cross-platform native mobile frameworks delivering fluid 60FPS experiences for iOS and Android platforms.',
         'items' => [
-            ['name' => 'Flutter', 'description' => 'Google native multi-platform compilation', 'iconComponent' => 'FlutterLogo'],
-            ['name' => 'React Native', 'description' => 'Native mobile components powered by React', 'iconComponent' => 'ReactNativeLogo'],
-            ['name' => 'Android', 'description' => 'Native Android SDK & modern Kotlin runtime', 'iconComponent' => 'AndroidLogo'],
-            ['name' => 'iOS', 'description' => 'Native Apple iOS development with Swift', 'iconComponent' => 'IosLogo'],
-            ['name' => 'Swift', 'description' => 'High-performance, type-safe iOS architecture', 'iconComponent' => 'SwiftLogo'],
+            ['name' => 'Flutter', 'description' => 'Google native multi-platform compilation', 'iconComponent' => 'FlutterLogo', 'tag' => 'Cross-Platform'],
+            ['name' => 'React Native', 'description' => 'Native mobile components powered by React', 'iconComponent' => 'ReactNativeLogo', 'tag' => 'Mobile Framework'],
+            ['name' => 'Swift', 'description' => 'High-performance, type-safe iOS architecture', 'iconComponent' => 'SwiftLogo', 'tag' => 'iOS Native'],
+            ['name' => 'iOS', 'description' => 'Native Apple iOS development with Swift', 'iconComponent' => 'IosLogo', 'tag' => 'Apple Ecosystem'],
+            ['name' => 'Android', 'description' => 'Native Android SDK & modern Kotlin runtime', 'iconComponent' => 'AndroidLogo', 'tag' => 'Android Native'],
         ]
     ],
     [
         'category' => 'Cloud',
-        'description' => 'Secure, elastic cloud hosting and serverless infrastructures engineered for zero downtime.',
+        'uniqueHeading' => 'Cloud & DevOps Engineering',
+        'subtitle' => 'AWS, Azure, Google Cloud, Docker, Kubernetes',
+        'badge' => 'eg: AWS, Azure, Docker',
+        'icon' => 'cloud',
+        'description' => 'Secure, elastic cloud hosting, container orchestration, and serverless infrastructures engineered for zero downtime.',
         'items' => [
-            ['name' => 'AWS', 'description' => 'Global cloud infrastructure & services', 'iconComponent' => 'AwsLogo'],
-            ['name' => 'Azure', 'description' => 'Enterprise cloud computing & hybrid solutions', 'iconComponent' => 'AzureLogo'],
-            ['name' => 'Google Cloud', 'description' => 'Scalable cloud platform & BigQuery analytics', 'iconComponent' => 'GcpLogo'],
-            ['name' => 'Docker', 'description' => 'Industry-standard container virtualization', 'iconComponent' => 'DockerLogo'],
-            ['name' => 'Kubernetes', 'description' => 'Automated container orchestration & scaling', 'iconComponent' => 'K8sLogo'],
+            ['name' => 'AWS', 'description' => 'Global cloud infrastructure & services', 'iconComponent' => 'AwsLogo', 'tag' => 'Cloud Infrastructure'],
+            ['name' => 'Azure', 'description' => 'Enterprise cloud computing & hybrid solutions', 'iconComponent' => 'AzureLogo', 'tag' => 'Enterprise Cloud'],
+            ['name' => 'Google Cloud', 'description' => 'Scalable cloud platform & BigQuery analytics', 'iconComponent' => 'GcpLogo', 'tag' => 'Cloud & AI Platform'],
+            ['name' => 'Docker', 'description' => 'Industry-standard container virtualization', 'iconComponent' => 'DockerLogo', 'tag' => 'Containerization'],
+            ['name' => 'Kubernetes', 'description' => 'Automated container orchestration & scaling', 'iconComponent' => 'K8sLogo', 'tag' => 'Container Orchestration'],
         ]
     ]
 ];
@@ -512,9 +532,10 @@ function getMarqueeSet($items, $minTotal = 12) {
 }
 
 if (!function_exists('renderShowcaseCard')) {
-    function renderShowcaseCard($tech, $catName) {
+    function renderShowcaseCard($tech, $catName, $extraClasses = '') {
+        $displayTag = $tech['tag'] ?? $catName;
     ?>
-      <div class="tech-card-item w-[280px] sm:w-[310px] md:w-[330px] h-[96px] sm:h-[104px] shrink-0 flip-card-wrapper group cursor-pointer select-none">
+      <div class="tech-card-item w-full shrink-0 flip-card-wrapper group cursor-pointer select-none <?php echo htmlspecialchars($extraClasses); ?>">
         <div class="flip-card-inner">
           <!-- Front Face -->
           <div class="flip-card-front glass-card p-3 sm:p-3.5 rounded-2xl flex items-center gap-3 sm:gap-3.5 border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
@@ -523,8 +544,8 @@ if (!function_exists('renderShowcaseCard')) {
             </div>
             <div class="overflow-hidden min-w-0 flex-1">
               <div class="flex items-center justify-between gap-1 mb-0.5">
-                <span class="text-[8px] sm:text-[9px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body shrink-0">
-                  <?php echo htmlspecialchars($catName); ?>
+                <span class="text-[8px] sm:text-[9px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body shrink-0 truncate max-w-[150px]">
+                  <?php echo htmlspecialchars($displayTag); ?>
                 </span>
                 <i data-lucide="rotate-cw" class="w-3 h-3 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500 shrink-0"></i>
               </div>
@@ -541,7 +562,7 @@ if (!function_exists('renderShowcaseCard')) {
           <div class="flip-card-back glass-card p-3 rounded-2xl flex items-center justify-between gap-3 border-2 border-[#C01858] shadow-md">
             <div class="min-w-0 flex-1">
               <div class="flex items-center gap-1.5 mb-1">
-                <span class="text-[8px] sm:text-[9px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body">
+                <span class="text-[8px] sm:text-[9px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body truncate max-w-[110px]">
                   <?php echo htmlspecialchars($catName); ?>
                 </span>
                 <span class="text-[10px] sm:text-[11px] font-bold text-[#0F172A] font-heading truncate">
@@ -556,6 +577,33 @@ if (!function_exists('renderShowcaseCard')) {
             <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center shrink-0 text-[#FF6B00]">
               <i data-lucide="sparkles" class="w-4 h-4"></i>
             </div>
+          </div>
+        </div>
+      </div>
+    <?php
+    }
+}
+
+if (!function_exists('renderColumnHeaderCard')) {
+    function renderColumnHeaderCard($title, $subTitle, $badge = '', $iconName = 'sparkles') {
+    ?>
+      <div class="tech-column-header-card w-full p-3 sm:p-3.5 rounded-2xl bg-gradient-to-br from-white/95 to-[#FFF7F2]/90 border border-[#FF6B00]/30 shadow-md backdrop-blur-md shrink-0 select-none">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#FFF4EA] to-white border border-[#FF6B00]/30 flex items-center justify-center text-[#FF6B00] shadow-2xs shrink-0">
+            <i data-lucide="<?php echo htmlspecialchars($iconName); ?>" class="w-4.5 h-4.5"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <?php if (!empty($badge)): ?>
+              <span class="inline-block text-[8.5px] font-extrabold text-[#C01858] bg-[#FFF0F5] border border-[#C01858]/20 px-2 py-0.5 rounded-full uppercase tracking-wider mb-0.5 font-body">
+                <?php echo htmlspecialchars($badge); ?>
+              </span>
+            <?php endif; ?>
+            <h4 class="text-xs sm:text-[13px] font-black text-[#0F172A] font-heading truncate leading-tight">
+              <?php echo htmlspecialchars($title); ?>
+            </h4>
+            <p class="text-[9.5px] text-[#475569] font-medium truncate mt-0.5">
+              <?php echo htmlspecialchars($subTitle); ?>
+            </p>
           </div>
         </div>
       </div>
