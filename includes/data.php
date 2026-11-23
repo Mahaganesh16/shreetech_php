@@ -14,12 +14,13 @@ $companyInfo = [
 ];
 
 $navLinks = [
-    ['label' => 'Home', 'href' => '#home', 'page' => 'home'],
-    ['label' => 'About', 'href' => '#about', 'page' => 'about'],
-    ['label' => 'Services', 'href' => '#services', 'page' => 'services'],
-    ['label' => 'Technologies', 'href' => '#technologies', 'page' => 'technologies'],
-    ['label' => 'Projects', 'href' => '#projects', 'page' => 'projects'],
-    ['label' => 'Contact', 'href' => '#contact', 'page' => 'contact'],
+    ['label' => 'Home', 'href' => 'index.php#home', 'page' => 'home'],
+    ['label' => 'About', 'href' => 'index.php#about', 'page' => 'about'],
+    ['label' => 'Services', 'href' => 'index.php#services', 'page' => 'services'],
+    ['label' => 'Technologies', 'href' => 'index.php#technologies', 'page' => 'technologies'],
+    ['label' => 'Projects', 'href' => 'index.php#projects', 'page' => 'projects'],
+    ['label' => 'Careers', 'href' => 'careers.php', 'page' => 'careers'],
+    ['label' => 'Contact', 'href' => 'index.php#contact', 'page' => 'contact'],
 ];
 
 $servicesData = [

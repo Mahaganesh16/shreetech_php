@@ -7,12 +7,13 @@ $currentPage = $currentPage ?? 'home';
 $isHomePage = ($currentPage === 'home' || basename($_SERVER['PHP_SELF'] ?? '') === 'index.php');
 
 $navItems = [
-    ['label' => 'Home', 'href' => '#home', 'page' => 'home'],
-    ['label' => 'About', 'href' => '#about', 'page' => 'about'],
-    ['label' => 'Services', 'href' => '#services', 'page' => 'services'],
-    ['label' => 'Technologies', 'href' => '#technologies', 'page' => 'technologies'],
-    ['label' => 'Projects', 'href' => '#projects', 'page' => 'projects'],
-    ['label' => 'Contact', 'href' => '#contact', 'page' => 'contact'],
+    ['label' => 'Home', 'href' => $isHomePage ? '#home' : 'index.php#home', 'page' => 'home'],
+    ['label' => 'About', 'href' => $isHomePage ? '#about' : 'index.php#about', 'page' => 'about'],
+    ['label' => 'Services', 'href' => $isHomePage ? '#services' : 'index.php#services', 'page' => 'services'],
+    ['label' => 'Technologies', 'href' => $isHomePage ? '#technologies' : 'index.php#technologies', 'page' => 'technologies'],
+    ['label' => 'Projects', 'href' => $isHomePage ? '#projects' : 'index.php#projects', 'page' => 'projects'],
+    ['label' => 'Careers', 'href' => 'careers.php', 'page' => 'careers'],
+    ['label' => 'Contact', 'href' => $isHomePage ? '#contact' : 'index.php#contact', 'page' => 'contact'],
 ];
 
 $activeIndex = 0;
@@ -28,7 +29,7 @@ foreach ($navItems as $idx => $item) {
     <div id="navbar-dock" class="w-full pointer-events-auto rounded-full glass-navbar-dock px-3.5 sm:px-5 py-2 sm:py-2.5 flex items-center justify-between transition-all duration-300">
       
       <!-- 1. LEFT SIDE: Shree Tech Innovations Logo & Brand Name -->
-      <a href="#home" class="flex items-center gap-2.5 sm:gap-3 group select-none cursor-pointer flex-shrink-0">
+      <a href="<?php echo $isHomePage ? '#home' : 'index.php#home'; ?>" class="flex items-center gap-2.5 sm:gap-3 group select-none cursor-pointer flex-shrink-0">
         <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/40 border border-white/60 p-1 flex items-center justify-center shadow-xs group-hover:border-[#C01858] group-hover:scale-105 transition-all overflow-hidden">
           <img src="images/logo-icon.png" alt="Shree Tech Logo" class="w-full h-full object-contain">
         </div>
@@ -101,7 +102,7 @@ foreach ($navItems as $idx => $item) {
       <!-- 3. RIGHT SIDE: Gradient Contact Us Button with Arrow Icon -->
       <div class="hidden md:flex items-center gap-3 flex-shrink-0">
         <a
-          href="#contact"
+          href="<?php echo $isHomePage ? '#contact' : 'index.php#contact'; ?>"
           class="glass-btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs lg:text-sm font-semibold text-white cursor-pointer shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
           style="background: linear-gradient(135deg, #FF6B00 0%, #C01858 55%, #8B5CF6 100%);"
         >
@@ -138,7 +139,7 @@ foreach ($navItems as $idx => $item) {
         <?php endforeach; ?>
         <div class="pt-2 mt-1 border-t border-[#F1E6EE]">
           <a
-            href="#contact"
+            href="<?php echo $isHomePage ? '#contact' : 'index.php#contact'; ?>"
             class="w-full py-2.5 px-4 text-center text-sm font-semibold text-white rounded-xl block shadow-md"
             style="background: linear-gradient(135deg, #FF6B00 0%, #C01858 55%, #8B5CF6 100%);"
           >
