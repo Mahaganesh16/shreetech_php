@@ -685,7 +685,7 @@ function initShreeTech() {
     { id: 'technologies', navIndex: 3 },
     { id: 'projects', navIndex: 4 },
     { id: 'testimonials', navIndex: 4 },
-    { id: 'contact', navIndex: 5 },
+    { id: 'contact', navIndex: -1 },
   ];
 
   let currentActiveNavIndex = -1;
@@ -698,7 +698,14 @@ function initShreeTech() {
 
     // 1. Sync GooeyNav liquid pill if available
     if (gooeyEl && gooeyEl.__gooeyNavInstance && typeof gooeyEl.__gooeyNavInstance.select === 'function') {
-      gooeyEl.__gooeyNavInstance.select(newIndex);
+      if (newIndex >= 0) {
+        gooeyEl.__gooeyNavInstance.select(newIndex);
+      } else {
+        gooeyEl.querySelectorAll('.gooey-nav__item').forEach((it) => {
+          it.removeAttribute('data-active');
+          it.querySelector('.gooey-nav__link')?.removeAttribute('aria-current');
+        });
+      }
     }
 
     // 2. Sync mobile nav active link styling
@@ -724,11 +731,11 @@ function initShreeTech() {
     requestAnimationFrame(() => {
       scrollSpyTicking = false;
 
-      // If user reaches near bottom of the page, select contact
+      // If user reaches near bottom of the page, unselect dock nav
       const docHeight = document.documentElement.scrollHeight;
       const scrollBottom = window.scrollY + window.innerHeight;
       if (scrollBottom >= docHeight - 80) {
-        updateActiveNav(5, 'contact');
+        updateActiveNav(-1, 'contact');
         return;
       }
 
@@ -753,8 +760,12 @@ function initShreeTech() {
     });
   };
 
-  window.addEventListener('scroll', onScrollSpy, { passive: true });
-  setTimeout(onScrollSpy, 200);
+  // Only enable scrollspy on pages with single-page section anchors (like index.php)
+  const isSinglePageApp = !!document.getElementById('services');
+  if (isSinglePageApp) {
+    window.addEventListener('scroll', onScrollSpy, { passive: true });
+    setTimeout(onScrollSpy, 200);
+  }
 
   // Smooth scroll handler for all internal anchor links (Directory cards, mobile links, buttons, footer)
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {

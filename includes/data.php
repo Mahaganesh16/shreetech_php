@@ -20,7 +20,6 @@ $navLinks = [
     ['label' => 'Technologies', 'href' => 'index.php#technologies', 'page' => 'technologies'],
     ['label' => 'Projects', 'href' => 'index.php#projects', 'page' => 'projects'],
     ['label' => 'Careers', 'href' => 'careers.php', 'page' => 'careers'],
-    ['label' => 'Contact', 'href' => 'index.php#contact', 'page' => 'contact'],
 ];
 
 $servicesData = [

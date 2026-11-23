@@ -13,7 +13,6 @@ $navItems = [
     ['label' => 'Technologies', 'href' => $isHomePage ? '#technologies' : 'index.php#technologies', 'page' => 'technologies'],
     ['label' => 'Projects', 'href' => $isHomePage ? '#projects' : 'index.php#projects', 'page' => 'projects'],
     ['label' => 'Careers', 'href' => 'careers.php', 'page' => 'careers'],
-    ['label' => 'Contact', 'href' => $isHomePage ? '#contact' : 'index.php#contact', 'page' => 'contact'],
 ];
 
 $activeIndex = 0;
