@@ -53,11 +53,11 @@
         {
           baseWidth: 1400,
           radiusX: 620,
-          radiusY: 195,
+          radiusY: 200,
           rotation: 0,
           duration: 38,
-          itemWidth: 125,
-          itemHeight: 50,
+          itemWidth: 215,
+          itemHeight: 110,
           direction: 'normal',
           fill: true,
           pathWidth: 1.75,
@@ -197,8 +197,8 @@
 
       // Adjust item sizing responsively
       const isMobile = this.st.width < 640;
-      const baseW = isMobile ? 190 : this.options.itemWidth;
-      const baseH = isMobile ? 120 : this.options.itemHeight;
+      const baseW = isMobile ? 165 : this.options.itemWidth;
+      const baseH = isMobile ? 85 : this.options.itemHeight;
 
       this.st.itemW = baseW * this.st.scale;
       this.st.itemH = baseH * this.st.scale;
@@ -313,8 +313,8 @@
 
         // Smooth proximity fade near center stage card so satellite cards emerge gracefully from behind
         const distFromFront = Math.abs(wrapSigned(u - this.st.front));
-        if (distFromFront < 0.14) {
-          const proximityFade = clamp((distFromFront - 0.04) / 0.09, 0, 1);
+        if (distFromFront < 0.20) {
+          const proximityFade = clamp((distFromFront - 0.08) / 0.11, 0, 1);
           opacity *= proximityFade;
         }
 
@@ -403,7 +403,9 @@
         busy = true;
       } else if (this.st.seek) {
         this.st.seek.t = Math.min(1, this.st.seek.t + dt / this.st.seek.dur);
-        const e = this.st.seek.t < 0.5 ? 4 * Math.pow(this.st.seek.t, 3) : 1 - Math.pow(-2 * this.st.seek.t + 2, 3) / 2;
+        const t = this.st.seek.t;
+        // Quintic smooth camera in-out easing for silky animations
+        const e = t < 0.5 ? 16 * Math.pow(t, 5) : 1 - Math.pow(-2 * t + 2, 5) / 2;
         this.st.manual = this.st.seek.from + this.st.seek.delta * e;
         if (this.st.seek.t >= 1) this.st.seek = null;
         busy = true;
@@ -454,12 +456,26 @@
       const u = this.progress() + this.offsetOf(index, this.st.items.length);
       const delta = wrapSigned(this.st.front - u);
       this.st.glide = 0;
-      this.st.seek = { from: this.st.manual, delta, t: 0, dur: 0.45 + Math.abs(delta) * 1.4 };
+      this.st.seek = { from: this.st.manual, delta, t: 0, dur: Math.max(0.65, 0.55 + Math.abs(delta) * 1.5) };
       this.wake();
     }
 
     bindEvents() {
       const root = this.root;
+
+      // Smooth mouse wheel / trackpad scroll animation along orbit
+      root.addEventListener(
+        'wheel',
+        e => {
+          const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+          if (Math.abs(delta) < 2) return;
+          const dir = Math.sign(delta);
+          this.st.glide += dir * Math.min(Math.abs(delta) * 0.00032, 0.1);
+          this.st.glide = clamp(this.st.glide, -0.35, 0.35);
+          this.wake();
+        },
+        { passive: true }
+      );
 
       root.addEventListener('pointerenter', () => {
         this.st.hovered = true;
@@ -654,11 +670,11 @@
     const engine = new OrbitServicesEngine(orbitContainer, {
       baseWidth: 1400,
       radiusX: 620,
-      radiusY: 195,
+      radiusY: 200,
       rotation: 0,
       duration: 38,
-      itemWidth: 125,
-      itemHeight: 50,
+      itemWidth: 215,
+      itemHeight: 110,
       depth: 0.55,
       showPath: true,
       draggable: true,

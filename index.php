@@ -564,7 +564,7 @@ require_once __DIR__ . '/includes/header.php';
           />
         </svg>
 
-        <!-- 8 Orbiting Service Cards (Compact Satellite Cards) -->
+        <!-- 8 Orbiting Service Cards (Enlarged Cards with Half Content Preview) -->
         <?php foreach ($servicesData as $idx => $service): 
           $svcJson = json_encode([
             'id' => $service['id'],
@@ -581,20 +581,34 @@ require_once __DIR__ . '/includes/header.php';
             data-service-json="<?php echo htmlspecialchars($svcJson, ENT_QUOTES, 'UTF-8'); ?>"
           >
             <div class="orbit-item-inner">
-              <div class="orbit-service-card group-hover:border-[#C01858]">
-                <div class="flex items-center gap-2 w-full">
-                  <div class="w-7 h-7 rounded-lg bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
-                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-3.5 h-3.5"></i>
+              <div class="orbit-service-card group-hover:border-[#C01858] flex flex-col justify-between">
+                <!-- Top Row: Icon + Service Number Badge -->
+                <div class="flex items-center justify-between w-full">
+                  <div class="w-8 h-8 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
+                    <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-4 h-4"></i>
                   </div>
-                  <div class="min-w-0 flex-1">
-                    <div class="flex items-center justify-between gap-1 mb-0.5">
-                      <span class="text-[9px] font-bold font-stat text-[#FF6B00]">0<?php echo $idx + 1; ?></span>
-                      <i data-lucide="sparkles" class="w-2.5 h-2.5 text-[#C01858] opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </div>
-                    <h4 class="text-[11px] font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight">
-                      <?php echo htmlspecialchars($service['title']); ?>
-                    </h4>
-                  </div>
+                  <span class="text-[10px] font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] border border-[#FF6B00]/25 px-2 py-0.5 rounded-full">
+                    0<?php echo $idx + 1; ?>
+                  </span>
+                </div>
+
+                <!-- Middle: Title + 2-Line Description Snippet (Half Content) -->
+                <div class="w-full min-w-0 my-1">
+                  <h4 class="text-xs sm:text-[13px] font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight mb-1">
+                    <?php echo htmlspecialchars($service['title']); ?>
+                  </h4>
+                  <p class="text-[10px] sm:text-[11px] text-[#475569] leading-snug line-clamp-2 font-normal font-body">
+                    <?php echo htmlspecialchars($service['description']); ?>
+                  </p>
+                </div>
+
+                <!-- Bottom Row: Click to Focus Indicator -->
+                <div class="flex items-center justify-between pt-1 border-t border-[#F1E6EE]/80 text-[9px] font-semibold text-[#8B5CF6] group-hover:text-[#C01858] transition-colors">
+                  <span class="inline-flex items-center gap-1">
+                    <i data-lucide="sparkles" class="w-2.5 h-2.5 text-[#FF6B00]"></i>
+                    <span>Click to Focus</span>
+                  </span>
+                  <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-0.5 transition-transform"></i>
                 </div>
               </div>
             </div>
@@ -603,7 +617,7 @@ require_once __DIR__ . '/includes/header.php';
 
         <!-- Interactive Center Stage Hub -->
         <div class="orbit-center-content" data-orbit-center="">
-          <div class="center-stage-card glass-card p-6 sm:p-7 rounded-3xl border border-[#F1E6EE] shadow-2xl text-center flex flex-col items-center relative overflow-hidden backdrop-blur-xl bg-white/92">
+          <div class="center-stage-card p-6 sm:p-7 rounded-3xl border border-[#F1E6EE] shadow-2xl text-center flex flex-col items-center relative overflow-hidden bg-white">
             <!-- Center Ambient Glow -->
             <div class="absolute -top-10 -right-10 w-28 h-28 bg-[#FF6B00]/15 rounded-full blur-xl pointer-events-none"></div>
             <div class="absolute -bottom-10 -left-10 w-28 h-28 bg-[#C01858]/15 rounded-full blur-xl pointer-events-none"></div>
