@@ -383,11 +383,6 @@ require_once __DIR__ . '/includes/header.php';
               alt="Shree Tech software engineering team collaborating on architecture"
               class="w-full h-72 sm:h-80 object-cover group-hover:scale-102 transition-transform duration-500"
             >
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-80"></div>
-            <div class="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-white/95 border border-[#F1E6EE] flex items-center justify-between text-xs text-[#0F172A] shadow-sm">
-              <span class="font-bold text-[#0F172A] font-heading">Shree Tech Engineering Labs</span>
-              <span class="text-[#475569] font-medium font-body">Sprint Planning</span>
-            </div>
           </div>
         </div>
 
@@ -1311,7 +1306,7 @@ require_once __DIR__ . '/includes/header.php';
                   <div class="min-w-0">
                     <div class="text-xs text-[#64748B] font-medium font-body">Direct Inquiries</div>
                     <div class="text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors font-heading truncate">
-                      contact@shreetech.com
+                      support@shreetechhub.com
                     </div>
                   </div>
                 </div>
