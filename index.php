@@ -1389,46 +1389,46 @@ require_once __DIR__ . '/includes/header.php';
           </div>
 
           <!-- Headquarters Flip Card -->
-          <div class="flip-card-wrapper h-24 sm:h-28 w-full select-none group cursor-pointer">
+          <div class="flip-card-wrapper h-36 sm:h-36 w-full select-none group cursor-pointer">
             <div class="flip-card-inner">
-              <div class="flip-card-front glass-card p-4 rounded-3xl flex items-center justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
-                <div class="flex items-center gap-4 min-w-0">
-                  <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white group-hover:scale-105 transition-all duration-300 shrink-0 shadow-xs">
+              <div class="flip-card-front glass-card p-4 sm:p-5 rounded-2xl sm:rounded-3xl flex items-center justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
+                <div class="flex items-start gap-3.5 sm:gap-4 min-w-0 flex-1">
+                  <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white group-hover:scale-105 transition-all duration-300 shrink-0 shadow-xs mt-0.5">
                     <i data-lucide="map-pin" class="w-5 h-5"></i>
                   </div>
-                  <div class="min-w-0">
-                    <div class="text-xs text-[#64748B] font-medium font-body">Headquarters</div>
-                    <div class="text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors font-heading truncate">
-                      500 Howard St, San Francisco
+                  <div class="min-w-0 flex-1 pr-2">
+                    <div class="text-xs text-[#64748B] font-semibold uppercase tracking-wider font-body mb-1">Headquarters</div>
+                    <div class="text-xs sm:text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors font-heading leading-relaxed">
+                      5/2, Hajiyar Complex 1st Floor, Moulana Sahip Street (Opp. Section Office Bus Stop), Anna Nagar, Madurai-625020, Tamil Nadu, India.
                     </div>
                   </div>
                 </div>
-                <div class="flex flex-col items-end gap-1 shrink-0 pl-2">
+                <div class="flex flex-col items-end gap-1 shrink-0 pl-1 self-center">
                   <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500"></i>
                   <span class="text-[10px] text-[#334155] font-body">Flip</span>
                 </div>
               </div>
 
-              <div class="flip-card-back glass-card p-4 rounded-3xl flex items-center justify-between border-2 border-[#C01858] shadow-md">
+              <div class="flip-card-back glass-card p-4 sm:p-5 rounded-2xl sm:rounded-3xl flex items-center justify-between border-2 border-[#C01858] shadow-md">
                 <div class="min-w-0 flex-1 pr-3">
-                  <div class="flex items-center gap-1.5 mb-1">
-                    <span class="text-[10px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2 py-0.5 rounded-full uppercase tracking-wider font-body">
-                      Bay Area HQ
+                  <div class="flex items-center gap-1.5 mb-1.5">
+                    <span class="text-[10px] font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body">
+                      Madurai HQ
                     </span>
-                    <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00] shrink-0"></i>
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00] shrink-0"></i>
                   </div>
-                  <div class="text-xs text-[#1E293B] font-medium font-body truncate">
-                    Suite 400, SF Financial District
+                  <div class="text-xs sm:text-sm text-[#1E293B] font-semibold font-body leading-relaxed">
+                    5/2, Hajiyar Complex, Moulana Sahip St, Anna Nagar, Madurai - 625020
                   </div>
                 </div>
                 <a
-                  href="https://maps.google.com/?q=500+Howard+Street+San+Francisco+CA+94105"
+                  href="https://maps.google.com/?q=5/2,+Hajiyar+Complex+Moulana+Sahip+Street+Anna+Nagar+Madurai"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="glass-btn-primary px-3.5 py-2 rounded-xl text-white font-semibold text-xs flex items-center gap-1 shrink-0 shadow-xs hover:scale-105 transition-transform font-body"
+                  class="glass-btn-primary px-3.5 py-2.5 rounded-xl text-white font-semibold text-xs flex items-center gap-1.5 shrink-0 shadow-xs hover:scale-105 transition-transform font-body"
                 >
                   <span>View Map</span>
-                  <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                 </a>
               </div>
             </div>
