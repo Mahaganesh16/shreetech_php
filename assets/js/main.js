@@ -297,13 +297,13 @@ function initShreeTech() {
   const categoryMeta = {
     'All': {
       badge: 'Multi-Discipline Engineering',
-      title: 'All Technology Disciplines (HTML Up · CSS Down Diagonal Stream)',
-      desc: 'Comprehensive enterprise ecosystem featuring frontend languages (eg: HTML5 Up, CSS3 Down), backend runtimes, databases, mobile frameworks, and cloud engineering.'
+      title: 'All Technology Disciplines',
+      desc: 'Comprehensive enterprise ecosystem featuring frontend languages, backend runtimes, databases, mobile frameworks, and cloud engineering.'
     },
     'Frontend': {
       badge: 'Client-Side Engineering',
-      title: 'Frontend Languages & UI Frameworks (HTML Up · CSS Down)',
-      desc: 'Semantic HTML5 markup stream (Upper Lane) and modern responsive CSS3 styling stream (Lower Lane) scrolling diagonally from right to left.'
+      title: 'Frontend Languages & UI Frameworks (HTML, CSS, JS)',
+      desc: 'Semantic HTML5 markup, modern responsive CSS3 styling, and reactive JavaScript frameworks built for high-performance user interfaces.'
     },
     'Backend': {
       badge: 'Server Architecture',

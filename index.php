@@ -41,42 +41,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Setup data for Technologies section (Right-to-Left Diagonal Stream: HTML Up · CSS Down)
+// Setup data for Technologies section
 $techCategories = ['All', 'Frontend', 'Backend', 'Database', 'Mobile', 'Cloud'];
 $techCategoryLabels = [
     'All'      => 'All Disciplines',
-    'Frontend' => 'Frontend (HTML Up · CSS Down)',
+    'Frontend' => 'Frontend (HTML5, CSS3, JS)',
     'Backend'  => 'Backend (PHP, Node, Python)',
     'Database' => 'Database (MySQL, Mongo)',
     'Mobile'   => 'Mobile (Flutter, Swift)',
     'Cloud'    => 'Cloud (AWS, Azure, Docker)',
 ];
 
-// All Disciplines: Upper Stream (HTML5 Up & Core Languages)
+// All Disciplines: Upper Stream (Frontend & Backend Core Languages)
 $allUpStream = [
-    ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo', 'category' => 'Frontend', 'tag' => 'HTML5 Language · UP'],
-    ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo', 'category' => 'Frontend', 'tag' => 'Frontend Language · UP'],
-    ['name' => 'Next.js', 'description' => 'Server-side rendering & App Router', 'iconComponent' => 'NextLogo', 'category' => 'Frontend', 'tag' => 'Full-Stack React · UP'],
-    ['name' => 'Python', 'description' => 'Data processing, APIs, and AI automation', 'iconComponent' => 'PythonLogo', 'category' => 'Backend', 'tag' => 'Backend Language · UP'],
-    ['name' => 'PHP', 'description' => 'Battle-tested server-side web scripting', 'iconComponent' => 'PhpLogo', 'category' => 'Backend', 'tag' => 'Server Scripting · UP'],
-    ['name' => 'Java', 'description' => 'Enterprise-grade robust application platform', 'iconComponent' => 'JavaLogo', 'category' => 'Backend', 'tag' => 'Enterprise Platform · UP'],
-    ['name' => 'Flutter', 'description' => 'Google native multi-platform compilation', 'iconComponent' => 'FlutterLogo', 'category' => 'Mobile', 'tag' => 'Mobile Compilation · UP'],
-    ['name' => 'AWS', 'description' => 'Global cloud infrastructure & services', 'iconComponent' => 'AwsLogo', 'category' => 'Cloud', 'tag' => 'Cloud Infrastructure · UP'],
-    ['name' => 'Docker', 'description' => 'Industry-standard container virtualization', 'iconComponent' => 'DockerLogo', 'category' => 'Cloud', 'tag' => 'Containerization · UP'],
+    ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo', 'category' => 'Frontend', 'tag' => 'Frontend Language'],
+    ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo', 'category' => 'Frontend', 'tag' => 'Frontend Language'],
+    ['name' => 'Next.js', 'description' => 'Server-side rendering & App Router', 'iconComponent' => 'NextLogo', 'category' => 'Frontend', 'tag' => 'Frontend Framework'],
+    ['name' => 'Python', 'description' => 'Data processing, APIs, and AI automation', 'iconComponent' => 'PythonLogo', 'category' => 'Backend', 'tag' => 'Backend Language'],
+    ['name' => 'PHP', 'description' => 'Battle-tested server-side web scripting', 'iconComponent' => 'PhpLogo', 'category' => 'Backend', 'tag' => 'Backend Language'],
+    ['name' => 'Java', 'description' => 'Enterprise-grade robust application platform', 'iconComponent' => 'JavaLogo', 'category' => 'Backend', 'tag' => 'Backend Language'],
+    ['name' => 'Flutter', 'description' => 'Google native multi-platform compilation', 'iconComponent' => 'FlutterLogo', 'category' => 'Mobile', 'tag' => 'Mobile Framework'],
+    ['name' => 'AWS', 'description' => 'Global cloud infrastructure & services', 'iconComponent' => 'AwsLogo', 'category' => 'Cloud', 'tag' => 'Cloud Platform'],
+    ['name' => 'Docker', 'description' => 'Industry-standard container virtualization', 'iconComponent' => 'DockerLogo', 'category' => 'Cloud', 'tag' => 'Cloud Container'],
 ];
 
-// All Disciplines: Lower Stream (CSS3 Down & Frameworks/Databases)
+// All Disciplines: Lower Stream (Styling, UI Frameworks & Databases)
 $allDownStream = [
-    ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo', 'category' => 'Frontend', 'tag' => 'CSS3 Styling · DOWN'],
-    ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces', 'iconComponent' => 'ReactLogo', 'category' => 'Frontend', 'tag' => 'UI Framework · DOWN'],
-    ['name' => 'Laravel', 'description' => 'Full-featured enterprise PHP web framework', 'iconComponent' => 'LaravelLogo', 'category' => 'Backend', 'tag' => 'MVC Framework · DOWN'],
-    ['name' => 'Node.js', 'description' => 'Event-driven asynchronous backend services', 'iconComponent' => 'NodeLogo', 'category' => 'Backend', 'tag' => 'Async Runtime · DOWN'],
-    ['name' => 'MySQL', 'description' => 'High-reliability transactional relational DB', 'iconComponent' => 'MySqlLogo', 'category' => 'Database', 'tag' => 'Relational DB · DOWN'],
-    ['name' => 'PostgreSQL', 'description' => 'Advanced open-source relational database', 'iconComponent' => 'PostgresLogo', 'category' => 'Database', 'tag' => 'Relational DB · DOWN'],
-    ['name' => 'MongoDB', 'description' => 'Document-based flexible NoSQL database', 'iconComponent' => 'MongoLogo', 'category' => 'Database', 'tag' => 'NoSQL Database · DOWN'],
-    ['name' => 'Redis', 'description' => 'In-memory high-speed caching & key-value store', 'iconComponent' => 'RedisLogo', 'category' => 'Database', 'tag' => 'In-Memory Cache · DOWN'],
-    ['name' => 'Swift', 'description' => 'High-performance, type-safe iOS architecture', 'iconComponent' => 'SwiftLogo', 'category' => 'Mobile', 'tag' => 'iOS Architecture · DOWN'],
-    ['name' => 'Kubernetes', 'description' => 'Automated container orchestration & scaling', 'iconComponent' => 'K8sLogo', 'category' => 'Cloud', 'tag' => 'Container Orchestration · DOWN'],
+    ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo', 'category' => 'Frontend', 'tag' => 'Frontend Styling'],
+    ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces', 'iconComponent' => 'ReactLogo', 'category' => 'Frontend', 'tag' => 'Frontend Framework'],
+    ['name' => 'Laravel', 'description' => 'Full-featured enterprise PHP web framework', 'iconComponent' => 'LaravelLogo', 'category' => 'Backend', 'tag' => 'Backend Framework'],
+    ['name' => 'Node.js', 'description' => 'Event-driven asynchronous backend services', 'iconComponent' => 'NodeLogo', 'category' => 'Backend', 'tag' => 'Backend Runtime'],
+    ['name' => 'MySQL', 'description' => 'High-reliability transactional relational DB', 'iconComponent' => 'MySqlLogo', 'category' => 'Database', 'tag' => 'Relational Database'],
+    ['name' => 'PostgreSQL', 'description' => 'Advanced open-source relational database', 'iconComponent' => 'PostgresLogo', 'category' => 'Database', 'tag' => 'Relational Database'],
+    ['name' => 'MongoDB', 'description' => 'Document-based flexible NoSQL database', 'iconComponent' => 'MongoLogo', 'category' => 'Database', 'tag' => 'NoSQL Database'],
+    ['name' => 'Redis', 'description' => 'In-memory high-speed caching & key-value store', 'iconComponent' => 'RedisLogo', 'category' => 'Database', 'tag' => 'Cache Database'],
+    ['name' => 'Swift', 'description' => 'High-performance, type-safe iOS architecture', 'iconComponent' => 'SwiftLogo', 'category' => 'Mobile', 'tag' => 'Mobile Language'],
+    ['name' => 'Kubernetes', 'description' => 'Automated container orchestration & scaling', 'iconComponent' => 'K8sLogo', 'category' => 'Cloud', 'tag' => 'Cloud Orchestration'],
 ];
 
 $allTechnologies = array_merge($allUpStream, $allDownStream);
@@ -756,7 +756,7 @@ require_once __DIR__ . '/includes/header.php';
       <?php endforeach; ?>
     </div>
 
-    <!-- Technology Showcase Stage (Diagonal Right-to-Left Rows: HTML Up · CSS Down) -->
+    <!-- Technology Showcase Stage (Right-to-Left Diagonal Stream) -->
     <div class="mt-8">
       
       <!-- Active Category Header & Description -->
@@ -767,11 +767,11 @@ require_once __DIR__ . '/includes/header.php';
             <span id="active-category-badge">Multi-Discipline Engineering</span>
           </span>
           <h3 id="active-category-title" class="text-xl sm:text-2xl font-black text-[#0F172A] font-heading">
-            All Technology Disciplines (HTML Up · CSS Down Diagonal Stream)
+            All Technology Disciplines
           </h3>
         </div>
         <span id="active-category-desc" class="text-xs sm:text-sm text-[#475569] font-normal font-body max-w-xl">
-          Comprehensive enterprise ecosystem featuring frontend languages (eg: HTML5 Up, CSS3 Down), backend runtimes, databases, mobile frameworks, and cloud engineering.
+          Comprehensive enterprise ecosystem featuring frontend languages, backend runtimes, databases, mobile frameworks, and cloud engineering.
         </span>
       </div>
 
@@ -790,15 +790,15 @@ require_once __DIR__ . '/includes/header.php';
           <!-- Tilted Dual-Row Diagonal Matrix (Right-to-Left Scrolling) -->
           <div class="tech-diagonal-matrix">
             
-            <!-- Row 1: HTML5 & Core Languages (UP Stream) -->
+            <!-- Row 1: Core Languages Stream -->
             <div class="tech-diagonal-row row-up" style="--row-duration: 36s;">
               <div class="tech-row-track">
                 
                 <!-- Sequence Group 1 -->
                 <div class="tech-row-group" aria-hidden="false">
                   <div class="tech-row-lane-pill pill-up">
-                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-                    <span>HTML5 & Languages (UP)</span>
+                    <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
+                    <span>Frontend & Backend Languages</span>
                   </div>
                   <?php foreach ($allUpStream as $tech): 
                     renderShowcaseCard($tech, $tech['category']);
@@ -808,8 +808,8 @@ require_once __DIR__ . '/includes/header.php';
                 <!-- Sequence Group 2 (Duplicate for Seamless Infinite Loop) -->
                 <div class="tech-row-group" aria-hidden="true">
                   <div class="tech-row-lane-pill pill-up">
-                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-                    <span>HTML5 & Languages (UP)</span>
+                    <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
+                    <span>Frontend & Backend Languages</span>
                   </div>
                   <?php foreach ($allUpStream as $tech): 
                     renderShowcaseCard($tech, $tech['category']);
@@ -819,15 +819,15 @@ require_once __DIR__ . '/includes/header.php';
               </div>
             </div>
 
-            <!-- Row 2: CSS3 & Frameworks/Databases (DOWN Stream) -->
+            <!-- Row 2: Styling, Frameworks & Databases Stream -->
             <div class="tech-diagonal-row row-down" style="--row-duration: 40s;">
               <div class="tech-row-track">
                 
                 <!-- Sequence Group 1 -->
                 <div class="tech-row-group" aria-hidden="false">
                   <div class="tech-row-lane-pill pill-down">
-                    <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
-                    <span>CSS3 & Styling / DB (DOWN)</span>
+                    <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                    <span>Styling, Frameworks & Databases</span>
                   </div>
                   <?php foreach ($allDownStream as $tech): 
                     renderShowcaseCard($tech, $tech['category']);
@@ -837,8 +837,8 @@ require_once __DIR__ . '/includes/header.php';
                 <!-- Sequence Group 2 (Duplicate for Seamless Infinite Loop) -->
                 <div class="tech-row-group" aria-hidden="true">
                   <div class="tech-row-lane-pill pill-down">
-                    <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
-                    <span>CSS3 & Styling / DB (DOWN)</span>
+                    <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                    <span>Styling, Frameworks & Databases</span>
                   </div>
                   <?php foreach ($allDownStream as $tech): 
                     renderShowcaseCard($tech, $tech['category']);
@@ -858,27 +858,27 @@ require_once __DIR__ . '/includes/header.php';
         $catName = $group['category'];
         $groupItems = $group['items'];
         
-        // Split items cleanly between Row 1 (UP) and Row 2 (DOWN)
+        // Split items cleanly between Row 1 (Core Languages) and Row 2 (Frameworks/Styling)
         if ($catName === 'Frontend') {
           $upItems = [
-            ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo', 'tag' => 'HTML5 Language · UP'],
-            ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo', 'tag' => 'JavaScript ESNext · UP'],
-            ['name' => 'Next.js', 'description' => 'Server-side rendering & App Router', 'iconComponent' => 'NextLogo', 'tag' => 'Next.js Framework · UP'],
+            ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo', 'tag' => 'Frontend Language'],
+            ['name' => 'JavaScript', 'description' => 'ESNext interactive web scripting', 'iconComponent' => 'JavaScriptLogo', 'tag' => 'Frontend Language'],
+            ['name' => 'Next.js', 'description' => 'Server-side rendering & App Router', 'iconComponent' => 'NextLogo', 'tag' => 'Frontend Framework'],
           ];
           $downItems = [
-            ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo', 'tag' => 'CSS3 Styling · DOWN'],
-            ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces', 'iconComponent' => 'ReactLogo', 'tag' => 'React.js UI · DOWN'],
-            ['name' => 'CSS3', 'description' => 'CSS Flexbox, Grid & Modern Animation', 'iconComponent' => 'CssLogo', 'tag' => 'Responsive CSS · DOWN'],
+            ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo', 'tag' => 'Frontend Styling'],
+            ['name' => 'React.js', 'description' => 'Declarative component-driven interfaces', 'iconComponent' => 'ReactLogo', 'tag' => 'UI Framework'],
+            ['name' => 'CSS3', 'description' => 'CSS Flexbox, Grid & Modern Animation', 'iconComponent' => 'CssLogo', 'tag' => 'Responsive CSS'],
           ];
-          $upPillText = 'HTML5 Languages (UP)';
-          $downPillText = 'CSS3 Styling & UI (DOWN)';
+          $upPillText = 'Frontend Core Languages';
+          $downPillText = 'UI Frameworks & Styling';
         } else {
           $half = (int)ceil(count($groupItems) / 2);
           $upItems = array_slice($groupItems, 0, $half);
           $downItems = array_slice($groupItems, $half);
           if (empty($downItems)) $downItems = $upItems;
-          $upPillText = $group['uniqueHeading'] . ' (UP)';
-          $downPillText = $group['uniqueHeading'] . ' (DOWN)';
+          $upPillText = $group['uniqueHeading'] . ' · Core';
+          $downPillText = $group['uniqueHeading'] . ' · Ecosystem';
         }
         
         // Ensure enough items for seamless infinite horizontal loop
@@ -894,13 +894,13 @@ require_once __DIR__ . '/includes/header.php';
 
             <div class="tech-diagonal-matrix">
               
-              <!-- Upper Stream: Up Animation -->
+              <!-- Upper Stream: Core Languages -->
               <div class="tech-diagonal-row row-up" style="--row-duration: 28s;">
                 <div class="tech-row-track">
                   
                   <div class="tech-row-group" aria-hidden="false">
                     <div class="tech-row-lane-pill pill-up">
-                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                      <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
                       <span><?php echo htmlspecialchars($upPillText); ?></span>
                     </div>
                     <?php foreach ($upSeq as $tech): 
@@ -910,7 +910,7 @@ require_once __DIR__ . '/includes/header.php';
 
                   <div class="tech-row-group" aria-hidden="true">
                     <div class="tech-row-lane-pill pill-up">
-                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                      <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
                       <span><?php echo htmlspecialchars($upPillText); ?></span>
                     </div>
                     <?php foreach ($upSeq as $tech): 
@@ -921,13 +921,13 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
               </div>
 
-              <!-- Lower Stream: Down Animation -->
+              <!-- Lower Stream: Styling & Frameworks -->
               <div class="tech-diagonal-row row-down" style="--row-duration: 32s;">
                 <div class="tech-row-track">
                   
                   <div class="tech-row-group" aria-hidden="false">
                     <div class="tech-row-lane-pill pill-down">
-                      <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
+                      <i data-lucide="layers" class="w-3.5 h-3.5"></i>
                       <span><?php echo htmlspecialchars($downPillText); ?></span>
                     </div>
                     <?php foreach ($downSeq as $tech): 
@@ -937,7 +937,7 @@ require_once __DIR__ . '/includes/header.php';
 
                   <div class="tech-row-group" aria-hidden="true">
                     <div class="tech-row-lane-pill pill-down">
-                      <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
+                      <i data-lucide="layers" class="w-3.5 h-3.5"></i>
                       <span><?php echo htmlspecialchars($downPillText); ?></span>
                     </div>
                     <?php foreach ($downSeq as $tech): 
