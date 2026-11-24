@@ -410,7 +410,7 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
                   <div class="flex items-center justify-between text-xs font-semibold text-[#475569] group-hover:text-[#C01858] transition-colors pt-2.5 border-t border-[#F1E6EE]">
                     <span>Flip for detail</span>
-                    <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-300"></i>
+                    <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-[450ms]"></i>
                   </div>
                 </div>
 
@@ -467,7 +467,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="flip-card-wrapper h-[340px] sm:h-[370px] md:h-[400px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo ($idx + 1); ?>">
           <div class="flip-card-inner">
             <!-- Front -->
-            <div class="flip-card-front glass-card p-5 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-300">
+            <div class="flip-card-front glass-card p-5 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-[450ms]">
               <div class="card-spotlight-layer"></div>
               <div>
                 <div class="flex items-center justify-between mb-5">
@@ -489,7 +489,7 @@ require_once __DIR__ . '/includes/header.php';
 
               <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
                 <div class="flex items-center gap-1.5 text-xs font-semibold text-[#64748B] group-hover:text-[#C01858] transition-colors">
-                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] transition-transform duration-300 group-hover:rotate-180"></i>
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] transition-transform duration-[450ms] group-hover:rotate-180"></i>
                   <span>Hover to Flip</span>
                 </div>
                 <span class="text-xs font-bold font-stat text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] to-[#C01858] tracking-tight">
@@ -1186,7 +1186,7 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
 
                   <div class="flex items-center gap-1 text-[11px] font-semibold text-[#334155] group-hover:text-[#C01858] transition-colors shrink-0 pl-2">
-                    <i data-lucide="rotate-cw" class="w-3 h-3 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-300"></i>
+                    <i data-lucide="rotate-cw" class="w-3 h-3 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-[450ms]"></i>
                     <span>Flip</span>
                   </div>
                 </div>
@@ -1310,7 +1310,7 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
                 </div>
                 <div class="flex flex-col items-end gap-1 shrink-0 pl-2">
-                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-300"></i>
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-[450ms]"></i>
                   <span class="text-[10px] text-[#334155] font-body">Flip</span>
                 </div>
               </div>
@@ -1354,7 +1354,7 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
                 </div>
                 <div class="flex flex-col items-end gap-1 shrink-0 pl-2">
-                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-300"></i>
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-[450ms]"></i>
                   <span class="text-[10px] text-[#334155] font-body">Flip</span>
                 </div>
               </div>
@@ -1398,7 +1398,7 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
                 </div>
                 <div class="flex flex-col items-end gap-1 shrink-0 pl-1 self-center">
-                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-300"></i>
+                  <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-[450ms]"></i>
                   <span class="text-[10px] text-[#334155] font-body">Flip</span>
                 </div>
               </div>
