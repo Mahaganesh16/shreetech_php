@@ -111,7 +111,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
           </div>
           <div class="flex items-center gap-2.5">
             <i data-lucide="phone" class="w-4 h-4 text-[#FF6B00] shrink-0"></i>
-            <a href="tel:<?php echo htmlspecialchars(str_replace(' ', '', $companyInfo['phone'])); ?>" class="font-bold text-[#0F172A] font-stat hover:text-[#C01858] transition-colors"><?php echo htmlspecialchars($companyInfo['phone']); ?></a>
+            <a href="tel:<?php echo htmlspecialchars(str_replace(' ', '', $companyInfo['phone'])); ?>" class="font-semibold text-[#0F172A] hover:text-[#C01858] transition-colors"><?php echo htmlspecialchars($companyInfo['phone']); ?></a>
           </div>
           <div class="flex items-start gap-2.5">
             <i data-lucide="map-pin" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
