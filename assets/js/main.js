@@ -8,13 +8,16 @@ function initShreeTech() {
   let lenis = null;
   if (typeof Lenis !== 'undefined') {
     lenis = new Lenis({
-      lerp: 0.09,
-      wheelMultiplier: 1.05,
+      lerp: 0.14,
+      wheelMultiplier: 1.15,
       touchMultiplier: 1.2,
       smoothWheel: true,
       syncTouch: false,
       autoRaf: true,
     });
+
+    // Disable className thrashing to prevent runtime MutationObserver overhead
+    lenis.updateClassName = function () {};
 
     window.__lenis = lenis;
   }
@@ -213,6 +216,7 @@ function initShreeTech() {
   if (testTrack) {
     let isHovered = false;
     let isInteracting = false;
+    let isVisible = false;
     let interactionTimeout = null;
 
     testTrack.addEventListener('mouseenter', () => { isHovered = true; });
@@ -220,9 +224,19 @@ function initShreeTech() {
     testTrack.addEventListener('touchstart', () => { isHovered = true; }, { passive: true });
     testTrack.addEventListener('touchend', () => { isHovered = false; });
 
-    // Smooth continuous auto drift
+    const testSection = document.getElementById('testimonials');
+    if ('IntersectionObserver' in window && testSection) {
+      const io = new IntersectionObserver((entries) => {
+        isVisible = entries[0].isIntersecting;
+      }, { rootMargin: '100px' });
+      io.observe(testSection);
+    } else {
+      isVisible = true;
+    }
+
+    // Smooth continuous auto drift (only when section is visible in viewport)
     function stepDrift() {
-      if (!isHovered && !isInteracting && testTrack) {
+      if (isVisible && !isHovered && !isInteracting && testTrack) {
         testTrack.scrollLeft += 0.85;
         if (testTrack.scrollLeft >= testTrack.scrollWidth / 2) {
           testTrack.scrollLeft -= testTrack.scrollWidth / 2;
@@ -405,10 +419,10 @@ function initShreeTech() {
     if (count <= 1) {
       pinTrack.style.height = '100vh';
     } else {
-      // 220px of scroll per card transition for snappy, fluid progression without getting stuck
-      const scrollPerCard = 220;
-      // Runway: intro pad (80px) + transitions + outro hold (140px)
-      const totalScrollTravel = 80 + (count - 1) * scrollPerCard + 140;
+      // 110px of scroll per card transition for brisk, responsive stacking without trapping viewport
+      const scrollPerCard = 110;
+      // Runway: intro pad (30px) + transitions + outro hold (60px)
+      const totalScrollTravel = 30 + (count - 1) * scrollPerCard + 60;
       pinTrack.style.height = `${window.innerHeight + totalScrollTravel}px`;
     }
   }
