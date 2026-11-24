@@ -755,8 +755,8 @@ require_once __DIR__ . '/includes/header.php';
     <!-- Technology Showcase Stage (Right-to-Left Diagonal Stream) -->
     <div class="mt-8">
       
-      <!-- Active Category Header & Description -->
-      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-3 border-b border-[#F1E6EE] mb-6">
+      <!-- Active Category Header -->
+      <div class="pb-3 border-b border-[#F1E6EE] mb-6">
         <div>
           <span class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] uppercase tracking-wider mb-1 font-body">
             <i data-lucide="layers" class="w-3.5 h-3.5"></i>
@@ -766,9 +766,6 @@ require_once __DIR__ . '/includes/header.php';
             All Technology Disciplines
           </h3>
         </div>
-        <span id="active-category-desc" class="text-xs sm:text-sm text-[#475569] font-normal font-body max-w-xl">
-          Comprehensive enterprise ecosystem featuring frontend languages, backend runtimes, databases, mobile frameworks, and cloud engineering.
-        </span>
       </div>
 
       <!-- 1. Master Diagonal Right-to-Left Rows for "All" -->
