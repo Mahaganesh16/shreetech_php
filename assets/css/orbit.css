@@ -6,8 +6,8 @@
   position: relative;
   width: 100%;
   max-width: 1360px;
-  min-height: 780px;
-  height: 820px;
+  min-height: 720px;
+  height: 750px;
   margin: 0 auto;
   user-select: none;
   -webkit-user-select: none;
@@ -36,35 +36,35 @@
 }
 
 .orbit-path-line {
-  stroke: rgba(244, 114, 182, 0.45);
+  stroke: rgba(244, 114, 182, 0.48);
   stroke-width: 1.75;
   fill: none;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 5px rgba(255, 107, 130, 0.22));
+  filter: drop-shadow(0 0 6px rgba(255, 107, 130, 0.22));
 }
 
-/* Base Service Card on Orbit (Uses Smooth CSS Transitions for Size & Position Exchange) */
+/* Base Service Card on Orbit (Uses Center-Anchored Smooth CSS Transitions for Size & Position Exchange) */
 .orbit-item {
   position: absolute;
   top: 0;
   left: 0;
-  width: 205px;
-  height: 142px;
+  width: 195px;
+  height: 135px;
   transform-origin: center center;
   will-change: transform, width, height, z-index;
   pointer-events: auto;
   cursor: pointer;
   transition:
-    transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-    width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-    height 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-    z-index 0.38s ease;
+    transform 0.58s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.58s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.58s cubic-bezier(0.22, 1, 0.36, 1),
+    z-index 0.58s ease;
 }
 
-/* Active Featured Center Card (Large, Focused, Elevated) */
+/* Active Featured Center Card (Large, Focused, Smoothly Scaled) */
 .orbit-item.is-active {
-  width: 440px;
-  height: 400px;
+  width: 410px;
+  height: 380px;
   cursor: default;
   z-index: 100 !important;
 }
@@ -79,7 +79,7 @@
 }
 
 .orbit-item:not(.is-active):hover .orbit-item-inner {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 /* Card Surface Styling with Smooth Background & Shadow Morphing */
@@ -97,9 +97,9 @@
   box-sizing: border-box;
   transition:
     border-color 0.3s ease,
-    box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.58s cubic-bezier(0.22, 1, 0.36, 1),
     background 0.35s ease,
-    border-radius 0.38s ease;
+    border-radius 0.58s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .orbit-item:not(.is-active):hover .orbit-service-card {
@@ -120,15 +120,16 @@
 .card-compact-view {
   position: absolute;
   inset: 0;
-  padding: 0.75rem 0.9rem;
+  padding: 0.7rem 0.85rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   opacity: 1;
   pointer-events: auto;
+  box-sizing: border-box;
   transition:
-    opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   transform: scale(1);
 }
 
@@ -136,7 +137,7 @@
 .card-full-view {
   position: absolute;
   inset: 0;
-  padding: 1.35rem 1.65rem;
+  padding: 1.25rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -144,9 +145,10 @@
   text-align: center;
   opacity: 0;
   pointer-events: none;
+  box-sizing: border-box;
   transition:
-    opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   transform: scale(0.92);
 }
 
@@ -155,17 +157,18 @@
   transition: opacity 0.5s ease;
 }
 
-/* Active State View Transitions: Seamless Cross-Fade */
+/* Active State View Transitions: Seamless Staggered Cross-Fade */
 .orbit-item.is-active .card-compact-view {
   opacity: 0;
   pointer-events: none;
-  transform: scale(1.08);
+  transform: scale(0.92);
 }
 
 .orbit-item.is-active .card-full-view {
   opacity: 1;
   pointer-events: auto;
   transform: scale(1);
+  transition-delay: 0.1s;
 }
 
 .orbit-item.is-active .card-ambient-glows {
@@ -173,20 +176,37 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1100px) and (min-width: 769px) {
   .orbit-container {
-    min-height: 580px;
-    height: 600px;
+    min-height: 660px;
+    height: 680px;
   }
 
   .orbit-item {
-    width: 180px;
-    height: 135px;
+    width: 175px;
+    height: 125px;
   }
 
   .orbit-item.is-active {
-    width: 340px;
-    height: 380px;
+    width: 360px;
+    height: 360px;
+  }
+}
+
+@media (max-width: 768px) {
+  .orbit-container {
+    min-height: 580px;
+    height: 620px;
+  }
+
+  .orbit-item {
+    width: 155px;
+    height: 115px;
+  }
+
+  .orbit-item.is-active {
+    width: 320px;
+    height: 360px;
   }
 
   .orbit-item.is-active .card-full-view {

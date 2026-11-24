@@ -44,26 +44,27 @@
 
     build() {
       this.width = this.root.clientWidth || 1200;
-      this.height = this.root.clientHeight || 800;
+      this.height = this.root.clientHeight || 750;
       this.isMobile = this.width < 768;
       this.isTablet = this.width >= 768 && this.width < 1100;
 
-      // Calculate horizontal elliptical path geometry
+      // Calculate horizontal elliptical path geometry (reduced for elegant framing)
       if (this.isMobile) {
-        this.rx = Math.min(340, this.width * 0.42);
-        this.ry = Math.min(145, this.height * 0.22);
+        this.rx = Math.min(270, Math.round(this.width * 0.38));
+        this.ry = Math.min(130, Math.round(this.height * 0.21));
         this.cx = this.width / 2;
         this.cy = this.height / 2 - 10;
       } else if (this.isTablet) {
-        this.rx = Math.min(410, this.width * 0.38);
-        this.ry = Math.min(195, this.height * 0.25);
+        this.rx = Math.min(340, Math.round(this.width * 0.34));
+        this.ry = Math.min(145, Math.round(this.height * 0.21));
         this.cx = this.width / 2;
-        this.cy = this.height / 2 - 15;
+        this.cy = this.height / 2 - 18;
       } else {
-        this.rx = Math.min(495, Math.round(this.width * 0.385));
-        this.ry = Math.min(225, Math.round(this.height * 0.275));
+        // Desktop: reduced radius for a tighter, elegant ellipse
+        this.rx = Math.min(390, Math.round(this.width * 0.32));
+        this.ry = Math.min(160, Math.round(this.height * 0.21));
         this.cx = this.width / 2;
-        this.cy = this.height / 2 - 15;
+        this.cy = this.height / 2 - 20;
       }
 
       // Update SVG path for exact visual orbit guide line
@@ -82,7 +83,25 @@
     update(animate = true) {
       if (!this.items.length) return;
 
-      const isMobile = this.isMobile;
+      // Symmetrical orbit slot angles in degrees (clockwise)
+      // Slot 0: Focus Center (front bottom, 90 deg)
+      // Slots 1-7: Satellites passing cleanly along reduced orbit line
+      const SLOT_ANGLES_DEG = [
+        90,     // Slot 0: Center active (front bottom)
+        28,     // Slot 1: Satellite bottom-right (clears center card)
+        -12,    // Slot 2: Satellite mid-right
+        -52,    // Slot 3: Satellite top-right
+        -90,    // Slot 4: Satellite top center
+        -128,   // Slot 5: Satellite top-left
+        -168,   // Slot 6: Satellite mid-left
+        -208    // Slot 7: Satellite bottom-left (= 152 deg, clears center card)
+      ];
+
+      if (!animate) {
+        this.items.forEach(it => {
+          it.style.transition = 'none';
+        });
+      }
 
       for (let i = 0; i < this.count; i++) {
         const it = this.items[i];
@@ -90,47 +109,44 @@
         const relIdx = (i - this.activeIndex + this.count) % this.count;
         const isCenter = relIdx === 0;
 
-        // Angle around horizontal ellipse:
-        // relIdx = 0: PI / 2 (90 deg, bottom center down-line)
-        // relIdx = 1: next upcoming card (bottom right)
-        // relIdx = 7: previous card (bottom left)
-        const angle = Math.PI / 2 - relIdx * (2 * Math.PI / this.count);
+        const angleDeg = SLOT_ANGLES_DEG[relIdx] !== undefined
+          ? SLOT_ANGLES_DEG[relIdx]
+          : (90 - relIdx * (360 / this.count));
+        const angle = (angleDeg * Math.PI) / 180;
         const px = this.cx + this.rx * Math.cos(angle);
         const py = this.cy + this.ry * Math.sin(angle);
         const depth = Math.sin(angle); // 1 = front bottom, -1 = back top
 
-        let w, h, sx, sy, zIndex, transform;
+        let zIndex, transform;
 
         if (isCenter) {
-          // Large Featured Card at Focus Center
-          w = isMobile ? 330 : (this.isTablet ? 380 : 440);
-          h = isMobile ? 370 : (this.isTablet ? 370 : 400);
-          const elevate = isMobile ? 18 : 32;
-          sx = Math.round(px - w / 2);
-          sy = Math.round(py - h / 2 - elevate);
           zIndex = 100;
-          transform = `translate3d(${sx}px, ${sy}px, 0px) scale(1)`;
-
+          // Center-anchored GPU scaling: card expands symmetrically outward from its center
+          transform = `translate3d(${Math.round(px)}px, ${Math.round(py)}px, 0px) translate(-50%, -50%) scale(1)`;
           it.classList.add('is-active');
         } else {
-          // Small Compact Satellite Card
-          w = isMobile ? 165 : (this.isTablet ? 180 : 205);
-          h = isMobile ? 120 : (this.isTablet ? 130 : 142);
-          sx = Math.round(px - w / 2);
-          sy = Math.round(py - h / 2);
-
           // Subtle organic depth scale for 3D realism
           const depthNorm = (depth + 1) / 2; // 0 (back) to 1 (front sides)
-          const scale = 0.92 + 0.08 * depthNorm;
+          const scale = 0.90 + 0.10 * depthNorm;
           zIndex = 10 + Math.round(depthNorm * 40);
-          transform = `translate3d(${sx}px, ${sy}px, 0px) scale(${scale.toFixed(3)})`;
-
+          // Center-anchored GPU scaling: card glides and contracts symmetrically into its center
+          transform = `translate3d(${Math.round(px)}px, ${Math.round(py)}px, 0px) translate(-50%, -50%) scale(${scale.toFixed(3)})`;
           it.classList.remove('is-active');
         }
 
         // Apply hardware-accelerated transform & positioning
         it.style.transform = transform;
         it.style.zIndex = String(zIndex);
+      }
+
+      if (!animate) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            this.items.forEach(it => {
+              it.style.transition = '';
+            });
+          });
+        });
       }
 
       if (typeof this.options.onActiveChange === 'function') {
@@ -194,9 +210,69 @@
         });
       });
 
+      // Desktop Mouse Drag state
+      let isMouseDown = false;
+      let mouseStartX = 0;
+      let dragDistance = 0;
+      let hasDragged = false;
+
+      this.root.addEventListener('mousedown', e => {
+        if (e.target.closest('a') || e.target.closest('button')) return;
+        isMouseDown = true;
+        hasDragged = false;
+        mouseStartX = e.clientX;
+        dragDistance = 0;
+        this.root.setAttribute('data-dragging', 'true');
+      });
+
+      window.addEventListener('mousemove', e => {
+        if (!isMouseDown) return;
+        dragDistance = e.clientX - mouseStartX;
+        if (Math.abs(dragDistance) > 8) {
+          hasDragged = true;
+        }
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!isMouseDown) return;
+        isMouseDown = false;
+        this.root.removeAttribute('data-dragging');
+        if (hasDragged && Math.abs(dragDistance) > 35) {
+          if (dragDistance < 0) {
+            this.next();
+          } else {
+            this.prev();
+          }
+        }
+        setTimeout(() => {
+          hasDragged = false;
+        }, 50);
+      });
+
+      // Mouse wheel support (carousel-like horizontal stepping)
+      let wheelCooldown = false;
+      this.root.addEventListener(
+        'wheel',
+        e => {
+          const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+          if (Math.abs(delta) < 25 || wheelCooldown) return;
+          wheelCooldown = true;
+          if (delta > 0) {
+            this.next();
+          } else {
+            this.prev();
+          }
+          setTimeout(() => {
+            wheelCooldown = false;
+          }, 600);
+        },
+        { passive: true }
+      );
+
       // 2. Click any inactive satellite card to bring it to center focus
       this.items.forEach((item, idx) => {
         item.addEventListener('click', e => {
+          if (hasDragged) return; // Prevent triggering if dragged
           // If already active or clicked on an action button/link, don't trigger parent click
           if (idx === this.activeIndex) return;
           if (e.target.closest('a') || e.target.closest('button')) return;
