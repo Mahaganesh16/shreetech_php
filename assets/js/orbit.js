@@ -1,18 +1,27 @@
 /**
- * Shree Tech - Smooth Orbit Services Carousel Engine
- * Pure JavaScript with GPU-Accelerated CSS Transitions
+ * Shree Tech - Continuous Curved 3D Orbit Carousel Engine
+ * High-Performance 60FPS RAF with 3D Depth, Real-Time Dragging & Continuous Glide
  */
 (function () {
   'use strict';
+
+  // Symmetrical orbit slot angles in degrees (clockwise)
+  // Slot 0: Center Active Focus (front bottom, 90 deg)
+  // Slots 1-7: Satellites passing cleanly along reduced orbit line
+  const SLOT_ANGLES = [90, 28, -12, -52, -90, -128, -168, -208];
+
+  // Silky quartic ease-out for authentic carousel gliding
+  function easeOutQuart(x) {
+    return 1 - Math.pow(1 - x, 4);
+  }
 
   class OrbitServicesEngine {
     constructor(root, options = {}) {
       this.root = root;
       this.options = Object.assign(
         {
-          baseWidth: 1400,
           autoRotate: true,
-          interval: 2000,
+          interval: 2600,
           onActiveChange: null
         },
         options
@@ -20,11 +29,21 @@
 
       this.items = Array.from(this.root.querySelectorAll('[data-orbit-item]'));
       this.count = this.items.length;
-      this.activeIndex = 0; // Starts with Service 01 active at center
+      this.activeIndex = 0;
+
+      // Continuous rotation float (0.0 = card 0 active, 1.0 = card 1 active, etc.)
+      this.currentRot = 0;
+      this.targetRot = 0;
+      this.isAnimating = false;
+      this.rafId = null;
+
+      // Interaction flags
       this.timer = null;
       this.isPaused = false;
-      this.touchStartX = 0;
-      this.touchStartY = 0;
+      this.isDragging = false;
+      this.dragStartX = 0;
+      this.rotAtDragStart = 0;
+      this.hasMoved = false;
 
       this.init();
     }
@@ -33,7 +52,7 @@
       if (!this.root || !this.count) return;
 
       this.build();
-      this.update(false); // Initial positioning without animation delay
+      this.render(this.currentRot);
       this.bindEvents();
       this.startAutoRotate();
 
@@ -80,100 +99,136 @@
       }
     }
 
-    update(animate = true) {
-      if (!this.items.length) return;
+    /**
+     * Continuous 60fps rendering of all cards at rotation float `rot`
+     * Guarantees every card center is mathematically ON the ellipse arc at every millisecond
+     */
+    render(rot) {
+      const count = this.count;
 
-      // Symmetrical orbit slot angles in degrees (clockwise)
-      // Slot 0: Focus Center (front bottom, 90 deg)
-      // Slots 1-7: Satellites passing cleanly along reduced orbit line
-      const SLOT_ANGLES_DEG = [
-        90,     // Slot 0: Center active (front bottom)
-        28,     // Slot 1: Satellite bottom-right (clears center card)
-        -12,    // Slot 2: Satellite mid-right
-        -52,    // Slot 3: Satellite top-right
-        -90,    // Slot 4: Satellite top center
-        -128,   // Slot 5: Satellite top-left
-        -168,   // Slot 6: Satellite mid-left
-        -208    // Slot 7: Satellite bottom-left (= 152 deg, clears center card)
-      ];
-
-      if (!animate) {
-        this.items.forEach(it => {
-          it.style.transition = 'none';
-        });
-      }
-
-      for (let i = 0; i < this.count; i++) {
+      for (let i = 0; i < count; i++) {
         const it = this.items[i];
-        // Relative slot distance from current active index
-        const relIdx = (i - this.activeIndex + this.count) % this.count;
-        const isCenter = relIdx === 0;
+        // Relative slot position in continuous floating-point space [0, count)
+        const relPos = ((i - rot) % count + count) % count;
+        const baseIdx = Math.floor(relPos);
+        const frac = relPos - baseIdx;
 
-        const angleDeg = SLOT_ANGLES_DEG[relIdx] !== undefined
-          ? SLOT_ANGLES_DEG[relIdx]
-          : (90 - relIdx * (360 / this.count));
-        const angle = (angleDeg * Math.PI) / 180;
-        const px = this.cx + this.rx * Math.cos(angle);
-        const py = this.cy + this.ry * Math.sin(angle);
-        const depth = Math.sin(angle); // 1 = front bottom, -1 = back top
+        // Smooth angle interpolation along the 8 orbit slots
+        const a1 = SLOT_ANGLES[baseIdx % count];
+        const a2 = SLOT_ANGLES[(baseIdx + 1) % count];
+        let diff = a2 - a1;
+        while (diff > 180) diff -= 360;
+        while (diff < -180) diff += 360;
+        const angleDeg = a1 + diff * frac;
+        const angleRad = (angleDeg * Math.PI) / 180;
 
-        let zIndex, transform;
+        // Coordinates strictly on the ellipse curve
+        const px = this.cx + this.rx * Math.cos(angleRad);
+        const py = this.cy + this.ry * Math.sin(angleRad);
+        const depth = Math.sin(angleRad); // -1 (back top) to +1 (front bottom)
+        const depthNorm = (depth + 1) / 2; // 0 (back) to 1 (front)
 
+        // Distance from center active slot (relPos == 0)
+        const distFromCenter = Math.min(relPos, count - relPos);
+        const isCenter = distFromCenter < 0.5;
+
+        // Subtle 3D Y-axis tilt: cards face gently inward toward the center
+        const tiltY = -Math.cos(angleRad) * 10;
+
+        // Continuous smooth scaling:
+        // When center card: swells smoothly to 1.0 at center
+        // When satellite: scales organically with 3D depth from 0.88 (back) to 0.94 (sides)
+        let scale;
         if (isCenter) {
-          zIndex = 100;
-          // Center-anchored GPU scaling: card expands symmetrically outward from its center
-          transform = `translate3d(${Math.round(px)}px, ${Math.round(py)}px, 0px) translate(-50%, -50%) scale(1)`;
-          it.classList.add('is-active');
+          scale = 1.0 - distFromCenter * 0.12;
         } else {
-          // Subtle organic depth scale for 3D realism
-          const depthNorm = (depth + 1) / 2; // 0 (back) to 1 (front sides)
-          const scale = 0.90 + 0.10 * depthNorm;
-          zIndex = 10 + Math.round(depthNorm * 40);
-          // Center-anchored GPU scaling: card glides and contracts symmetrically into its center
-          transform = `translate3d(${Math.round(px)}px, ${Math.round(py)}px, 0px) translate(-50%, -50%) scale(${scale.toFixed(3)})`;
-          it.classList.remove('is-active');
+          scale = 0.88 + 0.08 * depthNorm;
         }
 
-        // Apply hardware-accelerated transform & positioning
-        it.style.transform = transform;
+        const opacity = isCenter ? 1 : (0.75 + 0.25 * depthNorm);
+        const zIndex = isCenter ? 100 : (10 + Math.round(depthNorm * 40));
+
+        // Center-anchored GPU transform with 3D perspective
+        it.style.transform = `translate3d(${Math.round(px)}px, ${Math.round(py)}px, 0px) translate(-50%, -50%) rotateY(${tiltY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
         it.style.zIndex = String(zIndex);
-      }
+        it.style.opacity = opacity.toFixed(2);
 
-      if (!animate) {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            this.items.forEach(it => {
-              it.style.transition = '';
-            });
-          });
-        });
-      }
-
-      if (typeof this.options.onActiveChange === 'function') {
-        this.options.onActiveChange(this.activeIndex);
+        // Toggle active class smoothly
+        if (isCenter && !it.classList.contains('is-active')) {
+          it.classList.add('is-active');
+        } else if (!isCenter && it.classList.contains('is-active')) {
+          it.classList.remove('is-active');
+        }
       }
     }
 
+    /**
+     * Smoothly animates carousel rotation from currentRot to targetRot over duration (ms)
+     */
+    animateTo(targetRot, duration = 600) {
+      if (this.rafId) {
+        cancelAnimationFrame(this.rafId);
+        this.rafId = null;
+      }
+
+      this.isAnimating = true;
+      const startRot = this.currentRot;
+      const startTime = performance.now();
+
+      const tick = now => {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        const ease = easeOutQuart(progress);
+
+        this.currentRot = startRot + (targetRot - startRot) * ease;
+        this.render(this.currentRot);
+
+        if (progress < 1) {
+          this.rafId = requestAnimationFrame(tick);
+        } else {
+          this.currentRot = targetRot;
+          this.activeIndex = ((Math.round(targetRot) % this.count) + this.count) % this.count;
+          this.render(this.currentRot);
+          this.isAnimating = false;
+          this.rafId = null;
+
+          if (typeof this.options.onActiveChange === 'function') {
+            this.options.onActiveChange(this.activeIndex);
+          }
+        }
+      };
+
+      this.rafId = requestAnimationFrame(tick);
+    }
+
     setActive(index) {
-      if (this.activeIndex === index) return;
-      this.activeIndex = (index + this.count) % this.count;
-      this.update(true);
+      const currentNorm = ((this.currentRot % this.count) + this.count) % this.count;
+      let diff = index - currentNorm;
+      if (diff > this.count / 2) diff -= this.count;
+      if (diff < -this.count / 2) diff += this.count;
+
+      this.targetRot = this.currentRot + diff;
+      this.animateTo(this.targetRot, 620);
       this.resetAutoRotate();
     }
 
     next() {
-      this.setActive((this.activeIndex + 1) % this.count);
+      this.targetRot = Math.round(this.currentRot) + 1;
+      this.animateTo(this.targetRot, 600);
+      this.resetAutoRotate();
     }
 
     prev() {
-      this.setActive((this.activeIndex - 1 + this.count) % this.count);
+      this.targetRot = Math.round(this.currentRot) - 1;
+      this.animateTo(this.targetRot, 600);
+      this.resetAutoRotate();
     }
 
     startAutoRotate() {
       if (!this.options.autoRotate) return;
       this.stopAutoRotate();
       this.timer = setInterval(() => {
-        if (!this.isPaused) {
+        if (!this.isPaused && !this.isDragging) {
           this.next();
         }
       }, this.options.interval);
@@ -210,46 +265,89 @@
         });
       });
 
-      // Desktop Mouse Drag state
-      let isMouseDown = false;
-      let mouseStartX = 0;
-      let dragDistance = 0;
-      let hasDragged = false;
+      // 2. Interactive Dragging: Desktop Mouse & Mobile Touch
+      const onDragStart = (clientX, isTouch = false) => {
+        this.isDragging = true;
+        this.hasMoved = false;
+        this.dragStartX = clientX;
+        this.rotAtDragStart = this.currentRot;
+        this.root.setAttribute('data-dragging', 'true');
+        if (this.rafId) {
+          cancelAnimationFrame(this.rafId);
+          this.rafId = null;
+        }
+      };
 
+      const onDragMove = clientX => {
+        if (!this.isDragging) return;
+        const diffX = clientX - this.dragStartX;
+        if (Math.abs(diffX) > 6) {
+          this.hasMoved = true;
+        }
+        // Pixel-to-rotation mapping: 260px drag = 1 slot rotation
+        const sensitivity = this.isMobile ? 180 : 260;
+        const deltaRot = -diffX / sensitivity;
+        this.currentRot = this.rotAtDragStart + deltaRot;
+        this.render(this.currentRot);
+      };
+
+      const onDragEnd = () => {
+        if (!this.isDragging) return;
+        this.isDragging = false;
+        this.root.removeAttribute('data-dragging');
+
+        // Snap smoothly to nearest integer slot with momentum
+        const nearestSlot = Math.round(this.currentRot);
+        this.targetRot = nearestSlot;
+        this.animateTo(nearestSlot, 420);
+        this.resetAutoRotate();
+
+        setTimeout(() => {
+          this.hasMoved = false;
+        }, 50);
+      };
+
+      // Mouse drag handlers
       this.root.addEventListener('mousedown', e => {
         if (e.target.closest('a') || e.target.closest('button')) return;
-        isMouseDown = true;
-        hasDragged = false;
-        mouseStartX = e.clientX;
-        dragDistance = 0;
-        this.root.setAttribute('data-dragging', 'true');
+        onDragStart(e.clientX, false);
       });
 
       window.addEventListener('mousemove', e => {
-        if (!isMouseDown) return;
-        dragDistance = e.clientX - mouseStartX;
-        if (Math.abs(dragDistance) > 8) {
-          hasDragged = true;
-        }
+        onDragMove(e.clientX);
       });
 
       window.addEventListener('mouseup', () => {
-        if (!isMouseDown) return;
-        isMouseDown = false;
-        this.root.removeAttribute('data-dragging');
-        if (hasDragged && Math.abs(dragDistance) > 35) {
-          if (dragDistance < 0) {
-            this.next();
-          } else {
-            this.prev();
-          }
-        }
-        setTimeout(() => {
-          hasDragged = false;
-        }, 50);
+        onDragEnd();
       });
 
-      // Mouse wheel support (carousel-like horizontal stepping)
+      // Touch handlers
+      this.root.addEventListener(
+        'touchstart',
+        e => {
+          if (e.touches && e.touches[0]) {
+            if (e.target.closest('a') || e.target.closest('button')) return;
+            onDragStart(e.touches[0].clientX, true);
+          }
+        },
+        { passive: true }
+      );
+
+      this.root.addEventListener(
+        'touchmove',
+        e => {
+          if (e.touches && e.touches[0]) {
+            onDragMove(e.touches[0].clientX);
+          }
+        },
+        { passive: true }
+      );
+
+      this.root.addEventListener('touchend', () => {
+        onDragEnd();
+      });
+
+      // 3. Mouse Wheel Support (Carousel Stepping)
       let wheelCooldown = false;
       this.root.addEventListener(
         'wheel',
@@ -264,16 +362,15 @@
           }
           setTimeout(() => {
             wheelCooldown = false;
-          }, 600);
+          }, 550);
         },
         { passive: true }
       );
 
-      // 2. Click any inactive satellite card to bring it to center focus
+      // 4. Click any inactive satellite card to bring it to center focus
       this.items.forEach((item, idx) => {
         item.addEventListener('click', e => {
-          if (hasDragged) return; // Prevent triggering if dragged
-          // If already active or clicked on an action button/link, don't trigger parent click
+          if (this.hasMoved) return; // Prevent triggering click if user dragged
           if (idx === this.activeIndex) return;
           if (e.target.closest('a') || e.target.closest('button')) return;
           e.preventDefault();
@@ -281,7 +378,7 @@
         });
       });
 
-      // 3. Pause auto-rotate on hover
+      // 5. Pause auto-rotate on hover
       this.root.addEventListener('mouseenter', () => {
         this.isPaused = true;
       });
@@ -290,47 +387,13 @@
         this.isPaused = false;
       });
 
-      // 4. Touch swipe gesture support for mobile & tablet
-      this.root.addEventListener(
-        'touchstart',
-        e => {
-          if (e.touches && e.touches[0]) {
-            this.touchStartX = e.touches[0].clientX;
-            this.touchStartY = e.touches[0].clientY;
-          }
-        },
-        { passive: true }
-      );
-
-      this.root.addEventListener(
-        'touchend',
-        e => {
-          if (!this.touchStartX) return;
-          const endX = e.changedTouches[0].clientX;
-          const endY = e.changedTouches[0].clientY;
-          const diffX = endX - this.touchStartX;
-          const diffY = endY - this.touchStartY;
-
-          // Only trigger if horizontal swipe is prominent
-          if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
-            if (diffX < 0) {
-              this.next(); // Swipe left -> advance to next card
-            } else {
-              this.prev(); // Swipe right -> back to previous card
-            }
-          }
-          this.touchStartX = 0;
-        },
-        { passive: true }
-      );
-
-      // 5. Responsive window resize handling
+      // 6. Responsive window resize handling
       let resizeTimer = null;
       window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
           this.build();
-          this.update(false);
+          this.render(this.currentRot);
         }, 150);
       });
     }
@@ -342,9 +405,8 @@
     if (!container) return;
 
     const engine = new OrbitServicesEngine(container, {
-      baseWidth: 1400,
       autoRotate: true,
-      interval: 2000
+      interval: 2600
     });
 
     window.__shreeTechOrbit = engine;

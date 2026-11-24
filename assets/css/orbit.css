@@ -13,6 +13,7 @@
   -webkit-user-select: none;
   touch-action: pan-y;
   overflow: visible;
+  perspective: 1200px;
   contain: layout paint;
 }
 
@@ -36,14 +37,14 @@
 }
 
 .orbit-path-line {
-  stroke: rgba(244, 114, 182, 0.48);
+  stroke: rgba(244, 114, 182, 0.5);
   stroke-width: 1.75;
   fill: none;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 6px rgba(255, 107, 130, 0.22));
+  filter: drop-shadow(0 0 6px rgba(255, 107, 130, 0.25));
 }
 
-/* Base Service Card on Orbit (Uses Center-Anchored Smooth CSS Transitions for Size & Position Exchange) */
+/* Base Service Card on Orbit (Driven by RAF for smooth continuous curve motion) */
 .orbit-item {
   position: absolute;
   top: 0;
@@ -51,14 +52,13 @@
   width: 195px;
   height: 135px;
   transform-origin: center center;
-  will-change: transform, width, height, z-index;
+  will-change: transform, width, height;
   pointer-events: auto;
   cursor: pointer;
+  transform-style: preserve-3d;
   transition:
-    transform 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    width 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    height 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    z-index 0.58s ease;
+    width 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.52s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Active Featured Center Card (Large, Focused, Smoothly Scaled) */
@@ -66,7 +66,6 @@
   width: 410px;
   height: 380px;
   cursor: default;
-  z-index: 100 !important;
 }
 
 .orbit-item-inner {
@@ -97,9 +96,9 @@
   box-sizing: border-box;
   transition:
     border-color 0.3s ease,
-    box-shadow 0.58s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.52s cubic-bezier(0.22, 1, 0.36, 1),
     background 0.35s ease,
-    border-radius 0.58s cubic-bezier(0.22, 1, 0.36, 1);
+    border-radius 0.52s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .orbit-item:not(.is-active):hover .orbit-service-card {
@@ -128,8 +127,8 @@
   pointer-events: auto;
   box-sizing: border-box;
   transition:
-    opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   transform: scale(1);
 }
 
@@ -148,13 +147,13 @@
   box-sizing: border-box;
   transition:
     opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  transform: scale(0.92);
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scale(0.94);
 }
 
 .card-ambient-glows {
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease;
 }
 
 /* Active State View Transitions: Seamless Staggered Cross-Fade */
@@ -168,7 +167,7 @@
   opacity: 1;
   pointer-events: auto;
   transform: scale(1);
-  transition-delay: 0.1s;
+  transition-delay: 0.08s;
 }
 
 .orbit-item.is-active .card-ambient-glows {
