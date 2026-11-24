@@ -1027,6 +1027,7 @@ require_once __DIR__ . '/includes/header.php';
               'health-cloud' => 'activity',
               'fleet-mobile' => 'truck',
               'luxury-commerce' => 'shopping-bag',
+              'skytop-travels' => 'compass',
               'cloud-security' => 'shield-check',
               'ai-intelligence' => 'cpu',
               'web' => 'globe',

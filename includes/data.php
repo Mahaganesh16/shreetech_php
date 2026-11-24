@@ -203,17 +203,17 @@ $projectsData = [
         'metrics' => ['label' => 'Verified Donors', 'value' => '25,000+']
     ],
     [
-        'id' => 'luxury-commerce',
-        'title' => 'Eekai Charitable Trust Portal',
+        'id' => 'skytop-travels',
+        'title' => 'Madurai Sky Top Tours and Travels',
         'category' => 'web',
-        'categoryLabel' => 'Non-Profit & Crowdfunding',
-        'client' => 'Eekai Foundation',
+        'categoryLabel' => 'Tours & Travel Portal',
+        'client' => 'Madurai Sky Top Tours & Travels',
         'year' => '2025',
-        'summary' => 'Comprehensive non-profit crowdfunding and donor engagement platform featuring secure multi-tier donation processing, cause campaign tracking, and community outreach management.',
-        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'Razorpay API'],
-        'imageUrl' => 'assets/images/eekai-trust.png',
+        'summary' => 'Comprehensive online travel booking, holiday tour package management, and tourist transportation portal featuring customized South Indian temple itineraries, vehicle fleet reservations, and round-the-clock trip coordination.',
+        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'JavaScript'],
+        'imageUrl' => 'assets/images/sky-top.png',
         'layoutSpan' => 'standard',
-        'metrics' => ['label' => 'Lives Impacted', 'value' => '50,000+']
+        'metrics' => ['label' => 'Happy Travelers', 'value' => '15,000+']
     ],
     [
         'id' => 'cloud-security',
