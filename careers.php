@@ -112,72 +112,7 @@ $openPositions = [
 </section>
 
 <!-- =========================================================================
-     2. WORK AT SHREETECH SECTION
-     ========================================================================= -->
-<section class="relative py-11 sm:py-16 md:py-[90px] bg-[#FFF0F5]/25 border-y border-[#F1E6EE] backdrop-blur-xs">
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    
-    <div class="max-w-3xl mb-8 sm:mb-12">
-      <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-[#8B5CF6] mb-3">
-        <i data-lucide="users-2" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-        <span>Work Culture</span>
-      </div>
-      <h2 class="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight font-heading mb-4">
-        Work at <span class="text-[#C01858]">SHREETECH</span>
-      </h2>
-      <p class="text-base text-[#334155] font-medium leading-relaxed font-body">
-        At <strong class="font-bold text-[#0F172A]">SHREETECH Business Solution Private Limited</strong> - Best IT Company in Madurai. We value talents and believe that working in a friendly environment is the best way to advance one&apos;s career. Check out the position and submit your CV.
-      </p>
-    </div>
-
-    <!-- 4 Culture & Value Highlights -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="glass-card p-6 rounded-2xl border border-[#F1E6EE] shadow-xs hover:border-[#C01858] transition-all group">
-        <div class="w-12 h-12 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] text-[#FF6B00] flex items-center justify-center mb-4 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-xs">
-          <i data-lucide="rocket" class="w-6 h-6"></i>
-        </div>
-        <h4 class="text-base font-bold text-[#0F172A] mb-2 font-heading">High-Impact Projects</h4>
-        <p class="text-sm text-[#475569] font-medium leading-relaxed font-body">
-          Build modern web apps, mobile solutions, and enterprise software used by thousands worldwide.
-        </p>
-      </div>
-
-      <div class="glass-card p-6 rounded-2xl border border-[#F1E6EE] shadow-xs hover:border-[#C01858] transition-all group">
-        <div class="w-12 h-12 rounded-xl bg-[#FFF0F5] border border-[#F1E6EE] text-[#C01858] flex items-center justify-center mb-4 group-hover:bg-[#C01858] group-hover:text-white transition-all shadow-xs">
-          <i data-lucide="heart-handshake" class="w-6 h-6"></i>
-        </div>
-        <h4 class="text-base font-bold text-[#0F172A] mb-2 font-heading">Friendly Environment</h4>
-        <p class="text-sm text-[#475569] font-medium leading-relaxed font-body">
-          Supportive team spirit, flat hierarchies, open communication, and true psychological safety.
-        </p>
-      </div>
-
-      <div class="glass-card p-6 rounded-2xl border border-[#F1E6EE] shadow-xs hover:border-[#C01858] transition-all group">
-        <div class="w-12 h-12 rounded-xl bg-[#F5F0FF] border border-[#F1E6EE] text-[#8B5CF6] flex items-center justify-center mb-4 group-hover:bg-[#8B5CF6] group-hover:text-white transition-all shadow-xs">
-          <i data-lucide="award" class="w-6 h-6"></i>
-        </div>
-        <h4 class="text-base font-bold text-[#0F172A] mb-2 font-heading">Career Growth & Mentorship</h4>
-        <p class="text-sm text-[#475569] font-medium leading-relaxed font-body">
-          Direct mentorship from veteran architects, continuous upskilling, and rapid career progression.
-        </p>
-      </div>
-
-      <div class="glass-card p-6 rounded-2xl border border-[#F1E6EE] shadow-xs hover:border-[#C01858] transition-all group">
-        <div class="w-12 h-12 rounded-xl bg-[#FFF4EA] border border-[#F1E6EE] text-[#FF6B00] flex items-center justify-center mb-4 group-hover:bg-[#FF6B00] group-hover:text-white transition-all shadow-xs">
-          <i data-lucide="shield-check" class="w-6 h-6"></i>
-        </div>
-        <h4 class="text-base font-bold text-[#0F172A] mb-2 font-heading">Competitive Rewards</h4>
-        <p class="text-sm text-[#475569] font-medium leading-relaxed font-body">
-          Transparent compensation, performance rewards, work-life balance, and wellness benefits.
-        </p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- =========================================================================
-     3. OPENING POSITIONS SECTION
+     2. OPENING POSITIONS SECTION
      ========================================================================= -->
 <section id="openings" class="relative py-11 sm:py-16 md:py-[90px] bg-transparent scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
