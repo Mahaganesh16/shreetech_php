@@ -12,7 +12,7 @@
         {
           baseWidth: 1400,
           autoRotate: true,
-          interval: 5500,
+          interval: 2000,
           onActiveChange: null
         },
         options
@@ -268,7 +268,7 @@
     const engine = new OrbitServicesEngine(container, {
       baseWidth: 1400,
       autoRotate: true,
-      interval: 5000
+      interval: 2000
     });
 
     window.__shreeTechOrbit = engine;

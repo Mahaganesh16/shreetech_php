@@ -55,10 +55,10 @@
   pointer-events: auto;
   cursor: pointer;
   transition:
-    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-    width 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-    height 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-    z-index 0.65s ease;
+    transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    z-index 0.38s ease;
 }
 
 /* Active Featured Center Card (Large, Focused, Elevated) */
@@ -96,10 +96,10 @@
   overflow: hidden;
   box-sizing: border-box;
   transition:
-    border-color 0.4s ease,
-    box-shadow 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-    background 0.5s ease,
-    border-radius 0.65s ease;
+    border-color 0.3s ease,
+    box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.35s ease,
+    border-radius 0.38s ease;
 }
 
 .orbit-item:not(.is-active):hover .orbit-service-card {
@@ -127,8 +127,8 @@
   opacity: 1;
   pointer-events: auto;
   transition:
-    opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   transform: scale(1);
 }
 
@@ -145,8 +145,8 @@
   opacity: 0;
   pointer-events: none;
   transition:
-    opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   transform: scale(0.92);
 }
 
