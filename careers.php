@@ -517,6 +517,7 @@ document.addEventListener('DOMContentLoaded', function () {
     jobModal.querySelector('.relative').classList.remove('scale-95');
     jobModal.querySelector('.relative').classList.add('scale-100');
     jobModal.setAttribute('aria-hidden', 'false');
+    if (window.__lenis) window.__lenis.stop();
   }
 
   function closeJobModal() {
@@ -525,6 +526,7 @@ document.addEventListener('DOMContentLoaded', function () {
     jobModal.querySelector('.relative').classList.add('scale-95');
     jobModal.querySelector('.relative').classList.remove('scale-100');
     jobModal.setAttribute('aria-hidden', 'true');
+    if (window.__lenis) window.__lenis.start();
   }
 
   document.querySelectorAll('.open-job-modal-btn').forEach(function (btn) {
@@ -556,7 +558,11 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       const formSection = document.getElementById('submit-resume');
       if (formSection) {
-        formSection.scrollIntoView({ behavior: 'smooth' });
+        if (window.__lenis) {
+          window.__lenis.scrollTo(formSection, { offset: -90, duration: 1.2 });
+        } else {
+          formSection.scrollIntoView({ behavior: 'smooth' });
+        }
         setTimeout(function () {
           const nameInput = document.getElementById('career-name');
           if (nameInput) nameInput.focus();
@@ -600,6 +606,7 @@ document.addEventListener('DOMContentLoaded', function () {
           successModal.querySelector('.relative').classList.remove('scale-95');
           successModal.querySelector('.relative').classList.add('scale-100');
           successModal.setAttribute('aria-hidden', 'false');
+          if (window.__lenis) window.__lenis.stop();
           if (typeof lucide !== 'undefined') lucide.createIcons();
         }
       }, 700);
@@ -613,6 +620,7 @@ document.addEventListener('DOMContentLoaded', function () {
         successModal.querySelector('.relative').classList.add('scale-95');
         successModal.querySelector('.relative').classList.remove('scale-100');
         successModal.setAttribute('aria-hidden', 'true');
+        if (window.__lenis) window.__lenis.start();
       }
     });
   }

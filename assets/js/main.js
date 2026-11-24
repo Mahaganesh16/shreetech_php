@@ -4,7 +4,30 @@
  */
 
 function initShreeTech() {
-  // 0. Initialize Lucide Icons
+  // 0. Initialize Lenis Smooth Scroll Engine (High Performance 60/120 FPS Fluid Momentum Scroll)
+  let lenis = null;
+  if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.8,
+      infinite: false,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    window.__lenis = lenis;
+  }
+
+  // 0.1 Initialize Lucide Icons
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
   }
@@ -606,6 +629,7 @@ function initShreeTech() {
         modal.classList.add('modal-animate-backdrop');
         if (modalContent) modalContent.classList.add('modal-animate-content');
         document.body.style.overflow = 'hidden';
+        if (lenis) lenis.stop();
       });
     });
 
@@ -614,6 +638,7 @@ function initShreeTech() {
       modal.classList.remove('modal-animate-backdrop');
       if (modalContent) modalContent.classList.remove('modal-animate-content');
       document.body.style.overflow = '';
+      if (lenis) lenis.start();
     };
 
     if (modalClose) modalClose.addEventListener('click', closeModal);
@@ -788,10 +813,14 @@ function initShreeTech() {
         // Scroll to target with offset for sticky navbar
         const navOffset = 80;
         const targetTop = target.getBoundingClientRect().top + window.pageYOffset - navOffset;
-        window.scrollTo({
-          top: Math.max(0, targetTop),
-          behavior: 'smooth',
-        });
+        if (lenis) {
+          lenis.scrollTo(target, { offset: -navOffset, duration: 1.2 });
+        } else {
+          window.scrollTo({
+            top: Math.max(0, targetTop),
+            behavior: 'smooth',
+          });
+        }
 
         if (history.pushState) {
           history.pushState(null, '', hash);
@@ -813,16 +842,31 @@ function initShreeTech() {
       if (initialTarget) {
         const navOffset = 80;
         const targetTop = initialTarget.getBoundingClientRect().top + window.pageYOffset - navOffset;
-        window.scrollTo({
-          top: Math.max(0, targetTop),
-          behavior: 'smooth',
-        });
+        if (lenis) {
+          lenis.scrollTo(initialTarget, { offset: -navOffset, duration: 1.2 });
+        } else {
+          window.scrollTo({
+            top: Math.max(0, targetTop),
+            behavior: 'smooth',
+          });
+        }
         const found = navTrackSections.find((item) => '#' + item.id === window.location.hash);
         if (found) {
           updateActiveNav(found.navIndex, found.id);
         }
       }
     }, 300);
+  }
+
+  // Sync scroll-driven components directly with Lenis smooth scroll
+  if (lenis) {
+    lenis.on('scroll', () => {
+      updateHeaderScroll();
+      if (pinTrack) {
+        updateStackingCards();
+      }
+      onScrollSpy();
+    });
   }
 }
 

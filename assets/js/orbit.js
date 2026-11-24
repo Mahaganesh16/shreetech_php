@@ -347,27 +347,7 @@
         onDragEnd();
       });
 
-      // 3. Mouse Wheel Support (Carousel Stepping)
-      let wheelCooldown = false;
-      this.root.addEventListener(
-        'wheel',
-        e => {
-          const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-          if (Math.abs(delta) < 25 || wheelCooldown) return;
-          wheelCooldown = true;
-          if (delta > 0) {
-            this.next();
-          } else {
-            this.prev();
-          }
-          setTimeout(() => {
-            wheelCooldown = false;
-          }, 550);
-        },
-        { passive: true }
-      );
-
-      // 4. Click any inactive satellite card to bring it to center focus
+      // 3. Click any inactive satellite card to bring it to center focus
       this.items.forEach((item, idx) => {
         item.addEventListener('click', e => {
           if (this.hasMoved) return; // Prevent triggering click if user dragged

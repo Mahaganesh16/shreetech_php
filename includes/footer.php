@@ -131,7 +131,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
         <a href="#" class="hover:text-[#C01858] transition-colors">Terms of Service</a>
         <a href="#" class="hover:text-[#C01858] transition-colors">Security</a>
         <button
-          onclick="window.scrollTo({top: 0, behavior: 'smooth'});"
+          onclick="if (window.__lenis) { window.__lenis.scrollTo(0, { duration: 1.2 }); } else { window.scrollTo({top: 0, behavior: 'smooth'}); }"
           class="glass-btn-secondary px-3.5 py-1.5 rounded-xl inline-flex items-center gap-1.5 text-[#0F172A] hover:text-[#C01858] hover:border-[#C01858] transition-colors cursor-pointer shadow-xs"
         >
           <span>Back to top</span>
@@ -141,6 +141,9 @@ if (!isset($navLinks) || !isset($servicesData)) {
     </div>
   </div>
 </footer>
+
+<!-- Lenis Smooth Scroll Engine (Momentum-based 60/120 FPS Fluid Scroll) -->
+<script src="assets/js/lenis.min.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/lenis.min.js'); ?>"></script>
 
 <!-- Core Script -->
 <script src="assets/js/main.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/main.js'); ?>"></script>

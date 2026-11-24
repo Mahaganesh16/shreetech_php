@@ -739,8 +739,12 @@ void main() {
             e.preventDefault();
             targetEl.classList.add('is-revealed');
             const navOffset = 90;
-            const elPos = targetEl.getBoundingClientRect().top + window.pageYOffset - navOffset;
-            window.scrollTo({ top: elPos, behavior: 'smooth' });
+            if (window.__lenis) {
+              window.__lenis.scrollTo(targetEl, { offset: -navOffset, duration: 1.2 });
+            } else {
+              const elPos = targetEl.getBoundingClientRect().top + window.pageYOffset - navOffset;
+              window.scrollTo({ top: elPos, behavior: 'smooth' });
+            }
             if (history.pushState) {
               history.pushState(null, '', href);
             }
@@ -750,7 +754,11 @@ void main() {
           const targetFile = href.split('/').pop();
           if (currentFile === targetFile || (currentFile === '' && targetFile === 'index.php')) {
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (window.__lenis) {
+              window.__lenis.scrollTo(0, { duration: 1.2 });
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
             return;
           }
 
