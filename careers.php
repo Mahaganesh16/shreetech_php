@@ -197,72 +197,7 @@ $openPositions = [
 </section>
 
 <!-- =========================================================================
-     4. HIRING STEPS SECTION
-     ========================================================================= -->
-<section class="relative py-11 sm:py-16 md:py-[90px] bg-[#FFF4EA]/20 border-y border-[#F1E6EE] backdrop-blur-xs">
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    
-    <div class="max-w-2xl mx-auto mb-8 sm:mb-12">
-      <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-[#8B5CF6] mb-3">
-        <i data-lucide="git-merge" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-        <span>Streamlined Hiring</span>
-      </div>
-      <h2 class="text-2xl sm:text-3xl font-black text-[#0F172A] font-heading">
-        What Are Our Hiring Steps?
-      </h2>
-      <p class="mt-2 text-sm text-[#475569] font-medium font-body">
-        Our process is transparent, respectful of your time, and designed to let your talents shine.
-      </p>
-    </div>
-
-    <!-- 4 Hiring Steps -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="p-6 rounded-2xl bg-white border border-[#F1E6EE] shadow-xs relative">
-        <div class="w-9 h-9 rounded-full bg-[#FFF4EA] text-[#FF6B00] font-black font-stat flex items-center justify-center mx-auto mb-3 shadow-2xs">
-          01
-        </div>
-        <h4 class="text-base font-bold text-[#0F172A] mb-1 font-heading">Resume Drop</h4>
-        <p class="text-xs text-[#475569] font-medium leading-relaxed font-body">
-          Submit your profile and cover letter through our portal below.
-        </p>
-      </div>
-
-      <div class="p-6 rounded-2xl bg-white border border-[#F1E6EE] shadow-xs relative">
-        <div class="w-9 h-9 rounded-full bg-[#FFF0F5] text-[#C01858] font-black font-stat flex items-center justify-center mx-auto mb-3 shadow-2xs">
-          02
-        </div>
-        <h4 class="text-base font-bold text-[#0F172A] mb-1 font-heading">Initial Screening</h4>
-        <p class="text-xs text-[#475569] font-medium leading-relaxed font-body">
-          A friendly conversation with HR about your goals and background.
-        </p>
-      </div>
-
-      <div class="p-6 rounded-2xl bg-white border border-[#F1E6EE] shadow-xs relative">
-        <div class="w-9 h-9 rounded-full bg-[#F5F0FF] text-[#8B5CF6] font-black font-stat flex items-center justify-center mx-auto mb-3 shadow-2xs">
-          03
-        </div>
-        <h4 class="text-base font-bold text-[#0F172A] mb-1 font-heading">Technical Discussion</h4>
-        <p class="text-xs text-[#475569] font-medium leading-relaxed font-body">
-          Practical assessment and discussion with our lead engineers.
-        </p>
-      </div>
-
-      <div class="p-6 rounded-2xl bg-white border border-[#F1E6EE] shadow-xs relative">
-        <div class="w-9 h-9 rounded-full bg-[#ECFDF5] text-[#059669] font-black font-stat flex items-center justify-center mx-auto mb-3 shadow-2xs">
-          04
-        </div>
-        <h4 class="text-base font-bold text-[#0F172A] mb-1 font-heading">Offer & Onboarding</h4>
-        <p class="text-xs text-[#475569] font-medium leading-relaxed font-body">
-          Welcome to Shree Tech! Fast-track onboarding and team welcome.
-        </p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- =========================================================================
-     5. SUBMIT YOUR RESUME SECTION (Exact UI from user image 3)
+     3. SUBMIT YOUR RESUME SECTION (Exact UI from user image 3)
      ========================================================================= -->
 <section id="submit-resume" class="relative py-11 sm:py-16 md:py-[90px] bg-transparent scroll-mt-24">
   <!-- Subtle Ambient Glow -->
@@ -408,7 +343,7 @@ $openPositions = [
 </section>
 
 <!-- =========================================================================
-     6. INTERACTIVE JOB DETAILS MODAL
+     4. INTERACTIVE JOB DETAILS MODAL
      ========================================================================= -->
 <div
   id="job-details-modal"
@@ -497,7 +432,7 @@ $openPositions = [
 </div>
 
 <!-- =========================================================================
-     7. APPLICATION SUCCESS MODAL
+     5. APPLICATION SUCCESS MODAL
      ========================================================================= -->
 <div
   id="resume-success-modal"
