@@ -1029,6 +1029,7 @@ require_once __DIR__ . '/includes/header.php';
               'luxury-commerce' => 'shopping-bag',
               'skytop-travels' => 'compass',
               'cloud-security' => 'shield-check',
+              'tpom-marketplace' => 'shopping-cart',
               'ai-intelligence' => 'cpu',
               'web' => 'globe',
               'enterprise' => 'cpu',

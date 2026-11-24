@@ -216,17 +216,17 @@ $projectsData = [
         'metrics' => ['label' => 'Happy Travelers', 'value' => '15,000+']
     ],
     [
-        'id' => 'cloud-security',
-        'title' => 'Indhian Press Club News Portal',
+        'id' => 'tpom-marketplace',
+        'title' => 'TPOM - The Pre-Owned Market',
         'category' => 'web',
-        'categoryLabel' => 'Digital Journalism & Media',
-        'client' => 'Indhian Press Club',
+        'categoryLabel' => 'Pre-Owned Marketplace & Classifieds',
+        'client' => 'TPOM Networks',
         'year' => '2025',
-        'summary' => 'High-traffic digital journalism and news publishing platform delivering real-time regional and national reporting, multi-category content curation, and fast media streaming.',
-        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'Redis'],
-        'imageUrl' => 'assets/images/indian-press-club.png',
+        'summary' => 'Comprehensive pre-owned multi-category marketplace connecting verified buyers and sellers across automobiles, real estate, electronics, and home appliances with fast listing indexing and direct dealer inquiries.',
+        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'JavaScript'],
+        'imageUrl' => 'assets/images/tpom.png',
         'layoutSpan' => 'featured',
-        'metrics' => ['label' => 'Monthly Readers', 'value' => '2.5M+']
+        'metrics' => ['label' => 'Verified Listings', 'value' => '30,000+']
     ],
     [
         'id' => 'ai-intelligence',
