@@ -114,7 +114,7 @@ $openPositions = [
 <!-- =========================================================================
      2. WORK AT SHREETECH SECTION
      ========================================================================= -->
-<section class="relative py-14 sm:py-20 md:py-28 bg-[#FFF0F5]/25 border-y border-[#F1E6EE] backdrop-blur-xs">
+<section class="relative py-11 sm:py-16 md:py-[90px] bg-[#FFF0F5]/25 border-y border-[#F1E6EE] backdrop-blur-xs">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <div class="max-w-3xl mb-8 sm:mb-12">
@@ -179,7 +179,7 @@ $openPositions = [
 <!-- =========================================================================
      3. OPENING POSITIONS SECTION
      ========================================================================= -->
-<section id="openings" class="relative py-14 sm:py-20 md:py-28 bg-transparent scroll-mt-24">
+<section id="openings" class="relative py-11 sm:py-16 md:py-[90px] bg-transparent scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <div class="max-w-3xl mb-8 sm:mb-12">
@@ -264,7 +264,7 @@ $openPositions = [
 <!-- =========================================================================
      4. HIRING STEPS SECTION
      ========================================================================= -->
-<section class="relative py-14 sm:py-20 md:py-28 bg-[#FFF4EA]/20 border-y border-[#F1E6EE] backdrop-blur-xs">
+<section class="relative py-11 sm:py-16 md:py-[90px] bg-[#FFF4EA]/20 border-y border-[#F1E6EE] backdrop-blur-xs">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     
     <div class="max-w-2xl mx-auto mb-8 sm:mb-12">
@@ -329,7 +329,7 @@ $openPositions = [
 <!-- =========================================================================
      5. SUBMIT YOUR RESUME SECTION (Exact UI from user image 3)
      ========================================================================= -->
-<section id="submit-resume" class="relative py-14 sm:py-20 md:py-28 bg-transparent scroll-mt-24">
+<section id="submit-resume" class="relative py-11 sm:py-16 md:py-[90px] bg-transparent scroll-mt-24">
   <!-- Subtle Ambient Glow -->
   <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-to-tr from-[#FF6B00]/10 via-[#C01858]/10 to-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none"></div>
 

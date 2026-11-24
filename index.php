@@ -323,7 +323,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      2. ABOUT SHREE TECH SECTION (#about)
      ========================================================================= -->
-<section id="about" class="relative pt-8 pb-14 sm:pt-12 sm:pb-20 md:pb-28 bg-transparent overflow-hidden scroll-mt-24">
+<section id="about" class="relative pt-8 pb-11 sm:pt-12 sm:pb-16 md:pb-[90px] bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
       
@@ -445,7 +445,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      4. WHY CHOOSE US SECTION (#why-us)
      ========================================================================= -->
-<section id="why-us" class="relative py-14 sm:py-20 md:py-28 bg-[#FFF0F5]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="why-us" class="relative py-11 sm:py-16 md:py-[90px] bg-[#FFF0F5]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mb-8 sm:mb-12">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
@@ -545,7 +545,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      5. ENGINEERING SERVICES SECTION (#services)
      ========================================================================= -->
-<section id="services" class="relative py-14 sm:py-20 md:py-28 bg-transparent overflow-hidden scroll-mt-24">
+<section id="services" class="relative py-11 sm:py-16 md:py-[90px] bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
@@ -719,7 +719,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      4. CORE TECHNOLOGY STACK SECTION (#technologies)
      ========================================================================= -->
-<section id="technologies" class="relative py-14 sm:py-20 md:py-28 bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="technologies" class="relative py-11 sm:py-16 md:py-[90px] bg-[#FFF4EA]/15 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
@@ -1124,7 +1124,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      8. CLIENT TESTIMONIALS SECTION (#testimonials)
      ========================================================================= -->
-<section id="testimonials" class="relative py-14 sm:py-20 md:py-28 bg-[#F5F0FF]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="testimonials" class="relative py-11 sm:py-16 md:py-[90px] bg-[#F5F0FF]/25 backdrop-blur-xs overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
@@ -1269,7 +1269,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      9. CONTACT & CONSULTATION SECTION (#contact)
      ========================================================================= -->
-<section id="contact" class="relative py-14 sm:py-20 md:py-28 bg-transparent overflow-hidden scroll-mt-24">
+<section id="contact" class="relative py-11 sm:py-16 md:py-[90px] bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-start">
       
