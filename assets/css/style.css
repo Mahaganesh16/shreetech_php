@@ -31,7 +31,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto !important;
   background-color: #ffffff;
 }
 
@@ -1235,6 +1235,11 @@ h1 {
 html.lenis,
 html.lenis body {
   height: auto;
+  scroll-behavior: auto !important;
+}
+
+html.lenis {
+  scroll-behavior: auto !important;
 }
 
 .lenis.lenis-smooth {
