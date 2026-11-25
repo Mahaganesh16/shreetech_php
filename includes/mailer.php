@@ -160,13 +160,17 @@ if (!function_exists('sendSmtpEmail')) {
         }
 
         if ($encryption !== 'none' && ($username === '' || $password === '')) {
+            $web3Key = trim((string) ($config['web3forms_access_key'] ?? ''));
+            if ($web3Key !== '' && function_exists('curl_init')) {
+                return sendWeb3FormsRelay($config, $mail, $web3Key);
+            }
             if (!empty($config['use_formsubmit_fallback']) && function_exists('curl_init')) {
                 return sendFormSubmitFallback($config, $mail);
             }
             return [
                 'ok' => false,
                 'code' => 'MISSING_CONFIG',
-                'error' => 'Gmail App Password is not configured yet. Please add your 16-character Google App Password in includes/mail-config.local.php (or includes/mail-config.php).'
+                'error' => 'Gmail App Password is not configured yet. Please add your 16-character Google App Password or Web3Forms key in includes/mail-config.local.php.'
             ];
         }
 
@@ -261,36 +265,15 @@ if (!function_exists('sendSmtpEmail')) {
     }
 }
 
-if (!function_exists('sendFormSubmitFallback')) {
-    function sendFormSubmitFallback(array $config, array $mail): array {
-        $toEmail = sanitizeMailHeader((string) ($mail['to_email'] ?? ($config['to_email'] ?? '')));
-        $customEndpoint = trim((string) ($config['formsubmit_endpoint'] ?? ''));
-        $endpoint = $customEndpoint !== '' ? $customEndpoint : ('https://formsubmit.co/ajax/' . rawurlencode($toEmail));
-        $timeout = max(5, (int) ($config['timeout'] ?? 20));
-
-        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-        $reqHost = sanitizeMailHeader((string) ($_SERVER['HTTP_HOST'] ?? 'localhost'));
-        $referer = "{$scheme}://{$reqHost}/";
-
-        $fields = array_merge($mail['fields'] ?? [], [
-            '_subject' => sanitizeMailHeader((string) ($mail['subject'] ?? 'Website Submission')),
-            '_replyto' => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
-            '_template' => 'table',
-        ]);
-
-        $attachments = $mail['attachments'] ?? [];
+if (!function_exists('postHttpsMailRelay')) {
+    function postHttpsMailRelay(string $endpoint, array $fields, array $attachments, array $headers, int $timeout, ?string $referer = null): array {
         $tmpFiles = [];
         $ch = curl_init($endpoint);
         if (!$ch) {
-            return ['ok' => false, 'code' => 'CURL_INIT_FAILED', 'error' => 'Failed to initialize HTTPS mail relay.'];
+            return ['ok' => false, 'httpCode' => 0, 'decoded' => null, 'error' => 'Failed to initialize HTTPS mail relay.'];
         }
 
         try {
-            $headers = [
-                'Accept: application/json',
-                "Origin: {$scheme}://{$reqHost}",
-            ];
-
             if (!empty($attachments)) {
                 $att = $attachments[0];
                 $tmpPath = tempnam(sys_get_temp_dir(), 'st_att_');
@@ -309,17 +292,19 @@ if (!function_exists('sendFormSubmitFallback')) {
             }
 
             $caBundle = ini_get('curl.cainfo') ?: 'C:\\xampp\\apache\\bin\\curl-ca-bundle.crt';
-            curl_setopt_array($ch, [
+            $opts = [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => true,
                 CURLOPT_TIMEOUT => $timeout,
-                CURLOPT_REFERER => $referer,
                 CURLOPT_HTTPHEADER => $headers,
-            ]);
-            if (stripos($endpoint, 'https://') === 0 && is_file($caBundle)) {
-                curl_setopt($ch, CURLOPT_CAINFO, $caBundle);
+            ];
+            if ($referer !== null && $referer !== '') {
+                $opts[CURLOPT_REFERER] = $referer;
             }
-            // Set CURLOPT_POSTFIELDS after CURLOPT_POST so libcurl preserves multipart/form-data attachments
+            if (stripos($endpoint, 'https://') === 0 && is_file($caBundle)) {
+                $opts[CURLOPT_CAINFO] = $caBundle;
+            }
+            curl_setopt_array($ch, $opts);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postBody);
 
             $raw = curl_exec($ch);
@@ -327,35 +312,107 @@ if (!function_exists('sendFormSubmitFallback')) {
             $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
             if ($raw === false) {
-                return ['ok' => false, 'code' => 'RELAY_NETWORK_ERROR', 'error' => 'Could not reach mail relay: ' . $curlErr];
+                return ['ok' => false, 'httpCode' => $httpCode, 'decoded' => null, 'error' => 'Could not reach mail relay: ' . $curlErr];
             }
 
-            $decoded = json_decode((string) $raw, true);
-            $isOk = is_array($decoded) && ($decoded['success'] === true || $decoded['success'] === 'true');
-            if ($isOk) {
-                return ['ok' => true, 'message' => 'Email delivered successfully to ' . $toEmail];
-            }
-
-            $msg = is_array($decoded) ? trim((string) ($decoded['message'] ?? '')) : '';
-            if (stripos($msg, 'activat') !== false) {
-                return [
-                    'ok' => false,
-                    'code' => 'FORMSUBMIT_ACTIVATION_REQUIRED',
-                    'error' => "One-time activation email sent to {$toEmail}! Please open your Gmail inbox (check Spam too), click 'Activate Form', and submit again."
-                ];
-            }
-
-            return [
-                'ok' => false,
-                'code' => 'FORMSUBMIT_ERROR',
-                'error' => $msg !== '' ? $msg : "Mail relay failed (HTTP {$httpCode})."
-            ];
+            return ['ok' => true, 'httpCode' => $httpCode, 'decoded' => json_decode((string) $raw, true), 'error' => ''];
         } finally {
             curl_close($ch);
             foreach ($tmpFiles as $tf) {
                 @unlink($tf);
             }
         }
+    }
+}
+
+if (!function_exists('sendWeb3FormsRelay')) {
+    function sendWeb3FormsRelay(array $config, array $mail, string $accessKey): array {
+        $toEmail = sanitizeMailHeader((string) ($mail['to_email'] ?? ($config['to_email'] ?? '')));
+        $endpoint = trim((string) ($config['web3forms_endpoint'] ?? '')) ?: 'https://api.web3forms.com/submit';
+        $timeout = max(5, (int) ($config['timeout'] ?? 20));
+
+        $fields = array_merge([
+            'access_key' => $accessKey,
+            'subject'    => sanitizeMailHeader((string) ($mail['subject'] ?? 'Website Submission')),
+            'from_name'  => sanitizeMailHeader((string) ($config['from_name'] ?? 'Shree Tech Website')),
+            'replyto'    => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
+        ], $mail['fields'] ?? []);
+
+        $res = postHttpsMailRelay($endpoint, $fields, $mail['attachments'] ?? [], ['Accept: application/json'], $timeout);
+        if (!$res['ok']) {
+            return ['ok' => false, 'code' => 'RELAY_NETWORK_ERROR', 'error' => $res['error']];
+        }
+
+        $decoded = $res['decoded'];
+        $isOk = is_array($decoded) && ($decoded['success'] === true || $decoded['success'] === 'true');
+        if ($isOk) {
+            return ['ok' => true, 'message' => 'Email delivered successfully to ' . $toEmail];
+        }
+
+        $msg = is_array($decoded) ? trim((string) ($decoded['message'] ?? '')) : '';
+        return [
+            'ok' => false,
+            'code' => 'WEB3FORMS_ERROR',
+            'error' => $msg !== '' ? $msg : "Web3Forms relay failed (HTTP {$res['httpCode']})."
+        ];
+    }
+}
+
+if (!function_exists('sendFormSubmitFallback')) {
+    function sendFormSubmitFallback(array $config, array $mail): array {
+        $toEmail = sanitizeMailHeader((string) ($mail['to_email'] ?? ($config['to_email'] ?? '')));
+        $customEndpoint = trim((string) ($config['formsubmit_endpoint'] ?? ''));
+        $endpoint = $customEndpoint !== '' ? $customEndpoint : ('https://formsubmit.co/ajax/' . rawurlencode($toEmail));
+        $timeout = max(5, (int) ($config['timeout'] ?? 20));
+
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $reqHost = sanitizeMailHeader((string) ($_SERVER['HTTP_HOST'] ?? 'localhost'));
+        $referer = "{$scheme}://{$reqHost}/";
+
+        $fields = array_merge($mail['fields'] ?? [], [
+            '_subject' => sanitizeMailHeader((string) ($mail['subject'] ?? 'Website Submission')),
+            '_replyto' => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
+            '_template' => 'table',
+        ]);
+
+        $headers = [
+            'Accept: application/json',
+            "Origin: {$scheme}://{$reqHost}",
+        ];
+
+        $res = postHttpsMailRelay($endpoint, $fields, $mail['attachments'] ?? [], $headers, $timeout, $referer);
+        if (!$res['ok']) {
+            return ['ok' => false, 'code' => 'RELAY_NETWORK_ERROR', 'error' => $res['error']];
+        }
+
+        $decoded = $res['decoded'];
+        $isOk = is_array($decoded) && ($decoded['success'] === true || $decoded['success'] === 'true');
+        if ($isOk) {
+            return ['ok' => true, 'message' => 'Email delivered successfully to ' . $toEmail];
+        }
+
+        $msg = is_array($decoded) ? trim((string) ($decoded['message'] ?? '')) : '';
+        if (stripos($msg, 'activat') !== false) {
+            return [
+                'ok' => false,
+                'code' => 'FORMSUBMIT_ACTIVATION_REQUIRED',
+                'error' => "One-time activation email sent to {$toEmail}! Open your Gmail inbox and click 'Activate Form' (note: if formsubmit.co shows Error 520, configure a Gmail App Password or Web3Forms key in includes/mail-config.local.php instead)."
+            ];
+        }
+
+        if ($res['httpCode'] >= 500) {
+            return [
+                'ok' => false,
+                'code' => 'FORMSUBMIT_SERVER_ERROR',
+                'error' => "FormSubmit external server is temporarily returning Error {$res['httpCode']}. Please add your Gmail App Password or Web3Forms Access Key in includes/mail-config.local.php for 100% reliable delivery."
+            ];
+        }
+
+        return [
+            'ok' => false,
+            'code' => 'FORMSUBMIT_ERROR',
+            'error' => $msg !== '' ? $msg : "Mail relay failed (HTTP {$res['httpCode']})."
+        ];
     }
 }
 
