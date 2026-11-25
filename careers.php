@@ -3,79 +3,45 @@
  * Shree Tech Innovations - Careers Page
  * Dedicated careers portal featuring current job openings, culture, and resume submission.
  */
+require_once __DIR__ . '/includes/form-security.php';
+$csrfToken = ensureFormCsrfToken();
+
+$allowedCareerPositions = [
+    'Associate/Senior Software Engineer',
+    'Service Sales Manager',
+    'Digital Marketing',
+    'General Application',
+];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['form_type'] ?? '') === 'career') {
     require_once __DIR__ . '/includes/mailer.php';
     header('Content-Type: application/json; charset=UTF-8');
 
-    $position = trim($_POST['position'] ?? '');
-    $coverLetter = trim($_POST['cover_letter'] ?? '');
-    $name = trim($_POST['name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $phone = trim($_POST['phone'] ?? '');
-    $errors = [];
-
-    if ($position === '') {
-        $errors['position'] = 'Please select a position.';
-    }
-    if ($name === '' || strlen($name) < 2) {
-        $errors['name'] = 'Name must be at least 2 characters.';
-    }
-    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = 'Please enter a valid email address.';
-    }
-    if ($phone === '' || strlen($phone) < 7) {
-        $errors['phone'] = 'Please enter a valid mobile number.';
-    }
-
-    $attachment = null;
-    if (!isset($_FILES['resume']) || $_FILES['resume']['error'] !== UPLOAD_ERR_OK) {
-        $errors['resume'] = 'Please upload your resume (PDF, DOC, or DOCX).';
-    } else {
-        $file = $_FILES['resume'];
-        $maxBytes = 10 * 1024 * 1024;
-        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-        if (!in_array($ext, ['pdf', 'doc', 'docx'], true)) {
-            $errors['resume'] = 'Resume must be a PDF, DOC, or DOCX file.';
-        } elseif ($file['size'] > $maxBytes) {
-            $errors['resume'] = 'Resume file size must be 10MB or less.';
-        } else {
-            $mimeMap = [
-                'pdf' => 'application/pdf',
-                'doc' => 'application/msword',
-                'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            ];
-            $content = file_get_contents($file['tmp_name']);
-            if ($content === false) {
-                $errors['resume'] = 'Could not read the uploaded resume file.';
-            } else {
-                $attachment = [
-                    'name' => basename($file['name']),
-                    'type' => $mimeMap[$ext] ?? 'application/octet-stream',
-                    'content' => $content,
-                ];
-            }
-        }
-    }
-
-    if (!empty($errors)) {
+    $securityErr = verifyFormCsrfAndHoneypot($_POST);
+    if ($securityErr !== null) {
+        http_response_code(403);
         echo json_encode([
             'ok' => false,
-            'errors' => $errors,
-            'message' => implode(' • ', array_values($errors)),
+            'errors' => [],
+            'message' => $securityErr,
         ]);
         exit;
     }
 
-    $mailResult = sendCareerApplicationEmail([
-        'position' => $position,
-        'cover_letter' => $coverLetter,
-        'name' => $name,
-        'email' => $email,
-        'phone' => $phone,
-    ], $attachment);
+    $validated = validateCareerFields($_POST, $_FILES, $allowedCareerPositions);
+    if (!empty($validated['errors'])) {
+        echo json_encode([
+            'ok' => false,
+            'errors' => $validated['errors'],
+            'message' => 'Please fix the highlighted fields before submitting.',
+        ]);
+        exit;
+    }
 
+    $mailResult = sendCareerApplicationEmail($validated['data'], $validated['attachment']);
     echo json_encode([
         'ok' => !empty($mailResult['ok']),
+        'errors' => [],
         'message' => !empty($mailResult['ok'])
             ? 'Application delivered successfully.'
             : ($mailResult['error'] ?? 'Unable to submit your application right now.'),
@@ -299,13 +265,15 @@ $openPositions = [
       </div>
 
       <!-- Application Form -->
-      <form id="careers-resume-form" method="POST" action="careers.php" class="space-y-5" enctype="multipart/form-data">
+      <form id="careers-resume-form" method="POST" action="careers.php" class="space-y-5" enctype="multipart/form-data" novalidate>
         <input type="hidden" name="form_type" value="career">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
+        <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
         
         <!-- Role Selection -->
         <div>
           <label for="career-position" class="block text-xs font-bold uppercase tracking-wider text-[#334155] mb-1.5 font-body">
-            Position Applying For
+            Position Applying For <span class="text-[#C01858]">*</span>
           </label>
           <select
             id="career-position"
@@ -313,7 +281,7 @@ $openPositions = [
             required
             class="w-full px-4 py-3 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] font-medium focus:outline-none focus:border-[#C01858] focus:ring-2 focus:ring-[#C01858]/20 transition-all font-body"
           >
-            <option value="">-- Select an Opening Position --</option>
+            <option value="">-- SELECT AN OPENING POSITION --</option>
             <?php foreach ($openPositions as $pos): ?>
               <option value="<?php echo htmlspecialchars($pos['title']); ?>">
                 <?php echo htmlspecialchars($pos['title']); ?> (<?php echo $pos['positions']; ?> <?php echo $pos['positions'] > 1 ? 'Openings' : 'Opening'; ?>)
@@ -321,6 +289,7 @@ $openPositions = [
             <?php endforeach; ?>
             <option value="General Application">Other / General Engineering Application</option>
           </select>
+          <p data-field-error="position" class="hidden text-xs text-[#C01858] mt-1.5 font-medium"></p>
         </div>
 
         <!-- Cover Letter Textarea -->
@@ -332,9 +301,11 @@ $openPositions = [
             id="career-cover-letter"
             name="cover_letter"
             rows="5"
-            placeholder="Resume Cover Letter: Introduce yourself, share your primary tech stack, years of experience, and why you are excited to join Shree Tech..."
-            class="w-full px-4 py-3 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] font-medium placeholder-[#94A3B8] focus:outline-none focus:border-[#C01858] focus:ring-2 focus:ring-[#C01858]/20 transition-all font-body resize-y"
+            maxlength="3000"
+            placeholder="INTRODUCE YOURSELF, PRIMARY TECH STACK, YEARS OF EXPERIENCE & WHY YOU WANT TO JOIN SHREE TECH..."
+            class="w-full px-4 py-3 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] font-medium placeholder-[#94A3B8] placeholder:uppercase placeholder:text-xs placeholder:tracking-wide focus:outline-none focus:border-[#C01858] focus:ring-2 focus:ring-[#C01858]/20 transition-all font-body resize-y"
           ></textarea>
+          <p data-field-error="cover_letter" class="hidden text-xs text-[#C01858] mt-1.5 font-medium"></p>
         </div>
 
         <!-- Row 1: Your Name & E-Mail -->
@@ -348,9 +319,15 @@ $openPositions = [
               id="career-name"
               name="name"
               required
-              placeholder="Your Name"
-              class="w-full px-4 py-3 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] font-medium placeholder-[#94A3B8] focus:outline-none focus:border-[#C01858] focus:ring-2 focus:ring-[#C01858]/20 transition-all font-body"
+              minlength="2"
+              maxlength="80"
+              autocapitalize="words"
+              autocomplete="name"
+              pattern="[A-Za-z][A-Za-z\s.'-]{1,79}"
+              placeholder="ENTER YOUR FULL NAME"
+              class="w-full px-4 py-3 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] font-medium placeholder-[#94A3B8] placeholder:uppercase placeholder:text-xs placeholder:tracking-wide focus:outline-none focus:border-[#C01858] focus:ring-2 focus:ring-[#C01858]/20 transition-all font-body"
             >
+            <p data-field-error="name" class="hidden text-xs text-[#C01858] mt-1.5 font-medium"></p>
           </div>
           <div>
             <label for="career-email" class="block text-xs font-bold uppercase tracking-wider text-[#334155] mb-1.5 font-body">
@@ -361,9 +338,12 @@ $openPositions = [
               id="career-email"
               name="email"
               required
-              placeholder="E-Mail"
-              class="w-full px-4 py-3 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] font-medium placeholder-[#94A3B8] focus:outline-none focus:border-[#C01858] focus:ring-2 focus:ring-[#C01858]/20 transition-all font-body"
+              maxlength="120"
+              autocomplete="email"
+              placeholder="ENTER YOUR E-MAIL ADDRESS"
+              class="w-full px-4 py-3 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] font-medium placeholder-[#94A3B8] placeholder:uppercase placeholder:text-xs placeholder:tracking-wide focus:outline-none focus:border-[#C01858] focus:ring-2 focus:ring-[#C01858]/20 transition-all font-body"
             >
+            <p data-field-error="email" class="hidden text-xs text-[#C01858] mt-1.5 font-medium"></p>
           </div>
         </div>
 
@@ -378,9 +358,15 @@ $openPositions = [
               id="career-phone"
               name="phone"
               required
-              placeholder="Mobile Number"
-              class="w-full px-4 py-3 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] font-medium placeholder-[#94A3B8] focus:outline-none focus:border-[#C01858] focus:ring-2 focus:ring-[#C01858]/20 transition-all font-body"
+              inputmode="numeric"
+              minlength="10"
+              maxlength="10"
+              pattern="[0-9]{10}"
+              autocomplete="tel-national"
+              placeholder="ENTER 10-DIGIT MOBILE NUMBER"
+              class="w-full px-4 py-3 rounded-xl border border-[#CBD5E1] bg-white text-sm font-stat text-[#0F172A] font-medium placeholder-[#94A3B8] placeholder:uppercase placeholder:text-xs placeholder:tracking-wide focus:outline-none focus:border-[#C01858] focus:ring-2 focus:ring-[#C01858]/20 transition-all"
             >
+            <p data-field-error="phone" class="hidden text-xs text-[#C01858] mt-1.5 font-medium"></p>
           </div>
 
           <div>
@@ -397,6 +383,7 @@ $openPositions = [
                 class="block w-full text-sm text-[#475569] file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-[#F1E6EE] file:text-[#C01858] hover:file:bg-[#C01858] hover:file:text-white file:transition-colors file:cursor-pointer px-3 py-1.5 rounded-xl border border-[#CBD5E1] bg-white cursor-pointer focus:outline-none focus:border-[#C01858]"
               >
             </div>
+            <p data-field-error="resume" class="hidden text-xs text-[#C01858] mt-1.5 font-medium"></p>
             <span class="text-[11px] text-[#C01858] font-semibold mt-1 inline-block">
               Resume Upload (PDF, DOC, DOCX up to 10MB)
             </span>
@@ -665,62 +652,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Resume Form Handling (Real PHP Gmail SMTP + Attachment)
-  const resumeForm = document.getElementById('careers-resume-form');
   const successModal = document.getElementById('resume-success-modal');
   const closeSuccessBtn = document.getElementById('close-success-modal-btn');
-  const careerErrorBanner = document.getElementById('career-error-banner');
-  const careerErrorText = document.getElementById('career-error-text');
-
-  if (resumeForm) {
-    resumeForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      if (careerErrorBanner) careerErrorBanner.classList.add('hidden');
-      if (careerErrorText) careerErrorText.textContent = '';
-
-      const submitBtn = document.getElementById('career-submit-btn');
-      const originalHtml = submitBtn ? submitBtn.innerHTML : '';
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>Submitting...</span>';
-      }
-
-      try {
-        const res = await fetch('careers.php', {
-          method: 'POST',
-          headers: { 'X-Requested-With': 'XMLHttpRequest' },
-          body: new FormData(resumeForm)
-        });
-        const data = await res.json();
-        if (data && data.ok) {
-          resumeForm.reset();
-          if (successModal) {
-            successModal.classList.remove('opacity-0', 'pointer-events-none');
-            successModal.querySelector('.relative').classList.remove('scale-95');
-            successModal.querySelector('.relative').classList.add('scale-100');
-            successModal.setAttribute('aria-hidden', 'false');
-            if (window.__lenis) window.__lenis.stop();
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-          }
-        } else {
-          if (careerErrorText) {
-            careerErrorText.textContent = (data && data.message) ? data.message : 'Unable to send your application right now.';
-          }
-          if (careerErrorBanner) careerErrorBanner.classList.remove('hidden');
-        }
-      } catch (err) {
-        if (careerErrorText) careerErrorText.textContent = 'Network error while submitting application. Please try again.';
-        if (careerErrorBanner) careerErrorBanner.classList.remove('hidden');
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalHtml;
-          if (typeof lucide !== 'undefined') lucide.createIcons();
-        }
-      }
-    });
-  }
 
   if (closeSuccessBtn) {
     closeSuccessBtn.addEventListener('click', function () {

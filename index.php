@@ -1,9 +1,22 @@
 <?php
 require_once __DIR__ . '/includes/data.php';
+require_once __DIR__ . '/includes/form-security.php';
 
 $pageTitle = 'Shree Tech | Software Engineering & Cloud Solutions';
 $pageDescription = 'Building Digital Solutions That Move Businesses Forward. Enterprise software engineering, modern web platforms, mobile apps, and cloud architectures.';
 $currentPage = 'home';
+
+$csrfToken = ensureFormCsrfToken();
+$servicesList = [
+    'Website Development',
+    'Mobile Application Development',
+    'Custom Software Development',
+    'UI/UX Design',
+    'E-Commerce Development',
+    'Cloud & DevOps',
+    'Digital Transformation',
+    'AI & Automation'
+];
 
 // Contact Form Processing for Single-Page Submissions
 $formSubmitted = false;
@@ -18,37 +31,31 @@ $formData = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $formData['name'] = trim($_POST['name'] ?? '');
-    $formData['email'] = trim($_POST['email'] ?? '');
-    $formData['phone'] = trim($_POST['phone'] ?? '');
-    $formData['service'] = trim($_POST['service'] ?? 'Website Development');
-    $formData['message'] = trim($_POST['message'] ?? '');
+    $isAjax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
+    $securityErr = verifyFormCsrfAndHoneypot($_POST);
 
-    if (empty($formData['name']) || strlen($formData['name']) < 2) {
-        $formErrors['name'] = 'Name must be at least 2 characters';
-    }
-    if (empty($formData['email']) || !filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
-        $formErrors['email'] = 'Please provide a valid business email';
-    }
-    if (empty($formData['phone']) || strlen($formData['phone']) < 7) {
-        $formErrors['phone'] = 'Please enter a valid phone number';
-    }
-    if (empty($formData['message']) || strlen($formData['message']) < 15) {
-        $formErrors['message'] = 'Please provide at least 15 characters of detail';
-    }
+    if ($securityErr !== null) {
+        $formMailError = $securityErr;
+    } else {
+        $validated = validateContactFields($_POST, $servicesList);
+        $formData = $validated['data'];
+        $formErrors = $validated['errors'];
 
-    if (empty($formErrors)) {
-        require_once __DIR__ . '/includes/mailer.php';
-        $mailResult = sendProjectInquiryEmail($formData);
-        if (!empty($mailResult['ok'])) {
-            $formSubmitted = true;
-        } else {
-            $formMailError = $mailResult['error'] ?? 'Unable to send your inquiry right now.';
+        if (empty($formErrors)) {
+            require_once __DIR__ . '/includes/mailer.php';
+            $mailResult = sendProjectInquiryEmail($formData);
+            if (!empty($mailResult['ok'])) {
+                $formSubmitted = true;
+            } else {
+                $formMailError = $mailResult['error'] ?? 'Unable to send your inquiry right now.';
+            }
         }
     }
 
-    $isAjax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
     if ($isAjax) {
+        if ($securityErr !== null) {
+            http_response_code(403);
+        }
         header('Content-Type: application/json; charset=UTF-8');
         echo json_encode([
             'ok' => $formSubmitted,
@@ -1513,7 +1520,9 @@ require_once __DIR__ . '/includes/header.php';
             </button>
           </div>
 
-          <form id="contact-form" method="POST" action="index.php#contact" class="<?php echo $formSubmitted ? 'hidden ' : ''; ?>space-y-6" data-ajax="true">
+          <form id="contact-form" method="POST" action="index.php#contact" class="<?php echo $formSubmitted ? 'hidden ' : ''; ?>space-y-6" data-ajax="true" novalidate>
+              <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrfToken); ?>">
+              <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 
                 <!-- Full Name -->
@@ -1525,16 +1534,16 @@ require_once __DIR__ . '/includes/header.php';
                     type="text"
                     name="name"
                     required
+                    minlength="2"
+                    maxlength="80"
+                    autocapitalize="words"
+                    autocomplete="name"
+                    pattern="[A-Za-z][A-Za-z\s.'-]{1,79}"
                     value="<?php echo htmlspecialchars($formData['name']); ?>"
-                    placeholder="Elena Vance"
-                    class="w-full px-4 py-3 rounded-2xl glass-input text-sm text-[#0F172A]"
+                    placeholder="ENTER FULL NAME"
+                    class="w-full px-4 py-3 rounded-2xl glass-input text-sm text-[#0F172A] placeholder:uppercase placeholder:text-xs placeholder:tracking-wide"
                   >
-                  <?php if (isset($formErrors['name'])): ?>
-                    <div class="flex items-center gap-1 text-xs text-[#C01858] mt-1.5 font-medium">
-                      <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
-                      <span><?php echo htmlspecialchars($formErrors['name']); ?></span>
-                    </div>
-                  <?php endif; ?>
+                  <p data-field-error="name" class="<?php echo isset($formErrors['name']) ? '' : 'hidden '; ?>text-xs text-[#C01858] mt-1.5 font-medium"><?php echo htmlspecialchars($formErrors['name'] ?? ''); ?></p>
                 </div>
 
                 <!-- Business Email -->
@@ -1546,16 +1555,13 @@ require_once __DIR__ . '/includes/header.php';
                     type="email"
                     name="email"
                     required
+                    maxlength="120"
+                    autocomplete="email"
                     value="<?php echo htmlspecialchars($formData['email']); ?>"
-                    placeholder="elena@company.com"
-                    class="w-full px-4 py-3 rounded-2xl glass-input text-sm text-[#0F172A]"
+                    placeholder="ENTER BUSINESS EMAIL"
+                    class="w-full px-4 py-3 rounded-2xl glass-input text-sm text-[#0F172A] placeholder:uppercase placeholder:text-xs placeholder:tracking-wide"
                   >
-                  <?php if (isset($formErrors['email'])): ?>
-                    <div class="flex items-center gap-1 text-xs text-[#C01858] mt-1.5 font-medium">
-                      <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
-                      <span><?php echo htmlspecialchars($formErrors['email']); ?></span>
-                    </div>
-                  <?php endif; ?>
+                  <p data-field-error="email" class="<?php echo isset($formErrors['email']) ? '' : 'hidden '; ?>text-xs text-[#C01858] mt-1.5 font-medium"><?php echo htmlspecialchars($formErrors['email'] ?? ''); ?></p>
                 </div>
               </div>
 
@@ -1569,16 +1575,16 @@ require_once __DIR__ . '/includes/header.php';
                     type="tel"
                     name="phone"
                     required
+                    inputmode="numeric"
+                    minlength="10"
+                    maxlength="10"
+                    pattern="[0-9]{10}"
+                    autocomplete="tel-national"
                     value="<?php echo htmlspecialchars($formData['phone']); ?>"
-                    placeholder="+1 (555) 000-0000"
-                    class="w-full px-4 py-3 rounded-2xl glass-input text-sm font-stat text-[#0F172A]"
+                    placeholder="ENTER 10-DIGIT MOBILE NUMBER"
+                    class="w-full px-4 py-3 rounded-2xl glass-input text-sm font-stat text-[#0F172A] placeholder:uppercase placeholder:text-xs placeholder:tracking-wide"
                   >
-                  <?php if (isset($formErrors['phone'])): ?>
-                    <div class="flex items-center gap-1 text-xs text-[#C01858] mt-1.5 font-medium">
-                      <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
-                      <span><?php echo htmlspecialchars($formErrors['phone']); ?></span>
-                    </div>
-                  <?php endif; ?>
+                  <p data-field-error="phone" class="<?php echo isset($formErrors['phone']) ? '' : 'hidden '; ?>text-xs text-[#C01858] mt-1.5 font-medium"><?php echo htmlspecialchars($formErrors['phone'] ?? ''); ?></p>
                 </div>
 
                 <!-- Service Selection -->
@@ -1590,18 +1596,7 @@ require_once __DIR__ . '/includes/header.php';
                     name="service"
                     class="w-full px-4 py-3 rounded-2xl glass-input text-sm text-[#0F172A] cursor-pointer"
                   >
-                    <?php
-                    $servicesList = [
-                        'Website Development',
-                        'Mobile Application Development',
-                        'Custom Software Development',
-                        'UI/UX Design',
-                        'E-Commerce Development',
-                        'Cloud & DevOps',
-                        'Digital Transformation',
-                        'AI & Automation'
-                    ];
-                    foreach ($servicesList as $srv): ?>
+                    <?php foreach ($servicesList as $srv): ?>
                       <option value="<?php echo htmlspecialchars($srv); ?>" <?php echo ($formData['service'] === $srv) ? 'selected' : ''; ?>>
                         <?php echo htmlspecialchars($srv); ?>
                       </option>
@@ -1619,15 +1614,12 @@ require_once __DIR__ . '/includes/header.php';
                   name="message"
                   rows="4"
                   required
-                  placeholder="Please share details about your requirements, timeline, or architecture challenges..."
-                  class="w-full px-4 py-3 rounded-2xl glass-input text-sm resize-none text-[#0F172A]"
+                  minlength="15"
+                  maxlength="2000"
+                  placeholder="ENTER PROJECT DETAILS, TIMELINE & ARCHITECTURE REQUIREMENTS (MIN 15 CHARS)..."
+                  class="w-full px-4 py-3 rounded-2xl glass-input text-sm resize-none text-[#0F172A] placeholder:uppercase placeholder:text-xs placeholder:tracking-wide"
                 ><?php echo htmlspecialchars($formData['message']); ?></textarea>
-                <?php if (isset($formErrors['message'])): ?>
-                  <div class="flex items-center gap-1 text-xs text-[#C01858] mt-1.5 font-medium">
-                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
-                    <span><?php echo htmlspecialchars($formErrors['message']); ?></span>
-                  </div>
-                <?php endif; ?>
+                <p data-field-error="message" class="<?php echo isset($formErrors['message']) ? '' : 'hidden '; ?>text-xs text-[#C01858] mt-1.5 font-medium"><?php echo htmlspecialchars($formErrors['message'] ?? ''); ?></p>
               </div>
 
               <!-- Delivery / Validation Error Banner -->

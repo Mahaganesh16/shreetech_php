@@ -804,70 +804,254 @@ function initShreeTech() {
   }
 
   // =========================================================================
-  // 12. CONTACT FORM FEEDBACK (REAL PHP GMAIL SMTP SUBMISSION)
+  // 12. SHARED FORM VALIDATION, 10-DIGIT MASKING & REAL SMTP SUBMISSION
   // =========================================================================
-  const contactForm = document.getElementById('contact-form');
-  const contactSuccess = document.getElementById('contact-success');
-  const contactErrorBanner = document.getElementById('contact-error-banner');
-  const contactErrorText = document.getElementById('contact-error-text');
-  const contactResetBtn = document.getElementById('contact-reset-btn');
+  const validateNameValue = (raw) => {
+    const cleaned = String(raw || '').replace(/\s+/g, ' ').trim();
+    if (cleaned.length < 2 || cleaned.length > 80 || !/^[A-Za-z][A-Za-z\s.'-]{1,79}$/.test(cleaned)) {
+      return 'Please enter a valid full name using letters only (2-80 chars).';
+    }
+    return '';
+  };
 
-  if (contactForm && contactSuccess) {
-    const showContactError = (msg) => {
-      if (contactErrorText) contactErrorText.textContent = msg;
-      if (contactErrorBanner) contactErrorBanner.classList.remove('hidden');
+  const validateEmailValue = (raw) => {
+    const email = String(raw || '').trim();
+    if (!email || email.length > 120 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      return 'Please enter a valid email address (e.g. name@company.com).';
+    }
+    return '';
+  };
+
+  const validateTenDigitPhoneValue = (raw) => {
+    const digits = String(raw || '').replace(/\D+/g, '');
+    if (!/^[0-9]{10}$/.test(digits) || digits === '0000000000') {
+      return 'Please enter a valid 10-digit mobile number.';
+    }
+    return '';
+  };
+
+  const wireValidatedAjaxForm = ({
+    form,
+    endpoint,
+    loadingText,
+    bannerEl,
+    bannerTextEl,
+    validateFn,
+    onSuccess,
+  }) => {
+    if (!form) return;
+
+    const showBanner = (msg) => {
+      if (bannerTextEl) bannerTextEl.textContent = msg;
+      if (bannerEl) bannerEl.classList.remove('hidden');
     };
 
-    const hideContactError = () => {
-      if (contactErrorBanner) contactErrorBanner.classList.add('hidden');
-      if (contactErrorText) contactErrorText.textContent = '';
+    const hideBanner = () => {
+      if (bannerEl) bannerEl.classList.add('hidden');
+      if (bannerTextEl) bannerTextEl.textContent = '';
     };
 
-    contactForm.addEventListener('submit', async (e) => {
-      if (contactForm.getAttribute('data-ajax') !== 'true') return;
+    const setFieldError = (fieldName, msg) => {
+      const errEl = form.querySelector(`[data-field-error="${fieldName}"]`);
+      const inputEl = form.querySelector(`[name="${fieldName}"]`);
+      if (errEl) {
+        errEl.textContent = msg || '';
+        errEl.classList.toggle('hidden', !msg);
+      }
+      if (inputEl) {
+        inputEl.classList.toggle('is-invalid', Boolean(msg));
+      }
+    };
+
+    const clearAllFieldErrors = () => {
+      form.querySelectorAll('[data-field-error]').forEach((el) => {
+        el.textContent = '';
+        el.classList.add('hidden');
+      });
+      form.querySelectorAll('input, select, textarea').forEach((el) => {
+        el.classList.remove('is-invalid');
+      });
+    };
+
+    // Enforce numeric-only 10 digits on type/paste (handles +91 or leading 0 pastes cleanly)
+    const phoneInput = form.querySelector('input[name="phone"]');
+    if (phoneInput) {
+      const normalizePhoneValue = (raw) => {
+        let digitsOnly = String(raw || '').replace(/\D+/g, '');
+        if (digitsOnly.length === 12 && digitsOnly.startsWith('91')) {
+          digitsOnly = digitsOnly.slice(2);
+        } else if (digitsOnly.length === 11 && digitsOnly.startsWith('0')) {
+          digitsOnly = digitsOnly.slice(1);
+        }
+        return digitsOnly.slice(0, 10);
+      };
+      phoneInput.addEventListener('paste', (ev) => {
+        const text = ev.clipboardData ? ev.clipboardData.getData('text') : '';
+        if (text) {
+          ev.preventDefault();
+          phoneInput.value = normalizePhoneValue(text);
+          phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      });
+      phoneInput.addEventListener('input', () => {
+        const clean = normalizePhoneValue(phoneInput.value);
+        if (phoneInput.value !== clean) {
+          phoneInput.value = clean;
+        }
+      });
+    }
+
+    // Clear inline field error immediately when user edits field
+    form.querySelectorAll('input, select, textarea').forEach((el) => {
+      const clearField = () => {
+        const name = el.getAttribute('name');
+        if (name) setFieldError(name, '');
+        hideBanner();
+      };
+      el.addEventListener('input', clearField);
+      el.addEventListener('change', clearField);
+    });
+
+    form.addEventListener('submit', async (e) => {
+      if (form.getAttribute('data-ajax') === 'false') return;
       e.preventDefault();
-      hideContactError();
+      hideBanner();
+      clearAllFieldErrors();
 
-      const submitBtn = contactForm.querySelector('button[type="submit"]');
-      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+      const clientErrors = validateFn(form);
+      const errKeys = Object.keys(clientErrors);
+      if (errKeys.length > 0) {
+        errKeys.forEach((k) => setFieldError(k, clientErrors[k]));
+        const firstEl = form.querySelector(`[name="${errKeys[0]}"]`);
+        if (firstEl) firstEl.focus();
+        return;
+      }
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalHtml = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>Sending Inquiry...</span>';
+        submitBtn.innerHTML = `<span>${loadingText}</span>`;
       }
 
       try {
-        const res = await fetch('index.php', {
+        const res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'X-Requested-With': 'XMLHttpRequest' },
-          body: new FormData(contactForm),
+          body: new FormData(form),
         });
         const data = await res.json();
         if (data && data.ok) {
-          contactForm.classList.add('hidden');
-          contactSuccess.classList.remove('hidden');
-          contactForm.reset();
+          form.reset();
+          onSuccess();
           if (typeof lucide !== 'undefined') lucide.createIcons();
         } else {
-          const fieldErrs = data && data.errors ? Object.values(data.errors) : [];
-          showContactError(fieldErrs.length ? fieldErrs.join(' • ') : (data && data.message ? data.message : 'Unable to submit your inquiry.'));
+          if (data && data.errors && Object.keys(data.errors).length > 0) {
+            Object.entries(data.errors).forEach(([k, msg]) => setFieldError(k, msg));
+          } else {
+            showBanner((data && data.message) ? data.message : 'Unable to submit right now.');
+          }
         }
       } catch (err) {
-        showContactError('Network error while sending inquiry. Please try again.');
+        showBanner('Network error while sending submission. Please try again.');
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnHtml;
+          submitBtn.innerHTML = originalHtml;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
         }
       }
+    });
+  };
+
+  // Contact Inquiry Form (index.php)
+  const contactForm = document.getElementById('contact-form');
+  const contactSuccess = document.getElementById('contact-success');
+  const contactResetBtn = document.getElementById('contact-reset-btn');
+  if (contactForm && contactSuccess) {
+    wireValidatedAjaxForm({
+      form: contactForm,
+      endpoint: 'index.php',
+      loadingText: 'Sending Inquiry...',
+      bannerEl: document.getElementById('contact-error-banner'),
+      bannerTextEl: document.getElementById('contact-error-text'),
+      validateFn: (form) => {
+        const errs = {};
+        const nameErr = validateNameValue(form.querySelector('[name="name"]')?.value);
+        const emailErr = validateEmailValue(form.querySelector('[name="email"]')?.value);
+        const phoneErr = validateTenDigitPhoneValue(form.querySelector('[name="phone"]')?.value);
+        const msg = String(form.querySelector('[name="message"]')?.value || '').trim();
+        if (nameErr) errs.name = nameErr;
+        if (emailErr) errs.email = emailErr;
+        if (phoneErr) errs.phone = phoneErr;
+        if (msg.length < 15 || msg.length > 2000) {
+          errs.message = 'Project description must be between 15 and 2000 characters.';
+        }
+        return errs;
+      },
+      onSuccess: () => {
+        contactForm.classList.add('hidden');
+        contactSuccess.classList.remove('hidden');
+      },
     });
 
     if (contactResetBtn) {
       contactResetBtn.addEventListener('click', () => {
-        hideContactError();
+        const errBanner = document.getElementById('contact-error-banner');
+        if (errBanner) errBanner.classList.add('hidden');
         contactSuccess.classList.add('hidden');
         contactForm.classList.remove('hidden');
       });
     }
+  }
+
+  // Careers Resume Form (careers.php)
+  const resumeForm = document.getElementById('careers-resume-form');
+  const resumeSuccessModal = document.getElementById('resume-success-modal');
+  if (resumeForm) {
+    wireValidatedAjaxForm({
+      form: resumeForm,
+      endpoint: 'careers.php',
+      loadingText: 'Submitting...',
+      bannerEl: document.getElementById('career-error-banner'),
+      bannerTextEl: document.getElementById('career-error-text'),
+      validateFn: (form) => {
+        const errs = {};
+        const pos = String(form.querySelector('[name="position"]')?.value || '').trim();
+        const cover = String(form.querySelector('[name="cover_letter"]')?.value || '').trim();
+        const nameErr = validateNameValue(form.querySelector('[name="name"]')?.value);
+        const emailErr = validateEmailValue(form.querySelector('[name="email"]')?.value);
+        const phoneErr = validateTenDigitPhoneValue(form.querySelector('[name="phone"]')?.value);
+        const fileInput = form.querySelector('[name="resume"]');
+        const file = fileInput && fileInput.files ? fileInput.files[0] : null;
+
+        if (!pos) errs.position = 'Please select an opening position.';
+        if (cover.length > 3000) errs.cover_letter = 'Cover letter must be 3000 characters or fewer.';
+        if (nameErr) errs.name = nameErr;
+        if (emailErr) errs.email = emailErr;
+        if (phoneErr) errs.phone = phoneErr;
+        if (!file) {
+          errs.resume = 'Please attach your resume (PDF, DOC, or DOCX up to 10MB).';
+        } else {
+          const ext = file.name.split('.').pop().toLowerCase();
+          if (!['pdf', 'doc', 'docx'].includes(ext)) {
+            errs.resume = 'Resume must be a PDF, DOC, or DOCX file.';
+          } else if (file.size <= 0 || file.size > 10 * 1024 * 1024) {
+            errs.resume = 'Resume file size must be between 1 byte and 10MB.';
+          }
+        }
+        return errs;
+      },
+      onSuccess: () => {
+        if (resumeSuccessModal) {
+          resumeSuccessModal.classList.remove('opacity-0', 'pointer-events-none');
+          resumeSuccessModal.querySelector('.relative').classList.remove('scale-95');
+          resumeSuccessModal.querySelector('.relative').classList.add('scale-100');
+          resumeSuccessModal.setAttribute('aria-hidden', 'false');
+          if (lenis) lenis.stop();
+        }
+      },
+    });
   }
 
   // =========================================================================
