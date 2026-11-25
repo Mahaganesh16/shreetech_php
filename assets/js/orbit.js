@@ -25,8 +25,8 @@
       this.options = Object.assign(
         {
           autoRotate: true,
-          // Calm, slow continuous rotation speed (~0.14 slots/sec = ~7.1s per card)
-          speed: 0.14,
+          // Balanced smooth continuous rotation speed (~0.22 slots/sec = ~4.5s per card)
+          speed: 0.22,
           onActiveChange: null
         },
         options
@@ -250,17 +250,17 @@
       if (diff < -this.count / 2) diff += this.count;
 
       this.targetRot = this.currentRot + diff;
-      this.animateTo(this.targetRot, 950, easeInOutCubic);
+      this.animateTo(this.targetRot, 780, easeInOutCubic);
     }
 
     next() {
       this.targetRot = Math.round(this.currentRot) + 1;
-      this.animateTo(this.targetRot, 900, easeInOutCubic);
+      this.animateTo(this.targetRot, 750, easeInOutCubic);
     }
 
     prev() {
       this.targetRot = Math.round(this.currentRot) - 1;
-      this.animateTo(this.targetRot, 900, easeInOutCubic);
+      this.animateTo(this.targetRot, 750, easeInOutCubic);
     }
 
     startAutoRotate() {
@@ -445,7 +445,7 @@
 
     const engine = new OrbitServicesEngine(container, {
       autoRotate: true,
-      speed: 0.14
+      speed: 0.22
     });
 
     window.__shreeTechOrbit = engine;
