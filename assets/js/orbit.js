@@ -10,9 +10,13 @@
   // Slots 1-7: Satellites passing cleanly along reduced orbit line
   const SLOT_ANGLES = [90, 28, -12, -52, -90, -128, -168, -208];
 
-  // Silky quartic ease-out for interactive click/drag snap transitions
+  // Silky quartic ease-out for drag release, smooth cubic ease-in-out for click/button transitions
   function easeOutQuart(x) {
     return 1 - Math.pow(1 - x, 4);
+  }
+
+  function easeInOutCubic(x) {
+    return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
   }
 
   class OrbitServicesEngine {
@@ -21,14 +25,21 @@
       this.options = Object.assign(
         {
           autoRotate: true,
-          // Continuous rotation speed in orbit slots per second (~0.32 slots/sec = 1 full card every ~3.1s)
-          speed: 0.32,
+          // Calm, slow continuous rotation speed (~0.14 slots/sec = ~7.1s per card)
+          speed: 0.14,
           onActiveChange: null
         },
         options
       );
 
       this.items = Array.from(this.root.querySelectorAll('[data-orbit-item]'));
+      this.itemMeta = this.items.map(el => ({
+        el,
+        compact: el.querySelector('.card-compact-view'),
+        full: el.querySelector('.card-full-view'),
+        glows: el.querySelector('.card-ambient-glows'),
+        interactive: null
+      }));
       this.count = this.items.length;
       this.activeIndex = 0;
 
@@ -72,20 +83,20 @@
       // Calculate horizontal elliptical path geometry (tighter vertical framing)
       if (this.isMobile) {
         this.rx = Math.min(270, Math.round(this.width * 0.38));
-        this.ry = Math.min(120, Math.round(this.height * 0.21));
+        this.ry = Math.min(118, Math.round(this.height * 0.215));
         this.cx = this.width / 2;
         this.cy = Math.round(this.height * 0.40);
       } else if (this.isTablet) {
         this.rx = Math.min(340, Math.round(this.width * 0.34));
-        this.ry = Math.min(135, Math.round(this.height * 0.23));
+        this.ry = Math.min(132, Math.round(this.height * 0.23));
         this.cx = this.width / 2;
-        this.cy = Math.round(this.height * 0.39);
+        this.cy = Math.round(this.height * 0.40);
       } else {
         // Desktop: compact ellipse framing with zero top/bottom clipping
         this.rx = Math.min(390, Math.round(this.width * 0.32));
-        this.ry = Math.min(145, Math.round(this.height * 0.23));
+        this.ry = Math.min(142, Math.round(this.height * 0.23));
         this.cx = this.width / 2;
-        this.cy = Math.round(this.height * 0.37);
+        this.cy = Math.round(this.height * 0.38);
       }
 
       // Update SVG path for exact visual orbit guide line
@@ -138,30 +149,49 @@
           minDist = distFromCenter;
           nearestIdx = i;
         }
-        const isCenter = distFromCenter < 0.5;
+        const isCenter = distFromCenter < 0.45;
 
-        // Subtle 3D Y-axis tilt: cards face gently inward toward the center
-        const tiltY = -Math.cos(angleRad) * 10;
+        // Smooth continuous growth/shrink curve across approach/departure zone [0, 1.1]
+        const focusRaw = Math.max(0, 1 - distFromCenter / 1.1);
+        const smoothFocus = focusRaw * focusRaw * (3 - 2 * focusRaw);
 
-        // Continuous smooth scaling:
-        // When center card: swells smoothly to 1.0 at center
-        // When satellite: scales organically with 3D depth from 0.88 (back) to 0.94 (sides)
-        let scale;
-        if (isCenter) {
-          scale = 1.0 - distFromCenter * 0.12;
-        } else {
-          scale = 0.88 + 0.08 * depthNorm;
-        }
+        // Subtle 3D Y-axis tilt fading gently to flat at center focus
+        const tiltY = -Math.cos(angleRad) * 10 * (1 - smoothFocus * 0.6);
 
-        const opacity = isCenter ? 1 : (0.75 + 0.25 * depthNorm);
-        const zIndex = isCenter ? 100 : (10 + Math.round(depthNorm * 40));
+        // Continuous pure GPU scaling: smaller along back/sides, swelling smoothly to 1.0 at center
+        const minSat = this.isMobile ? 0.35 : 0.40;
+        const satRange = this.isMobile ? 0.08 : 0.09;
+        const satScale = minSat + satRange * depthNorm;
+        const scale = satScale + (1.0 - satScale) * smoothFocus;
 
-        // Center-anchored GPU transform with 3D perspective
+        const opacity = Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
+        const zIndex = 10 + Math.round(depthNorm * 40 + smoothFocus * 60);
+
+        // Center-anchored GPU transform with 3D perspective (zero layout reflows)
         it.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0px) translate(-50%, -50%) rotateY(${tiltY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
         it.style.zIndex = String(zIndex);
-        it.style.opacity = opacity.toFixed(2);
+        it.style.opacity = opacity.toFixed(3);
 
-        // Toggle active state via data-active (avoids Tailwind class MutationObserver stalls)
+        // Gentle swift cross-dissolve around smoothFocus [0.46..0.62] so cards never appear blank
+        const fadeT = Math.min(1, Math.max(0, (smoothFocus - 0.46) / 0.16));
+        const fullAlpha = fadeT * fadeT * (3 - 2 * fadeT);
+        const compactAlpha = 1 - fullAlpha;
+
+        const meta = this.itemMeta[i];
+        if (meta) {
+          if (meta.compact) meta.compact.style.opacity = compactAlpha.toFixed(3);
+          if (meta.full) meta.full.style.opacity = fullAlpha.toFixed(3);
+          if (meta.glows) meta.glows.style.opacity = fullAlpha.toFixed(3);
+
+          const fullInteractive = fullAlpha >= 0.5;
+          if (meta.interactive !== fullInteractive) {
+            meta.interactive = fullInteractive;
+            if (meta.compact) meta.compact.style.pointerEvents = fullInteractive ? 'none' : 'auto';
+            if (meta.full) meta.full.style.pointerEvents = fullInteractive ? 'auto' : 'none';
+          }
+        }
+
+        // Toggle active state via data-active (CSS border/glow state only, no dimension snap)
         const wasActive = it.getAttribute('data-active') === 'true';
         if (isCenter && !wasActive) {
           it.setAttribute('data-active', 'true');
@@ -181,7 +211,7 @@
     /**
      * Smoothly animates carousel rotation from currentRot to targetRot over duration (ms)
      */
-    animateTo(targetRot, duration = 600) {
+    animateTo(targetRot, duration = 950, easeFn = easeInOutCubic) {
       if (this.rafId) {
         cancelAnimationFrame(this.rafId);
         this.rafId = null;
@@ -194,7 +224,7 @@
       const tick = now => {
         const elapsed = now - startTime;
         const progress = Math.min(1, elapsed / duration);
-        const ease = easeOutQuart(progress);
+        const ease = easeFn(progress);
 
         this.currentRot = startRot + (targetRot - startRot) * ease;
         this.render(this.currentRot);
@@ -220,17 +250,17 @@
       if (diff < -this.count / 2) diff += this.count;
 
       this.targetRot = this.currentRot + diff;
-      this.animateTo(this.targetRot, 620);
+      this.animateTo(this.targetRot, 950, easeInOutCubic);
     }
 
     next() {
       this.targetRot = Math.round(this.currentRot) + 1;
-      this.animateTo(this.targetRot, 600);
+      this.animateTo(this.targetRot, 900, easeInOutCubic);
     }
 
     prev() {
       this.targetRot = Math.round(this.currentRot) - 1;
-      this.animateTo(this.targetRot, 600);
+      this.animateTo(this.targetRot, 900, easeInOutCubic);
     }
 
     startAutoRotate() {
@@ -321,7 +351,7 @@
         if (this.hasMoved) {
           const nearestSlot = Math.round(this.currentRot);
           this.targetRot = nearestSlot;
-          this.animateTo(nearestSlot, 420);
+          this.animateTo(nearestSlot, 520, easeOutQuart);
         } else {
           this.lastTickTime = performance.now();
         }
@@ -415,7 +445,7 @@
 
     const engine = new OrbitServicesEngine(container, {
       autoRotate: true,
-      speed: 0.32
+      speed: 0.14
     });
 
     window.__shreeTechOrbit = engine;
