@@ -600,9 +600,10 @@ require_once __DIR__ . '/includes/header.php';
           ]);
         ?>
           <div
-            class="orbit-item group<?php echo $idx === 0 ? ' is-active' : ''; ?>"
+            class="orbit-item group"
             data-orbit-item="<?php echo $idx; ?>"
             data-service-index="<?php echo $idx; ?>"
+            <?php echo $idx === 0 ? 'data-active="true"' : ''; ?>
             data-clickable=""
             data-service-json="<?php echo htmlspecialchars($svcJson, ENT_QUOTES, 'UTF-8'); ?>"
           >

@@ -999,17 +999,7 @@ h1 {
   will-change: transform, opacity;
 }
 
-/* Pause hero & services orbit animations cleanly on hover or when offscreen */
-.hero-orbit-stage:hover .animate-orbit-spin,
-.hero-orbit-stage:hover .animate-orbit-counter,
-.hero-orbit-stage:hover .animate-orbit-dashed,
-.hero-orbit-stage:hover .animate-comet-orbit,
-.hero-orbit-stage:hover .animate-radar-sweep,
-.hero-orbit-stage:hover .animate-pulse-ring,
-.hero-orbit-stage:hover .animate-orbit-core,
-.orbit-container:hover .animate-orbit-spin,
-.orbit-container:hover .animate-orbit-counter,
-.orbit-container:hover .animate-comet-orbit,
+/* Pause hero & marquee CSS animations ONLY when scrolled offscreen or reduced-motion (keep running continuously on hover) */
 #home[data-orbit-offscreen="true"] .animate-orbit-spin,
 #home[data-orbit-offscreen="true"] .animate-orbit-counter,
 #home[data-orbit-offscreen="true"] .animate-orbit-dashed,

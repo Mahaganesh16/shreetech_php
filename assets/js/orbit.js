@@ -1,6 +1,6 @@
 /**
  * Shree Tech - Continuous Curved 3D Orbit Carousel Engine
- * High-Performance 60FPS RAF with 3D Depth, Real-Time Dragging & Continuous Glide
+ * High-Performance 60FPS RAF Continuous Orbital Scrolling (Never Pauses on Hover)
  */
 (function () {
   'use strict';
@@ -10,7 +10,7 @@
   // Slots 1-7: Satellites passing cleanly along reduced orbit line
   const SLOT_ANGLES = [90, 28, -12, -52, -90, -128, -168, -208];
 
-  // Silky quartic ease-out for authentic carousel gliding
+  // Silky quartic ease-out for interactive click/drag snap transitions
   function easeOutQuart(x) {
     return 1 - Math.pow(1 - x, 4);
   }
@@ -21,7 +21,8 @@
       this.options = Object.assign(
         {
           autoRotate: true,
-          interval: 2600,
+          // Continuous rotation speed in orbit slots per second (~0.32 slots/sec = 1 full card every ~3.1s)
+          speed: 0.32,
           onActiveChange: null
         },
         options
@@ -36,18 +37,15 @@
       this.targetRot = 0;
       this.isAnimating = false;
       this.rafId = null;
+      this.continuousRafId = null;
+      this.lastTickTime = null;
 
-      // Interaction flags
-      this.timer = null;
-      this.resumeTimeout = null;
-      this.isPaused = false;
+      // Interaction & visibility flags
+      this.isInView = true;
       this.isDragging = false;
       this.dragStartX = 0;
       this.rotAtDragStart = 0;
       this.hasMoved = false;
-      this.lastPointerX = null;
-      this.lastPointerY = null;
-      this.wrapper = document.getElementById('services-orbit-wrapper') || this.root.parentElement || this.root;
 
       this.init();
     }
@@ -109,6 +107,8 @@
      */
     render(rot) {
       const count = this.count;
+      let nearestIdx = 0;
+      let minDist = Infinity;
 
       for (let i = 0; i < count; i++) {
         const it = this.items[i];
@@ -134,6 +134,10 @@
 
         // Distance from center active slot (relPos == 0)
         const distFromCenter = Math.min(relPos, count - relPos);
+        if (distFromCenter < minDist) {
+          minDist = distFromCenter;
+          nearestIdx = i;
+        }
         const isCenter = distFromCenter < 0.5;
 
         // Subtle 3D Y-axis tilt: cards face gently inward toward the center
@@ -153,7 +157,7 @@
         const zIndex = isCenter ? 100 : (10 + Math.round(depthNorm * 40));
 
         // Center-anchored GPU transform with 3D perspective
-        it.style.transform = `translate3d(${Math.round(px)}px, ${Math.round(py)}px, 0px) translate(-50%, -50%) rotateY(${tiltY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
+        it.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0px) translate(-50%, -50%) rotateY(${tiltY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
         it.style.zIndex = String(zIndex);
         it.style.opacity = opacity.toFixed(2);
 
@@ -161,9 +165,15 @@
         const wasActive = it.getAttribute('data-active') === 'true';
         if (isCenter && !wasActive) {
           it.setAttribute('data-active', 'true');
-        } else if (!isCenter && (wasActive || it.classList.contains('is-active'))) {
+        } else if (!isCenter && wasActive) {
           it.removeAttribute('data-active');
-          if (it.classList.contains('is-active')) it.classList.remove('is-active');
+        }
+      }
+
+      if (nearestIdx !== this.activeIndex) {
+        this.activeIndex = nearestIdx;
+        if (typeof this.options.onActiveChange === 'function') {
+          this.options.onActiveChange(this.activeIndex);
         }
       }
     }
@@ -193,14 +203,10 @@
           this.rafId = requestAnimationFrame(tick);
         } else {
           this.currentRot = targetRot;
-          this.activeIndex = ((Math.round(targetRot) % this.count) + this.count) % this.count;
           this.render(this.currentRot);
           this.isAnimating = false;
           this.rafId = null;
-
-          if (typeof this.options.onActiveChange === 'function') {
-            this.options.onActiveChange(this.activeIndex);
-          }
+          this.lastTickTime = performance.now();
         }
       };
 
@@ -215,74 +221,49 @@
 
       this.targetRot = this.currentRot + diff;
       this.animateTo(this.targetRot, 620);
-      this.resetAutoRotate();
     }
 
     next() {
       this.targetRot = Math.round(this.currentRot) + 1;
       this.animateTo(this.targetRot, 600);
-      this.resetAutoRotate();
     }
 
     prev() {
       this.targetRot = Math.round(this.currentRot) - 1;
       this.animateTo(this.targetRot, 600);
-      this.resetAutoRotate();
-    }
-
-    isPointInsideBounds(x, y) {
-      if (x === null || y === null) return false;
-      const targets = [this.wrapper, this.root];
-      for (let i = 0; i < targets.length; i++) {
-        const el = targets[i];
-        if (!el) continue;
-        const r = el.getBoundingClientRect();
-        if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
-          return true;
-        }
-      }
-      for (let i = 0; i < this.items.length; i++) {
-        const r = this.items[i].getBoundingClientRect();
-        if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    isHovering() {
-      if (this.isPaused) return true;
-      if (this.wrapper && typeof this.wrapper.matches === 'function' && this.wrapper.matches(':hover')) return true;
-      if (this.root && typeof this.root.matches === 'function' && this.root.matches(':hover')) return true;
-      for (let i = 0; i < this.items.length; i++) {
-        if (this.items[i].matches(':hover')) return true;
-      }
-      if (this.isPointInsideBounds(this.lastPointerX, this.lastPointerY)) return true;
-      return false;
     }
 
     startAutoRotate() {
       if (!this.options.autoRotate) return;
-      this.stopAutoRotate();
-      if (this.isHovering()) return;
-      this.timer = setInterval(() => {
-        if (!document.hidden && this.isInView && !this.isHovering() && !this.isDragging && !this.isAnimating) {
-          this.next();
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (this.continuousRafId) return;
+
+      this.lastTickTime = performance.now();
+
+      const loop = now => {
+        this.continuousRafId = requestAnimationFrame(loop);
+
+        const dt = Math.min(0.05, Math.max(0, (now - (this.lastTickTime || now)) / 1000));
+        this.lastTickTime = now;
+
+        // Continuously advance rotation regardless of hover state; pause only during active drag or snap tween
+        if (!document.hidden && this.isInView && !this.isDragging && !this.isAnimating) {
+          this.currentRot += dt * this.options.speed;
+          // Keep float bounded neatly while preserving continuous wrap-around
+          if (this.currentRot >= this.count * 1000) {
+            this.currentRot -= this.count * 1000;
+          }
+          this.render(this.currentRot);
         }
-      }, this.options.interval);
+      };
+
+      this.continuousRafId = requestAnimationFrame(loop);
     }
 
     stopAutoRotate() {
-      if (this.timer) {
-        clearInterval(this.timer);
-        this.timer = null;
-      }
-    }
-
-    resetAutoRotate() {
-      this.stopAutoRotate();
-      if (this.options.autoRotate && !this.isHovering()) {
-        this.startAutoRotate();
+      if (this.continuousRafId) {
+        cancelAnimationFrame(this.continuousRafId);
+        this.continuousRafId = null;
       }
     }
 
@@ -305,7 +286,7 @@
       });
 
       // 2. Interactive Dragging: Desktop Mouse & Mobile Touch
-      const onDragStart = (clientX, isTouch = false) => {
+      const onDragStart = clientX => {
         this.isDragging = true;
         this.hasMoved = false;
         this.dragStartX = clientX;
@@ -314,6 +295,7 @@
         if (this.rafId) {
           cancelAnimationFrame(this.rafId);
           this.rafId = null;
+          this.isAnimating = false;
         }
       };
 
@@ -335,11 +317,14 @@
         this.isDragging = false;
         this.root.removeAttribute('data-dragging');
 
-        // Snap smoothly to nearest integer slot with momentum
-        const nearestSlot = Math.round(this.currentRot);
-        this.targetRot = nearestSlot;
-        this.animateTo(nearestSlot, 420);
-        this.resetAutoRotate();
+        // Snap smoothly to nearest integer slot if user dragged, then continue flowing
+        if (this.hasMoved) {
+          const nearestSlot = Math.round(this.currentRot);
+          this.targetRot = nearestSlot;
+          this.animateTo(nearestSlot, 420);
+        } else {
+          this.lastTickTime = performance.now();
+        }
 
         setTimeout(() => {
           this.hasMoved = false;
@@ -349,7 +334,7 @@
       // Mouse drag handlers
       this.root.addEventListener('mousedown', e => {
         if (e.target.closest('a') || e.target.closest('button')) return;
-        onDragStart(e.clientX, false);
+        onDragStart(e.clientX);
       });
 
       window.addEventListener('mousemove', e => {
@@ -366,7 +351,7 @@
         e => {
           if (e.touches && e.touches[0]) {
             if (e.target.closest('a') || e.target.closest('button')) return;
-            onDragStart(e.touches[0].clientX, true);
+            onDragStart(e.touches[0].clientX);
           }
         },
         { passive: true }
@@ -389,7 +374,7 @@
       // 3. Click any inactive satellite card to bring it to center focus
       this.items.forEach((item, idx) => {
         item.addEventListener('click', e => {
-          if (this.hasMoved) return; // Prevent triggering click if user dragged
+          if (this.hasMoved) return;
           if (idx === this.activeIndex) return;
           if (e.target.closest('a') || e.target.closest('button')) return;
           e.preventDefault();
@@ -397,106 +382,21 @@
         });
       });
 
-      // 5. Pause auto-rotate cleanly whenever hovered (container OR any satellite/active card) & when off-screen
-      this.isInView = true;
+      // 4. Pause RAF only when scrolled far off-screen for scroll performance (keep spinning on hover!)
       if ('IntersectionObserver' in window) {
         const viewObserver = new IntersectionObserver(
           entries => {
             this.isInView = entries[0].isIntersecting;
+            if (this.isInView) {
+              this.lastTickTime = performance.now();
+            }
           },
           { rootMargin: '150px 0px' }
         );
         viewObserver.observe(this.root);
       }
 
-      const pause = () => {
-        if (this.resumeTimeout) {
-          clearTimeout(this.resumeTimeout);
-          this.resumeTimeout = null;
-        }
-        this.isPaused = true;
-        this.root.setAttribute('data-paused', 'true');
-        this.stopAutoRotate();
-      };
-      const scheduleResume = () => {
-        if (this.resumeTimeout) clearTimeout(this.resumeTimeout);
-        this.resumeTimeout = setTimeout(() => {
-          this.resumeTimeout = null;
-          // Re-check live hover/pointer state before unpausing
-          this.isPaused = false;
-          if (this.isHovering()) {
-            this.isPaused = true;
-            this.root.setAttribute('data-paused', 'true');
-            this.stopAutoRotate();
-            return;
-          }
-          this.root.removeAttribute('data-paused');
-          this.resetAutoRotate();
-        }, 120);
-      };
-
-      const hoverTarget = this.wrapper || this.root;
-      hoverTarget.addEventListener('pointerenter', pause);
-      hoverTarget.addEventListener('mouseenter', pause);
-      hoverTarget.addEventListener('mouseover', pause);
-      hoverTarget.addEventListener('pointermove', pause, { passive: true });
-      hoverTarget.addEventListener('mousemove', pause, { passive: true });
-      hoverTarget.addEventListener('pointerleave', scheduleResume);
-      hoverTarget.addEventListener('mouseleave', scheduleResume);
-
-      this.root.addEventListener('pointerenter', pause);
-      this.root.addEventListener('mouseenter', pause);
-      this.root.addEventListener('pointerleave', scheduleResume);
-      this.root.addEventListener('mouseleave', scheduleResume);
-
-      this.items.forEach(item => {
-        item.addEventListener('pointerenter', pause);
-        item.addEventListener('mouseenter', pause);
-        item.addEventListener('pointerleave', scheduleResume);
-        item.addEventListener('mouseleave', scheduleResume);
-      });
-
-      // Track last pointer coordinates globally so scrolling under a stationary cursor pauses/resumes accurately
-      const syncPointerBounds = (clientX, clientY) => {
-        this.lastPointerX = clientX;
-        this.lastPointerY = clientY;
-        if (this.isPointInsideBounds(clientX, clientY)) {
-          if (!this.isPaused) pause();
-        } else if (this.isPaused && !this.isDragging) {
-          scheduleResume();
-        }
-      };
-
-      document.addEventListener(
-        'pointermove',
-        e => {
-          if (e.pointerType === 'touch') return;
-          syncPointerBounds(e.clientX, e.clientY);
-        },
-        { passive: true }
-      );
-
-      document.addEventListener(
-        'pointerleave',
-        () => {
-          this.lastPointerX = null;
-          this.lastPointerY = null;
-          if (!this.isDragging) scheduleResume();
-        },
-        { passive: true }
-      );
-
-      window.addEventListener(
-        'scroll',
-        () => {
-          if (this.lastPointerX !== null && this.lastPointerY !== null) {
-            syncPointerBounds(this.lastPointerX, this.lastPointerY);
-          }
-        },
-        { passive: true }
-      );
-
-      // 6. Responsive window resize handling
+      // 5. Responsive window resize handling
       let resizeTimer = null;
       window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
@@ -515,7 +415,7 @@
 
     const engine = new OrbitServicesEngine(container, {
       autoRotate: true,
-      interval: 3800
+      speed: 0.32
     });
 
     window.__shreeTechOrbit = engine;
