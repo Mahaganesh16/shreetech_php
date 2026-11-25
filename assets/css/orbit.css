@@ -6,8 +6,8 @@
   position: relative;
   width: 100%;
   max-width: 1360px;
-  min-height: 720px;
-  height: 750px;
+  min-height: 600px;
+  height: 620px;
   margin: 0 auto;
   user-select: none;
   -webkit-user-select: none;
@@ -182,8 +182,8 @@
 /* Responsive adjustments */
 @media (max-width: 1100px) and (min-width: 769px) {
   .orbit-container {
-    min-height: 660px;
-    height: 680px;
+    min-height: 560px;
+    height: 580px;
   }
 
   .orbit-item {
@@ -200,8 +200,8 @@
 
 @media (max-width: 768px) {
   .orbit-container {
-    min-height: 580px;
-    height: 620px;
+    min-height: 530px;
+    height: 550px;
   }
 
   .orbit-item {

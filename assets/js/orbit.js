@@ -69,23 +69,23 @@
       this.isMobile = this.width < 768;
       this.isTablet = this.width >= 768 && this.width < 1100;
 
-      // Calculate horizontal elliptical path geometry (reduced for elegant framing)
+      // Calculate horizontal elliptical path geometry (tighter vertical framing)
       if (this.isMobile) {
         this.rx = Math.min(270, Math.round(this.width * 0.38));
-        this.ry = Math.min(130, Math.round(this.height * 0.21));
+        this.ry = Math.min(120, Math.round(this.height * 0.21));
         this.cx = this.width / 2;
-        this.cy = this.height / 2 - 10;
+        this.cy = Math.round(this.height * 0.40);
       } else if (this.isTablet) {
         this.rx = Math.min(340, Math.round(this.width * 0.34));
-        this.ry = Math.min(145, Math.round(this.height * 0.21));
+        this.ry = Math.min(135, Math.round(this.height * 0.23));
         this.cx = this.width / 2;
-        this.cy = this.height / 2 - 18;
+        this.cy = Math.round(this.height * 0.39);
       } else {
-        // Desktop: reduced radius for a tighter, elegant ellipse
+        // Desktop: compact ellipse framing with zero top/bottom clipping
         this.rx = Math.min(390, Math.round(this.width * 0.32));
-        this.ry = Math.min(160, Math.round(this.height * 0.21));
+        this.ry = Math.min(145, Math.round(this.height * 0.23));
         this.cx = this.width / 2;
-        this.cy = this.height / 2 - 20;
+        this.cy = Math.round(this.height * 0.37);
       }
 
       // Update SVG path for exact visual orbit guide line

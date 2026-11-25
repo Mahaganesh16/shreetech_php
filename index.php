@@ -99,7 +99,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      1. HERO SECTION (#home)
      ========================================================================= -->
-<section id="home" class="relative pt-20 pb-10 sm:pt-28 sm:pb-14 md:pt-32 md:pb-16 overflow-hidden flex items-center scroll-mt-24">
+<section id="home" class="relative pt-20 pb-8 sm:pt-24 sm:pb-10 md:pt-28 md:pb-12 overflow-hidden flex items-center scroll-mt-24">
   <!-- Subtle Ambient Corner Blooms -->
   <div class="absolute top-1/4 -left-32 w-[38rem] h-[38rem] bg-[#FF6B00]/6 rounded-full blur-[140px] pointer-events-none"></div>
   <div class="absolute top-1/3 -right-32 w-[42rem] h-[42rem] bg-[#C01858]/5 rounded-full blur-[150px] pointer-events-none"></div>
@@ -323,7 +323,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      2. ABOUT SHREE TECH SECTION (#about)
      ========================================================================= -->
-<section id="about" class="relative pt-8 pb-11 sm:pt-12 sm:pb-16 md:pb-[90px] bg-transparent overflow-hidden scroll-mt-24">
+<section id="about" class="relative pt-6 pb-8 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
       
@@ -445,9 +445,9 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      4. WHY CHOOSE US SECTION (#why-us)
      ========================================================================= -->
-<section id="why-us" class="relative py-11 sm:py-16 md:py-[90px] bg-[#FFF0F5]/25 overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="why-us" class="relative pt-6 pb-8 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mb-8 sm:mb-12">
+    <div class="max-w-3xl mb-6 sm:mb-8">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Why Choose Shree Tech</span>
@@ -545,11 +545,11 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      5. ENGINEERING SERVICES SECTION (#services)
      ========================================================================= -->
-<section id="services" class="relative py-11 sm:py-16 md:py-[90px] bg-transparent overflow-hidden scroll-mt-24">
+<section id="services" class="relative pt-6 pb-8 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
-    <div class="max-w-3xl mb-8 sm:mb-12">
+    <div class="max-w-3xl mb-4 sm:mb-6">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Our Services</span>
@@ -564,7 +564,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 
     <!-- 1. INTERACTIVE 3D ORBIT VIEW (DOMINIK KOCH ARCHITECTURE) -->
-    <div id="services-orbit-wrapper" class="relative w-full py-4 select-none">
+    <div id="services-orbit-wrapper" class="relative w-full py-0 select-none">
       <!-- Ambient Orbit Light Glows -->
       <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[340px] bg-gradient-to-tr from-[#FF6B00]/10 via-[#C01858]/8 to-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -709,7 +709,7 @@ require_once __DIR__ . '/includes/header.php';
       </div>
 
       <!-- Drag & Interaction Hint -->
-      <div class="flex items-center justify-center gap-2 mt-4 text-xs text-[#475569] font-medium font-body">
+      <div class="flex items-center justify-center gap-2 mt-1 text-xs text-[#475569] font-medium font-body">
         <i data-lucide="move-horizontal" class="w-3.5 h-3.5 text-[#FF6B00] animate-pulse"></i>
         <span>Drag horizontally to rotate orbit &bull; Click any card to focus</span>
       </div>
@@ -720,11 +720,11 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      4. CORE TECHNOLOGY STACK SECTION (#technologies)
      ========================================================================= -->
-<section id="technologies" class="relative py-11 sm:py-16 md:py-[90px] bg-[#FFF4EA]/15 overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="technologies" class="relative pt-6 pb-6 sm:pt-8 sm:pb-8 md:pt-8 md:pb-8 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
-    <div class="max-w-3xl mb-8 sm:mb-12">
+    <div class="max-w-3xl mb-6 sm:mb-8">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Core Technology Stack</span>
@@ -961,13 +961,13 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      7. FEATURED PROJECTS SECTION (#projects) - 3D STACKING CARD DECK
      ========================================================================= -->
-<section id="projects" class="relative w-full bg-[#FFF0F5]/25 border-y border-[#F1E6EE] select-none scroll-mt-24">
+<section id="projects" class="relative w-full bg-transparent select-none scroll-mt-24">
   
   <!-- SCROLL-CONTROLLED PINNED STACKING TRACK -->
   <div id="projects-pin-track" class="relative w-full">
     
     <!-- STICKY VIEWPORT STAGE (PERFECT FULL-VIEW ALIGNMENT: ZERO CLIPPING & SAFE NAVBAR CLEARANCE) -->
-    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-20 sm:pt-28 pb-8 px-4 sm:px-6 lg:px-8">
+    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-16 sm:pt-20 pb-4 px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header (Cleanly Spaced Below Floating Navbar) -->
       <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-2 sm:mb-2.5 shrink-0">
@@ -1127,10 +1127,10 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      8. CLIENT TESTIMONIALS SECTION (#testimonials)
      ========================================================================= -->
-<section id="testimonials" class="relative py-11 sm:py-16 md:py-[90px] bg-[#F5F0FF]/25 overflow-hidden border-y border-[#F1E6EE] scroll-mt-24">
+<section id="testimonials" class="relative pt-6 pb-8 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+    <div class="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Client Testimonials</span>
@@ -1272,7 +1272,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      9. CONTACT & CONSULTATION SECTION (#contact)
      ========================================================================= -->
-<section id="contact" class="relative py-11 sm:py-16 md:py-[90px] bg-transparent overflow-hidden scroll-mt-24">
+<section id="contact" class="relative pt-6 pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-12 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-start">
       
