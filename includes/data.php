@@ -549,7 +549,7 @@ if (!function_exists('renderShowcaseCard')) {
                 <span class="text-[10px] sm:text-xs font-bold text-[#7C3AED] bg-[#F5F3FF] border border-[#DDD6FE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body shrink-0 truncate max-w-[170px]">
                   <?php echo htmlspecialchars($displayTag); ?>
                 </span>
-                <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-500 shrink-0"></i>
+                <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-[1000ms] shrink-0"></i>
               </div>
               <h4 class="text-sm sm:text-base font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight">
                 <?php echo htmlspecialchars($tech['name']); ?>

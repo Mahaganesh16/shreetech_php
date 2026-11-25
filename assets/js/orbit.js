@@ -228,7 +228,7 @@
       if (!this.options.autoRotate) return;
       this.stopAutoRotate();
       this.timer = setInterval(() => {
-        if (!this.isPaused && !this.isDragging) {
+        if (this.isInView && !this.isPaused && !this.isDragging) {
           this.next();
         }
       }, this.options.interval);
@@ -358,7 +358,18 @@
         });
       });
 
-      // 5. Pause auto-rotate on hover
+      // 5. Pause auto-rotate on hover & when scrolled off-screen
+      this.isInView = true;
+      if ('IntersectionObserver' in window) {
+        const viewObserver = new IntersectionObserver(
+          entries => {
+            this.isInView = entries[0].isIntersecting;
+          },
+          { rootMargin: '150px 0px' }
+        );
+        viewObserver.observe(this.root);
+      }
+
       this.root.addEventListener('mouseenter', () => {
         this.isPaused = true;
       });

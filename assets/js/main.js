@@ -4,20 +4,32 @@
  */
 
 function initShreeTech() {
-  // 0. Initialize Lenis Smooth Scroll Engine (High Performance 60/120 FPS Fluid Momentum Scroll)
-  let lenis = null;
-  if (typeof Lenis !== 'undefined') {
+  if (window.__shreeTechInitialized) return;
+  window.__shreeTechInitialized = true;
+
+  const prefersReducedMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  // 0. Initialize Lenis Smooth Scroll Engine (Singleton + Explicit RAF Loop)
+  let lenis = window.__lenis || null;
+  if (!lenis && typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     lenis = new Lenis({
-      lerp: 0.14,
-      wheelMultiplier: 1.15,
+      lerp: 0.08,
+      wheelMultiplier: 0.8,
       touchMultiplier: 1.2,
       smoothWheel: true,
       syncTouch: false,
-      autoRaf: true,
+      autoRaf: false,
     });
 
-    // Disable className thrashing to prevent runtime MutationObserver overhead
+    // Prevent per-frame html.className mutations that trigger runtime CSS MutationObservers
     lenis.updateClassName = function () {};
+    document.documentElement.classList.add('lenis');
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
 
     window.__lenis = lenis;
   }
@@ -108,19 +120,51 @@ function initShreeTech() {
   // 3. HARDWARE-ACCELERATED 3D CARD FLIP ON CLICK / TOUCH
   // =========================================================================
   const flipCardWrappers = document.querySelectorAll('.flip-card-wrapper');
+  const canHoverFine = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
   flipCardWrappers.forEach((wrapper) => {
-    wrapper.addEventListener('click', (e) => {
-      // Don't flip if user clicked on a link or button inside back card
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let lastTouchTime = 0;
+    let lastFlipToggle = 0;
+
+    const toggleFlip = (e) => {
+      // Don't flip if user interacted with a link or button inside back card
       if (e.target.closest('a') || e.target.closest('button')) {
         return;
       }
-      // On touch devices without hover capability, tap toggles flip
-      if (window.matchMedia && window.matchMedia('(hover: none)').matches) {
-        const inner = wrapper.querySelector('.flip-card-inner');
-        if (inner) {
-          inner.classList.toggle('is-flipped');
+      const now = performance.now();
+      if (now - lastFlipToggle < 400) return; // Prevent double-toggle from touchend + click or rapid bounce
+      lastFlipToggle = now;
+
+      const inner = wrapper.querySelector('.flip-card-inner');
+      if (inner) {
+        inner.classList.toggle('is-flipped');
+      }
+    };
+
+    wrapper.addEventListener('touchstart', (e) => {
+      lastTouchTime = performance.now();
+      if (e.touches && e.touches[0]) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    wrapper.addEventListener('touchend', (e) => {
+      if (e.changedTouches && e.changedTouches[0]) {
+        const dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
+        const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+        if (dx < 10 && dy < 10) {
+          toggleFlip(e);
         }
       }
+    }, { passive: true });
+
+    wrapper.addEventListener('click', (e) => {
+      const hoverCapable = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const isTouchTap = !hoverCapable || (performance.now() - lastTouchTime < 700);
+      if (!isTouchTap) return;
+      toggleFlip(e);
     });
   });
 
@@ -174,8 +218,13 @@ function initShreeTech() {
   // =========================================================================
   const header = document.querySelector('header');
   const dock = document.getElementById('navbar-dock');
-  const updateHeaderScroll = () => {
-    const isScrolled = window.scrollY > 20;
+  let lastHeaderScrolled = null;
+  const updateHeaderScroll = (scrollPos) => {
+    const y = typeof scrollPos === 'number' ? scrollPos : window.scrollY;
+    const isScrolled = y > 20;
+    if (isScrolled === lastHeaderScrolled) return;
+    lastHeaderScrolled = isScrolled;
+
     if (header) {
       if (isScrolled) {
         header.classList.add('glass-navbar-scrolled');
@@ -194,7 +243,7 @@ function initShreeTech() {
     }
   };
   if (!lenis) {
-    window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+    window.addEventListener('scroll', () => updateHeaderScroll(), { passive: true });
   }
   updateHeaderScroll();
 
@@ -224,27 +273,47 @@ function initShreeTech() {
     testTrack.addEventListener('touchstart', () => { isHovered = true; }, { passive: true });
     testTrack.addEventListener('touchend', () => { isHovered = false; });
 
-    const testSection = document.getElementById('testimonials');
-    if ('IntersectionObserver' in window && testSection) {
-      const io = new IntersectionObserver((entries) => {
-        isVisible = entries[0].isIntersecting;
-      }, { rootMargin: '100px' });
-      io.observe(testSection);
-    } else {
-      isVisible = true;
-    }
-
-    // Smooth continuous auto drift (only when section is visible in viewport)
-    function stepDrift() {
-      if (isVisible && !isHovered && !isInteracting && testTrack) {
+    let driftRafId = null;
+    const stepDrift = () => {
+      driftRafId = null;
+      if (!isVisible || prefersReducedMotion) return;
+      if (!isHovered && !isInteracting && testTrack) {
         testTrack.scrollLeft += 0.85;
         if (testTrack.scrollLeft >= testTrack.scrollWidth / 2) {
           testTrack.scrollLeft -= testTrack.scrollWidth / 2;
         }
       }
-      requestAnimationFrame(stepDrift);
+      driftRafId = requestAnimationFrame(stepDrift);
+    };
+
+    const startDrift = () => {
+      if (!driftRafId && isVisible && !prefersReducedMotion) {
+        driftRafId = requestAnimationFrame(stepDrift);
+      }
+    };
+
+    const stopDrift = () => {
+      if (driftRafId) {
+        cancelAnimationFrame(driftRafId);
+        driftRafId = null;
+      }
+    };
+
+    const testSection = document.getElementById('testimonials');
+    if ('IntersectionObserver' in window && testSection) {
+      const io = new IntersectionObserver((entries) => {
+        isVisible = entries[0].isIntersecting;
+        if (isVisible) {
+          startDrift();
+        } else {
+          stopDrift();
+        }
+      }, { rootMargin: '100px' });
+      io.observe(testSection);
+    } else {
+      isVisible = true;
+      startDrift();
     }
-    requestAnimationFrame(stepDrift);
 
     function nudgeTrack(direction) {
       if (!testTrack) return;
@@ -397,6 +466,10 @@ function initShreeTech() {
       if (typeof lucide !== 'undefined') {
         lucide.createIcons();
       }
+      if (typeof refreshSectionOffsets === 'function') {
+        refreshSectionOffsets();
+      }
+      if (lenis) lenis.resize();
     });
   });
 
@@ -409,25 +482,30 @@ function initShreeTech() {
   const stageHeader = pinStage ? pinStage.querySelector('.max-w-3xl') : null;
   const projectCards = document.querySelectorAll('.stacking-card-item');
   const projectTabs = document.querySelectorAll('.project-filter-btn');
+  let lastStackProgress = -1;
 
   function updateTrackHeight() {
     if (!pinTrack) return;
     const visibleCards = Array.from(projectCards).filter(
       (card) => card.style.display !== 'none'
     );
+    visibleCards.forEach((card, idx) => {
+      card.style.setProperty('--stack-idx', idx);
+    });
     const count = visibleCards.length;
     if (count <= 1) {
       pinTrack.style.height = '100vh';
     } else {
-      // 110px of scroll per card transition for brisk, responsive stacking without trapping viewport
-      const scrollPerCard = 110;
-      // Runway: intro pad (30px) + transitions + outro hold (60px)
-      const totalScrollTravel = 30 + (count - 1) * scrollPerCard + 60;
+      // 140px of scroll per card transition for clear, brisk stacking without trapping viewport
+      const scrollPerCard = 140;
+      // Runway: intro pad (40px) + transitions + outro hold (80px)
+      const totalScrollTravel = 40 + (count - 1) * scrollPerCard + 80;
       pinTrack.style.height = `${window.innerHeight + totalScrollTravel}px`;
     }
+    if (lenis) lenis.resize();
   }
 
-  function updateStackingCards() {
+  function updateStackingCards(forceUpdate = false) {
     if (!pinTrack || !pinStage || !projectCards.length) return;
 
     const visibleCards = Array.from(projectCards).filter(
@@ -450,6 +528,10 @@ function initShreeTech() {
 
     // Progress goes strictly from 0 to 1 while pinned in the viewport
     const progress = Math.min(Math.max(-trackRect.top / maxScroll, 0), 1);
+    if (!forceUpdate && Math.abs(progress - lastStackProgress) < 0.0005) {
+      return;
+    }
+    lastStackProgress = progress;
     const totalSteps = totalCards - 1;
 
     // Timeline partitions:
@@ -474,7 +556,6 @@ function initShreeTech() {
     const travelDistance = Math.max(window.innerHeight * 0.95, 620);
 
     visibleCards.forEach((card, index) => {
-      card.style.setProperty('--stack-idx', index);
       const headerTab = card.querySelector('.stacking-card-header');
 
       if (index === 0) {
@@ -485,7 +566,6 @@ function initShreeTech() {
         }
 
         const scale = Math.max(1 - coveredDepth * 0.024, 0.89);
-        const brightness = Math.max(1 - coveredDepth * 0.03, 0.94);
         const tabR = Math.round(Math.max(255 - coveredDepth * 10, 226));
         const tabG = Math.round(Math.max(255 - coveredDepth * 9, 232));
         const tabB = Math.round(Math.max(255 - coveredDepth * 7, 240));
@@ -563,9 +643,9 @@ function initShreeTech() {
     }
     window.addEventListener('resize', () => {
       updateTrackHeight();
-      if (!lenis) onStackScroll();
+      updateStackingCards(true);
     }, { passive: true });
-    updateStackingCards();
+    updateStackingCards(true);
   }
 
   // Filter Buttons Handler
@@ -593,7 +673,10 @@ function initShreeTech() {
 
       // Recalculate track height and stacking immediately
       updateTrackHeight();
-      onStackScroll();
+      updateStackingCards(true);
+      if (typeof refreshSectionOffsets === 'function') {
+        refreshSectionOffsets();
+      }
     });
   });
 
@@ -662,23 +745,25 @@ function initShreeTech() {
   // 11. MAGNETIC BUTTONS (TACTILE CURSOR ATTRACTION)
   // =========================================================================
   const magneticButtons = document.querySelectorAll('.glass-btn-primary, .glass-btn-secondary');
-  magneticButtons.forEach((btn) => {
-    btn.addEventListener('mousemove', (e) => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-    });
+  if (canHoverFine && !prefersReducedMotion) {
+    magneticButtons.forEach((btn) => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate3d(${x * 0.15}px, ${y * 0.15}px, 0)`;
+      });
 
-    btn.addEventListener('mouseleave', () => {
-      btn.style.transform = '';
-      btn.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
-    });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+        btn.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+      });
 
-    btn.addEventListener('mouseenter', () => {
-      btn.style.transition = 'none';
+      btn.addEventListener('mouseenter', () => {
+        btn.style.transition = 'none';
+      });
     });
-  });
+  }
 
   // =========================================================================
   // 12. CONTACT FORM FEEDBACK
@@ -753,49 +838,82 @@ function initShreeTech() {
     }
   };
 
+  let cachedSections = [];
+  let cachedDocHeight = 0;
+  let cachedWinHeight = window.innerHeight;
+  let refreshSectionOffsets = () => {
+    cachedDocHeight = document.documentElement.scrollHeight;
+    cachedWinHeight = window.innerHeight;
+    cachedSections = [];
+    for (let i = 0; i < navTrackSections.length; i++) {
+      const item = navTrackSections[i];
+      const secEl = document.getElementById(item.id);
+      if (secEl) {
+        cachedSections.push({
+          id: item.id,
+          navIndex: item.navIndex,
+          top: secEl.offsetTop,
+        });
+      }
+    }
+  };
+
+  const evaluateScrollSpy = (scrollPos) => {
+    const y = typeof scrollPos === 'number' ? scrollPos : window.scrollY;
+    if (!cachedDocHeight || cachedSections.length === 0) {
+      refreshSectionOffsets();
+    }
+
+    // If user reaches near bottom of the page, unselect dock nav
+    const scrollBottom = y + cachedWinHeight;
+    if (scrollBottom >= cachedDocHeight - 80) {
+      updateActiveNav(-1, 'contact');
+      return;
+    }
+
+    const scrollTriggerPos = y + 180;
+    let activeIndex = 0;
+    let activeId = 'home';
+
+    for (let i = cachedSections.length - 1; i >= 0; i--) {
+      const item = cachedSections[i];
+      if (scrollTriggerPos >= item.top) {
+        activeIndex = item.navIndex;
+        activeId = item.id;
+        break;
+      }
+    }
+
+    updateActiveNav(activeIndex, activeId);
+  };
+
   let scrollSpyTicking = false;
-  const onScrollSpy = () => {
+  const onScrollSpy = (scrollPos) => {
+    if (typeof scrollPos === 'number') {
+      evaluateScrollSpy(scrollPos);
+      return;
+    }
     if (scrollSpyTicking) return;
     scrollSpyTicking = true;
     requestAnimationFrame(() => {
       scrollSpyTicking = false;
-
-      // If user reaches near bottom of the page, unselect dock nav
-      const docHeight = document.documentElement.scrollHeight;
-      const scrollBottom = window.scrollY + window.innerHeight;
-      if (scrollBottom >= docHeight - 80) {
-        updateActiveNav(-1, 'contact');
-        return;
-      }
-
-      const scrollTriggerPos = window.scrollY + 180;
-      let activeIndex = 0;
-      let activeId = 'home';
-
-      for (let i = navTrackSections.length - 1; i >= 0; i--) {
-        const item = navTrackSections[i];
-        const secEl = document.getElementById(item.id);
-        if (secEl) {
-          const top = secEl.offsetTop;
-          if (scrollTriggerPos >= top) {
-            activeIndex = item.navIndex;
-            activeId = item.id;
-            break;
-          }
-        }
-      }
-
-      updateActiveNav(activeIndex, activeId);
+      evaluateScrollSpy();
     });
   };
 
   // Only enable scrollspy on pages with single-page section anchors (like index.php)
   const isSinglePageApp = !!document.getElementById('services');
   if (isSinglePageApp) {
+    refreshSectionOffsets();
+    window.addEventListener('resize', refreshSectionOffsets, { passive: true });
+    window.addEventListener('load', refreshSectionOffsets, { passive: true });
     if (!lenis) {
-      window.addEventListener('scroll', onScrollSpy, { passive: true });
+      window.addEventListener('scroll', () => onScrollSpy(), { passive: true });
     }
-    setTimeout(onScrollSpy, 200);
+    setTimeout(() => {
+      refreshSectionOffsets();
+      evaluateScrollSpy();
+    }, 200);
   }
 
   // Smooth scroll handler for all internal anchor links (Directory cards, mobile links, buttons, footer)
@@ -866,12 +984,15 @@ function initShreeTech() {
 
   // Sync scroll-driven components directly with Lenis smooth scroll
   if (lenis) {
-    lenis.on('scroll', () => {
-      updateHeaderScroll();
+    lenis.on('scroll', (e) => {
+      const y = e && typeof e.scroll === 'number' ? e.scroll : window.scrollY;
+      updateHeaderScroll(y);
       if (pinTrack) {
         updateStackingCards();
       }
-      onScrollSpy();
+      if (isSinglePageApp) {
+        evaluateScrollSpy(y);
+      }
     });
   }
 }
