@@ -263,12 +263,12 @@ function initShreeTech() {
       setHeaderHidden(false);
       lastHeaderScrollY = y;
     } else if (delta > 4) {
-      // Scrolling down -> show navbar
-      setHeaderHidden(false);
+      // Scrolling down -> hide navbar
+      setHeaderHidden(true);
       lastHeaderScrollY = y;
     } else if (delta < -4) {
-      // Scrolling up -> slide navbar up out of view
-      setHeaderHidden(true);
+      // Scrolling up -> show navbar
+      setHeaderHidden(false);
       lastHeaderScrollY = y;
     }
   };

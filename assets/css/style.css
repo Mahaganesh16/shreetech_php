@@ -331,7 +331,7 @@ h1 {
     0 2px 6px rgba(15, 23, 42, 0.03) !important;
 }
 
-/* Scroll-Direction Floating Header (Show on Scroll Down & Top, Slide Up on Scroll Up) */
+/* Scroll-Direction Floating Header (Show on Scroll Up & Top, Hide on Scroll Down) */
 #main-header {
   will-change: transform, opacity;
   transform: translate3d(0, 0, 0);
