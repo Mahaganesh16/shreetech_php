@@ -351,31 +351,61 @@ if (!function_exists('saveResumeUploadSafely')) {
     }
 }
 
-if (!function_exists('prepareWeb3FormsClientPayload')) {
-    function prepareWeb3FormsClientPayload(array $config, array $mail, string $accessKey): array {
-        $endpoint = trim((string) ($config['web3forms_endpoint'] ?? '')) ?: 'https://api.web3forms.com/submit';
+if (!function_exists('buildWeb3FormsFields')) {
+    function buildWeb3FormsFields(array $config, array $mail, string $accessKey, bool $archiveAttachment = false): array {
         $fields = $mail['fields'] ?? [];
         $attachments = $mail['attachments'] ?? [];
 
-        if (!empty($attachments)) {
+        if ($archiveAttachment && !empty($attachments)) {
             $savedPath = saveResumeUploadSafely($attachments[0]);
             if ($savedPath !== null) {
                 $fields['Saved Resume Copy'] = $savedPath;
             }
         }
 
+        $phone = sanitizeMailHeader((string) ($fields['Phone Number'] ?? ($fields['Mobile Number'] ?? '')));
+        $messageBody = trim((string) ($fields['Project Description'] ?? ($fields['Cover Letter'] ?? '')));
+        if ($messageBody === '') {
+            $messageBody = trim((string) ($mail['text'] ?? ''));
+        }
+
+        $payload = [
+            'access_key' => $accessKey,
+            'subject'    => sanitizeMailHeader((string) ($mail['subject'] ?? 'Website Submission')),
+            'from_name'  => sanitizeMailHeader((string) ($config['from_name'] ?? 'Shree Tech Website')),
+            'name'       => sanitizeMailHeader((string) ($mail['reply_to_name'] ?? '')),
+            'email'      => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
+            'replyto'    => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
+        ];
+
+        if ($phone !== '') {
+            $payload['phone'] = $phone;
+        }
+
+        $skipKeys = ['Full Name', 'Applicant Name', 'Business Email', 'Email', 'Phone Number', 'Mobile Number', 'Project Description', 'Cover Letter'];
+        foreach ($fields as $label => $value) {
+            if (in_array($label, $skipKeys, true)) {
+                continue;
+            }
+            $strVal = trim((string) $value);
+            if ($strVal !== '') {
+                $payload[$label] = $strVal;
+            }
+        }
+
+        $payload['message'] = $messageBody;
+        return $payload;
+    }
+}
+
+if (!function_exists('prepareWeb3FormsClientPayload')) {
+    function prepareWeb3FormsClientPayload(array $config, array $mail, string $accessKey): array {
+        $endpoint = trim((string) ($config['web3forms_endpoint'] ?? '')) ?: 'https://api.web3forms.com/submit';
         return [
             'ok' => true,
             'mode' => 'web3forms_client',
             'endpoint' => $endpoint,
-            'payload' => array_merge([
-                'access_key' => $accessKey,
-                'subject'    => sanitizeMailHeader((string) ($mail['subject'] ?? 'Website Submission')),
-                'from_name'  => sanitizeMailHeader((string) ($config['from_name'] ?? 'Shree Tech Website')),
-                'name'       => sanitizeMailHeader((string) ($mail['reply_to_name'] ?? '')),
-                'email'      => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
-                'replyto'    => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
-            ], $fields),
+            'payload' => buildWeb3FormsFields($config, $mail, $accessKey, true),
         ];
     }
 }
@@ -386,12 +416,7 @@ if (!function_exists('sendWeb3FormsRelay')) {
         $endpoint = trim((string) ($config['web3forms_endpoint'] ?? '')) ?: 'https://api.web3forms.com/submit';
         $timeout = max(5, (int) ($config['timeout'] ?? 20));
 
-        $fields = array_merge([
-            'access_key' => $accessKey,
-            'subject'    => sanitizeMailHeader((string) ($mail['subject'] ?? 'Website Submission')),
-            'from_name'  => sanitizeMailHeader((string) ($config['from_name'] ?? 'Shree Tech Website')),
-            'replyto'    => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
-        ], $mail['fields'] ?? []);
+        $fields = buildWeb3FormsFields($config, $mail, $accessKey, false);
 
         $res = postHttpsMailRelay($endpoint, $fields, $mail['attachments'] ?? [], ['Accept: application/json'], $timeout);
         if (!$res['ok']) {
