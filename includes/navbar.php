@@ -25,10 +25,10 @@ foreach ($navItems as $idx => $item) {
 ?>
 <header id="main-header" class="fixed top-2.5 sm:top-4 inset-x-0 z-50 pointer-events-none transition-all duration-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div id="navbar-dock" class="w-full pointer-events-auto rounded-full glass-navbar-dock px-3.5 sm:px-5 py-2 sm:py-2.5 flex items-center justify-between transition-all duration-300">
+    <div id="navbar-dock" class="w-full pointer-events-none glass-navbar-dock py-1 sm:py-1.5 flex items-center justify-between transition-all duration-300">
       
       <!-- 1. LEFT SIDE: Shree Tech Innovations Logo & Brand Name -->
-      <a href="<?php echo $isHomePage ? '#home' : 'index.php#home'; ?>" class="flex items-center gap-2.5 sm:gap-3 group select-none cursor-pointer flex-shrink-0">
+      <a href="<?php echo $isHomePage ? '#home' : 'index.php#home'; ?>" class="flex items-center gap-2.5 sm:gap-3 group select-none cursor-pointer pointer-events-auto flex-shrink-0">
         <div class="w-9 h-9 flex items-center justify-center group-hover:scale-105 transition-transform">
           <img src="images/logo-icon.png" alt="Shree Tech Logo" class="w-full h-full object-contain">
         </div>
@@ -46,7 +46,7 @@ foreach ($navItems as $idx => $item) {
       <div class="hidden md:flex items-center justify-center flex-1 mx-3 lg:mx-4">
         <nav
           id="shree-gooey-nav"
-          class="gooey-nav gooey-nav--md gooey-nav--framed"
+          class="gooey-nav gooey-nav--md gooey-nav--framed pointer-events-auto"
           data-active-index="<?php echo $activeIndex; ?>"
           data-theme="light"
           data-color="#FFF0F5"
@@ -58,7 +58,7 @@ foreach ($navItems as $idx => $item) {
           data-gooeyness="0.5"
           data-wobble="0.4"
           data-hover-effect="true"
-          style="--gn-frame: rgba(255, 255, 255, 0.20); --gn-frame-edge: rgba(255, 255, 255, 0.55); --gn-frame-highlight: rgba(255, 255, 255, 0.75); --gn-frame-shadow: none; --gn-pill: #FFF0F5; --gn-active-ink: #C01858; --gn-ink: #C01858; --gn-muted: #505D70;"
+          style="--gn-frame: rgba(255, 255, 255, 0.72); --gn-frame-edge: rgba(255, 255, 255, 0.85); --gn-frame-highlight: rgba(255, 255, 255, 0.9); --gn-frame-shadow: 0 8px 28px rgba(15, 23, 42, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.9); --gn-pill: #FFF0F5; --gn-active-ink: #C01858; --gn-ink: #C01858; --gn-muted: #505D70;"
         >
           <span class="gooey-nav__rim"></span>
           <div class="gooey-nav__stage">
@@ -99,7 +99,7 @@ foreach ($navItems as $idx => $item) {
       </div>
 
       <!-- 3. RIGHT SIDE: Gradient Contact Us Button with Arrow Icon -->
-      <div class="hidden md:flex items-center gap-3 flex-shrink-0">
+      <div class="hidden md:flex items-center gap-3 pointer-events-auto flex-shrink-0">
         <a
           href="<?php echo $isHomePage ? '#contact' : 'index.php#contact'; ?>"
           class="glass-btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs lg:text-sm font-semibold text-white cursor-pointer shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
@@ -112,7 +112,7 @@ foreach ($navItems as $idx => $item) {
       </div>
 
       <!-- Mobile Hamburger Button -->
-      <div class="md:hidden flex items-center">
+      <div class="md:hidden flex items-center pointer-events-auto">
         <button
           id="mobile-menu-toggle"
           class="p-2 text-[#475569] hover:text-[#0F172A] rounded-full bg-white/70 backdrop-blur-md border border-[#F1E6EE] shadow-xs focus:outline-none cursor-pointer"

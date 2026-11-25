@@ -331,32 +331,26 @@ h1 {
     0 2px 6px rgba(15, 23, 42, 0.03) !important;
 }
 
-/* Container-Width Floating Glassmorphism Navbar Dock */
+/* Outer Navbar Container (Transparent: Keeps Only Inner Nav Pill Glassmorphism) */
 .glass-navbar-dock {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.40);
-  backdrop-filter: blur(14px) saturate(150%);
-  -webkit-backdrop-filter: blur(14px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow:
-    0 8px 32px 0 rgba(15, 23, 42, 0.05),
-    0 2px 8px 0 rgba(192, 24, 88, 0.02),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.85);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-navbar-dock.is-scrolled,
 .glass-navbar-dock[data-scrolled="true"] {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border-color: rgba(255, 255, 255, 0.85);
-  box-shadow:
-    0 12px 36px -4px rgba(15, 23, 42, 0.09),
-    0 4px 14px -2px rgba(192, 24, 88, 0.04),
-    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: transparent;
+  box-shadow: none;
 }
 
 #mobile-menu a[data-mobile-active="true"] {
