@@ -940,8 +940,40 @@ function initShreeTech() {
           headers: { 'X-Requested-With': 'XMLHttpRequest' },
           body: new FormData(form),
         });
-        const data = await res.json();
+        const rawText = await res.text();
+        let data = null;
+        try {
+          data = JSON.parse(rawText);
+        } catch (_) {
+          showBanner('Unexpected server response. Please try again.');
+          return;
+        }
+
         if (data && data.ok) {
+          if (data.mode === 'web3forms_client' && data.endpoint && data.payload) {
+            const wfRes = await fetch(data.endpoint, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+              body: JSON.stringify(data.payload),
+            });
+            const wfText = await wfRes.text();
+            let wfData = null;
+            try {
+              wfData = JSON.parse(wfText);
+            } catch (_) {
+              wfData = null;
+            }
+            if (!wfData || !(wfData.success === true || wfData.success === 'true')) {
+              const fallbackMsg = wfRes.status === 403
+                ? 'Email relay rejected the automated/headless request (HTTP 403). Test in a normal browser tab, or add a Gmail App Password in includes/mail-config.local.php.'
+                : `Unable to deliver email via Web3Forms (HTTP ${wfRes.status}).`;
+              showBanner((wfData && wfData.message) ? wfData.message : fallbackMsg);
+              return;
+            }
+          }
           form.reset();
           onSuccess();
           if (typeof lucide !== 'undefined') lucide.createIcons();

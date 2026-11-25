@@ -59,6 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Content-Type: application/json; charset=UTF-8');
         echo json_encode([
             'ok' => $formSubmitted,
+            'mode' => $mailResult['mode'] ?? 'server',
+            'endpoint' => $mailResult['endpoint'] ?? null,
+            'payload' => $mailResult['payload'] ?? null,
             'errors' => $formErrors,
             'message' => $formSubmitted
                 ? 'Inquiry delivered successfully.'

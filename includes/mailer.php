@@ -161,8 +161,14 @@ if (!function_exists('sendSmtpEmail')) {
 
         if ($encryption !== 'none' && ($username === '' || $password === '')) {
             $web3Key = trim((string) ($config['web3forms_access_key'] ?? ''));
-            if ($web3Key !== '' && function_exists('curl_init')) {
-                return sendWeb3FormsRelay($config, $mail, $web3Key);
+            if ($web3Key !== '') {
+                $isBrowserAjax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
+                if ($isBrowserAjax) {
+                    return prepareWeb3FormsClientPayload($config, $mail, $web3Key);
+                }
+                if (function_exists('curl_init')) {
+                    return sendWeb3FormsRelay($config, $mail, $web3Key);
+                }
             }
             if (!empty($config['use_formsubmit_fallback']) && function_exists('curl_init')) {
                 return sendFormSubmitFallback($config, $mail);
@@ -322,6 +328,55 @@ if (!function_exists('postHttpsMailRelay')) {
                 @unlink($tf);
             }
         }
+    }
+}
+
+if (!function_exists('saveResumeUploadSafely')) {
+    function saveResumeUploadSafely(array $attachment): ?string {
+        $dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'resumes';
+        if (!is_dir($dir) && !@mkdir($dir, 0750, true)) {
+            return null;
+        }
+        $htaccess = $dir . DIRECTORY_SEPARATOR . '.htaccess';
+        if (!is_file($htaccess)) {
+            @file_put_contents($htaccess, "Deny from all\n");
+        }
+        $safeBase = preg_replace('/[^a-zA-Z0-9._-]/', '_', basename((string) ($attachment['name'] ?? 'resume.pdf')));
+        $targetName = date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '_' . $safeBase;
+        $targetPath = $dir . DIRECTORY_SEPARATOR . $targetName;
+        if (@file_put_contents($targetPath, (string) ($attachment['content'] ?? '')) === false) {
+            return null;
+        }
+        return 'uploads/resumes/' . $targetName;
+    }
+}
+
+if (!function_exists('prepareWeb3FormsClientPayload')) {
+    function prepareWeb3FormsClientPayload(array $config, array $mail, string $accessKey): array {
+        $endpoint = trim((string) ($config['web3forms_endpoint'] ?? '')) ?: 'https://api.web3forms.com/submit';
+        $fields = $mail['fields'] ?? [];
+        $attachments = $mail['attachments'] ?? [];
+
+        if (!empty($attachments)) {
+            $savedPath = saveResumeUploadSafely($attachments[0]);
+            if ($savedPath !== null) {
+                $fields['Saved Resume Copy'] = $savedPath;
+            }
+        }
+
+        return [
+            'ok' => true,
+            'mode' => 'web3forms_client',
+            'endpoint' => $endpoint,
+            'payload' => array_merge([
+                'access_key' => $accessKey,
+                'subject'    => sanitizeMailHeader((string) ($mail['subject'] ?? 'Website Submission')),
+                'from_name'  => sanitizeMailHeader((string) ($config['from_name'] ?? 'Shree Tech Website')),
+                'name'       => sanitizeMailHeader((string) ($mail['reply_to_name'] ?? '')),
+                'email'      => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
+                'replyto'    => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
+            ], $fields),
+        ];
     }
 }
 

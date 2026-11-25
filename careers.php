@@ -41,6 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['form_type'] ?? '') === 'ca
     $mailResult = sendCareerApplicationEmail($validated['data'], $validated['attachment']);
     echo json_encode([
         'ok' => !empty($mailResult['ok']),
+        'mode' => $mailResult['mode'] ?? 'server',
+        'endpoint' => $mailResult['endpoint'] ?? null,
+        'payload' => $mailResult['payload'] ?? null,
         'errors' => [],
         'message' => !empty($mailResult['ok'])
             ? 'Application delivered successfully.'
