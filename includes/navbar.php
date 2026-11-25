@@ -23,7 +23,7 @@ foreach ($navItems as $idx => $item) {
     }
 }
 ?>
-<header id="main-header" class="fixed top-2.5 sm:top-4 inset-x-0 z-50 pointer-events-none transition-all duration-300">
+<header id="main-header" class="fixed top-2.5 sm:top-4 inset-x-0 z-50 pointer-events-none">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div id="navbar-dock" class="w-full pointer-events-none glass-navbar-dock py-1 sm:py-1.5 flex items-center justify-between transition-all duration-300">
       

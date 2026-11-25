@@ -225,17 +225,51 @@ function initShreeTech() {
   // =========================================================================
   // 6. NAVBAR SCROLL EFFECT & MOBILE MENU TOGGLE
   // =========================================================================
-  const header = document.querySelector('header');
+  const header = document.getElementById('main-header') || document.querySelector('header');
   const dock = document.getElementById('navbar-dock');
+  const mobileToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
   let lastHeaderScrolled = null;
-  const updateHeaderScroll = (scrollPos) => {
-    const y = typeof scrollPos === 'number' ? scrollPos : window.scrollY;
-    const isScrolled = y > 20;
-    if (isScrolled === lastHeaderScrolled) return;
-    lastHeaderScrolled = isScrolled;
+  let lastHeaderScrollY = Math.max(0, window.scrollY || 0);
+  let lastHeaderHidden = null;
 
-    if (dock) {
-      dock.setAttribute('data-scrolled', isScrolled ? 'true' : 'false');
+  const setHeaderHidden = (hidden) => {
+    if (!header || hidden === lastHeaderHidden) return;
+    lastHeaderHidden = hidden;
+    if (hidden) {
+      header.setAttribute('data-nav-hidden', 'true');
+      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+      }
+    } else {
+      header.removeAttribute('data-nav-hidden');
+    }
+  };
+
+  const updateHeaderScroll = (scrollPos) => {
+    const rawY = typeof scrollPos === 'number' ? scrollPos : window.scrollY;
+    const y = Math.max(0, rawY);
+    const isScrolled = y > 20;
+    if (isScrolled !== lastHeaderScrolled) {
+      lastHeaderScrolled = isScrolled;
+      if (dock) {
+        dock.setAttribute('data-scrolled', isScrolled ? 'true' : 'false');
+      }
+    }
+
+    const delta = y - lastHeaderScrollY;
+    if (y <= 40) {
+      // Always visible at the top of the page
+      setHeaderHidden(false);
+      lastHeaderScrollY = y;
+    } else if (delta > 4) {
+      // Scrolling down -> show navbar
+      setHeaderHidden(false);
+      lastHeaderScrollY = y;
+    } else if (delta < -4) {
+      // Scrolling up -> slide navbar up out of view
+      setHeaderHidden(true);
+      lastHeaderScrollY = y;
     }
   };
   if (!lenis) {
@@ -243,8 +277,6 @@ function initShreeTech() {
   }
   updateHeaderScroll();
 
-  const mobileToggle = document.getElementById('mobile-menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
   if (mobileToggle && mobileMenu) {
     mobileToggle.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');

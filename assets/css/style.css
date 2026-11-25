@@ -331,6 +331,24 @@ h1 {
     0 2px 6px rgba(15, 23, 42, 0.03) !important;
 }
 
+/* Scroll-Direction Floating Header (Show on Scroll Down & Top, Slide Up on Scroll Up) */
+#main-header {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
+}
+
+#main-header[data-nav-hidden="true"] {
+  transform: translate3d(0, -135%, 0);
+  opacity: 0;
+  pointer-events: none !important;
+}
+
+#main-header[data-nav-hidden="true"] * {
+  pointer-events: none !important;
+}
+
 /* Outer Navbar Container (Transparent: Keeps Only Inner Nav Pill Glassmorphism) */
 .glass-navbar-dock {
   width: 100%;
@@ -1080,7 +1098,8 @@ h1 {
   .reveal-left,
   .reveal-right,
   .reveal-scale,
-  .reveal-fade {
+  .reveal-fade,
+  #main-header {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
