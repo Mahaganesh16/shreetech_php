@@ -3,6 +3,86 @@
  * Shree Tech Innovations - Careers Page
  * Dedicated careers portal featuring current job openings, culture, and resume submission.
  */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['form_type'] ?? '') === 'career') {
+    require_once __DIR__ . '/includes/mailer.php';
+    header('Content-Type: application/json; charset=UTF-8');
+
+    $position = trim($_POST['position'] ?? '');
+    $coverLetter = trim($_POST['cover_letter'] ?? '');
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    $errors = [];
+
+    if ($position === '') {
+        $errors['position'] = 'Please select a position.';
+    }
+    if ($name === '' || strlen($name) < 2) {
+        $errors['name'] = 'Name must be at least 2 characters.';
+    }
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Please enter a valid email address.';
+    }
+    if ($phone === '' || strlen($phone) < 7) {
+        $errors['phone'] = 'Please enter a valid mobile number.';
+    }
+
+    $attachment = null;
+    if (!isset($_FILES['resume']) || $_FILES['resume']['error'] !== UPLOAD_ERR_OK) {
+        $errors['resume'] = 'Please upload your resume (PDF, DOC, or DOCX).';
+    } else {
+        $file = $_FILES['resume'];
+        $maxBytes = 10 * 1024 * 1024;
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        if (!in_array($ext, ['pdf', 'doc', 'docx'], true)) {
+            $errors['resume'] = 'Resume must be a PDF, DOC, or DOCX file.';
+        } elseif ($file['size'] > $maxBytes) {
+            $errors['resume'] = 'Resume file size must be 10MB or less.';
+        } else {
+            $mimeMap = [
+                'pdf' => 'application/pdf',
+                'doc' => 'application/msword',
+                'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ];
+            $content = file_get_contents($file['tmp_name']);
+            if ($content === false) {
+                $errors['resume'] = 'Could not read the uploaded resume file.';
+            } else {
+                $attachment = [
+                    'name' => basename($file['name']),
+                    'type' => $mimeMap[$ext] ?? 'application/octet-stream',
+                    'content' => $content,
+                ];
+            }
+        }
+    }
+
+    if (!empty($errors)) {
+        echo json_encode([
+            'ok' => false,
+            'errors' => $errors,
+            'message' => implode(' • ', array_values($errors)),
+        ]);
+        exit;
+    }
+
+    $mailResult = sendCareerApplicationEmail([
+        'position' => $position,
+        'cover_letter' => $coverLetter,
+        'name' => $name,
+        'email' => $email,
+        'phone' => $phone,
+    ], $attachment);
+
+    echo json_encode([
+        'ok' => !empty($mailResult['ok']),
+        'message' => !empty($mailResult['ok'])
+            ? 'Application delivered successfully.'
+            : ($mailResult['error'] ?? 'Unable to submit your application right now.'),
+    ]);
+    exit;
+}
+
 $pageTitle = 'Careers | Shree Tech Innovations - Web & Mobile Development Careers in Madurai';
 $pageDescription = 'Build your technology career with Shree Tech Innovations in Madurai. Explore open positions for Software Engineers, Sales Managers, and Digital Marketers. Submit your resume today.';
 $currentPage = 'careers';
@@ -219,7 +299,8 @@ $openPositions = [
       </div>
 
       <!-- Application Form -->
-      <form id="careers-resume-form" class="space-y-5" enctype="multipart/form-data">
+      <form id="careers-resume-form" method="POST" action="careers.php" class="space-y-5" enctype="multipart/form-data">
+        <input type="hidden" name="form_type" value="career">
         
         <!-- Role Selection -->
         <div>
@@ -320,6 +401,12 @@ $openPositions = [
               Resume Upload (PDF, DOC, DOCX up to 10MB)
             </span>
           </div>
+        </div>
+
+        <!-- Delivery / Validation Error Banner -->
+        <div id="career-error-banner" class="hidden p-3.5 rounded-xl bg-[#FFF0F5] border border-[#C01858]/30 text-xs sm:text-sm text-[#C01858] font-medium flex items-start gap-2">
+          <i data-lucide="alert-circle" class="w-4 h-4 shrink-0 mt-0.5"></i>
+          <span id="career-error-text"></span>
         </div>
 
         <!-- Submit Button (Centered Red Pill) -->
@@ -578,38 +665,60 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Resume Form Handling
+  // Resume Form Handling (Real PHP Gmail SMTP + Attachment)
   const resumeForm = document.getElementById('careers-resume-form');
   const successModal = document.getElementById('resume-success-modal');
   const closeSuccessBtn = document.getElementById('close-success-modal-btn');
+  const careerErrorBanner = document.getElementById('career-error-banner');
+  const careerErrorText = document.getElementById('career-error-text');
 
   if (resumeForm) {
-    resumeForm.addEventListener('submit', function (e) {
+    resumeForm.addEventListener('submit', async function (e) {
       e.preventDefault();
 
+      if (careerErrorBanner) careerErrorBanner.classList.add('hidden');
+      if (careerErrorText) careerErrorText.textContent = '';
+
       const submitBtn = document.getElementById('career-submit-btn');
+      const originalHtml = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span>Submitting...</span>';
       }
 
-      setTimeout(function () {
+      try {
+        const res = await fetch('careers.php', {
+          method: 'POST',
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          body: new FormData(resumeForm)
+        });
+        const data = await res.json();
+        if (data && data.ok) {
+          resumeForm.reset();
+          if (successModal) {
+            successModal.classList.remove('opacity-0', 'pointer-events-none');
+            successModal.querySelector('.relative').classList.remove('scale-95');
+            successModal.querySelector('.relative').classList.add('scale-100');
+            successModal.setAttribute('aria-hidden', 'false');
+            if (window.__lenis) window.__lenis.stop();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+          }
+        } else {
+          if (careerErrorText) {
+            careerErrorText.textContent = (data && data.message) ? data.message : 'Unable to send your application right now.';
+          }
+          if (careerErrorBanner) careerErrorBanner.classList.remove('hidden');
+        }
+      } catch (err) {
+        if (careerErrorText) careerErrorText.textContent = 'Network error while submitting application. Please try again.';
+        if (careerErrorBanner) careerErrorBanner.classList.remove('hidden');
+      } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.innerHTML = '<span>Submit</span><i data-lucide="send" class="w-4 h-4"></i>';
-        }
-        resumeForm.reset();
-
-        // Show Success Modal
-        if (successModal) {
-          successModal.classList.remove('opacity-0', 'pointer-events-none');
-          successModal.querySelector('.relative').classList.remove('scale-95');
-          successModal.querySelector('.relative').classList.add('scale-100');
-          successModal.setAttribute('aria-hidden', 'false');
-          if (window.__lenis) window.__lenis.stop();
+          submitBtn.innerHTML = originalHtml;
           if (typeof lucide !== 'undefined') lucide.createIcons();
         }
-      }, 700);
+      }
     });
   }
 

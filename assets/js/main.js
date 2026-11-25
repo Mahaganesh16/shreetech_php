@@ -804,26 +804,70 @@ function initShreeTech() {
   }
 
   // =========================================================================
-  // 12. CONTACT FORM FEEDBACK
+  // 12. CONTACT FORM FEEDBACK (REAL PHP GMAIL SMTP SUBMISSION)
   // =========================================================================
   const contactForm = document.getElementById('contact-form');
   const contactSuccess = document.getElementById('contact-success');
+  const contactErrorBanner = document.getElementById('contact-error-banner');
+  const contactErrorText = document.getElementById('contact-error-text');
+  const contactResetBtn = document.getElementById('contact-reset-btn');
+
   if (contactForm && contactSuccess) {
-    contactForm.addEventListener('submit', (e) => {
-      if (contactForm.getAttribute('data-ajax') === 'true') {
-        e.preventDefault();
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.innerHTML = '<span>Transmitting payload...</span>';
-        }
-        setTimeout(() => {
+    const showContactError = (msg) => {
+      if (contactErrorText) contactErrorText.textContent = msg;
+      if (contactErrorBanner) contactErrorBanner.classList.remove('hidden');
+    };
+
+    const hideContactError = () => {
+      if (contactErrorBanner) contactErrorBanner.classList.add('hidden');
+      if (contactErrorText) contactErrorText.textContent = '';
+    };
+
+    contactForm.addEventListener('submit', async (e) => {
+      if (contactForm.getAttribute('data-ajax') !== 'true') return;
+      e.preventDefault();
+      hideContactError();
+
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Sending Inquiry...</span>';
+      }
+
+      try {
+        const res = await fetch('index.php', {
+          method: 'POST',
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          body: new FormData(contactForm),
+        });
+        const data = await res.json();
+        if (data && data.ok) {
           contactForm.classList.add('hidden');
           contactSuccess.classList.remove('hidden');
           contactForm.reset();
-        }, 800);
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        } else {
+          const fieldErrs = data && data.errors ? Object.values(data.errors) : [];
+          showContactError(fieldErrs.length ? fieldErrs.join(' • ') : (data && data.message ? data.message : 'Unable to submit your inquiry.'));
+        }
+      } catch (err) {
+        showContactError('Network error while sending inquiry. Please try again.');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
       }
     });
+
+    if (contactResetBtn) {
+      contactResetBtn.addEventListener('click', () => {
+        hideContactError();
+        contactSuccess.classList.add('hidden');
+        contactForm.classList.remove('hidden');
+      });
+    }
   }
 
   // =========================================================================

@@ -8,6 +8,7 @@ $currentPage = 'home';
 // Contact Form Processing for Single-Page Submissions
 $formSubmitted = false;
 $formErrors = [];
+$formMailError = '';
 $formData = [
     'name' => '',
     'email' => '',
@@ -37,7 +38,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($formErrors)) {
-        $formSubmitted = true;
+        require_once __DIR__ . '/includes/mailer.php';
+        $mailResult = sendProjectInquiryEmail($formData);
+        if (!empty($mailResult['ok'])) {
+            $formSubmitted = true;
+        } else {
+            $formMailError = $mailResult['error'] ?? 'Unable to send your inquiry right now.';
+        }
+    }
+
+    $isAjax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
+    if ($isAjax) {
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode([
+            'ok' => $formSubmitted,
+            'errors' => $formErrors,
+            'message' => $formSubmitted
+                ? 'Inquiry delivered successfully.'
+                : ($formMailError ?: 'Please fix the highlighted fields before submitting.'),
+        ]);
+        exit;
     }
 }
 
@@ -1475,25 +1495,25 @@ require_once __DIR__ . '/includes/header.php';
       <div class="lg:col-span-7 reveal-init reveal-right">
         <div class="p-8 sm:p-10 rounded-3xl glass-card contact-form-card border border-white/80 shadow-2xl relative overflow-hidden">
           
-          <?php if ($formSubmitted): ?>
-            <div id="contact-success" class="py-12 text-center space-y-4">
-              <div class="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mx-auto shadow-xs">
-                <i data-lucide="check-circle-2" class="w-8 h-8"></i>
-              </div>
-              <h3 class="text-2xl font-black text-[#0F172A] font-heading">Inquiry Transmitted</h3>
-              <p class="text-sm text-[#475569] max-w-md mx-auto leading-relaxed font-normal font-body">
-                We have received your project inquiry. A senior technical director will review your
-                scope and respond within one business day.
-              </p>
-              <a
-                href="#contact"
-                class="glass-btn-secondary mt-4 inline-block px-6 py-2.5 rounded-2xl text-xs font-semibold text-[#0F172A] cursor-pointer"
-              >
-                Submit Another Inquiry
-              </a>
+          <div id="contact-success" class="<?php echo $formSubmitted ? '' : 'hidden '; ?>py-12 text-center space-y-4">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mx-auto shadow-xs">
+              <i data-lucide="check-circle-2" class="w-8 h-8"></i>
             </div>
-          <?php else: ?>
-            <form id="contact-form" method="POST" action="#contact" class="space-y-6" data-ajax="false">
+            <h3 class="text-2xl font-black text-[#0F172A] font-heading">Inquiry Transmitted</h3>
+            <p class="text-sm text-[#475569] max-w-md mx-auto leading-relaxed font-normal font-body">
+              We have received your project inquiry. A senior technical director will review your
+              scope and respond within one business day.
+            </p>
+            <button
+              type="button"
+              id="contact-reset-btn"
+              class="glass-btn-secondary mt-4 inline-block px-6 py-2.5 rounded-2xl text-xs font-semibold text-[#0F172A] cursor-pointer"
+            >
+              Submit Another Inquiry
+            </button>
+          </div>
+
+          <form id="contact-form" method="POST" action="index.php#contact" class="<?php echo $formSubmitted ? 'hidden ' : ''; ?>space-y-6" data-ajax="true">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 
                 <!-- Full Name -->
@@ -1610,6 +1630,12 @@ require_once __DIR__ . '/includes/header.php';
                 <?php endif; ?>
               </div>
 
+              <!-- Delivery / Validation Error Banner -->
+              <div id="contact-error-banner" class="<?php echo !empty($formMailError) ? '' : 'hidden '; ?>p-3.5 rounded-2xl bg-[#FFF0F5] border border-[#C01858]/30 text-xs sm:text-sm text-[#C01858] font-medium flex items-start gap-2">
+                <i data-lucide="alert-circle" class="w-4 h-4 shrink-0 mt-0.5"></i>
+                <span id="contact-error-text"><?php echo htmlspecialchars($formMailError); ?></span>
+              </div>
+
               <!-- Submit Button -->
               <button
                 type="submit"
@@ -1624,7 +1650,6 @@ require_once __DIR__ . '/includes/header.php';
                 <span>Protected under Non-Disclosure Agreement (NDA)</span>
               </div>
             </form>
-          <?php endif; ?>
         </div>
       </div>
     </div>
