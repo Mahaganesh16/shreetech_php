@@ -13,9 +13,9 @@ function initShreeTech() {
   let lenis = window.__lenis || null;
   if (!lenis && typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     lenis = new Lenis({
-      lerp: 0.08,
-      wheelMultiplier: 0.8,
-      touchMultiplier: 1.2,
+      lerp: 0.085,
+      wheelMultiplier: 0.85,
+      touchMultiplier: 1.25,
       smoothWheel: true,
       syncTouch: false,
       autoRaf: false,
@@ -47,7 +47,11 @@ function initShreeTech() {
   );
 
   function revealAllNow() {
-    revealElements.forEach((el) => el.classList.add('is-revealed'));
+    revealElements.forEach((el) => {
+      if (el.getAttribute('data-revealed') !== 'true') {
+        el.setAttribute('data-revealed', 'true');
+      }
+    });
   }
 
   if ('IntersectionObserver' in window && revealElements.length > 0) {
@@ -55,7 +59,7 @@ function initShreeTech() {
       (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-revealed');
+            entry.target.setAttribute('data-revealed', 'true');
             observer.unobserve(entry.target);
           }
         });
@@ -70,7 +74,7 @@ function initShreeTech() {
       // Immediately reveal elements already inside or near the viewport
       const rect = el.getBoundingClientRect();
       if (rect.top < window.innerHeight + 150 && rect.bottom > -100) {
-        el.classList.add('is-revealed');
+        el.setAttribute('data-revealed', 'true');
       } else {
         revealObserver.observe(el);
       }
@@ -138,7 +142,12 @@ function initShreeTech() {
 
       const inner = wrapper.querySelector('.flip-card-inner');
       if (inner) {
-        inner.classList.toggle('is-flipped');
+        const nextState = inner.getAttribute('data-flipped') !== 'true';
+        if (nextState) {
+          inner.setAttribute('data-flipped', 'true');
+        } else {
+          inner.removeAttribute('data-flipped');
+        }
       }
     };
 
@@ -225,21 +234,8 @@ function initShreeTech() {
     if (isScrolled === lastHeaderScrolled) return;
     lastHeaderScrolled = isScrolled;
 
-    if (header) {
-      if (isScrolled) {
-        header.classList.add('glass-navbar-scrolled');
-        header.classList.remove('glass-navbar-top');
-      } else {
-        header.classList.add('glass-navbar-top');
-        header.classList.remove('glass-navbar-scrolled');
-      }
-    }
     if (dock) {
-      if (isScrolled) {
-        dock.classList.add('is-scrolled');
-      } else {
-        dock.classList.remove('is-scrolled');
-      }
+      dock.setAttribute('data-scrolled', isScrolled ? 'true' : 'false');
     }
   };
   if (!lenis) {
@@ -496,10 +492,10 @@ function initShreeTech() {
     if (count <= 1) {
       pinTrack.style.height = '100vh';
     } else {
-      // 140px of scroll per card transition for clear, brisk stacking without trapping viewport
-      const scrollPerCard = 140;
-      // Runway: intro pad (40px) + transitions + outro hold (80px)
-      const totalScrollTravel = 40 + (count - 1) * scrollPerCard + 80;
+      // 105px of scroll per card transition for responsive stacking up and down
+      const scrollPerCard = 105;
+      // Runway: intro pad (30px) + transitions + outro hold (50px)
+      const totalScrollTravel = 30 + (count - 1) * scrollPerCard + 50;
       pinTrack.style.height = `${window.innerHeight + totalScrollTravel}px`;
     }
     if (lenis) lenis.resize();
@@ -584,12 +580,15 @@ function initShreeTech() {
       const initialTilt = (index % 2 === 1) ? -2.2 : 2.2;
 
       if (progress <= stepStart) {
-        // Card is waiting below the stage (off bottom of screen)
-        card.style.transform = `translate3d(0, ${travelDistance}px, 0) scale(1) rotate(${initialTilt}deg)`;
-        card.style.opacity = '0';
-        card.style.visibility = 'hidden';
-        card.style.pointerEvents = 'none';
-        if (headerTab) headerTab.style.backgroundColor = 'rgb(255, 255, 255)';
+        // Card is waiting below the stage (skip redundant writes if already waiting)
+        if (card.dataset.cardState !== 'waiting' || forceUpdate) {
+          card.dataset.cardState = 'waiting';
+          card.style.transform = `translate3d(0, ${travelDistance}px, 0) scale(1) rotate(${initialTilt}deg)`;
+          card.style.opacity = '0';
+          card.style.visibility = 'hidden';
+          card.style.pointerEvents = 'none';
+          if (headerTab) headerTab.style.backgroundColor = 'rgb(255, 255, 255)';
+        }
       } else if (progress >= stepEnd) {
         // Card is fully docked; calculate depth from cards docked on top of it
         const cardsAbove = (progress - stepEnd) / stepSpan;
@@ -599,14 +598,19 @@ function initShreeTech() {
         const tabR = Math.round(Math.max(255 - coveredDepth * 10, 226));
         const tabG = Math.round(Math.max(255 - coveredDepth * 9, 232));
         const tabB = Math.round(Math.max(255 - coveredDepth * 7, 240));
+        const nextBg = `rgb(${tabR}, ${tabG}, ${tabB})`;
 
+        card.dataset.cardState = 'docked';
         card.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(4)}) rotate(0deg)`;
-        card.style.opacity = '1';
-        card.style.visibility = 'visible';
-        card.style.pointerEvents = 'auto';
-        if (headerTab) headerTab.style.backgroundColor = `rgb(${tabR}, ${tabG}, ${tabB})`;
+        if (card.style.opacity !== '1') card.style.opacity = '1';
+        if (card.style.visibility !== 'visible') card.style.visibility = 'visible';
+        if (card.style.pointerEvents !== 'auto') card.style.pointerEvents = 'auto';
+        if (headerTab && headerTab.style.backgroundColor !== nextBg) {
+          headerTab.style.backgroundColor = nextBg;
+        }
       } else {
         // Card is actively traveling and docking in line-by-line order
+        card.dataset.cardState = 'moving';
         const t = (progress - stepStart) / (stepEnd - stepStart);
         // Smooth cubic ease-out
         const ease = 1 - Math.pow(1 - t, 2.5);
@@ -618,9 +622,11 @@ function initShreeTech() {
 
         card.style.transform = `translate3d(0, ${currentY.toFixed(1)}px, 0) scale(1) rotate(${currentTilt.toFixed(2)}deg)`;
         card.style.opacity = currentOpacity.toFixed(3);
-        card.style.visibility = 'visible';
-        card.style.pointerEvents = 'auto';
-        if (headerTab) headerTab.style.backgroundColor = 'rgb(255, 255, 255)';
+        if (card.style.visibility !== 'visible') card.style.visibility = 'visible';
+        if (card.style.pointerEvents !== 'auto') card.style.pointerEvents = 'auto';
+        if (headerTab && headerTab.style.backgroundColor !== 'rgb(255, 255, 255)') {
+          headerTab.style.backgroundColor = 'rgb(255, 255, 255)';
+        }
       }
     });
   }
@@ -822,17 +828,15 @@ function initShreeTech() {
       }
     }
 
-    // 2. Sync mobile nav active link styling
+    // 2. Sync mobile nav active link styling via data-mobile-active (avoids Tailwind class MutationObserver scan)
     if (mobileNavLinks && mobileNavLinks.length) {
       mobileNavLinks.forEach((link) => {
         const href = link.getAttribute('href');
         const isMatch = href === '#' + activeSectionId || (newIndex === 0 && href === '#home');
         if (isMatch) {
-          link.classList.add('text-[#C01858]', 'bg-[#FFF0F5]', 'border', 'border-[#F1E6EE]', 'font-semibold', 'shadow-xs');
-          link.classList.remove('text-[#505D70]');
+          link.setAttribute('data-mobile-active', 'true');
         } else {
-          link.classList.remove('text-[#C01858]', 'bg-[#FFF0F5]', 'border', 'border-[#F1E6EE]', 'font-semibold', 'shadow-xs');
-          link.classList.add('text-[#505D70]');
+          link.removeAttribute('data-mobile-active');
         }
       });
     }
@@ -980,6 +984,39 @@ function initShreeTech() {
         }
       }
     }, 300);
+  }
+
+  // Pause off-screen continuous CSS animations (hero orbit & tech marquee) to keep scrolling 60FPS
+  if ('IntersectionObserver' in window && !prefersReducedMotion) {
+    const heroSection = document.getElementById('home');
+    if (heroSection) {
+      const heroAnimated = heroSection.querySelectorAll(
+        '.animate-orbit-spin, .animate-orbit-counter, .animate-orbit-dashed, .animate-pulse-ring, .animate-orbit-core, .animate-radar-sweep, .animate-comet-orbit, .animate-float-bob, .animate-phoenix-core, .animate-sheen-diag, .animate-sheen-vert, .animate-falling-feather'
+      );
+      if (heroAnimated.length) {
+        const heroObs = new IntersectionObserver((entries) => {
+          const state = entries[0].isIntersecting ? 'running' : 'paused';
+          heroAnimated.forEach((el) => {
+            el.style.animationPlayState = state;
+          });
+        }, { rootMargin: '250px 0px' });
+        heroObs.observe(heroSection);
+      }
+    }
+
+    const techSection = document.getElementById('technologies');
+    if (techSection) {
+      const techTracks = techSection.querySelectorAll('.tech-row-track, .tech-card-item');
+      if (techTracks.length) {
+        const techObs = new IntersectionObserver((entries) => {
+          const state = entries[0].isIntersecting ? 'running' : 'paused';
+          techTracks.forEach((el) => {
+            el.style.animationPlayState = state;
+          });
+        }, { rootMargin: '250px 0px' });
+        techObs.observe(techSection);
+      }
+    }
   }
 
   // Sync scroll-driven components directly with Lenis smooth scroll

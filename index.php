@@ -1094,12 +1094,12 @@ require_once __DIR__ . '/includes/header.php';
                       src="<?php echo htmlspecialchars($project['imageUrl']); ?>"
                       alt="<?php echo htmlspecialchars($project['title']); ?>"
                       class="w-full h-full <?php echo ($imgFit === 'contain') ? 'object-contain object-center' : 'object-cover object-top'; ?> transition-transform duration-500 group-hover:scale-102"
-                      loading="lazy"
+                      decoding="async"
                     >
                     <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
 
                     <!-- Top-left Year Tag -->
-                    <div class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#F1E6EE] text-[11px] font-bold text-[#0F172A] font-heading shadow-xs">
+                    <div class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-white/95 border border-[#F1E6EE] text-[11px] font-bold text-[#0F172A] font-heading shadow-xs">
                       <span><?php echo htmlspecialchars($project['year']); ?></span>
                     </div>
 
@@ -1109,7 +1109,7 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
 
                     <!-- Circular Tech Icon Badge -->
-                    <div class="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-white/95 backdrop-blur-md border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] shadow-sm">
+                    <div class="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-white/95 border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] shadow-sm">
                       <i data-lucide="<?php echo $icon; ?>" class="w-4 h-4 text-[#FF6B00]"></i>
                     </div>
                   </div>

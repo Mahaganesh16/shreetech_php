@@ -457,12 +457,14 @@ void main() {
           });
         }
 
-        const settledPill = boxes.length === 1 && !blobs.length;
-        if (settledPill) {
+        const activeBox = target >= 0 ? shape(target, pills.get(target)?.scale ?? 0) : null;
+        if (activeBox) {
+          overlay.style.clipPath = `path('${pillPath(activeBox.x, activeBox.y, activeBox.w, activeBox.h)}')`;
+        } else if (boxes.length === 1) {
           const box = boxes[0];
           overlay.style.clipPath = `path('${pillPath(box.cx - box.hw, box.cy - box.hh, box.hw * 2, box.hh * 2)}')`;
         } else {
-          overlay.style.clipPath = `path('${trace(boxes, blobs, smooth) || 'M0,0Z'}')`;
+          overlay.style.clipPath = `path('M0,0Z')`;
         }
         overlay.style.visibility = 'visible';
 

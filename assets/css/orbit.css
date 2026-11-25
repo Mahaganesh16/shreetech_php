@@ -62,7 +62,8 @@
 }
 
 /* Active Featured Center Card (Large, Focused, Smoothly Scaled) */
-.orbit-item.is-active {
+.orbit-item.is-active,
+.orbit-item[data-active="true"] {
   width: 410px;
   height: 380px;
   cursor: default;
@@ -77,7 +78,7 @@
   transform-origin: center center;
 }
 
-.orbit-item:not(.is-active):hover .orbit-item-inner {
+.orbit-item:not(.is-active):not([data-active="true"]):hover .orbit-item-inner {
   transform: scale(1.04);
 }
 
@@ -101,12 +102,13 @@
     border-radius 0.52s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.orbit-item:not(.is-active):hover .orbit-service-card {
+.orbit-item:not(.is-active):not([data-active="true"]):hover .orbit-service-card {
   border-color: #C01858 !important;
   box-shadow: 0 12px 30px -4px rgba(192, 24, 88, 0.2) !important;
 }
 
-.orbit-item.is-active .orbit-service-card {
+.orbit-item.is-active .orbit-service-card,
+.orbit-item[data-active="true"] .orbit-service-card {
   border-radius: 1.75rem;
   border-color: #F1E6EE !important;
   background: #ffffff !important;
@@ -157,20 +159,23 @@
 }
 
 /* Active State View Transitions: Seamless Staggered Cross-Fade */
-.orbit-item.is-active .card-compact-view {
+.orbit-item.is-active .card-compact-view,
+.orbit-item[data-active="true"] .card-compact-view {
   opacity: 0;
   pointer-events: none;
   transform: scale(0.92);
 }
 
-.orbit-item.is-active .card-full-view {
+.orbit-item.is-active .card-full-view,
+.orbit-item[data-active="true"] .card-full-view {
   opacity: 1;
   pointer-events: auto;
   transform: scale(1);
   transition-delay: 0.08s;
 }
 
-.orbit-item.is-active .card-ambient-glows {
+.orbit-item.is-active .card-ambient-glows,
+.orbit-item[data-active="true"] .card-ambient-glows {
   opacity: 1;
 }
 
@@ -186,7 +191,8 @@
     height: 125px;
   }
 
-  .orbit-item.is-active {
+  .orbit-item.is-active,
+  .orbit-item[data-active="true"] {
     width: 360px;
     height: 360px;
   }
@@ -203,12 +209,14 @@
     height: 115px;
   }
 
-  .orbit-item.is-active {
+  .orbit-item.is-active,
+  .orbit-item[data-active="true"] {
     width: 320px;
     height: 360px;
   }
 
-  .orbit-item.is-active .card-full-view {
+  .orbit-item.is-active .card-full-view,
+  .orbit-item[data-active="true"] .card-full-view {
     padding: 1rem 1.15rem;
   }
 }

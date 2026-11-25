@@ -153,11 +153,13 @@
         it.style.zIndex = String(zIndex);
         it.style.opacity = opacity.toFixed(2);
 
-        // Toggle active class smoothly
-        if (isCenter && !it.classList.contains('is-active')) {
-          it.classList.add('is-active');
-        } else if (!isCenter && it.classList.contains('is-active')) {
-          it.classList.remove('is-active');
+        // Toggle active state via data-active (avoids Tailwind class MutationObserver stalls)
+        const wasActive = it.getAttribute('data-active') === 'true';
+        if (isCenter && !wasActive) {
+          it.setAttribute('data-active', 'true');
+        } else if (!isCenter && (wasActive || it.classList.contains('is-active'))) {
+          it.removeAttribute('data-active');
+          if (it.classList.contains('is-active')) it.classList.remove('is-active');
         }
       }
     }
