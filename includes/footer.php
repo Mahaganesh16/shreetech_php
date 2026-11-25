@@ -12,7 +12,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
       <!-- Brand Info (4 Cols) -->
       <div class="lg:col-span-4 space-y-4">
         <a href="#home" class="flex items-center gap-3 group">
-          <div class="w-11 h-11 rounded-2xl bg-white border border-[#F1E6EE] p-1 flex items-center justify-center shadow-xs group-hover:border-[#C01858] transition-all overflow-hidden">
+          <div class="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
             <img src="images/logo-icon.png" alt="Shree Tech Logo" class="w-full h-full object-contain">
           </div>
           <div class="flex flex-col">

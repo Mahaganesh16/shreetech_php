@@ -29,7 +29,7 @@ foreach ($navItems as $idx => $item) {
       
       <!-- 1. LEFT SIDE: Shree Tech Innovations Logo & Brand Name -->
       <a href="<?php echo $isHomePage ? '#home' : 'index.php#home'; ?>" class="flex items-center gap-2.5 sm:gap-3 group select-none cursor-pointer flex-shrink-0">
-        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/40 border border-white/60 p-1 flex items-center justify-center shadow-xs group-hover:border-[#C01858] group-hover:scale-105 transition-all overflow-hidden">
+        <div class="w-9 h-9 flex items-center justify-center group-hover:scale-105 transition-transform">
           <img src="images/logo-icon.png" alt="Shree Tech Logo" class="w-full h-full object-contain">
         </div>
         <div class="flex flex-col">
