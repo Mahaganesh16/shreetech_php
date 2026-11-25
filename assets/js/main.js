@@ -987,35 +987,30 @@ function initShreeTech() {
   }
 
   // Pause off-screen continuous CSS animations (hero orbit & tech marquee) to keep scrolling 60FPS
+  // Using data attributes instead of inline animationPlayState preserves CSS :hover pause rules!
   if ('IntersectionObserver' in window && !prefersReducedMotion) {
     const heroSection = document.getElementById('home');
     if (heroSection) {
-      const heroAnimated = heroSection.querySelectorAll(
-        '.animate-orbit-spin, .animate-orbit-counter, .animate-orbit-dashed, .animate-pulse-ring, .animate-orbit-core, .animate-radar-sweep, .animate-comet-orbit, .animate-float-bob, .animate-phoenix-core, .animate-sheen-diag, .animate-sheen-vert, .animate-falling-feather'
-      );
-      if (heroAnimated.length) {
-        const heroObs = new IntersectionObserver((entries) => {
-          const state = entries[0].isIntersecting ? 'running' : 'paused';
-          heroAnimated.forEach((el) => {
-            el.style.animationPlayState = state;
-          });
-        }, { rootMargin: '250px 0px' });
-        heroObs.observe(heroSection);
-      }
+      const heroObs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          heroSection.removeAttribute('data-orbit-offscreen');
+        } else {
+          heroSection.setAttribute('data-orbit-offscreen', 'true');
+        }
+      }, { rootMargin: '250px 0px' });
+      heroObs.observe(heroSection);
     }
 
     const techSection = document.getElementById('technologies');
     if (techSection) {
-      const techTracks = techSection.querySelectorAll('.tech-row-track, .tech-card-item');
-      if (techTracks.length) {
-        const techObs = new IntersectionObserver((entries) => {
-          const state = entries[0].isIntersecting ? 'running' : 'paused';
-          techTracks.forEach((el) => {
-            el.style.animationPlayState = state;
-          });
-        }, { rootMargin: '250px 0px' });
-        techObs.observe(techSection);
-      }
+      const techObs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          techSection.removeAttribute('data-tech-offscreen');
+        } else {
+          techSection.setAttribute('data-tech-offscreen', 'true');
+        }
+      }, { rootMargin: '250px 0px' });
+      techObs.observe(techSection);
     }
   }
 

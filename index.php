@@ -157,7 +157,7 @@ require_once __DIR__ . '/includes/header.php';
       <div class="lg:col-span-5 relative flex items-center justify-center lg:justify-end min-h-[300px] sm:min-h-[400px] lg:min-h-[480px] lg:translate-x-2 xl:translate-x-4">
         
         <!-- Shared Single Center Anchor -->
-        <div class="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] lg:w-[390px] lg:h-[390px] xl:w-[420px] xl:h-[420px] flex items-center justify-center">
+        <div class="hero-orbit-stage relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] lg:w-[390px] lg:h-[390px] xl:w-[420px] xl:h-[420px] flex items-center justify-center">
           
           <!-- Ambient warm glowing power core behind visual -->
           <div class="absolute -inset-8 bg-gradient-to-tr from-[#FF6B00]/30 via-[#C01858]/25 to-[#8B5CF6]/20 rounded-full blur-3xl pointer-events-none animate-orbit-core"></div>

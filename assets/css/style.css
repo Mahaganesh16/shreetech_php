@@ -999,11 +999,32 @@ h1 {
   will-change: transform, opacity;
 }
 
-/* Pause orbit on hover */
+/* Pause hero & services orbit animations cleanly on hover or when offscreen */
+.hero-orbit-stage:hover .animate-orbit-spin,
+.hero-orbit-stage:hover .animate-orbit-counter,
+.hero-orbit-stage:hover .animate-orbit-dashed,
+.hero-orbit-stage:hover .animate-comet-orbit,
+.hero-orbit-stage:hover .animate-radar-sweep,
+.hero-orbit-stage:hover .animate-pulse-ring,
+.hero-orbit-stage:hover .animate-orbit-core,
 .orbit-container:hover .animate-orbit-spin,
 .orbit-container:hover .animate-orbit-counter,
-.orbit-container:hover .animate-comet-orbit {
-  animation-play-state: paused;
+.orbit-container:hover .animate-comet-orbit,
+#home[data-orbit-offscreen="true"] .animate-orbit-spin,
+#home[data-orbit-offscreen="true"] .animate-orbit-counter,
+#home[data-orbit-offscreen="true"] .animate-orbit-dashed,
+#home[data-orbit-offscreen="true"] .animate-pulse-ring,
+#home[data-orbit-offscreen="true"] .animate-orbit-core,
+#home[data-orbit-offscreen="true"] .animate-radar-sweep,
+#home[data-orbit-offscreen="true"] .animate-comet-orbit,
+#home[data-orbit-offscreen="true"] .animate-float-bob,
+#home[data-orbit-offscreen="true"] .animate-phoenix-core,
+#home[data-orbit-offscreen="true"] .animate-sheen-diag,
+#home[data-orbit-offscreen="true"] .animate-sheen-vert,
+#home[data-orbit-offscreen="true"] .animate-falling-feather,
+#technologies[data-tech-offscreen="true"] .tech-row-track,
+#technologies[data-tech-offscreen="true"] .tech-card-item {
+  animation-play-state: paused !important;
 }
 
 /* 2. DYNAMIC CURSOR SPOTLIGHT ON CARDS */

@@ -226,11 +226,20 @@
       this.resetAutoRotate();
     }
 
+    isHovering() {
+      if (this.isPaused) return true;
+      if (this.root && typeof this.root.matches === 'function' && this.root.matches(':hover')) return true;
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].matches(':hover')) return true;
+      }
+      return false;
+    }
+
     startAutoRotate() {
       if (!this.options.autoRotate) return;
       this.stopAutoRotate();
       this.timer = setInterval(() => {
-        if (this.isInView && !this.isPaused && !this.isDragging) {
+        if (!document.hidden && this.isInView && !this.isHovering() && !this.isDragging) {
           this.next();
         }
       }, this.options.interval);
@@ -360,7 +369,7 @@
         });
       });
 
-      // 5. Pause auto-rotate on hover & when scrolled off-screen
+      // 5. Pause auto-rotate cleanly whenever hovered (container OR any satellite/active card) & when off-screen
       this.isInView = true;
       if ('IntersectionObserver' in window) {
         const viewObserver = new IntersectionObserver(
@@ -372,12 +381,29 @@
         viewObserver.observe(this.root);
       }
 
-      this.root.addEventListener('mouseenter', () => {
+      const pause = () => {
         this.isPaused = true;
-      });
+      };
+      const resume = () => {
+        // Only resume once pointer has truly left container & all cards
+        if (!this.root.matches(':hover') && !this.items.some(it => it.matches(':hover'))) {
+          this.isPaused = false;
+          this.resetAutoRotate();
+        }
+      };
 
-      this.root.addEventListener('mouseleave', () => {
-        this.isPaused = false;
+      this.root.addEventListener('pointerenter', pause);
+      this.root.addEventListener('mouseenter', pause);
+      this.root.addEventListener('mouseover', pause);
+      this.root.addEventListener('pointermove', pause, { passive: true });
+      this.root.addEventListener('pointerleave', resume);
+      this.root.addEventListener('mouseleave', resume);
+
+      this.items.forEach(item => {
+        item.addEventListener('pointerenter', pause);
+        item.addEventListener('mouseenter', pause);
+        item.addEventListener('pointerleave', resume);
+        item.addEventListener('mouseleave', resume);
       });
 
       // 6. Responsive window resize handling
@@ -399,7 +425,7 @@
 
     const engine = new OrbitServicesEngine(container, {
       autoRotate: true,
-      interval: 2600
+      interval: 3800
     });
 
     window.__shreeTechOrbit = engine;
