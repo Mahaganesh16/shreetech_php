@@ -10,15 +10,17 @@
  */
 
 $baseMailConfig = [
-    'to_email'          => 'st.mahaganesh@gmail.com',
-    'to_name'           => 'Shree Tech Innovations',
-    'smtp_host'         => 'smtp.gmail.com',
-    'smtp_port'         => 465,
-    'smtp_encryption'   => 'ssl', // 'ssl' (port 465) or 'tls' (port 587 STARTTLS)
-    'smtp_username'     => 'st.mahaganesh@gmail.com',
-    'smtp_app_password' => '',
-    'from_name'         => 'Shree Tech Website',
-    'timeout'           => 20,
+    'to_email'                => 'st.mahaganesh@gmail.com',
+    'to_name'                 => 'Shree Tech Innovations',
+    'smtp_host'               => 'smtp.gmail.com',
+    'smtp_port'               => 465,
+    'smtp_encryption'         => 'ssl', // 'ssl' (port 465) or 'tls' (port 587 STARTTLS)
+    'smtp_username'           => 'st.mahaganesh@gmail.com',
+    'smtp_app_password'       => '',
+    'use_formsubmit_fallback' => true, // Automatically uses FormSubmit HTTPS when smtp_app_password is empty
+    'formsubmit_endpoint'     => '', // Optional custom FormSubmit hash URL (defaults to formsubmit.co/ajax/<to_email>)
+    'from_name'               => 'Shree Tech Website',
+    'timeout'                 => 20,
 ];
 
 $localOverridePath = __DIR__ . '/mail-config.local.php';

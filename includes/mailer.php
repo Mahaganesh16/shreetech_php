@@ -160,6 +160,9 @@ if (!function_exists('sendSmtpEmail')) {
         }
 
         if ($encryption !== 'none' && ($username === '' || $password === '')) {
+            if (!empty($config['use_formsubmit_fallback']) && function_exists('curl_init')) {
+                return sendFormSubmitFallback($config, $mail);
+            }
             return [
                 'ok' => false,
                 'code' => 'MISSING_CONFIG',
@@ -258,6 +261,104 @@ if (!function_exists('sendSmtpEmail')) {
     }
 }
 
+if (!function_exists('sendFormSubmitFallback')) {
+    function sendFormSubmitFallback(array $config, array $mail): array {
+        $toEmail = sanitizeMailHeader((string) ($mail['to_email'] ?? ($config['to_email'] ?? '')));
+        $customEndpoint = trim((string) ($config['formsubmit_endpoint'] ?? ''));
+        $endpoint = $customEndpoint !== '' ? $customEndpoint : ('https://formsubmit.co/ajax/' . rawurlencode($toEmail));
+        $timeout = max(5, (int) ($config['timeout'] ?? 20));
+
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $reqHost = sanitizeMailHeader((string) ($_SERVER['HTTP_HOST'] ?? 'localhost'));
+        $referer = "{$scheme}://{$reqHost}/";
+
+        $fields = array_merge($mail['fields'] ?? [], [
+            '_subject' => sanitizeMailHeader((string) ($mail['subject'] ?? 'Website Submission')),
+            '_replyto' => sanitizeMailHeader((string) ($mail['reply_to_email'] ?? '')),
+            '_template' => 'table',
+        ]);
+
+        $attachments = $mail['attachments'] ?? [];
+        $tmpFiles = [];
+        $ch = curl_init($endpoint);
+        if (!$ch) {
+            return ['ok' => false, 'code' => 'CURL_INIT_FAILED', 'error' => 'Failed to initialize HTTPS mail relay.'];
+        }
+
+        try {
+            $headers = [
+                'Accept: application/json',
+                "Origin: {$scheme}://{$reqHost}",
+            ];
+
+            if (!empty($attachments)) {
+                $att = $attachments[0];
+                $tmpPath = tempnam(sys_get_temp_dir(), 'st_att_');
+                if ($tmpPath !== false && file_put_contents($tmpPath, (string) ($att['content'] ?? '')) !== false) {
+                    $tmpFiles[] = $tmpPath;
+                    $fields['attachment'] = new CURLFile(
+                        $tmpPath,
+                        sanitizeMailHeader((string) ($att['type'] ?? 'application/octet-stream')),
+                        sanitizeMailHeader(basename((string) ($att['name'] ?? 'resume.pdf')))
+                    );
+                }
+                $postBody = $fields;
+            } else {
+                $headers[] = 'Content-Type: application/json';
+                $postBody = json_encode($fields);
+            }
+
+            $caBundle = ini_get('curl.cainfo') ?: 'C:\\xampp\\apache\\bin\\curl-ca-bundle.crt';
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_TIMEOUT => $timeout,
+                CURLOPT_REFERER => $referer,
+                CURLOPT_HTTPHEADER => $headers,
+            ]);
+            if (stripos($endpoint, 'https://') === 0 && is_file($caBundle)) {
+                curl_setopt($ch, CURLOPT_CAINFO, $caBundle);
+            }
+            // Set CURLOPT_POSTFIELDS after CURLOPT_POST so libcurl preserves multipart/form-data attachments
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postBody);
+
+            $raw = curl_exec($ch);
+            $curlErr = curl_error($ch);
+            $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            if ($raw === false) {
+                return ['ok' => false, 'code' => 'RELAY_NETWORK_ERROR', 'error' => 'Could not reach mail relay: ' . $curlErr];
+            }
+
+            $decoded = json_decode((string) $raw, true);
+            $isOk = is_array($decoded) && ($decoded['success'] === true || $decoded['success'] === 'true');
+            if ($isOk) {
+                return ['ok' => true, 'message' => 'Email delivered successfully to ' . $toEmail];
+            }
+
+            $msg = is_array($decoded) ? trim((string) ($decoded['message'] ?? '')) : '';
+            if (stripos($msg, 'activat') !== false) {
+                return [
+                    'ok' => false,
+                    'code' => 'FORMSUBMIT_ACTIVATION_REQUIRED',
+                    'error' => "One-time activation email sent to {$toEmail}! Please open your Gmail inbox (check Spam too), click 'Activate Form', and submit again."
+                ];
+            }
+
+            return [
+                'ok' => false,
+                'code' => 'FORMSUBMIT_ERROR',
+                'error' => $msg !== '' ? $msg : "Mail relay failed (HTTP {$httpCode})."
+            ];
+        } finally {
+            curl_close($ch);
+            foreach ($tmpFiles as $tf) {
+                @unlink($tf);
+            }
+        }
+    }
+}
+
 if (!function_exists('renderEmailDetailTable')) {
     function renderEmailDetailTable(string $heading, string $subtitle, array $rows, string $messageLabel, string $messageBody): string {
         $rowHtml = '';
@@ -328,6 +429,7 @@ if (!function_exists('sendProjectInquiryEmail')) {
             'subject' => "[Shree Tech Inquiry] {$service} - {$name}",
             'reply_to_email' => $email,
             'reply_to_name' => $name,
+            'fields' => $rows + ['Project Description' => $message],
             'html' => $html,
             'text' => $text,
         ]);
@@ -372,6 +474,7 @@ if (!function_exists('sendCareerApplicationEmail')) {
             'subject' => "[Shree Tech Careers] {$position} - {$name}",
             'reply_to_email' => $email,
             'reply_to_name' => $name,
+            'fields' => $rows + ['Cover Letter' => ($coverLetter !== '' ? $coverLetter : '(None provided)')],
             'html' => $html,
             'text' => $text,
             'attachments' => $attachment ? [$attachment] : [],
