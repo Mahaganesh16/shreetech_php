@@ -646,39 +646,7 @@ require_once __DIR__ . '/includes/header.php';
                   <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-[#C01858]/15 rounded-full blur-xl"></div>
                 </div>
 
-                <!-- 1. COMPACT PREVIEW (Visible on Inactive Small Cards) -->
-                <div class="card-compact-view">
-                  <!-- Top Row: Icon + Service Number Badge -->
-                  <div class="flex items-center justify-between w-full mb-0.5">
-                    <div class="w-7 h-7 rounded-lg bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs shrink-0">
-                      <i data-lucide="<?php echo htmlspecialchars($service['iconName']); ?>" class="w-3.5 h-3.5"></i>
-                    </div>
-                    <span class="text-[11px] font-bold font-stat text-[#FF6B00] bg-[#FFF4EA] border border-[#FF6B00]/25 px-2 py-0.5 rounded-full shadow-2xs">
-                      0<?php echo $idx + 1; ?>
-                    </span>
-                  </div>
-
-                  <!-- Middle: Title + 2-Line Description Snippet -->
-                  <div class="w-full min-w-0 my-0.5">
-                    <h4 class="text-[12.5px] font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors truncate font-heading leading-tight mb-0.5">
-                      <?php echo htmlspecialchars($service['title']); ?>
-                    </h4>
-                    <p class="text-[10.5px] text-[#475569] leading-tight line-clamp-2 font-normal font-body">
-                      <?php echo htmlspecialchars($service['description']); ?>
-                    </p>
-                  </div>
-
-                  <!-- Bottom Row: Click to Focus Indicator -->
-                  <div class="flex items-center justify-between pt-1 border-t border-[#F1E6EE]/80 text-[10px] font-semibold text-[#8B5CF6] group-hover:text-[#C01858] transition-colors">
-                    <span class="inline-flex items-center gap-1">
-                      <i data-lucide="sparkles" class="w-3 h-3 text-[#FF6B00]"></i>
-                      <span>Click to Focus</span>
-                    </span>
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
-                  </div>
-                </div>
-
-                <!-- 2. FULL DETAILS (Visible on Large Featured Active Card) -->
+                <!-- UNIFIED SERVICE CARD VIEW (Scales smoothly from small satellite to full center focus) -->
                 <div class="card-full-view">
                   <!-- Top Section: Large Icon + Badge + Title + Description -->
                   <div class="flex flex-col items-center w-full">

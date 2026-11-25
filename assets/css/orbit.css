@@ -111,25 +111,7 @@
     0 0 35px rgba(255, 107, 0, 0.14) !important;
 }
 
-/* 1. Compact View (Scaled 2x inside 50% box so Typography Renders Crisply on Satellites) */
-.card-compact-view {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 50%;
-  padding: 0.95rem 1.05rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  opacity: 1;
-  pointer-events: auto;
-  box-sizing: border-box;
-  transform: scale(2);
-  transform-origin: top left;
-}
-
-/* 2. Full View (Cross-Faded Smoothly by RAF as Card Grows to Center) */
+/* Unified Service Content View (Always Visible; Pure GPU Scale Small <-> Big) */
 .card-full-view {
   position: absolute;
   inset: 0;
@@ -139,7 +121,7 @@
   align-items: center;
   justify-content: space-between;
   text-align: center;
-  opacity: 0;
+  opacity: 1;
   pointer-events: none;
   box-sizing: border-box;
 }
@@ -149,12 +131,6 @@
 }
 
 /* Fallback pointer-event defaults for static SSR before JS hydrates */
-.orbit-item.is-active .card-compact-view,
-.orbit-item[data-active="true"] .card-compact-view {
-  opacity: 0;
-  pointer-events: none;
-}
-
 .orbit-item.is-active .card-full-view,
 .orbit-item[data-active="true"] .card-full-view {
   opacity: 1;

@@ -35,7 +35,6 @@
       this.items = Array.from(this.root.querySelectorAll('[data-orbit-item]'));
       this.itemMeta = this.items.map(el => ({
         el,
-        compact: el.querySelector('.card-compact-view'),
         full: el.querySelector('.card-full-view'),
         glows: el.querySelector('.card-ambient-glows'),
         interactive: null
@@ -172,21 +171,14 @@
         it.style.zIndex = String(zIndex);
         it.style.opacity = opacity.toFixed(3);
 
-        // Gentle swift cross-dissolve around smoothFocus [0.46..0.62] so cards never appear blank
-        const fadeT = Math.min(1, Math.max(0, (smoothFocus - 0.46) / 0.16));
-        const fullAlpha = fadeT * fadeT * (3 - 2 * fadeT);
-        const compactAlpha = 1 - fullAlpha;
-
+        // Keep identical card content at every size; fade only ambient edge glows smoothly on focus
         const meta = this.itemMeta[i];
         if (meta) {
-          if (meta.compact) meta.compact.style.opacity = compactAlpha.toFixed(3);
-          if (meta.full) meta.full.style.opacity = fullAlpha.toFixed(3);
-          if (meta.glows) meta.glows.style.opacity = fullAlpha.toFixed(3);
+          if (meta.glows) meta.glows.style.opacity = smoothFocus.toFixed(3);
 
-          const fullInteractive = fullAlpha >= 0.5;
+          const fullInteractive = smoothFocus >= 0.45;
           if (meta.interactive !== fullInteractive) {
             meta.interactive = fullInteractive;
-            if (meta.compact) meta.compact.style.pointerEvents = fullInteractive ? 'none' : 'auto';
             if (meta.full) meta.full.style.pointerEvents = fullInteractive ? 'auto' : 'none';
           }
         }
