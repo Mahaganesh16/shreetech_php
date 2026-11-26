@@ -53,10 +53,10 @@ if (!headers_sent()) {
 </head>
 <body class="bg-white text-[#1E293B] min-h-screen flex flex-col selection:bg-[#FF6B00]/15 selection:text-[#C01858] relative">
 
-  <!-- Fixed Brand Watermark Centered Behind Content Layers -->
+  <!-- Fixed Brand Watermark Centered Behind Desktop Content Layers -->
   <div
     aria-hidden="true"
-    class="fixed inset-x-0 top-20 bottom-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden"
+    class="hidden md:flex fixed inset-x-0 top-20 bottom-0 z-0 pointer-events-none items-center justify-center overflow-hidden"
     style="transform: translateZ(0);"
   >
     <div class="relative flex items-center justify-center w-[min(48vw,336px)] h-[min(48vw,336px)]">
