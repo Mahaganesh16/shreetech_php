@@ -163,7 +163,7 @@ $openPositions = [
 <!-- =========================================================================
      2. OPENING POSITIONS SECTION
      ========================================================================= -->
-<section id="openings" class="relative pt-7 pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent scroll-mt-24">
+<section id="openings" class="relative pt-[5.75rem] pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <div class="max-w-3xl mb-6 sm:mb-8">
@@ -248,7 +248,7 @@ $openPositions = [
 <!-- =========================================================================
      3. SUBMIT YOUR RESUME SECTION (Exact UI from user image 3)
      ========================================================================= -->
-<section id="submit-resume" class="relative pt-7 pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-12 bg-transparent scroll-mt-24">
+<section id="submit-resume" class="relative pt-[5.75rem] pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-12 bg-transparent scroll-mt-24">
   <!-- Subtle Ambient Glow -->
   <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-to-tr from-[#FF6B00]/10 via-[#C01858]/10 to-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none"></div>
 
