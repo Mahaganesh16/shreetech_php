@@ -527,6 +527,8 @@ function initShreeTech() {
   let cachedTrackTop = 0;
   let cachedTrackMaxScroll = 0;
   let cachedTravelDistance = 620;
+  let cachedIntroEnd = 0.06;
+  let cachedAnimEnd = 0.89;
 
   function syncTrackBounds() {
     if (!pinTrack) return;
@@ -550,11 +552,17 @@ function initShreeTech() {
     const count = visibleStackItems.length;
     if (count <= 1) {
       pinTrack.style.height = '100vh';
+      cachedIntroEnd = 0;
+      cachedAnimEnd = 1;
     } else {
-      // 105px of scroll per card transition for responsive stacking up and down
-      const scrollPerCard = 105;
-      // Runway: intro pad (30px) + transitions + outro hold (50px)
-      const totalScrollTravel = 30 + (count - 1) * scrollPerCard + 50;
+      // Generous sequential runway so every card arrives one-by-one before unpinning to next section
+      const isCompactViewport = window.innerWidth < 768;
+      const scrollPerCard = isCompactViewport ? 280 : 240;
+      const introPad = 100;
+      const outroHold = 180;
+      const totalScrollTravel = introPad + (count - 1) * scrollPerCard + outroHold;
+      cachedIntroEnd = introPad / totalScrollTravel;
+      cachedAnimEnd = (totalScrollTravel - outroHold) / totalScrollTravel;
       pinTrack.style.height = `${window.innerHeight + totalScrollTravel}px`;
     }
     if (deckContainer) {
@@ -596,13 +604,10 @@ function initShreeTech() {
     lastStackProgress = progress;
     const totalSteps = totalCards - 1;
 
-    // Timeline partitions:
-    // 0.00 to introEnd: rest on Card 0
-    // introEnd to animEnd: sequential card arrivals (Cards 1 to totalCards - 1)
-    // animEnd to 1.00: complete cards stack stays visible and docked
-    const introEnd = 0.04;
-    const animEnd = 0.92;
-    const animSpan = animEnd - introEnd;
+    // Timeline partitions computed from pixel pads so all cards arrive one-by-one before outro unpins
+    const introEnd = cachedIntroEnd;
+    const animEnd = cachedAnimEnd;
+    const animSpan = Math.max(0.01, animEnd - introEnd);
     const stepSpan = animSpan / totalSteps;
     const travelDistance = cachedTravelDistance;
 
