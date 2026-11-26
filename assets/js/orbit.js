@@ -76,8 +76,8 @@
     build() {
       this.width = this.root.clientWidth || 1200;
       this.height = this.root.clientHeight || 750;
-      this.isMobile = this.width < 768;
-      this.isTablet = this.width >= 768 && this.width < 1100;
+      this.isMobile = (typeof window !== 'undefined' && window.innerWidth <= 768) || this.width < 768;
+      this.isTablet = !this.isMobile && this.width < 1100;
 
       // Calculate horizontal elliptical path geometry (tighter vertical framing)
       if (this.isMobile) {
@@ -163,10 +163,10 @@
         const satScale = minSat + satRange * depthNorm;
         const scale = satScale + (1.0 - satScale) * smoothFocus;
 
-        // On mobile view, hide all backside/side cards (opacity 0) and reach full clarity before center
+        // On mobile view, hide all small backside/side cards (opacity 0) and reveal clearly only when entering center
         let opacity;
         if (this.isMobile) {
-          const mobileVisRaw = Math.min(1, Math.max(0, (0.64 - distFromCenter) / 0.36));
+          const mobileVisRaw = Math.min(1, Math.max(0, (0.54 - distFromCenter) / 0.32));
           opacity = mobileVisRaw * mobileVisRaw * (3 - 2 * mobileVisRaw);
         } else {
           opacity = Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
@@ -427,15 +427,20 @@
         viewObserver.observe(this.root);
       }
 
-      // 5. Responsive window resize handling
+      // 5. Responsive window & container resize handling (syncs DevTools mobile toolbar toggles immediately)
       let resizeTimer = null;
-      window.addEventListener('resize', () => {
+      const syncResponsiveBuild = () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
           this.build();
           this.render(this.currentRot);
-        }, 150);
-      });
+        }, 80);
+      };
+      window.addEventListener('resize', syncResponsiveBuild);
+      if ('ResizeObserver' in window) {
+        const ro = new ResizeObserver(syncResponsiveBuild);
+        ro.observe(this.root);
+      }
     }
   }
 
