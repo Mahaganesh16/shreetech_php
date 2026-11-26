@@ -76,8 +76,8 @@
     build() {
       this.width = this.root.clientWidth || 1200;
       this.height = this.root.clientHeight || 750;
-      this.isMobile = (typeof window !== 'undefined' && window.innerWidth <= 768) || this.width < 768;
-      this.isTablet = !this.isMobile && this.width < 1100;
+      this.isMobile = this.width < 768;
+      this.isTablet = this.width >= 768 && this.width < 1100;
 
       // Calculate horizontal elliptical path geometry (tighter vertical framing)
       if (this.isMobile) {
@@ -163,22 +163,15 @@
         const satScale = minSat + satRange * depthNorm;
         const scale = satScale + (1.0 - satScale) * smoothFocus;
 
-        // On mobile view, hide all small backside/side cards (opacity 0) and reveal clearly only when entering center
-        let opacity;
-        if (this.isMobile) {
-          const mobileVisRaw = Math.min(1, Math.max(0, (0.54 - distFromCenter) / 0.32));
-          opacity = mobileVisRaw * mobileVisRaw * (3 - 2 * mobileVisRaw);
-        } else {
-          opacity = Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
-        }
+        const opacity = Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
         const zIndex = 10 + Math.round(depthNorm * 40 + smoothFocus * 60);
 
         // Center-anchored GPU transform with 3D perspective (zero layout reflows)
         it.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0px) translate(-50%, -50%) rotateY(${tiltY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
         it.style.zIndex = String(zIndex);
         it.style.opacity = opacity.toFixed(3);
-        it.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible';
-        it.style.pointerEvents = opacity > 0.05 ? 'auto' : 'none';
+        it.style.visibility = '';
+        it.style.pointerEvents = '';
 
         // Keep identical card content at every size; fade only ambient edge glows smoothly on focus
         const meta = this.itemMeta[i];
@@ -427,20 +420,15 @@
         viewObserver.observe(this.root);
       }
 
-      // 5. Responsive window & container resize handling (syncs DevTools mobile toolbar toggles immediately)
+      // 5. Responsive window resize handling
       let resizeTimer = null;
-      const syncResponsiveBuild = () => {
+      window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
           this.build();
           this.render(this.currentRot);
-        }, 80);
-      };
-      window.addEventListener('resize', syncResponsiveBuild);
-      if ('ResizeObserver' in window) {
-        const ro = new ResizeObserver(syncResponsiveBuild);
-        ro.observe(this.root);
-      }
+        }, 150);
+      });
     }
   }
 
