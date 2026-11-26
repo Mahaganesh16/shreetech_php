@@ -10,7 +10,7 @@ $companyInfo = [
     'phone' => '+1 (800) 840-2030',
     'email' => 'contact@shreetech.com',
     'address' => '5/2, Hajiyar Complex 1st Floor, Moulana Sahip Street, Anna Nagar, Madurai - 625020, Tamil Nadu, India.',
-    'copyright' => '© ' . date('Y') . ' Shree Tech Innovations Inc. All rights reserved.'
+    'copyright' => '© ' . date('Y') . ' Shreetech Hub. All rights reserved.'
 ];
 
 $navLinks = [
