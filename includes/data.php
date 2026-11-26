@@ -170,7 +170,7 @@ $projectsData = [
         'year' => '2026',
         'summary' => 'Dynamic news, digital publishing, and high-traffic multimedia portal delivering real-time breaking news feeds, multilingual regional journalism, and responsive content streaming.',
         'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'JavaScript'],
-        'imageUrl' => 'eyecatch-media.png',
+        'imageUrl' => 'eyecatch-media.webp',
         'layoutSpan' => 'featured',
         'metrics' => ['label' => 'Monthly Readers', 'value' => '1.2M+']
     ],
@@ -183,7 +183,7 @@ $projectsData = [
         'year' => '2025',
         'summary' => 'Comprehensive academic research publishing platform and digital monograph distribution portal with peer-review workflow management, book catalog indexing, and automated order processing.',
         'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'Bootstrap'],
-        'imageUrl' => 'assets/images/kiaurra.png',
+        'imageUrl' => 'assets/images/kiaurra.webp',
         'layoutSpan' => 'standard',
         'metrics' => ['label' => 'Publications Indexed', 'value' => '10,000+']
     ],
@@ -211,7 +211,7 @@ $projectsData = [
         'year' => '2025',
         'summary' => 'Comprehensive online travel booking, holiday tour package management, and tourist transportation portal featuring customized South Indian temple itineraries, vehicle fleet reservations, and round-the-clock trip coordination.',
         'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'JavaScript'],
-        'imageUrl' => 'assets/images/sky-top.png',
+        'imageUrl' => 'assets/images/sky-top.webp',
         'layoutSpan' => 'standard',
         'metrics' => ['label' => 'Happy Travelers', 'value' => '15,000+']
     ],
@@ -224,7 +224,7 @@ $projectsData = [
         'year' => '2025',
         'summary' => 'Comprehensive pre-owned multi-category marketplace connecting verified buyers and sellers across automobiles, real estate, electronics, and home appliances with fast listing indexing and direct dealer inquiries.',
         'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'JavaScript'],
-        'imageUrl' => 'assets/images/tpom.png',
+        'imageUrl' => 'assets/images/tpom.webp',
         'layoutSpan' => 'featured',
         'metrics' => ['label' => 'Verified Listings', 'value' => '30,000+']
     ],
@@ -237,7 +237,7 @@ $projectsData = [
         'year' => '2025',
         'summary' => 'Comprehensive online classifieds, business directory, and digital advertising marketplace engineered with localized category filtering, high-visibility ad placements, and fast search indexing.',
         'technologies' => ['PHP', 'Laravel', 'MySQL', 'Bootstrap', 'JavaScript'],
-        'imageUrl' => 'evergreen-ads.png',
+        'imageUrl' => 'evergreen-ads.webp',
         'layoutSpan' => 'standard',
         'metrics' => ['label' => 'Active Listings', 'value' => '50,000+']
     ]
