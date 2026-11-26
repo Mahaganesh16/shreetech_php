@@ -37,11 +37,10 @@
 }
 
 .orbit-path-line {
-  stroke: rgba(244, 114, 182, 0.5);
+  stroke: rgba(244, 114, 182, 0.55);
   stroke-width: 1.75;
   fill: none;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 6px rgba(255, 107, 130, 0.25));
 }
 
 /* Base Service Card on Orbit (Fixed 410x380 Layer Scaled by RAF for Zero Layout Reflow) */

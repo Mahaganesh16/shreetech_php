@@ -119,7 +119,7 @@ $openPositions = [
      ========================================================================= -->
 <section class="relative pt-24 pb-10 sm:pt-28 sm:pb-10 md:pt-28 md:pb-12 overflow-hidden">
   <!-- Ambient Colorful Glows -->
-  <div class="absolute top-20 left-1/2 -translate-x-1/2 w-[650px] h-[320px] bg-gradient-to-tr from-[#FF6B00]/12 via-[#C01858]/10 to-[#8B5CF6]/12 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute top-12 left-1/2 -translate-x-1/2 w-[720px] h-[380px] rounded-full pointer-events-none" style="background: radial-gradient(ellipse at center, rgba(255, 107, 0, 0.11) 0%, rgba(192, 24, 88, 0.09) 42%, rgba(139, 92, 246, 0.08) 65%, transparent 76%);"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     
@@ -250,12 +250,12 @@ $openPositions = [
      ========================================================================= -->
 <section id="submit-resume" class="relative pt-[5.75rem] pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-12 bg-transparent overflow-hidden scroll-mt-24">
   <!-- Subtle Ambient Glow -->
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-to-tr from-[#FF6B00]/10 via-[#C01858]/10 to-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[480px] rounded-full pointer-events-none" style="background: radial-gradient(ellipse at center, rgba(255, 107, 0, 0.09) 0%, rgba(192, 24, 88, 0.09) 45%, rgba(139, 92, 246, 0.07) 65%, transparent 76%);"></div>
 
   <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Form Container Card -->
-    <div class="glass-card p-5 sm:p-8 md:p-12 rounded-2xl sm:rounded-3xl border border-[#F1E6EE] shadow-2xl bg-white/90 backdrop-blur-xl">
+    <div class="glass-card p-5 sm:p-8 md:p-12 rounded-2xl sm:rounded-3xl border border-[#F1E6EE] shadow-2xl bg-white/95">
       
       <!-- Red Form Title -->
       <div class="text-center mb-8">
@@ -424,7 +424,7 @@ $openPositions = [
      ========================================================================= -->
 <div
   id="job-details-modal"
-  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/55 opacity-0 pointer-events-none invisible transition-all duration-300"
   role="dialog"
   aria-modal="true"
   aria-hidden="true"
@@ -513,7 +513,7 @@ $openPositions = [
      ========================================================================= -->
 <div
   id="resume-success-modal"
-  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/55 opacity-0 pointer-events-none invisible transition-all duration-300"
   role="dialog"
   aria-modal="true"
   aria-hidden="true"
@@ -590,7 +590,7 @@ document.addEventListener('DOMContentLoaded', function () {
       lucide.createIcons();
     }
 
-    jobModal.classList.remove('opacity-0', 'pointer-events-none');
+    jobModal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
     jobModal.querySelector('.relative').classList.remove('scale-95');
     jobModal.querySelector('.relative').classList.add('scale-100');
     jobModal.setAttribute('aria-hidden', 'false');
@@ -599,7 +599,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function closeJobModal() {
     if (!jobModal) return;
-    jobModal.classList.add('opacity-0', 'pointer-events-none');
+    jobModal.classList.add('opacity-0', 'pointer-events-none', 'invisible');
     jobModal.querySelector('.relative').classList.add('scale-95');
     jobModal.querySelector('.relative').classList.remove('scale-100');
     jobModal.setAttribute('aria-hidden', 'true');
@@ -661,7 +661,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (closeSuccessBtn) {
     closeSuccessBtn.addEventListener('click', function () {
       if (successModal) {
-        successModal.classList.add('opacity-0', 'pointer-events-none');
+        successModal.classList.add('opacity-0', 'pointer-events-none', 'invisible');
         successModal.querySelector('.relative').classList.add('scale-95');
         successModal.querySelector('.relative').classList.remove('scale-100');
         successModal.setAttribute('aria-hidden', 'true');

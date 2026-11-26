@@ -617,7 +617,6 @@ function initShreeTech() {
           card.dataset.cardState = 'waiting';
           card.style.transform = `translate3d(0, ${travelDistance}px, 0) scale(1) rotate(${initialTilt}deg)`;
           card.style.opacity = '0';
-          card.style.visibility = 'hidden';
           card.style.pointerEvents = 'none';
           if (headerTab && item.lastBg !== 'rgb(255, 255, 255)') {
             item.lastBg = 'rgb(255, 255, 255)';
@@ -639,7 +638,6 @@ function initShreeTech() {
         if (card.dataset.cardState !== 'docked' || forceUpdate) {
           card.dataset.cardState = 'docked';
           card.style.opacity = '1';
-          card.style.visibility = 'visible';
           card.style.pointerEvents = 'auto';
         }
         if (headerTab && item.lastBg !== nextBg) {
@@ -662,7 +660,6 @@ function initShreeTech() {
         card.style.opacity = currentOpacity.toFixed(3);
         if (prevState !== 'moving' || forceUpdate) {
           card.dataset.cardState = 'moving';
-          card.style.visibility = 'visible';
           card.style.pointerEvents = 'auto';
         }
         if (headerTab && item.lastBg !== 'rgb(255, 255, 255)') {
@@ -696,6 +693,9 @@ function initShreeTech() {
     window.addEventListener('load', () => {
       syncTrackBounds();
       updateStackingCards(true);
+      document.querySelectorAll('.stacking-card-item img').forEach((img) => {
+        if (typeof img.decode === 'function') img.decode().catch(() => {});
+      });
     }, { passive: true });
     updateStackingCards(true);
   }

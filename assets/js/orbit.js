@@ -68,7 +68,7 @@
       this.bindEvents();
       this.startAutoRotate();
 
-      if (typeof lucide !== 'undefined') {
+      if (typeof lucide !== 'undefined' && !this.root.querySelector('svg.lucide')) {
         lucide.createIcons();
       }
     }
@@ -261,18 +261,22 @@
     startAutoRotate() {
       if (!this.options.autoRotate) return;
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      if (this.continuousRafId) return;
+      if (this.continuousRafId || !this.isInView || document.hidden) return;
 
       this.lastTickTime = performance.now();
 
       const loop = now => {
+        if (!this.isInView || document.hidden) {
+          this.continuousRafId = null;
+          return;
+        }
         this.continuousRafId = requestAnimationFrame(loop);
 
         const dt = Math.min(0.05, Math.max(0, (now - (this.lastTickTime || now)) / 1000));
         this.lastTickTime = now;
 
         // Continuously advance rotation regardless of hover state; pause only during active drag or snap tween
-        if (!document.hidden && this.isInView && !this.isDragging && !this.isAnimating) {
+        if (!this.isDragging && !this.isAnimating) {
           this.currentRot += dt * this.options.speed;
           // Keep float bounded neatly while preserving continuous wrap-around
           if (this.currentRot >= this.count * 1000) {
@@ -407,19 +411,31 @@
         });
       });
 
-      // 4. Pause RAF only when scrolled far off-screen for scroll performance (keep spinning on hover!)
+      // 4. Pause RAF only when scrolled far off-screen or tab hidden for 60FPS scroll performance
       if ('IntersectionObserver' in window) {
         const viewObserver = new IntersectionObserver(
           entries => {
             this.isInView = entries[0].isIntersecting;
-            if (this.isInView) {
+            if (this.isInView && !document.hidden) {
               this.lastTickTime = performance.now();
+              this.startAutoRotate();
+            } else {
+              this.stopAutoRotate();
             }
           },
           { rootMargin: '150px 0px' }
         );
         viewObserver.observe(this.root);
       }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          this.stopAutoRotate();
+        } else if (this.isInView) {
+          this.lastTickTime = performance.now();
+          this.startAutoRotate();
+        }
+      });
 
       // 5. Responsive window resize handling
       let resizeTimer = null;

@@ -179,7 +179,10 @@ require_once __DIR__ . '/includes/header.php';
         <div class="hero-orbit-stage relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] lg:w-[390px] lg:h-[390px] xl:w-[420px] xl:h-[420px] flex items-center justify-center">
           
           <!-- Ambient warm glowing power core behind visual -->
-          <div class="absolute -inset-8 bg-gradient-to-tr from-[#FF6B00]/30 via-[#C01858]/25 to-[#8B5CF6]/20 rounded-full blur-3xl pointer-events-none animate-orbit-core"></div>
+          <div
+            class="absolute -inset-12 rounded-full pointer-events-none animate-orbit-core"
+            style="background: radial-gradient(circle, rgba(255, 107, 0, 0.22) 0%, rgba(192, 24, 88, 0.14) 44%, rgba(139, 92, 246, 0.08) 62%, transparent 74%);"
+          ></div>
 
           <!-- 1. Pulsing Outer Wave Ring along the Round Path -->
           <div class="absolute inset-0 rounded-full border border-orange-400/30 shadow-[0_0_25px_rgba(255,107,0,0.12)] pointer-events-none animate-pulse-ring"></div>
@@ -232,8 +235,8 @@ require_once __DIR__ . '/includes/header.php';
                 style="left: <?php echo round($xPercent, 2); ?>%; top: <?php echo round($yPercent, 2); ?>%; transform: translate(-50%, -50%);"
               >
                 <div class="animate-orbit-counter group relative">
-                  <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-md border border-white/90 shadow-[0_6px_18px_rgba(15,23,42,0.1),inset_0_1px_2px_rgba(255,255,255,0.95)] flex items-center justify-center p-2 cursor-pointer hover:border-orange-400/80 hover:shadow-[0_10px_25px_rgba(255,107,0,0.35)] hover:scale-125 transition-all duration-300">
-                    <span class="absolute -inset-0.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-orange-400/20 to-rose-400/20 blur-[3px] opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/95 border border-white/90 shadow-[0_6px_18px_rgba(15,23,42,0.1),inset_0_1px_2px_rgba(255,255,255,0.95)] flex items-center justify-center p-2 cursor-pointer hover:border-orange-400/80 hover:shadow-[0_10px_25px_rgba(255,107,0,0.35)] hover:scale-125 transition-all duration-300">
+                    <span class="absolute -inset-0.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-orange-400/20 to-rose-400/20 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     <?php echo renderTechLogo($tool['icon'], 'relative z-10 w-5 h-5 sm:w-6 sm:h-6 object-contain'); ?>
                   </div>
                   <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-slate-900/90 text-white text-[10px] font-semibold px-2 py-0.5 rounded-md pointer-events-none whitespace-nowrap shadow-md z-50">
@@ -246,7 +249,10 @@ require_once __DIR__ . '/includes/header.php';
 
           <!-- 7. Central Stable Hub Visual: Centered Phoenix Bird with Light Sheen -->
           <div class="relative z-10 w-[74%] h-[74%] flex items-center justify-center pointer-events-none">
-            <div class="absolute w-44 h-44 rounded-full bg-gradient-to-tr from-orange-400/25 via-rose-400/20 to-purple-400/15 blur-2xl pointer-events-none animate-phoenix-core"></div>
+            <div
+              class="absolute w-64 h-64 rounded-full pointer-events-none animate-phoenix-core"
+              style="background: radial-gradient(circle, rgba(255, 107, 0, 0.22) 0%, rgba(244, 63, 94, 0.14) 45%, transparent 72%);"
+            ></div>
 
             <div class="absolute -left-12 -top-4 w-[92%] h-[92%] pointer-events-none opacity-20 filter blur-[0.5px]">
               <img src="images/phoenix-hero.webp" alt="" decoding="async" class="w-full h-full object-contain" style="filter: hue-rotate(270deg) saturate(1.8) opacity(0.35);">
@@ -634,8 +640,8 @@ require_once __DIR__ . '/includes/header.php';
                 
                 <!-- Ambient Glows (Smoothly visible when active featured card) -->
                 <div class="card-ambient-glows pointer-events-none">
-                  <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#FF6B00]/15 rounded-full blur-xl"></div>
-                  <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-[#C01858]/15 rounded-full blur-xl"></div>
+                  <div class="absolute -top-12 -right-12 w-40 h-40 rounded-full" style="background: radial-gradient(circle, rgba(255, 107, 0, 0.16) 0%, transparent 70%);"></div>
+                  <div class="absolute -bottom-12 -left-12 w-40 h-40 rounded-full" style="background: radial-gradient(circle, rgba(192, 24, 88, 0.16) 0%, transparent 70%);"></div>
                 </div>
 
                 <!-- UNIFIED SERVICE CARD VIEW (Scales smoothly from small satellite to full center focus) -->
