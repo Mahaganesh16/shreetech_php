@@ -5,7 +5,6 @@
 
 $companyInfo = [
     'name' => 'Shree Tech',
-    'tagline' => 'Innovations',
     'title' => 'Shree Tech | Software Engineering & Cloud Solutions',
     'phone' => '+1 (800) 840-2030',
     'email' => 'contact@shreetech.com',
@@ -121,45 +120,6 @@ $servicesData = [
     ]
 ];
 
-$processSteps = [
-    [
-        'number' => '01',
-        'title' => 'Requirement Analysis',
-        'description' => 'We work closely with your stakeholders to define business objectives, user requirements, technical constraints, and clear KPIs for project success.',
-        'deliverables' => ['Scope & Objective Definition', 'Stakeholder Interviews', 'Technical Feasibility Study']
-    ],
-    [
-        'number' => '02',
-        'title' => 'Planning & Strategy',
-        'description' => 'Our senior architects construct an engineering roadmap, database schemas, system architecture blueprints, and milestone sprint schedules.',
-        'deliverables' => ['System Architecture Blueprint', 'Tech Stack Selection', 'Sprint Delivery Milestones']
-    ],
-    [
-        'number' => '03',
-        'title' => 'UI/UX Design',
-        'description' => 'We craft human-centric user journeys, wireframes, accessible design systems, and high-fidelity interactive prototypes tested with real users.',
-        'deliverables' => ['User Flow & Wireframing', 'Figma Interactive Prototypes', 'Design System & Tokens']
-    ],
-    [
-        'number' => '04',
-        'title' => 'Development',
-        'description' => 'Our development team writes clean, type-safe, modular code following Domain-Driven Design principles, automated CI/CD pipelines, and regular demo checkpoints.',
-        'deliverables' => ['Agile Two-Week Sprints', 'Test-Driven Codebase', 'Weekly Staging Deployments']
-    ],
-    [
-        'number' => '05',
-        'title' => 'Testing & Quality Assurance',
-        'description' => 'Rigorous automated unit testing, end-to-end integration tests, load stress testing, cross-browser compatibility checks, and security vulnerability scans.',
-        'deliverables' => ['Automated End-to-End Tests', 'Load & Stress Benchmarks', 'Security & Penetration Audit']
-    ],
-    [
-        'number' => '06',
-        'title' => 'Deployment & Support',
-        'description' => 'Zero-downtime production deployment, cloud monitoring configuration, staff handover documentation, and ongoing SLA maintenance agreements.',
-        'deliverables' => ['Zero-Downtime Rollout', 'Cloud Telemetry & Logging', 'Dedicated SLA Maintenance']
-    ]
-];
-
 $projectsData = [
     [
         'id' => 'apex-finance',
@@ -170,7 +130,7 @@ $projectsData = [
         'year' => '2026',
         'summary' => 'Dynamic news, digital publishing, and high-traffic multimedia portal delivering real-time breaking news feeds, multilingual regional journalism, and responsive content streaming.',
         'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'JavaScript'],
-        'imageUrl' => 'eyecatch-media.webp',
+        'imageUrl' => 'assets/images/eyecatch-media.webp',
         'layoutSpan' => 'featured',
         'metrics' => ['label' => 'Monthly Readers', 'value' => '1.2M+']
     ],
@@ -196,7 +156,7 @@ $projectsData = [
         'year' => '2025',
         'summary' => 'Real-time GPS blood donor identification and emergency alert application connecting voluntary donors with patients and regional blood banks in critical care scenarios.',
         'technologies' => ['Flutter', 'Firebase', 'Google Maps API', 'Node.js', 'REST APIs'],
-        'imageUrl' => 'assets/images/blood donor.webp',
+        'imageUrl' => 'assets/images/blood-donor.webp',
         'imageFit' => 'contain',
         'imageBg' => '#DA0037',
         'layoutSpan' => 'standard',
@@ -237,7 +197,7 @@ $projectsData = [
         'year' => '2025',
         'summary' => 'Comprehensive online classifieds, business directory, and digital advertising marketplace engineered with localized category filtering, high-visibility ad placements, and fast search indexing.',
         'technologies' => ['PHP', 'Laravel', 'MySQL', 'Bootstrap', 'JavaScript'],
-        'imageUrl' => 'evergreen-ads.webp',
+        'imageUrl' => 'assets/images/evergreen-ads.webp',
         'layoutSpan' => 'standard',
         'metrics' => ['label' => 'Active Listings', 'value' => '50,000+']
     ]
@@ -505,32 +465,6 @@ function renderTechLogo($iconComponent, $class = 'w-6 h-6') {
     }
 }
 
-/**
- * Return base set repeated sufficiently so one group spans across large screens
- */
-function getMarqueeBaseSet($items, $minCount = 8) {
-    if (empty($items)) return [];
-    $repeatCount = max(1, (int)ceil($minCount / count($items)));
-    $baseSet = [];
-    for ($r = 0; $r < $repeatCount; $r++) {
-        $baseSet = array_merge($baseSet, $items);
-    }
-    return $baseSet;
-}
-
-/**
- * Repeat array for seamless marquee scroll loop
- */
-function getMarqueeSet($items, $minTotal = 12) {
-    if (empty($items)) return [];
-    $repeatCount = max(2, (int)ceil($minTotal / count($items)));
-    $baseSet = [];
-    for ($r = 0; $r < $repeatCount; $r++) {
-        $baseSet = array_merge($baseSet, $items);
-    }
-    return array_merge($baseSet, $baseSet);
-}
-
 if (!function_exists('renderShowcaseCard')) {
     function renderShowcaseCard($tech, $catName, $extraClasses = '') {
         $displayTag = $tech['tag'] ?? $catName;
@@ -579,33 +513,6 @@ if (!function_exists('renderShowcaseCard')) {
             <div class="w-9 h-9 rounded-xl bg-[#FFF4EA] border border-[#FF6B00]/30 flex items-center justify-center shrink-0 text-[#FF6B00]">
               <i data-lucide="sparkles" class="w-4 h-4"></i>
             </div>
-          </div>
-        </div>
-      </div>
-    <?php
-    }
-}
-
-if (!function_exists('renderColumnHeaderCard')) {
-    function renderColumnHeaderCard($title, $subTitle, $badge = '', $iconName = 'sparkles') {
-    ?>
-      <div class="tech-column-header-card w-full p-3 sm:p-3.5 rounded-2xl bg-gradient-to-br from-white/95 to-[#FFF7F2]/90 border border-[#FF6B00]/30 shadow-md backdrop-blur-md shrink-0 select-none">
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#FFF4EA] to-white border border-[#FF6B00]/30 flex items-center justify-center text-[#FF6B00] shadow-2xs shrink-0">
-            <i data-lucide="<?php echo htmlspecialchars($iconName); ?>" class="w-4.5 h-4.5"></i>
-          </div>
-          <div class="min-w-0 flex-1">
-            <?php if (!empty($badge)): ?>
-              <span class="inline-block text-[8.5px] font-extrabold text-[#C01858] bg-[#FFF0F5] border border-[#C01858]/20 px-2 py-0.5 rounded-full uppercase tracking-wider mb-0.5 font-body">
-                <?php echo htmlspecialchars($badge); ?>
-              </span>
-            <?php endif; ?>
-            <h4 class="text-xs sm:text-[13px] font-black text-[#0F172A] font-heading truncate leading-tight">
-              <?php echo htmlspecialchars($title); ?>
-            </h4>
-            <p class="text-[9.5px] text-[#475569] font-medium truncate mt-0.5">
-              <?php echo htmlspecialchars($subTitle); ?>
-            </p>
           </div>
         </div>
       </div>

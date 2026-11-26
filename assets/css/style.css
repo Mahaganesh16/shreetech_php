@@ -11,17 +11,6 @@
    ============================================================= */
 
 :root {
-  --bg-base: #ffffff;
-  --foreground: #0f172a;
-  --color-orange: #FF6B00;
-  --color-magenta: #C01858;
-  --color-purple: #8B5CF6;
-  --color-heading: #0F172A;
-  --color-body: #475569;
-  --color-border: #F1E6EE;
-  --bg-tint-orange: #FFF4EA;
-  --bg-tint-magenta: #FFF0F5;
-  --bg-tint-purple: #F5F0FF;
   --font-heading: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
@@ -102,25 +91,6 @@ h1 {
 .no-scrollbar {
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
-}
-
-/* -------------------------------------------------------------
-   SIGNATURE BRAND SECTION TINTS (White + Logo Accents)
-   ------------------------------------------------------------- */
-.section-white {
-  background-color: #ffffff;
-}
-
-.section-tint-orange {
-  background-color: #FFF4EA;
-}
-
-.section-tint-magenta {
-  background-color: #FFF0F5;
-}
-
-.section-tint-purple {
-  background-color: #F5F0FF;
 }
 
 /* -------------------------------------------------------------
@@ -221,7 +191,6 @@ h1 {
   }
 }
 
-.flip-card-inner.is-flipped,
 .flip-card-inner[data-flipped="true"] {
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
@@ -300,15 +269,6 @@ h1 {
   -webkit-transform: rotateY(180deg) translateZ(1px) !important;
 }
 
-/* Modals & Dialogs Panel */
-.glass-panel {
-  background: #ffffff;
-  border: 1px solid #F1E6EE;
-  box-shadow:
-    0 30px 60px -12px rgba(15, 23, 42, 0.08),
-    0 0 30px rgba(192, 24, 88, 0.06);
-}
-
 /* Small Glows & Badges: Frosted Glass Pill */
 .glass-pill {
   background: rgba(245, 240, 255, 0.85) !important;
@@ -362,36 +322,12 @@ h1 {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-navbar-dock.is-scrolled,
-.glass-navbar-dock[data-scrolled="true"] {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-color: transparent;
-  box-shadow: none;
-}
-
 #mobile-menu a[data-mobile-active="true"] {
   color: #C01858 !important;
   background-color: #FFF0F5 !important;
   border: 1px solid #F1E6EE !important;
   font-weight: 600 !important;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
-}
-
-.glass-navbar-top {
-  background: transparent !important;
-}
-
-.glass-navbar-scrolled {
-  background: transparent !important;
-}
-
-/* Menu Item Inner Pill Dock */
-.glass-nav-pill {
-  background: #ffffff;
-  border: 1px solid #F1E6EE;
-  box-shadow: inset 0 1px 1.5px rgba(0, 0, 0, 0.02);
 }
 
 /* Contact & Lead Intake Frosted Glass Card */
@@ -769,29 +705,6 @@ h1 {
   }
 }
 
-/* Legacy fallback support */
-@keyframes slackAutoScrollRtl {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-.slack-scroll-row {
-  display: flex !important;
-  width: max-content !important;
-  gap: 1.25rem !important;
-  animation: slackAutoScrollRtl 26s linear infinite !important;
-  will-change: transform !important;
-}
-
-.slack-scroll-row:hover {
-  animation-play-state: paused !important;
-}
-
 /* =============================================================
    NEXT.JS ANIMATION SUITE PORTED TO VANILLA CSS & JS
    ============================================================= */
@@ -824,20 +737,6 @@ h1 {
 
   to {
     transform: rotate(-360deg);
-  }
-}
-
-@keyframes pulseGlowRing {
-
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.75;
-  }
-
-  50% {
-    transform: scale(1.04);
-    opacity: 1;
   }
 }
 
@@ -1078,22 +977,12 @@ h1 {
   opacity: 0.001;
 }
 
-.reveal-blur {
-  filter: blur(6px);
-  transition-property: opacity, transform, filter;
-}
-
 /* When in view */
 .is-revealed,
 [data-revealed="true"] {
   opacity: 1 !important;
   transform: translate3d(0, 0, 0) scale(1);
   will-change: auto;
-}
-
-.reveal-blur.is-revealed,
-.reveal-blur[data-revealed="true"] {
-  filter: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1122,8 +1011,7 @@ h1 {
   .animate-phoenix-core,
   .animate-sheen-diag,
   .animate-sheen-vert,
-  .animate-falling-feather,
-  .slack-scroll-row {
+  .animate-falling-feather {
     animation: none !important;
   }
 }
@@ -1190,12 +1078,6 @@ h1 {
 
 .modal-animate-content {
   animation: modalContentScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* 5. TACTILE CARD PARALLAX TILT TRANSITION */
-.interactive-tilt {
-  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: transform;
 }
 
 /* ==========================================================================

@@ -59,7 +59,6 @@
 }
 
 /* Active Featured Center Card */
-.orbit-item.is-active,
 .orbit-item[data-active="true"] {
   cursor: default;
 }
@@ -73,7 +72,7 @@
   transform-origin: center center;
 }
 
-.orbit-item:not(.is-active):not([data-active="true"]):hover .orbit-item-inner {
+.orbit-item:not([data-active="true"]):hover .orbit-item-inner {
   transform: scale(1.06);
 }
 
@@ -94,12 +93,11 @@
     background 0.35s ease;
 }
 
-.orbit-item:not(.is-active):not([data-active="true"]):hover .orbit-service-card {
+.orbit-item:not([data-active="true"]):hover .orbit-service-card {
   border-color: #C01858 !important;
   box-shadow: 0 18px 42px -6px rgba(192, 24, 88, 0.24) !important;
 }
 
-.orbit-item.is-active .orbit-service-card,
 .orbit-item[data-active="true"] .orbit-service-card {
   border-radius: 1.75rem;
   border-color: #F1E6EE !important;
@@ -129,13 +127,11 @@
 }
 
 /* Fallback pointer-event defaults for static SSR before JS hydrates */
-.orbit-item.is-active .card-full-view,
 .orbit-item[data-active="true"] .card-full-view {
   opacity: 1;
   pointer-events: auto;
 }
 
-.orbit-item.is-active .card-ambient-glows,
 .orbit-item[data-active="true"] .card-ambient-glows {
   opacity: 1;
 }

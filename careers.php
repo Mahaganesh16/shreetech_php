@@ -181,7 +181,7 @@ $openPositions = [
 
     <!-- 3 Job Opening Cards Grid (Exact design from user attachments) -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-      <?php foreach ($openPositions as $pIdx => $pos): 
+      <?php foreach ($openPositions as $pos): 
         $posJson = json_encode($pos);
       ?>
         <div class="glass-card p-6 sm:p-7 rounded-2xl border-2 border-[#E2E8F0] hover:border-[#C01858] transition-all duration-300 shadow-sm hover:shadow-lg flex flex-col justify-between group">

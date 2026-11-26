@@ -170,8 +170,7 @@ function initShreeTech() {
     }, { passive: true });
 
     wrapper.addEventListener('click', (e) => {
-      const hoverCapable = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-      const isTouchTap = !hoverCapable || (performance.now() - lastTouchTime < 700);
+      const isTouchTap = !canHoverFine || (performance.now() - lastTouchTime < 700);
       if (!isTouchTap) return;
       toggleFlip(e);
     });
@@ -204,32 +203,11 @@ function initShreeTech() {
   }
 
   // =========================================================================
-  // 5. HERO 8-NODE ORBITING TECH ENGINE WITH COUNTER-ROTATION & TOOLTIPS
-  // =========================================================================
-  const orbitContainer = document.querySelector('.orbit-spin-track');
-  const orbitNodes = document.querySelectorAll('.orbit-tech-node');
-
-  if (orbitNodes.length > 0) {
-    const totalNodes = orbitNodes.length;
-    orbitNodes.forEach((node, idx) => {
-      const angle = (idx / totalNodes) * (2 * Math.PI) - (Math.PI / 2);
-      const xPercent = 50 + 50 * Math.cos(angle);
-      const yPercent = 50 + 50 * Math.sin(angle);
-
-      node.style.left = `${xPercent}%`;
-      node.style.top = `${yPercent}%`;
-      node.style.transform = 'translate(-50%, -50%)';
-    });
-  }
-
-  // =========================================================================
-  // 6. NAVBAR SCROLL EFFECT & MOBILE MENU TOGGLE
+  // 5. NAVBAR SCROLL HIDE/SHOW & MOBILE MENU TOGGLE
   // =========================================================================
   const header = document.getElementById('main-header') || document.querySelector('header');
-  const dock = document.getElementById('navbar-dock');
   const mobileToggle = document.getElementById('mobile-menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
-  let lastHeaderScrolled = null;
   let lastHeaderScrollY = Math.max(0, window.scrollY || 0);
   let lastHeaderHidden = null;
 
@@ -249,13 +227,6 @@ function initShreeTech() {
   const updateHeaderScroll = (scrollPos) => {
     const rawY = typeof scrollPos === 'number' ? scrollPos : window.scrollY;
     const y = Math.max(0, rawY);
-    const isScrolled = y > 20;
-    if (isScrolled !== lastHeaderScrolled) {
-      lastHeaderScrolled = isScrolled;
-      if (dock) {
-        dock.setAttribute('data-scrolled', isScrolled ? 'true' : 'false');
-      }
-    }
 
     const delta = y - lastHeaderScrollY;
     if (y <= 40) {
@@ -431,39 +402,32 @@ function initShreeTech() {
   const techTabs = document.querySelectorAll('.tech-filter-btn');
   const techGroups = document.querySelectorAll('.tech-category-group');
   const activeTitle = document.getElementById('active-category-title');
-  const activeDesc = document.getElementById('active-category-desc');
   const activeBadge = document.getElementById('active-category-badge');
 
   const categoryMeta = {
     'All': {
       badge: 'Multi-Discipline Engineering',
-      title: 'All Technology Disciplines',
-      desc: 'Comprehensive enterprise ecosystem featuring frontend languages, backend runtimes, databases, mobile frameworks, and cloud engineering.'
+      title: 'All Technology Disciplines'
     },
     'Frontend': {
       badge: 'Client-Side Engineering',
-      title: 'Frontend Languages & UI Frameworks (HTML, CSS, JS)',
-      desc: 'Semantic HTML5 markup, modern responsive CSS3 styling, and reactive JavaScript frameworks built for high-performance user interfaces.'
+      title: 'Frontend Languages & UI Frameworks (HTML, CSS, JS)'
     },
     'Backend': {
       badge: 'Server Architecture',
-      title: 'Backend Frameworks & Server APIs (eg: Python, Laravel, PHP, Node.js)',
-      desc: 'Resilient server runtimes and enterprise frameworks built for high concurrency, microservices, and robust data APIs.'
+      title: 'Backend Frameworks & Server APIs (eg: Python, Laravel, PHP, Node.js)'
     },
     'Database': {
       badge: 'Data Layer & Caching',
-      title: 'Database & Storage Systems (eg: MySQL, MongoDB, PostgreSQL, Redis)',
-      desc: 'Relational, document, and analytical databases engineered for extreme data integrity, ACID compliance, and sub-millisecond cache latency.'
+      title: 'Database & Storage Systems (eg: MySQL, MongoDB, PostgreSQL, Redis)'
     },
     'Mobile': {
       badge: 'Native & Multiplatform',
-      title: 'Mobile App Development (eg: Flutter, Swift, React Native, iOS)',
-      desc: 'Cross-platform native mobile compilation and platform-native frameworks delivering fluid 60FPS experiences for iOS and Android.'
+      title: 'Mobile App Development (eg: Flutter, Swift, React Native, iOS)'
     },
     'Cloud': {
       badge: 'Infrastructure & DevOps',
-      title: 'Cloud & DevOps Engineering (eg: AWS, Azure, Google Cloud, Docker)',
-      desc: 'Elastic cloud hosting, automated container orchestration, and serverless architectures engineered for 99.99% uptime.'
+      title: 'Cloud & DevOps Engineering (eg: AWS, Azure, Google Cloud, Docker)'
     }
   };
 
@@ -479,13 +443,12 @@ function initShreeTech() {
 
       if (categoryMeta[cat]) {
         if (activeTitle) activeTitle.textContent = categoryMeta[cat].title;
-        if (activeDesc) activeDesc.textContent = categoryMeta[cat].desc;
         if (activeBadge) activeBadge.textContent = categoryMeta[cat].badge;
       }
 
       techGroups.forEach((group) => {
         const match = group.getAttribute('data-category') === cat;
-        const tracks = group.querySelectorAll('.tech-row-track, .tech-column-track');
+        const tracks = group.querySelectorAll('.tech-row-track');
         if (match) {
           group.style.display = 'block';
           group.style.opacity = '0';

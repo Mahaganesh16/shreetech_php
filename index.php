@@ -109,17 +109,6 @@ $allDownStream = [
     ['name' => 'Kubernetes', 'description' => 'Automated container orchestration & scaling', 'iconComponent' => 'K8sLogo', 'category' => 'Cloud', 'tag' => 'Cloud Orchestration'],
 ];
 
-$allTechnologies = array_merge($allUpStream, $allDownStream);
-
-$categoryDurations = [
-    'All'      => '50s',
-    'Frontend' => '30s',
-    'Backend'  => '32s',
-    'Database' => '35s',
-    'Mobile'   => '28s',
-    'Cloud'    => '34s',
-];
-
 // Testimonials data set for seamless loop
 $marqueeTestimonials = array_merge($testimonialsData, $testimonialsData);
 
@@ -260,12 +249,12 @@ require_once __DIR__ . '/includes/header.php';
             <div class="absolute w-44 h-44 rounded-full bg-gradient-to-tr from-orange-400/25 via-rose-400/20 to-purple-400/15 blur-2xl pointer-events-none animate-phoenix-core"></div>
 
             <div class="absolute -left-12 -top-4 w-[92%] h-[92%] pointer-events-none opacity-20 filter blur-[0.5px]">
-              <img src="images/phoenix-hero.png" alt="" decoding="async" class="w-full h-full object-contain" style="filter: hue-rotate(270deg) saturate(1.8) opacity(0.35);">
+              <img src="images/phoenix-hero.webp" alt="" decoding="async" class="w-full h-full object-contain" style="filter: hue-rotate(270deg) saturate(1.8) opacity(0.35);">
             </div>
 
             <div class="relative w-full h-full flex items-center justify-center pointer-events-none animate-float-bob">
               <img
-                src="images/phoenix-hero.png"
+                src="images/phoenix-hero.webp"
                 alt="ShreeTech Phoenix Bird Icon"
                 decoding="async"
                 class="w-full h-full object-contain select-none pointer-events-auto filter drop-shadow-[0_20px_45px_rgba(255,107,0,0.35)] transition-transform duration-300 hover:scale-105"
@@ -274,8 +263,8 @@ require_once __DIR__ . '/includes/header.php';
               <div
                 class="absolute inset-0 pointer-events-none overflow-hidden"
                 style="
-                  -webkit-mask-image: url(images/phoenix-hero.png);
-                  mask-image: url(images/phoenix-hero.png);
+                  -webkit-mask-image: url(images/phoenix-hero.webp);
+                  mask-image: url(images/phoenix-hero.webp);
                   -webkit-mask-size: contain;
                   mask-size: contain;
                   -webkit-mask-repeat: no-repeat;
