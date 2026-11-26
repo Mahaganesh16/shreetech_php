@@ -1313,7 +1313,7 @@ require_once __DIR__ . '/includes/header.php';
                   </div>
                 </div>
                 <a
-                  href="mailto:contact@shreetech.com"
+                  href="mailto:<?php echo htmlspecialchars($companyInfo['email']); ?>"
                   class="glass-btn-primary px-3.5 py-2 rounded-xl text-white font-semibold text-xs flex items-center gap-1 shrink-0 shadow-xs hover:scale-105 transition-transform font-body"
                 >
                   <span>Email Us</span>
