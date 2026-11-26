@@ -7,10 +7,10 @@ if (!isset($navLinks) || !isset($servicesData)) {
 
 <footer class="relative z-10 bg-white pt-10 sm:pt-10 md:pt-12 pb-10 sm:pb-12 overflow-hidden shadow-xs">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-12 md:grid-cols-2 lg:grid-cols-12 gap-x-3 sm:gap-x-6 gap-y-7 sm:gap-10 pb-8 sm:pb-16 border-b border-[#F1E6EE]">
+    <div class="grid grid-cols-12 md:grid-cols-2 lg:grid-cols-12 gap-x-4 gap-y-8 sm:gap-10 pb-10 sm:pb-16 border-b border-[#F1E6EE]">
       
       <!-- Brand Info (4 Cols Desktop / Full Row Mobile) -->
-      <div class="col-span-12 md:col-span-1 lg:col-span-4 space-y-4 pb-6 border-b border-[#F1E6EE]/80 md:pb-0 md:border-b-0">
+      <div class="col-span-12 md:col-span-1 lg:col-span-4 space-y-4">
         <a href="#home" class="flex items-center gap-3 group">
           <div class="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
             <img src="images/logo-icon.png" alt="Shree Tech Logo" class="w-full h-full object-contain">
@@ -68,15 +68,14 @@ if (!isset($navLinks) || !isset($servicesData)) {
       </div>
 
       <!-- Quick Navigation (2 Cols Desktop / Left Side Next to Services on Mobile) -->
-      <div class="col-span-4 md:col-span-1 lg:col-span-2">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-3.5 sm:mb-4 font-heading flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#FF6B00] md:hidden" aria-hidden="true"></span>
-          <span>Navigation</span>
+      <div class="col-span-5 md:col-span-1 lg:col-span-2">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
+          Navigation
         </h4>
-        <ul class="space-y-2.5 sm:space-y-2 text-[12.5px] sm:text-sm text-[#475569] font-medium font-body leading-snug">
+        <ul class="space-y-2 text-sm text-[#475569] font-medium font-body">
           <?php foreach ($navLinks as $l): ?>
             <li>
-              <a href="<?php echo htmlspecialchars($l['href']); ?>" class="block whitespace-nowrap hover:text-[#C01858] transition-colors">
+              <a href="<?php echo htmlspecialchars($l['href']); ?>" class="hover:text-[#C01858] transition-colors">
                 <?php echo htmlspecialchars($l['label']); ?>
               </a>
             </li>
@@ -85,15 +84,14 @@ if (!isset($navLinks) || !isset($servicesData)) {
       </div>
 
       <!-- Services (3 Cols Desktop / Right Side Next to Navigation on Mobile) -->
-      <div class="col-span-8 md:col-span-1 lg:col-span-3 pl-2 sm:pl-0 border-l border-[#F1E6EE]/80 md:border-l-0">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-3.5 sm:mb-4 font-heading flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#C01858] md:hidden" aria-hidden="true"></span>
-          <span>Services</span>
+      <div class="col-span-7 md:col-span-1 lg:col-span-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
+          Services
         </h4>
-        <ul class="space-y-2.5 sm:space-y-2 text-[12.5px] sm:text-sm text-[#475569] font-medium font-body leading-snug">
+        <ul class="space-y-2 text-sm text-[#475569] font-medium font-body">
           <?php foreach (array_slice($servicesData, 0, 6) as $s): ?>
             <li>
-              <a href="#services" class="block md:whitespace-normal whitespace-nowrap truncate hover:text-[#C01858] transition-colors">
+              <a href="#services" class="hover:text-[#C01858] transition-colors">
                 <?php echo htmlspecialchars($s['title']); ?>
               </a>
             </li>
@@ -101,11 +99,10 @@ if (!isset($navLinks) || !isset($servicesData)) {
         </ul>
       </div>
 
-      <!-- Contact Info (3 Cols Desktop / Full Card Bottom on Mobile) -->
-      <div class="col-span-12 md:col-span-1 lg:col-span-3 p-4 rounded-2xl bg-[#FFFDFB] border border-[#F1E6EE] md:p-0 md:rounded-none md:bg-transparent md:border-0">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-3 sm:mb-4 font-heading flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#8B5CF6] md:hidden" aria-hidden="true"></span>
-          <span>Address</span>
+      <!-- Contact Info (3 Cols Desktop / Full Row Bottom on Mobile) -->
+      <div class="col-span-12 md:col-span-1 lg:col-span-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
+          Address
         </h4>
         <div class="space-y-3 text-xs text-[#475569] font-body">
           <div class="flex items-center gap-2.5">
