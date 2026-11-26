@@ -163,13 +163,22 @@
         const satScale = minSat + satRange * depthNorm;
         const scale = satScale + (1.0 - satScale) * smoothFocus;
 
-        const opacity = Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
+        // On narrow mobile screens, fade backside cards smoothly to opacity 0 so only front focus & active transition show clearly
+        let opacity;
+        if (this.isMobile) {
+          const mobileVisRaw = Math.max(0, 1 - distFromCenter / 0.98);
+          opacity = mobileVisRaw * mobileVisRaw * (3 - 2 * mobileVisRaw);
+        } else {
+          opacity = Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
+        }
         const zIndex = 10 + Math.round(depthNorm * 40 + smoothFocus * 60);
 
         // Center-anchored GPU transform with 3D perspective (zero layout reflows)
         it.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0px) translate(-50%, -50%) rotateY(${tiltY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
         it.style.zIndex = String(zIndex);
         it.style.opacity = opacity.toFixed(3);
+        it.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible';
+        it.style.pointerEvents = opacity > 0.05 ? 'auto' : 'none';
 
         // Keep identical card content at every size; fade only ambient edge glows smoothly on focus
         const meta = this.itemMeta[i];
