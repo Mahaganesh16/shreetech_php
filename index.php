@@ -1129,15 +1129,15 @@ require_once __DIR__ . '/includes/header.php';
 
     <!-- Testimonials Scrollable Row -->
     <div class="relative w-full overflow-hidden py-4">
-      <div class="pointer-events-none absolute left-0 inset-y-0 w-16 sm:w-28 bg-gradient-to-r from-[#F5F0FF] via-[#F5F0FF]/85 to-transparent z-20"></div>
-      <div class="pointer-events-none absolute right-0 inset-y-0 w-16 sm:w-28 bg-gradient-to-l from-[#F5F0FF] via-[#F5F0FF]/85 to-transparent z-20"></div>
+      <div class="hidden sm:block pointer-events-none absolute left-0 inset-y-0 sm:w-20 bg-gradient-to-r from-white via-white/75 to-transparent z-20"></div>
+      <div class="hidden sm:block pointer-events-none absolute right-0 inset-y-0 sm:w-20 bg-gradient-to-l from-white via-white/75 to-transparent z-20"></div>
 
       <div
         id="testimonials-track"
-        class="flex w-full overflow-x-auto no-scrollbar gap-5 sm:gap-7 select-none py-2 px-4"
+        class="flex w-full overflow-x-auto no-scrollbar gap-4 sm:gap-7 select-none py-2 px-0 sm:px-4 snap-x snap-mandatory sm:snap-none"
       >
         <?php foreach ($marqueeTestimonials as $t): ?>
-          <div class="w-[360px] sm:w-[440px] h-[270px] sm:h-[280px] shrink-0 flip-card-wrapper group cursor-pointer select-none">
+          <div class="w-full sm:w-[440px] h-[295px] sm:h-[280px] shrink-0 snap-center flip-card-wrapper group cursor-pointer select-none">
             <div class="flip-card-inner">
               
               <!-- Front -->

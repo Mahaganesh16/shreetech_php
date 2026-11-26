@@ -273,20 +273,20 @@ function initShreeTech() {
     testTrack.addEventListener('touchend', () => { isHovered = false; });
 
     let driftRafId = null;
+    let mobileSlideTimer = null;
     let cachedHalfScrollWidth = testTrack.scrollWidth / 2;
     let virtualScrollLeft = testTrack.scrollLeft;
-    window.addEventListener('resize', () => {
-      cachedHalfScrollWidth = testTrack.scrollWidth / 2;
-    }, { passive: true });
+    const isMobileTrack = () => window.innerWidth < 640;
+
     testTrack.addEventListener('scroll', () => {
-      if (isHovered || isInteracting) {
+      if (isHovered || isInteracting || isMobileTrack()) {
         virtualScrollLeft = testTrack.scrollLeft;
       }
     }, { passive: true });
 
     const stepDrift = () => {
       driftRafId = null;
-      if (!isVisible || prefersReducedMotion) return;
+      if (!isVisible || prefersReducedMotion || document.hidden || isMobileTrack()) return;
       if (!isHovered && !isInteracting && testTrack) {
         virtualScrollLeft += 0.85;
         if (cachedHalfScrollWidth > 0 && virtualScrollLeft >= cachedHalfScrollWidth) {
@@ -298,7 +298,23 @@ function initShreeTech() {
     };
 
     const startDrift = () => {
-      if (!driftRafId && isVisible && !prefersReducedMotion) {
+      if (prefersReducedMotion || !isVisible || document.hidden) return;
+      if (isMobileTrack()) {
+        stopDrift();
+        if (!mobileSlideTimer) {
+          mobileSlideTimer = setInterval(() => {
+            if (isVisible && !document.hidden && !isHovered && !isInteracting && isMobileTrack()) {
+              nudgeTrack('right', true);
+            }
+          }, 5000);
+        }
+        return;
+      }
+      if (mobileSlideTimer) {
+        clearInterval(mobileSlideTimer);
+        mobileSlideTimer = null;
+      }
+      if (!driftRafId) {
         driftRafId = requestAnimationFrame(stepDrift);
       }
     };
@@ -308,7 +324,24 @@ function initShreeTech() {
         cancelAnimationFrame(driftRafId);
         driftRafId = null;
       }
+      if (mobileSlideTimer && (!isVisible || document.hidden || !isMobileTrack())) {
+        clearInterval(mobileSlideTimer);
+        mobileSlideTimer = null;
+      }
     };
+
+    window.addEventListener('resize', () => {
+      cachedHalfScrollWidth = testTrack.scrollWidth / 2;
+      if (isVisible) startDrift();
+    }, { passive: true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopDrift();
+      } else if (isVisible) {
+        startDrift();
+      }
+    });
 
     const testSection = document.getElementById('testimonials');
     if ('IntersectionObserver' in window && testSection) {
@@ -326,21 +359,24 @@ function initShreeTech() {
       startDrift();
     }
 
-    function nudgeTrack(direction) {
+    function nudgeTrack(direction, isAuto = false) {
       if (!testTrack) return;
-      isInteracting = true;
-      if (interactionTimeout) clearTimeout(interactionTimeout);
-      interactionTimeout = setTimeout(() => { isInteracting = false; }, 850);
+      if (!isAuto) {
+        isInteracting = true;
+        if (interactionTimeout) clearTimeout(interactionTimeout);
+        interactionTimeout = setTimeout(() => { isInteracting = false; }, 1200);
+      }
 
-      const step = window.innerWidth < 640 ? 340 : 470;
+      const step = isMobileTrack() ? (testTrack.clientWidth + 16) : 470;
+      const half = testTrack.scrollWidth / 2;
       if (direction === 'left') {
-        if (testTrack.scrollLeft <= 50) {
-          testTrack.scrollLeft += testTrack.scrollWidth / 2;
+        if (testTrack.scrollLeft <= 20) {
+          testTrack.scrollLeft += half;
         }
         testTrack.scrollBy({ left: -step, behavior: 'smooth' });
       } else {
-        if (testTrack.scrollLeft >= testTrack.scrollWidth / 2) {
-          testTrack.scrollLeft -= testTrack.scrollWidth / 2;
+        if (testTrack.scrollLeft >= half - 10) {
+          testTrack.scrollLeft -= half;
         }
         testTrack.scrollBy({ left: step, behavior: 'smooth' });
       }
