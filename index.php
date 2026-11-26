@@ -708,12 +708,6 @@ require_once __DIR__ . '/includes/header.php';
           </div>
         <?php endforeach; ?>
       </div>
-
-      <!-- Drag & Interaction Hint -->
-      <div class="flex items-center justify-center gap-2 mt-1 text-xs text-[#475569] font-medium font-body">
-        <i data-lucide="move-horizontal" class="w-3.5 h-3.5 text-[#FF6B00] animate-pulse"></i>
-        <span>Drag horizontally to rotate orbit &bull; Click any card to focus</span>
-      </div>
     </div>
   </div>
 </section>
@@ -948,12 +942,6 @@ require_once __DIR__ . '/includes/header.php';
           </div>
         </div>
       <?php endforeach; ?>
-
-      <!-- Helpful Interaction Hint at Bottom -->
-      <div class="mt-4 flex items-center justify-center gap-2 text-xs text-[#64748B] font-medium select-none">
-        <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
-        <span>Hover over any column or card to pause animation & flip card for details</span>
-      </div>
 
     </div>
   </div>
