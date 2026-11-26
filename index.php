@@ -502,7 +502,7 @@ require_once __DIR__ . '/includes/header.php';
                   <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs">
                     <i data-lucide="<?php echo htmlspecialchars($item['iconName']); ?>" class="w-5 h-5"></i>
                   </div>
-                  <span class="text-xs font-bold font-stat text-[#475569]/60 group-hover:text-[#FF6B00] transition-colors duration-300">
+                  <span class="text-xs font-bold font-stat text-[#64748B] group-hover:text-[#FF6B00] transition-colors duration-300">
                     0<?php echo $idx + 1; ?>
                   </span>
                 </div>
