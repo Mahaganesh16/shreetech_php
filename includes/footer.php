@@ -7,10 +7,10 @@ if (!isset($navLinks) || !isset($servicesData)) {
 
 <footer class="relative z-10 bg-white pt-10 sm:pt-10 md:pt-12 pb-10 sm:pb-12 overflow-hidden shadow-xs">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-10 pb-10 sm:pb-16 border-b border-[#F1E6EE]">
+    <div class="grid grid-cols-12 md:grid-cols-2 lg:grid-cols-12 gap-x-4 gap-y-8 sm:gap-10 pb-10 sm:pb-16 border-b border-[#F1E6EE]">
       
-      <!-- Brand Info (4 Cols) -->
-      <div class="lg:col-span-4 space-y-4">
+      <!-- Brand Info (4 Cols Desktop / Full Row Mobile) -->
+      <div class="col-span-12 md:col-span-1 lg:col-span-4 space-y-4">
         <a href="#home" class="flex items-center gap-3 group">
           <div class="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
             <img src="images/logo-icon.png" alt="Shree Tech Logo" class="w-full h-full object-contain">
@@ -67,8 +67,8 @@ if (!isset($navLinks) || !isset($servicesData)) {
         </div>
       </div>
 
-      <!-- Quick Navigation (2 Cols) -->
-      <div class="lg:col-span-2">
+      <!-- Quick Navigation (2 Cols Desktop / Left Side Next to Services on Mobile) -->
+      <div class="col-span-5 md:col-span-1 lg:col-span-2">
         <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
           Navigation
         </h4>
@@ -83,8 +83,8 @@ if (!isset($navLinks) || !isset($servicesData)) {
         </ul>
       </div>
 
-      <!-- Services (3 Cols) -->
-      <div class="lg:col-span-3">
+      <!-- Services (3 Cols Desktop / Right Side Next to Navigation on Mobile) -->
+      <div class="col-span-7 md:col-span-1 lg:col-span-3">
         <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
           Services
         </h4>
@@ -99,8 +99,8 @@ if (!isset($navLinks) || !isset($servicesData)) {
         </ul>
       </div>
 
-      <!-- Contact Info (3 Cols) -->
-      <div class="lg:col-span-3">
+      <!-- Contact Info (3 Cols Desktop / Full Row Bottom on Mobile) -->
+      <div class="col-span-12 md:col-span-1 lg:col-span-3">
         <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
           Address
         </h4>
