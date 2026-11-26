@@ -115,7 +115,7 @@ foreach ($navItems as $idx => $item) {
       <div class="md:hidden flex items-center pointer-events-auto">
         <button
           id="mobile-menu-toggle"
-          class="p-2 text-[#475569] hover:text-[#0F172A] rounded-full bg-white/70 backdrop-blur-md border border-[#F1E6EE] shadow-xs focus:outline-none cursor-pointer"
+          class="p-2 text-[#0F172A] hover:text-[#C01858] rounded-full bg-white border border-[#F1E6EE] shadow-sm focus:outline-none cursor-pointer"
           aria-label="Toggle navigation menu"
         >
           <i data-lucide="menu" class="w-5 h-5"></i>
@@ -123,15 +123,15 @@ foreach ($navItems as $idx => $item) {
       </div>
     </div>
 
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden md:hidden mt-2 p-3.5 rounded-2xl border border-[#F1E6EE] pointer-events-auto shadow-xl" style="background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+    <!-- Mobile Dropdown Menu (Solid opaque white for maximum legibility; no glassmorphism blur) -->
+    <div id="mobile-menu" class="hidden md:hidden mt-2 p-3.5 rounded-2xl bg-white border border-[#F1E6EE] pointer-events-auto shadow-xl">
       <div class="flex flex-col gap-1.5">
         <?php foreach ($navItems as $item): 
           $isActive = ($currentPage === $item['page']);
         ?>
           <a
             href="<?php echo htmlspecialchars($item['href']); ?>"
-            class="px-4 py-2.5 text-sm font-medium rounded-xl transition-all <?php echo $isActive ? 'text-[#C01858] bg-[#FFF0F5] border border-[#F1E6EE] font-semibold shadow-xs' : 'text-[#505D70] hover:text-[#C01858] hover:bg-[#FFF0F5]'; ?>"
+            class="px-4 py-2.5 text-sm font-semibold rounded-xl transition-colors <?php echo $isActive ? 'text-[#C01858] bg-[#FFF0F5] border border-[#F1E6EE] shadow-xs' : 'text-[#0F172A] hover:text-[#C01858] hover:bg-[#FFF0F5]'; ?>"
           >
             <?php echo htmlspecialchars($item['label']); ?>
           </a>
