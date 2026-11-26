@@ -1238,9 +1238,15 @@ h1 {
   transition: box-shadow 0.3s ease;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 639px) {
   .stacking-card-item {
-    top: calc(var(--stack-idx, 0) * 12px);
+    top: calc(var(--stack-idx, 0) * 10px);
+  }
+  .stacking-cards-deck {
+    height: calc(clamp(340px, calc(100vh - 315px), 540px) + 90px);
+  }
+  .open-project-modal {
+    height: clamp(340px, calc(100vh - 315px), 540px);
   }
 }
 

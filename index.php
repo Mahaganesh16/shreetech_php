@@ -956,7 +956,7 @@ require_once __DIR__ . '/includes/header.php';
   <div id="projects-pin-track" class="relative w-full">
     
     <!-- STICKY VIEWPORT STAGE (PERFECT FULL-VIEW ALIGNMENT: ZERO CLIPPING & SAFE NAVBAR CLEARANCE) -->
-    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-16 sm:pt-20 pb-4 px-4 sm:px-6 lg:px-8">
+    <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-14 sm:pt-20 pb-3 sm:pb-4 px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header (Cleanly Spaced Below Floating Navbar) -->
       <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-2 sm:mb-2.5 shrink-0">
