@@ -130,10 +130,10 @@ require_once __DIR__ . '/includes/header.php';
      1. HERO SECTION (#home)
      ========================================================================= -->
 <section id="home" class="relative pt-20 pb-8 sm:pt-24 sm:pb-10 md:pt-28 md:pb-12 overflow-hidden flex items-center scroll-mt-24">
-  <!-- Subtle Ambient Corner Blooms -->
-  <div class="absolute top-1/4 -left-32 w-[38rem] h-[38rem] bg-[#FF6B00]/6 rounded-full blur-[140px] pointer-events-none"></div>
-  <div class="absolute top-1/3 -right-32 w-[42rem] h-[42rem] bg-[#C01858]/5 rounded-full blur-[150px] pointer-events-none"></div>
-  <div class="absolute bottom-10 left-1/3 w-[34rem] h-[34rem] bg-[#8B5CF6]/5 rounded-full blur-[140px] pointer-events-none"></div>
+  <!-- Subtle Ambient Corner Blooms (Radial gradient -> zero GPU blur raster cost) -->
+  <div class="absolute top-1/4 -left-32 w-[38rem] h-[38rem] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(255, 107, 0, 0.07) 0%, transparent 70%);"></div>
+  <div class="absolute top-1/3 -right-32 w-[42rem] h-[42rem] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(192, 24, 88, 0.06) 0%, transparent 70%);"></div>
+  <div class="absolute bottom-10 left-1/3 w-[34rem] h-[34rem] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, transparent 70%);"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 items-center">
@@ -260,13 +260,14 @@ require_once __DIR__ . '/includes/header.php';
             <div class="absolute w-44 h-44 rounded-full bg-gradient-to-tr from-orange-400/25 via-rose-400/20 to-purple-400/15 blur-2xl pointer-events-none animate-phoenix-core"></div>
 
             <div class="absolute -left-12 -top-4 w-[92%] h-[92%] pointer-events-none opacity-20 filter blur-[0.5px]">
-              <img src="images/phoenix-hero.png" alt="" class="w-full h-full object-contain" style="filter: hue-rotate(270deg) saturate(1.8) opacity(0.35);">
+              <img src="images/phoenix-hero.png" alt="" decoding="async" class="w-full h-full object-contain" style="filter: hue-rotate(270deg) saturate(1.8) opacity(0.35);">
             </div>
 
             <div class="relative w-full h-full flex items-center justify-center pointer-events-none animate-float-bob">
               <img
                 src="images/phoenix-hero.png"
                 alt="ShreeTech Phoenix Bird Icon"
+                decoding="async"
                 class="w-full h-full object-contain select-none pointer-events-auto filter drop-shadow-[0_20px_45px_rgba(255,107,0,0.35)] transition-transform duration-300 hover:scale-105"
               >
 
@@ -411,6 +412,8 @@ require_once __DIR__ . '/includes/header.php';
             <img
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80"
               alt="Shree Tech software engineering team collaborating on architecture"
+              loading="lazy"
+              decoding="async"
               class="w-full h-72 sm:h-80 object-cover group-hover:scale-102 transition-transform duration-500"
             >
           </div>
@@ -596,7 +599,7 @@ require_once __DIR__ . '/includes/header.php';
     <!-- 1. INTERACTIVE 3D ORBIT VIEW (DOMINIK KOCH ARCHITECTURE) -->
     <div id="services-orbit-wrapper" class="relative w-full py-0 select-none">
       <!-- Ambient Orbit Light Glows -->
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[340px] bg-gradient-to-tr from-[#FF6B00]/10 via-[#C01858]/8 to-[#8B5CF6]/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[340px] rounded-full pointer-events-none" style="background: radial-gradient(ellipse at center, rgba(255, 107, 0, 0.09) 0%, rgba(192, 24, 88, 0.07) 45%, transparent 74%);"></div>
 
       <!-- Orbit Container -->
       <div
@@ -776,8 +779,8 @@ require_once __DIR__ . '/includes/header.php';
           <div class="tech-fade-right pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-14 bg-gradient-to-l from-[#F8FAFC]/90 to-transparent z-20"></div>
 
           <!-- Subtle Ambient Blooms -->
-          <div class="absolute -top-16 -left-16 w-56 h-56 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none"></div>
-          <div class="absolute -bottom-16 -right-16 w-56 h-56 bg-[#C01858]/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(255, 107, 0, 0.10) 0%, transparent 70%);"></div>
+          <div class="absolute -bottom-16 -right-16 w-56 h-56 rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(192, 24, 88, 0.10) 0%, transparent 70%);"></div>
 
           <!-- Tilted Dual-Row Diagonal Matrix (Right-to-Left Scrolling) -->
           <div class="tech-diagonal-matrix">
@@ -1174,7 +1177,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="pt-3.5 border-t border-[#F1E6EE] flex items-center justify-between">
                   <div class="flex items-center gap-3 min-w-0">
                     <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl p-[2px] bg-gradient-to-tr from-[#FF6B00] via-[#C01858] to-[#8B5CF6] shadow-xs shrink-0">
-                      <img src="<?php echo htmlspecialchars($t['imageUrl']); ?>" alt="<?php echo htmlspecialchars($t['name']); ?>" class="w-full h-full rounded-[10px] object-cover">
+                      <img src="<?php echo htmlspecialchars($t['imageUrl']); ?>" alt="<?php echo htmlspecialchars($t['name']); ?>" loading="lazy" decoding="async" class="w-full h-full rounded-[10px] object-cover">
                     </div>
                     <div class="min-w-0">
                       <div class="text-xs font-bold text-[#0F172A] font-heading truncate"><?php echo htmlspecialchars($t['name']); ?></div>

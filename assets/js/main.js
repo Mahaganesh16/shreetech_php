@@ -13,8 +13,8 @@ function initShreeTech() {
   let lenis = window.__lenis || null;
   if (!lenis && typeof Lenis !== 'undefined' && !prefersReducedMotion) {
     lenis = new Lenis({
-      lerp: 0.085,
-      wheelMultiplier: 0.85,
+      lerp: 0.1,
+      wheelMultiplier: 1.0,
       touchMultiplier: 1.25,
       smoothWheel: true,
       syncTouch: false,
@@ -302,14 +302,26 @@ function initShreeTech() {
     testTrack.addEventListener('touchend', () => { isHovered = false; });
 
     let driftRafId = null;
+    let cachedHalfScrollWidth = testTrack.scrollWidth / 2;
+    let virtualScrollLeft = testTrack.scrollLeft;
+    window.addEventListener('resize', () => {
+      cachedHalfScrollWidth = testTrack.scrollWidth / 2;
+    }, { passive: true });
+    testTrack.addEventListener('scroll', () => {
+      if (isHovered || isInteracting) {
+        virtualScrollLeft = testTrack.scrollLeft;
+      }
+    }, { passive: true });
+
     const stepDrift = () => {
       driftRafId = null;
       if (!isVisible || prefersReducedMotion) return;
       if (!isHovered && !isInteracting && testTrack) {
-        testTrack.scrollLeft += 0.85;
-        if (testTrack.scrollLeft >= testTrack.scrollWidth / 2) {
-          testTrack.scrollLeft -= testTrack.scrollWidth / 2;
+        virtualScrollLeft += 0.85;
+        if (cachedHalfScrollWidth > 0 && virtualScrollLeft >= cachedHalfScrollWidth) {
+          virtualScrollLeft -= cachedHalfScrollWidth;
         }
+        testTrack.scrollLeft = virtualScrollLeft;
       }
       driftRafId = requestAnimationFrame(stepDrift);
     };
@@ -511,16 +523,31 @@ function initShreeTech() {
   const projectCards = document.querySelectorAll('.stacking-card-item');
   const projectTabs = document.querySelectorAll('.project-filter-btn');
   let lastStackProgress = -1;
+  let visibleStackItems = [];
+  let cachedTrackTop = 0;
+  let cachedTrackMaxScroll = 0;
+  let cachedTravelDistance = 620;
+
+  function syncTrackBounds() {
+    if (!pinTrack) return;
+    cachedTrackTop = pinTrack.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0);
+    cachedTrackMaxScroll = Math.max(0, pinTrack.offsetHeight - window.innerHeight);
+    cachedTravelDistance = Math.max(window.innerHeight * 0.95, 620);
+  }
 
   function updateTrackHeight() {
     if (!pinTrack) return;
-    const visibleCards = Array.from(projectCards).filter(
-      (card) => card.style.display !== 'none'
-    );
-    visibleCards.forEach((card, idx) => {
-      card.style.setProperty('--stack-idx', idx);
-    });
-    const count = visibleCards.length;
+    visibleStackItems = Array.from(projectCards)
+      .filter((card) => card.style.display !== 'none')
+      .map((card, idx) => {
+        card.style.setProperty('--stack-idx', idx);
+        return {
+          card,
+          headerTab: card.querySelector('.stacking-card-header'),
+          lastBg: '',
+        };
+      });
+    const count = visibleStackItems.length;
     if (count <= 1) {
       pinTrack.style.height = '100vh';
     } else {
@@ -530,32 +557,39 @@ function initShreeTech() {
       const totalScrollTravel = 30 + (count - 1) * scrollPerCard + 50;
       pinTrack.style.height = `${window.innerHeight + totalScrollTravel}px`;
     }
+    if (deckContainer) {
+      deckContainer.style.transform = 'translate3d(0, 0, 0)';
+      deckContainer.style.opacity = '1';
+    }
+    if (stageHeader) {
+      stageHeader.style.opacity = '1';
+    }
+    syncTrackBounds();
     if (lenis) lenis.resize();
   }
 
-  function updateStackingCards(forceUpdate = false) {
-    if (!pinTrack || !pinStage || !projectCards.length) return;
+  function updateStackingCards(forceUpdate = false, scrollPos) {
+    if (!pinTrack || !pinStage || !visibleStackItems.length) return;
 
-    const visibleCards = Array.from(projectCards).filter(
-      (card) => card.style.display !== 'none'
-    );
-    const totalCards = visibleCards.length;
-    if (totalCards === 0) return;
-
+    const totalCards = visibleStackItems.length;
     if (totalCards === 1) {
-      visibleCards[0].style.transform = 'translate3d(0, 0, 0) scale(1) rotate(0deg)';
-      visibleCards[0].style.opacity = '1';
-      visibleCards[0].style.visibility = 'visible';
-      visibleCards[0].style.pointerEvents = 'auto';
+      const onlyCard = visibleStackItems[0].card;
+      onlyCard.style.transform = 'translate3d(0, 0, 0) scale(1) rotate(0deg)';
+      onlyCard.style.opacity = '1';
+      onlyCard.style.visibility = 'visible';
+      onlyCard.style.pointerEvents = 'auto';
       return;
     }
 
-    const trackRect = pinTrack.getBoundingClientRect();
-    const maxScroll = pinTrack.offsetHeight - window.innerHeight;
-    if (maxScroll <= 0) return;
+    if (cachedTrackMaxScroll <= 0) {
+      syncTrackBounds();
+      if (cachedTrackMaxScroll <= 0) return;
+    }
 
-    // Progress goes strictly from 0 to 1 while pinned in the viewport
-    const progress = Math.min(Math.max(-trackRect.top / maxScroll, 0), 1);
+    // Progress goes strictly from 0 to 1 while pinned in the viewport (zero layout reads per scroll tick)
+    const y = typeof scrollPos === 'number' ? scrollPos : (window.scrollY || window.pageYOffset || 0);
+    const trackTop = cachedTrackTop - y;
+    const progress = Math.min(Math.max(-trackTop / cachedTrackMaxScroll, 0), 1);
     if (!forceUpdate && Math.abs(progress - lastStackProgress) < 0.0005) {
       return;
     }
@@ -570,21 +604,12 @@ function initShreeTech() {
     const animEnd = 0.92;
     const animSpan = animEnd - introEnd;
     const stepSpan = animSpan / totalSteps;
+    const travelDistance = cachedTravelDistance;
 
-    // Keep deck and header fully visible (no blank gaps)
-    if (deckContainer) {
-      deckContainer.style.transform = 'translate3d(0, 0, 0)';
-      deckContainer.style.opacity = '1';
-    }
-    if (stageHeader) {
-      stageHeader.style.opacity = '1';
-    }
-
-    // Travel distance: from docked position to below the viewport
-    const travelDistance = Math.max(window.innerHeight * 0.95, 620);
-
-    visibleCards.forEach((card, index) => {
-      const headerTab = card.querySelector('.stacking-card-header');
+    for (let index = 0; index < totalCards; index++) {
+      const item = visibleStackItems[index];
+      const card = item.card;
+      const headerTab = item.headerTab;
 
       if (index === 0) {
         // Foundation card: stays in place, dims & scales as cards stack over it
@@ -597,13 +622,20 @@ function initShreeTech() {
         const tabR = Math.round(Math.max(255 - coveredDepth * 10, 226));
         const tabG = Math.round(Math.max(255 - coveredDepth * 9, 232));
         const tabB = Math.round(Math.max(255 - coveredDepth * 7, 240));
+        const nextBg = `rgb(${tabR}, ${tabG}, ${tabB})`;
 
         card.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(4)}) rotate(0deg)`;
-        card.style.opacity = '1';
-        card.style.visibility = 'visible';
-        card.style.pointerEvents = 'auto';
-        if (headerTab) headerTab.style.backgroundColor = `rgb(${tabR}, ${tabG}, ${tabB})`;
-        return;
+        if (forceUpdate || card.dataset.cardState !== 'base') {
+          card.dataset.cardState = 'base';
+          card.style.opacity = '1';
+          card.style.visibility = 'visible';
+          card.style.pointerEvents = 'auto';
+        }
+        if (headerTab && item.lastBg !== nextBg) {
+          item.lastBg = nextBg;
+          headerTab.style.backgroundColor = nextBg;
+        }
+        continue;
       }
 
       // Subsequent cards (index >= 1)
@@ -619,7 +651,10 @@ function initShreeTech() {
           card.style.opacity = '0';
           card.style.visibility = 'hidden';
           card.style.pointerEvents = 'none';
-          if (headerTab) headerTab.style.backgroundColor = 'rgb(255, 255, 255)';
+          if (headerTab && item.lastBg !== 'rgb(255, 255, 255)') {
+            item.lastBg = 'rgb(255, 255, 255)';
+            headerTab.style.backgroundColor = 'rgb(255, 255, 255)';
+          }
         }
       } else if (progress >= stepEnd) {
         // Card is fully docked; calculate depth from cards docked on top of it
@@ -632,17 +667,20 @@ function initShreeTech() {
         const tabB = Math.round(Math.max(255 - coveredDepth * 7, 240));
         const nextBg = `rgb(${tabR}, ${tabG}, ${tabB})`;
 
-        card.dataset.cardState = 'docked';
         card.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(4)}) rotate(0deg)`;
-        if (card.style.opacity !== '1') card.style.opacity = '1';
-        if (card.style.visibility !== 'visible') card.style.visibility = 'visible';
-        if (card.style.pointerEvents !== 'auto') card.style.pointerEvents = 'auto';
-        if (headerTab && headerTab.style.backgroundColor !== nextBg) {
+        if (card.dataset.cardState !== 'docked' || forceUpdate) {
+          card.dataset.cardState = 'docked';
+          card.style.opacity = '1';
+          card.style.visibility = 'visible';
+          card.style.pointerEvents = 'auto';
+        }
+        if (headerTab && item.lastBg !== nextBg) {
+          item.lastBg = nextBg;
           headerTab.style.backgroundColor = nextBg;
         }
       } else {
         // Card is actively traveling and docking in line-by-line order
-        card.dataset.cardState = 'moving';
+        const prevState = card.dataset.cardState;
         const t = (progress - stepStart) / (stepEnd - stepStart);
         // Smooth cubic ease-out
         const ease = 1 - Math.pow(1 - t, 2.5);
@@ -654,13 +692,17 @@ function initShreeTech() {
 
         card.style.transform = `translate3d(0, ${currentY.toFixed(1)}px, 0) scale(1) rotate(${currentTilt.toFixed(2)}deg)`;
         card.style.opacity = currentOpacity.toFixed(3);
-        if (card.style.visibility !== 'visible') card.style.visibility = 'visible';
-        if (card.style.pointerEvents !== 'auto') card.style.pointerEvents = 'auto';
-        if (headerTab && headerTab.style.backgroundColor !== 'rgb(255, 255, 255)') {
+        if (prevState !== 'moving' || forceUpdate) {
+          card.dataset.cardState = 'moving';
+          card.style.visibility = 'visible';
+          card.style.pointerEvents = 'auto';
+        }
+        if (headerTab && item.lastBg !== 'rgb(255, 255, 255)') {
+          item.lastBg = 'rgb(255, 255, 255)';
           headerTab.style.backgroundColor = 'rgb(255, 255, 255)';
         }
       }
-    });
+    }
   }
 
   let stackTicking = false;
@@ -681,6 +723,10 @@ function initShreeTech() {
     }
     window.addEventListener('resize', () => {
       updateTrackHeight();
+      updateStackingCards(true);
+    }, { passive: true });
+    window.addEventListener('load', () => {
+      syncTrackBounds();
       updateStackingCards(true);
     }, { passive: true });
     updateStackingCards(true);
@@ -1312,7 +1358,7 @@ function initShreeTech() {
       const y = e && typeof e.scroll === 'number' ? e.scroll : window.scrollY;
       updateHeaderScroll(y);
       if (pinTrack) {
-        updateStackingCards();
+        updateStackingCards(false, y);
       }
       if (isSinglePageApp) {
         evaluateScrollSpy(y);

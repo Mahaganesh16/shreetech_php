@@ -6,6 +6,12 @@ if (!isset($companyInfo)) {
 $pageTitle = $pageTitle ?? $companyInfo['title'];
 $pageDescription = $pageDescription ?? 'Building Digital Solutions That Move Businesses Forward. Shree Tech is an enterprise software engineering and technical consulting firm.';
 $currentPage = $currentPage ?? 'home';
+
+if (!headers_sent()) {
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,32 +36,8 @@ $currentPage = $currentPage ?? 'home';
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS via CDN with Brand Color Theme Configuration -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brandOrange: '#FF6B00',
-            brandMagenta: '#C01858',
-            brandPurple: '#8B5CF6',
-            heading: '#0F172A',
-            body: '#475569',
-            borderCustom: '#F1E6EE',
-            tintOrange: '#FFF4EA',
-            tintMagenta: '#FFF0F5',
-            tintPurple: '#F5F0FF',
-          },
-          fontFamily: {
-            heading: ['Outfit', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
-            body: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
-            stat: ['Outfit', 'Plus Jakarta Sans', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
+  <!-- Pre-Compiled Tailwind CSS (Zero runtime MutationObserver / JIT overhead) -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/tailwind.css'); ?>">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -75,14 +57,18 @@ $currentPage = $currentPage ?? 'home';
   <div
     aria-hidden="true"
     class="fixed inset-x-0 top-20 bottom-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden"
-    style="transform: translateZ(0); will-change: transform;"
+    style="transform: translateZ(0);"
   >
     <div class="relative flex items-center justify-center w-[min(48vw,336px)] h-[min(48vw,336px)]">
-      <div class="absolute inset-5 rounded-full bg-gradient-to-tr from-[#FF6B00]/08 via-[#C01858]/08 to-[#8B5CF6]/05 blur-[50px]"></div>
+      <div
+        class="absolute -inset-6 rounded-full pointer-events-none"
+        style="background: radial-gradient(circle, rgba(255, 107, 0, 0.08) 0%, rgba(192, 24, 88, 0.06) 45%, transparent 72%);"
+      ></div>
       <img
         src="images/logo-icon.png"
         alt="Shree Tech Logo Watermark"
-        class="relative w-full h-full object-contain opacity-[0.09] select-none filter drop-shadow-[0_0_24px_rgba(255,107,0,0.10)]"
+        decoding="async"
+        class="relative w-full h-full object-contain opacity-[0.09] select-none"
       >
     </div>
   </div>
