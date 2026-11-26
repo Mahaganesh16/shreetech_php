@@ -85,6 +85,21 @@ h1 {
   .font-normal {
     font-weight: 500 !important;
   }
+
+  .glass-card :is(.text-\[\#475569\], .text-\[\#334155\], .text-\[\#64748B\], .text-\[\#1E293B\]),
+  .flip-card-front :is(.text-\[\#475569\], .text-\[\#334155\], .text-\[\#64748B\], .text-\[\#1E293B\]),
+  .flip-card-back :is(.text-\[\#475569\], .text-\[\#334155\], .text-\[\#64748B\], .text-\[\#1E293B\]),
+  .orbit-service-card :is(.text-\[\#475569\], .text-\[\#334155\], .text-\[\#64748B\], .text-\[\#1E293B\]) {
+    color: #0F172A !important;
+  }
+
+  .glass-card p,
+  .flip-card-front p,
+  .flip-card-back p,
+  .orbit-service-card p {
+    color: #0F172A !important;
+    font-weight: 500 !important;
+  }
 }
 
 /* Custom Neutral Scrollbar */
