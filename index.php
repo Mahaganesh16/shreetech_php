@@ -129,7 +129,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      1. HERO SECTION (#home)
      ========================================================================= -->
-<section id="home" class="relative pt-20 pb-8 sm:pt-24 sm:pb-10 md:pt-28 md:pb-12 overflow-hidden flex items-center scroll-mt-24">
+<section id="home" class="relative pt-20 pb-10 sm:pt-24 sm:pb-10 md:pt-28 md:pb-12 overflow-hidden flex items-center scroll-mt-24">
   <!-- Subtle Ambient Corner Blooms (Radial gradient -> zero GPU blur raster cost) -->
   <div class="absolute top-1/4 -left-32 w-[38rem] h-[38rem] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(255, 107, 0, 0.07) 0%, transparent 70%);"></div>
   <div class="absolute top-1/3 -right-32 w-[42rem] h-[42rem] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(192, 24, 88, 0.06) 0%, transparent 70%);"></div>
@@ -354,7 +354,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      2. ABOUT SHREE TECH SECTION (#about)
      ========================================================================= -->
-<section id="about" class="relative pt-6 pb-8 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
+<section id="about" class="relative pt-7 pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
       
@@ -478,7 +478,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      4. WHY CHOOSE US SECTION (#why-us)
      ========================================================================= -->
-<section id="why-us" class="relative pt-6 pb-8 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
+<section id="why-us" class="relative pt-7 pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mb-6 sm:mb-8">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
@@ -578,7 +578,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      5. ENGINEERING SERVICES SECTION (#services)
      ========================================================================= -->
-<section id="services" class="relative pt-6 pb-8 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
+<section id="services" class="relative pt-7 pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
@@ -715,7 +715,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      4. CORE TECHNOLOGY STACK SECTION (#technologies)
      ========================================================================= -->
-<section id="technologies" class="relative pt-6 pb-6 sm:pt-8 sm:pb-8 md:pt-8 md:pb-8 bg-transparent overflow-hidden scroll-mt-24">
+<section id="technologies" class="relative pt-7 pb-8 sm:pt-8 sm:pb-8 md:pt-8 md:pb-8 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
@@ -950,7 +950,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      7. FEATURED PROJECTS SECTION (#projects) - 3D STACKING CARD DECK
      ========================================================================= -->
-<section id="projects" class="relative w-full bg-transparent select-none scroll-mt-24">
+<section id="projects" class="relative w-full py-3 sm:py-0 bg-transparent select-none scroll-mt-24">
   
   <!-- SCROLL-CONTROLLED PINNED STACKING TRACK -->
   <div id="projects-pin-track" class="relative w-full">
@@ -1116,7 +1116,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      8. CLIENT TESTIMONIALS SECTION (#testimonials)
      ========================================================================= -->
-<section id="testimonials" class="relative pt-6 pb-8 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
+<section id="testimonials" class="relative pt-8 pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <div class="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
@@ -1261,7 +1261,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      9. CONTACT & CONSULTATION SECTION (#contact)
      ========================================================================= -->
-<section id="contact" class="relative pt-6 pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-12 bg-transparent overflow-hidden scroll-mt-24">
+<section id="contact" class="relative pt-8 pb-12 sm:pt-8 sm:pb-10 md:pt-8 md:pb-12 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-start">
       
