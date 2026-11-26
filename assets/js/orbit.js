@@ -163,15 +163,16 @@
         const satScale = minSat + satRange * depthNorm;
         const scale = satScale + (1.0 - satScale) * smoothFocus;
 
-        const opacity = Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
+        // Mobile keeps all 8 orbit cards in the ring at subtle low opacity (0.14-0.23) so the center card (1.0) stands out cleanly
+        const opacity = this.isMobile
+          ? Math.min(1, 0.14 + 0.12 * depthNorm + 0.86 * smoothFocus)
+          : Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
         const zIndex = 10 + Math.round(depthNorm * 40 + smoothFocus * 60);
 
         // Center-anchored GPU transform with 3D perspective (zero layout reflows)
         it.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0px) translate(-50%, -50%) rotateY(${tiltY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
         it.style.zIndex = String(zIndex);
         it.style.opacity = opacity.toFixed(3);
-        it.style.visibility = '';
-        it.style.pointerEvents = '';
 
         // Keep identical card content at every size; fade only ambient edge glows smoothly on focus
         const meta = this.itemMeta[i];
