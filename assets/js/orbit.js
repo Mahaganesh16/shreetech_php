@@ -163,10 +163,10 @@
         const satScale = minSat + satRange * depthNorm;
         const scale = satScale + (1.0 - satScale) * smoothFocus;
 
-        // On narrow mobile screens, fade backside cards smoothly to opacity 0 so only front focus & active transition show clearly
+        // On mobile view, hide all backside/side cards (opacity 0) and reach full clarity before center
         let opacity;
         if (this.isMobile) {
-          const mobileVisRaw = Math.max(0, 1 - distFromCenter / 0.98);
+          const mobileVisRaw = Math.min(1, Math.max(0, (0.64 - distFromCenter) / 0.36));
           opacity = mobileVisRaw * mobileVisRaw * (3 - 2 * mobileVisRaw);
         } else {
           opacity = Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
