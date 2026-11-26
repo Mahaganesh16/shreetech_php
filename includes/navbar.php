@@ -36,7 +36,7 @@ foreach ($navItems as $idx => $item) {
           <span class="text-sm sm:text-base font-black text-[#0F172A] tracking-tight font-heading leading-tight">
             Shree Tech
           </span>
-          <span class="text-[9px] text-[#475569] font-semibold tracking-wider uppercase font-heading">
+          <span class="text-[10px] text-[#334155] font-bold tracking-wider uppercase font-heading">
             Innovations
           </span>
         </div>

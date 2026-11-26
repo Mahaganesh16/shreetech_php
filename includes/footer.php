@@ -19,13 +19,13 @@ if (!isset($navLinks) || !isset($servicesData)) {
             <span class="text-base font-black text-[#0F172A] tracking-tight font-heading">
               Shree Tech
             </span>
-            <span class="text-[9px] text-[#475569] font-semibold tracking-wider uppercase -mt-0.5 font-heading">
+            <span class="text-[10px] text-[#334155] font-bold tracking-wider uppercase -mt-0.5 font-heading">
               Innovations
             </span>
           </div>
         </a>
 
-        <p class="text-sm text-[#475569] font-normal leading-relaxed font-body">
+        <p class="text-sm text-[#334155] font-normal leading-relaxed font-body">
           ShreeTech is an emerging internship training startup lead by highly experienced professionals who unfold various industry chapters and worked with reputable organizations.
         </p>
 
@@ -72,7 +72,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
         <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
           Navigation
         </h4>
-        <ul class="space-y-2 text-sm text-[#475569] font-medium font-body">
+        <ul class="space-y-2 text-sm text-[#334155] font-medium font-body">
           <?php foreach ($navLinks as $l): ?>
             <li>
               <a href="<?php echo htmlspecialchars($l['href']); ?>" class="hover:text-[#C01858] transition-colors">
@@ -88,7 +88,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
         <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
           Services
         </h4>
-        <ul class="space-y-2 text-sm text-[#475569] font-medium font-body">
+        <ul class="space-y-2 text-sm text-[#334155] font-medium font-body">
           <?php foreach (array_slice($servicesData, 0, 6) as $s): ?>
             <li>
               <a href="#services" class="hover:text-[#C01858] transition-colors">
@@ -104,7 +104,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
         <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
           Address
         </h4>
-        <div class="space-y-3 text-xs text-[#475569] font-body">
+        <div class="space-y-3 text-xs sm:text-sm text-[#334155] font-medium font-body">
           <div class="flex items-center gap-2.5">
             <i data-lucide="mail" class="w-4 h-4 text-[#FF6B00] shrink-0"></i>
             <a href="mailto:<?php echo htmlspecialchars($companyInfo['email']); ?>" class="font-semibold text-[#0F172A] hover:text-[#C01858] transition-colors"><?php echo htmlspecialchars($companyInfo['email']); ?></a>
@@ -122,7 +122,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
     </div>
 
     <!-- Bottom Bar -->
-    <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#475569] font-medium font-body">
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#334155] font-semibold font-body">
       <div>
         <?php echo htmlspecialchars($companyInfo['copyright']); ?>
       </div>

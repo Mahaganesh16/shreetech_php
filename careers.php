@@ -204,21 +204,21 @@ $openPositions = [
             <!-- Metadata List (Experience, Positions, Location) -->
             <div class="space-y-2 py-3 border-y border-[#F1E6EE] text-sm text-[#334155] font-medium font-body">
               <div class="flex items-center gap-2">
-                <span class="text-[#64748B] font-semibold w-36 shrink-0">Experience:</span>
+                <span class="text-[#475569] font-semibold w-36 shrink-0">Experience:</span>
                 <span class="text-[#0F172A] font-bold"><?php echo htmlspecialchars($pos['experience']); ?></span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="text-[#64748B] font-semibold w-36 shrink-0">Number of Positions:</span>
+                <span class="text-[#475569] font-semibold w-36 shrink-0">Number of Positions:</span>
                 <span class="text-[#0F172A] font-bold"><?php echo $pos['positions']; ?></span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="text-[#64748B] font-semibold w-36 shrink-0">Location:</span>
+                <span class="text-[#475569] font-semibold w-36 shrink-0">Location:</span>
                 <span class="text-[#0F172A] font-bold"><?php echo htmlspecialchars($pos['location']); ?></span>
               </div>
             </div>
 
             <!-- Short Description -->
-            <p class="text-xs sm:text-sm text-[#475569] font-normal leading-relaxed mt-3.5 mb-4 font-body line-clamp-2">
+            <p class="text-xs sm:text-sm text-[#334155] font-medium leading-relaxed mt-3.5 mb-4 font-body line-clamp-2">
               <?php echo htmlspecialchars($pos['description']); ?>
             </p>
           </div>

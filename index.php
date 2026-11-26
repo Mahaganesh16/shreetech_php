@@ -502,7 +502,7 @@ require_once __DIR__ . '/includes/header.php';
                   <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs">
                     <i data-lucide="<?php echo htmlspecialchars($item['iconName']); ?>" class="w-5 h-5"></i>
                   </div>
-                  <span class="text-xs font-bold font-stat text-[#64748B] group-hover:text-[#FF6B00] transition-colors duration-300">
+                  <span class="text-xs font-bold font-stat text-[#475569] group-hover:text-[#FF6B00] transition-colors duration-300">
                     0<?php echo $idx + 1; ?>
                   </span>
                 </div>
@@ -510,13 +510,13 @@ require_once __DIR__ . '/includes/header.php';
                 <h3 class="text-base sm:text-lg font-bold text-[#0F172A] mb-2.5 group-hover:text-[#C01858] transition-colors duration-300 font-heading">
                   <?php echo htmlspecialchars($item['title']); ?>
                 </h3>
-                <p class="text-sm text-[#475569] leading-relaxed font-medium font-body">
+                <p class="text-sm text-[#334155] leading-relaxed font-medium font-body">
                   <?php echo htmlspecialchars($item['description']); ?>
                 </p>
               </div>
 
               <div class="pt-4 border-t border-[#F1E6EE] flex items-center justify-between">
-                <div class="flex items-center gap-1.5 text-xs font-semibold text-[#64748B] group-hover:text-[#C01858] transition-colors">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-[#334155] group-hover:text-[#C01858] transition-colors">
                   <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] transition-transform duration-[1000ms] group-hover:rotate-180"></i>
                   <span>Hover to Flip</span>
                 </div>
@@ -657,7 +657,7 @@ require_once __DIR__ . '/includes/header.php';
                     <h3 class="text-xl sm:text-2xl font-black text-[#0F172A] font-heading tracking-tight mb-1.5 leading-tight">
                       <?php echo htmlspecialchars($service['title']); ?>
                     </h3>
-                    <p class="text-xs sm:text-[13px] text-[#475569] font-normal leading-relaxed mb-3 max-w-sm line-clamp-2 sm:line-clamp-3">
+                    <p class="text-xs sm:text-[13px] text-[#334155] font-medium leading-relaxed mb-3 max-w-sm line-clamp-2 sm:line-clamp-3">
                       <?php echo htmlspecialchars($service['description']); ?>
                     </p>
                   </div>
@@ -1288,7 +1288,7 @@ require_once __DIR__ . '/includes/header.php';
                     <i data-lucide="mail" class="w-5 h-5"></i>
                   </div>
                   <div class="min-w-0">
-                    <div class="text-xs text-[#64748B] font-medium font-body">Direct Inquiries</div>
+                    <div class="text-xs text-[#475569] font-semibold font-body">Direct Inquiries</div>
                     <div class="text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors font-heading truncate">
                       support@shreetechhub.com
                     </div>
@@ -1296,7 +1296,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
                 <div class="flex flex-col items-end gap-1 shrink-0 pl-2">
                   <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-[1000ms]"></i>
-                  <span class="text-[10px] text-[#334155] font-body">Flip</span>
+                  <span class="text-[11px] font-semibold text-[#334155] font-body">Flip</span>
                 </div>
               </div>
 
@@ -1332,7 +1332,7 @@ require_once __DIR__ . '/includes/header.php';
                     <i data-lucide="phone" class="w-5 h-5"></i>
                   </div>
                   <div class="min-w-0">
-                    <div class="text-xs text-[#64748B] font-medium font-body">Direct Hotline</div>
+                    <div class="text-xs text-[#475569] font-semibold font-body">Direct Hotline</div>
                     <div class="text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors font-heading truncate">
                       +1 (800) 840-2030
                     </div>
@@ -1340,7 +1340,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
                 <div class="flex flex-col items-end gap-1 shrink-0 pl-2">
                   <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-[1000ms]"></i>
-                  <span class="text-[10px] text-[#334155] font-body">Flip</span>
+                  <span class="text-[11px] font-semibold text-[#334155] font-body">Flip</span>
                 </div>
               </div>
 
@@ -1376,7 +1376,7 @@ require_once __DIR__ . '/includes/header.php';
                     <i data-lucide="map-pin" class="w-5 h-5"></i>
                   </div>
                   <div class="min-w-0 flex-1 pr-2">
-                    <div class="text-xs text-[#64748B] font-semibold uppercase tracking-wider font-body mb-1">Headquarters</div>
+                    <div class="text-xs text-[#475569] font-bold uppercase tracking-wider font-body mb-1">Headquarters</div>
                     <div class="text-xs sm:text-sm font-bold text-[#0F172A] group-hover:text-[#C01858] transition-colors font-heading leading-relaxed">
                       5/2, Hajiyar Complex 1st Floor, Moulana Sahip Street (Opp. Section Office Bus Stop), Anna Nagar, Madurai-625020, Tamil Nadu, India.
                     </div>
@@ -1384,7 +1384,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
                 <div class="flex flex-col items-end gap-1 shrink-0 pl-1 self-center">
                   <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-[1000ms]"></i>
-                  <span class="text-[10px] text-[#334155] font-body">Flip</span>
+                  <span class="text-[11px] font-semibold text-[#334155] font-body">Flip</span>
                 </div>
               </div>
 

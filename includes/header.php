@@ -51,9 +51,9 @@ if (!headers_sent()) {
   <!-- 3D Orbit Services Stylesheet -->
   <link rel="stylesheet" href="assets/css/orbit.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/orbit.css'); ?>">
 </head>
-<body class="bg-white text-[#475569] min-h-screen flex flex-col antialiased selection:bg-[#FF6B00]/15 selection:text-[#C01858] relative">
+<body class="bg-white text-[#1E293B] min-h-screen flex flex-col selection:bg-[#FF6B00]/15 selection:text-[#C01858] relative">
 
-  <!-- Fixed Brand Watermark Centered Behind Glassmorphism Layers -->
+  <!-- Fixed Brand Watermark Centered Behind Content Layers -->
   <div
     aria-hidden="true"
     class="fixed inset-x-0 top-20 bottom-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden"
@@ -62,13 +62,13 @@ if (!headers_sent()) {
     <div class="relative flex items-center justify-center w-[min(48vw,336px)] h-[min(48vw,336px)]">
       <div
         class="absolute -inset-6 rounded-full pointer-events-none"
-        style="background: radial-gradient(circle, rgba(255, 107, 0, 0.08) 0%, rgba(192, 24, 88, 0.06) 45%, transparent 72%);"
+        style="background: radial-gradient(circle, rgba(255, 107, 0, 0.06) 0%, rgba(192, 24, 88, 0.04) 45%, transparent 72%);"
       ></div>
       <img
         src="images/logo-icon.png"
         alt="Shree Tech Logo Watermark"
         decoding="async"
-        class="relative w-full h-full object-contain opacity-[0.09] select-none"
+        class="relative w-full h-full object-contain opacity-[0.045] select-none"
       >
     </div>
   </div>
