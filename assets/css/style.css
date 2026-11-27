@@ -1318,8 +1318,8 @@ h1 {
    7. SITE FOOTER — MIDNIGHT INDIGO TO SUNSET HORIZON GRADIENT THEME
    ========================================================================= */
 .site-footer {
-  margin-top: -2.25rem;
-  padding-top: 12rem;
+  margin-top: -2rem;
+  padding-top: 11.75rem;
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -1348,21 +1348,23 @@ h1 {
     linear-gradient(
       180deg,
       rgba(255, 253, 253, 0) 0px,
-      rgba(255, 253, 253, 0.75) 24px,
-      #FFFDFD 54px,
-      #FDF9F9 72px,
-      #F6EFEE 88px,
-      #EBDEDD 104px,
-      #DBC8C6 118px,
-      #C5ADAA 132px,
-      #AA8F8C 146px,
-      #886E6C 160px,
-      #614B4A 172px,
-      #342529 184px,
-      #0D0714 196px,
-      #140817 48%,
-      #220A1B 66%,
-      #381121 80%,
+      rgba(255, 253, 253, 0.72) 14px,
+      #FFFDFD 28px,
+      #FFF6F7 44px,
+      #FCE7E9 62px,
+      #EBCFD3 78px,
+      #D3B2B8 95px,
+      #B6929A 112px,
+      #96727B 129px,
+      #75535E 146px,
+      #573944 163px,
+      #3D2430 180px,
+      #291621 196px,
+      #1C0D19 212px,
+      #140A17 228px,
+      #180918 52%,
+      #260B1D 68%,
+      #3B1122 82%,
       #782024 92%,
       #E84327 100%
     );
@@ -1502,7 +1504,7 @@ h1 {
 @media (max-width: 767px) {
   .site-footer {
     margin-top: -1.5rem;
-    padding-top: 9.5rem;
+    padding-top: 9.25rem;
     background-image:
       radial-gradient(
         135% 215px at 50% 103%,
@@ -1516,21 +1518,23 @@ h1 {
       linear-gradient(
         180deg,
         rgba(255, 253, 253, 0) 0px,
-        rgba(255, 253, 253, 0.75) 18px,
-        #FFFDFD 40px,
-        #FDF9F9 54px,
-        #F6EFEE 66px,
-        #EBDEDD 78px,
-        #DBC8C6 90px,
-        #C5ADAA 102px,
-        #AA8F8C 113px,
-        #886E6C 124px,
-        #614B4A 134px,
-        #342529 144px,
-        #0D0714 152px,
-        #140817 62%,
-        #220A1B 75%,
-        #381121 84%,
+        rgba(255, 253, 253, 0.72) 12px,
+        #FFFDFD 22px,
+        #FFF6F7 35px,
+        #FCE7E9 48px,
+        #EBCFD3 61px,
+        #D3B2B8 74px,
+        #B6929A 87px,
+        #96727B 100px,
+        #75535E 113px,
+        #573944 126px,
+        #3D2430 139px,
+        #291621 152px,
+        #1C0D19 164px,
+        #140A17 176px,
+        #180918 64%,
+        #260B1D 76%,
+        #3B1122 85%,
         #7A2024 93%,
         #E84327 100%
       );
