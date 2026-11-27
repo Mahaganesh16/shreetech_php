@@ -34,6 +34,17 @@
   --gn-y: 7px;
 }
 
+/* Compact layout for screens between 1024px and 1279px to prevent navbar squeeze */
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+  .gooey-nav--md {
+    --gn-pad: 4px;
+    --gn-gap: 2px;
+    --gn-font: 12.5px;
+    --gn-x: 12px;
+    --gn-y: 6px;
+  }
+}
+
 .gooey-nav--lg {
   --gn-pad: 7px;
   --gn-gap: 6px;

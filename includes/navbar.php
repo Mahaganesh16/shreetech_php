@@ -43,7 +43,7 @@ foreach ($navItems as $idx => $item) {
       </a>
 
       <!-- 2. CENTER: React Bits GooeyNav Component (Frameless inside unified glass navbar container) -->
-      <div class="hidden md:flex items-center justify-center flex-1 mx-3 lg:mx-4">
+      <div class="hidden lg:flex navbar-desktop-nav items-center justify-center flex-1 mx-2 xl:mx-4">
         <nav
           id="shree-gooey-nav"
           class="gooey-nav gooey-nav--md pointer-events-auto"
@@ -97,11 +97,11 @@ foreach ($navItems as $idx => $item) {
         </nav>
       </div>
 
-      <!-- 3. RIGHT SIDE: Gradient Contact Us Button with Arrow Icon -->
-      <div class="hidden md:flex items-center gap-3 pointer-events-auto flex-shrink-0">
+      <!-- 3. RIGHT SIDE: Gradient Contact Us Button with Arrow Icon (Desktop) -->
+      <div class="hidden lg:flex navbar-desktop-cta items-center gap-3 pointer-events-auto flex-shrink-0">
         <a
           href="<?php echo $isHomePage ? '#contact' : 'index.php#contact'; ?>"
-          class="glass-btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs lg:text-sm font-semibold text-white cursor-pointer shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
+          class="glass-btn-primary inline-flex items-center gap-1.5 xl:gap-2 px-3.5 py-2 xl:px-5 xl:py-2.5 rounded-full text-xs xl:text-sm font-semibold text-white cursor-pointer shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all whitespace-nowrap"
           style="background: linear-gradient(135deg, #FF6B00 0%, #C01858 55%, #8B5CF6 100%);"
         >
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-white/95"></i>
@@ -110,12 +110,21 @@ foreach ($navItems as $idx => $item) {
         </a>
       </div>
 
-      <!-- Mobile Hamburger Button -->
-      <div class="md:hidden flex items-center pointer-events-auto">
+      <!-- Mobile & Tablet Hamburger Toggle (+ sleek compact contact button for tablets) -->
+      <div class="lg:hidden navbar-mobile-toggle flex items-center gap-2 sm:gap-2.5 pointer-events-auto">
+        <a
+          href="<?php echo $isHomePage ? '#contact' : 'index.php#contact'; ?>"
+          class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold text-white shadow-sm hover:shadow active:scale-95 transition-all whitespace-nowrap"
+          style="background: linear-gradient(135deg, #FF6B00 0%, #C01858 55%, #8B5CF6 100%);"
+        >
+          <i data-lucide="sparkles" class="w-3 h-3 text-white"></i>
+          <span>Contact</span>
+        </a>
         <button
           id="mobile-menu-toggle"
-          class="p-2 text-[#0F172A] hover:text-[#C01858] rounded-full bg-white border border-[#F1E6EE] shadow-sm focus:outline-none cursor-pointer"
+          class="p-2 text-[#0F172A] hover:text-[#C01858] rounded-full bg-white border border-[#F1E6EE] shadow-sm focus:outline-none cursor-pointer transition-colors"
           aria-label="Toggle navigation menu"
+          aria-expanded="false"
         >
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
@@ -123,7 +132,7 @@ foreach ($navItems as $idx => $item) {
     </div>
 
     <!-- Mobile Dropdown Menu (Outside glass dock; solid opaque white for crisp legibility) -->
-    <div id="mobile-menu" class="hidden md:hidden mt-2 p-3.5 rounded-2xl bg-white border border-[#F1E6EE] pointer-events-auto shadow-xl">
+    <div id="mobile-menu" class="hidden lg:hidden mt-2 p-3.5 rounded-2xl bg-white border border-[#F1E6EE] pointer-events-auto shadow-xl transition-all">
       <div class="flex flex-col gap-1.5">
         <?php foreach ($navItems as $item): 
           $isActive = ($currentPage === $item['page']);

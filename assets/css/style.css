@@ -22,7 +22,9 @@
 html {
   scroll-behavior: auto !important;
   background-color: #ffffff;
-  overflow-x: clip;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
@@ -35,9 +37,17 @@ body {
   color: #334155;
   font-family: var(--font-body);
   letter-spacing: -0.005em;
-  overflow-x: clip;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
   position: relative;
   min-height: 100vh;
+}
+
+main {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 h1,
@@ -384,6 +394,58 @@ h1 {
     inset 0 1px 1px rgba(255, 255, 255, 0.92),
     inset 0 0 0 1px rgba(255, 255, 255, 0.65);
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Responsive Navbar Display Media Queries (Breakpoint: 1024px) */
+/* Mobile and Tablet (< 1024px): iPad Mini, iPad Air, Surface, phones */
+@media (max-width: 1023.98px) {
+  .navbar-desktop-nav,
+  .navbar-desktop-cta {
+    display: none !important;
+  }
+  .navbar-mobile-toggle {
+    display: flex !important;
+  }
+}
+
+/* Desktop (>= 1024px): iPad Pro landscape, laptops, desktops */
+@media (min-width: 1024px) {
+  .lg\:flex {
+    display: flex !important;
+  }
+  .lg\:hidden {
+    display: none !important;
+  }
+  .lg\:block {
+    display: block !important;
+  }
+  .lg\:inline-flex {
+    display: inline-flex !important;
+  }
+  .navbar-desktop-nav {
+    display: flex !important;
+  }
+  .navbar-desktop-cta {
+    display: flex !important;
+  }
+  .navbar-mobile-toggle {
+    display: none !important;
+  }
+  #mobile-menu {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:flex {
+    display: flex !important;
+  }
+  .xl\:hidden {
+    display: none !important;
+  }
+  .xl\:inline-flex {
+    display: inline-flex !important;
+  }
 }
 
 /* Frameless center GooeyNav inside the unified frosted glass navbar container */
