@@ -1347,21 +1347,22 @@ h1 {
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0) 0px,
-      rgba(254, 252, 255, 0.65) 22px,
-      rgba(252, 250, 255, 0.96) 44px,
-      #FBF9FE 62px,
-      #F3EFFB 82px,
-      #E1DAF3 102px,
-      #C0B5E2 122px,
-      #8A7CB9 140px,
-      #4B3E82 156px,
-      #1B134B 170px,
-      #050226 180px,
-      #01001F 186px,
-      #04011E 45%,
-      #0E0420 64%,
-      #2A0E22 80%,
+      rgba(254, 252, 253, 0) 0px,
+      rgba(254, 252, 253, 0.72) 22px,
+      #FEFCFD 46px,
+      #FBF9FA 60px,
+      #F3F1F2 74px,
+      #E6E4E5 88px,
+      #D3D1D2 102px,
+      #BBB9BB 116px,
+      #9F9D9E 130px,
+      #7D7C7E 144px,
+      #585759 158px,
+      #2E2D31 172px,
+      #0A0714 186px,
+      #0F0817 45%,
+      #1C091C 64%,
+      #321022 80%,
       #782024 92%,
       #E84327 100%
     );
@@ -1466,12 +1467,12 @@ h1 {
 
 .site-footer .footer-back-top {
   white-space: nowrap;
-  background: rgba(6, 3, 30, 0.84);
+  background: rgba(12, 8, 20, 0.86);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.24);
   color: #FFFFFF;
-  box-shadow: 0 6px 18px rgba(1, 0, 20, 0.45);
+  box-shadow: 0 6px 18px rgba(10, 7, 20, 0.45);
   transition: all 0.25s ease;
 }
 
@@ -1514,19 +1515,22 @@ h1 {
       ),
       linear-gradient(
         180deg,
-        rgba(255, 255, 255, 0) 0px,
-        rgba(254, 252, 255, 0.65) 18px,
-        rgba(252, 250, 255, 0.96) 36px,
-        #FBF9FE 50px,
-        #EFEBF9 68px,
-        #D3C9EE 86px,
-        #988AC8 104px,
-        #4B3E82 120px,
-        #160F42 134px,
-        #01001F 144px,
-        #04011E 60%,
-        #0C0320 75%,
-        #260C22 84%,
+        rgba(254, 252, 253, 0) 0px,
+        rgba(254, 252, 253, 0.72) 18px,
+        #FEFCFD 38px,
+        #FBF9FA 49px,
+        #F3F1F2 60px,
+        #E6E4E5 70px,
+        #D3D1D2 81px,
+        #BBB9BB 91px,
+        #9F9D9E 102px,
+        #7D7C7E 112px,
+        #585759 123px,
+        #2E2D31 134px,
+        #0A0714 144px,
+        #0F0817 60%,
+        #1B091B 75%,
+        #301022 84%,
         #7A2024 93%,
         #E84327 100%
       );
