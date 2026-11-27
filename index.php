@@ -380,13 +380,30 @@ require_once __DIR__ . '/includes/header.php';
           <?php endforeach; ?>
         </div>
 
-        <div class="pt-2">
+        <div class="about-cta-row pt-2">
           <a
             href="#services"
             class="inline-flex items-center gap-2 text-base font-bold text-[#FF6B00] hover:text-[#C01858] transition-colors group cursor-pointer font-body"
           >
             <span>Read More About Our Engineering Practices</span>
             <i data-lucide="arrow-right" class="w-4.5 h-4.5 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+
+          <a
+            href="https://isrdconnects.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="isrd-partner-link"
+            aria-label="Integrated Society for Research and Development (ISRD) — Visit https://isrdconnects.in/"
+            title="Integrated Society for Research and Development (ISRD)"
+          >
+            <img
+              src="images/isrd.png"
+              alt="Integrated Society for Research and Development (ISRD) Logo"
+              loading="lazy"
+              decoding="async"
+              class="isrd-partner-logo"
+            >
           </a>
         </div>
       </div>
