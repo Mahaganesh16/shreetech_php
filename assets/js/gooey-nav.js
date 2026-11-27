@@ -172,19 +172,34 @@ void main() {
   ];
 
   const build = gl => {
-    const program = gl.createProgram();
-    gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, VERTEX));
-    gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, FRAGMENT));
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      gl.deleteProgram(program);
+    try {
+      const program = gl.createProgram();
+      if (!program) return null;
+      const vert = compile(gl, gl.VERTEX_SHADER, VERTEX);
+      const frag = compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
+      if (!vert || !frag) {
+        gl.deleteProgram(program);
+        return null;
+      }
+      gl.attachShader(program, vert);
+      gl.attachShader(program, frag);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        gl.deleteProgram(program);
+        return null;
+      }
+      const uniforms = Object.fromEntries(UNIFORMS.map(name => [name, gl.getUniformLocation(program, name)]));
+      const buffer = gl.createBuffer();
+      if (!buffer) {
+        gl.deleteProgram(program);
+        return null;
+      }
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      return { program, uniforms, buffer, position: gl.getAttribLocation(program, 'aPosition') };
+    } catch (_) {
       return null;
     }
-    const uniforms = Object.fromEntries(UNIFORMS.map(name => [name, gl.getUniformLocation(program, name)]));
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-    return { program, uniforms, buffer, position: gl.getAttribLocation(program, 'aPosition') };
   };
 
   class GooeyNav {
@@ -263,12 +278,26 @@ void main() {
       };
       s.pillRgb = parse(s.pillColor);
 
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false });
-      const pipeline = gl ? build(gl) : null;
+      const reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      const supportsPathClip = typeof CSS !== 'undefined' && typeof CSS.supports === 'function' && CSS.supports('clip-path', 'path("M0,0Z")');
+      let gl = null;
+      try {
+        gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false });
+      } catch (_) {
+        gl = null;
+      }
+      let pipeline = gl ? build(gl) : null;
 
       fallback.style.display = pipeline ? 'none' : 'block';
       canvas.style.display = pipeline ? 'block' : 'none';
+
+      canvas.addEventListener('webglcontextlost', event => {
+        event.preventDefault();
+        pipeline = null;
+        fallback.style.display = 'block';
+        canvas.style.display = 'none';
+        render();
+      });
 
       const view = { width: 0, height: 0 };
       let rects = [];
@@ -458,17 +487,35 @@ void main() {
         }
 
         const activeBox = target >= 0 ? shape(target, pills.get(target)?.scale ?? 0) : null;
+        const applyBoxClip = box => {
+          if (supportsPathClip) {
+            return `path('${pillPath(box.x, box.y, box.w, box.h)}')`;
+          }
+          const top = Math.max(0, box.y).toFixed(1);
+          const right = Math.max(0, view.width - (box.x + box.w)).toFixed(1);
+          const bottom = Math.max(0, view.height - (box.y + box.h)).toFixed(1);
+          const left = Math.max(0, box.x).toFixed(1);
+          return `inset(${top}px ${right}px ${bottom}px ${left}px round 9999px)`;
+        };
+
         if (activeBox) {
-          overlay.style.clipPath = `path('${pillPath(activeBox.x, activeBox.y, activeBox.w, activeBox.h)}')`;
+          overlay.style.clipPath = applyBoxClip(activeBox);
         } else if (boxes.length === 1) {
           const box = boxes[0];
-          overlay.style.clipPath = `path('${pillPath(box.cx - box.hw, box.cy - box.hh, box.hw * 2, box.hh * 2)}')`;
+          overlay.style.clipPath = applyBoxClip({
+            x: box.cx - box.hw,
+            y: box.cy - box.hh,
+            w: box.hw * 2,
+            h: box.hh * 2
+          });
         } else {
-          overlay.style.clipPath = `path('M0,0Z')`;
+          overlay.style.clipPath = supportsPathClip ? `path('M0,0Z')` : 'inset(100%)';
         }
         overlay.style.visibility = 'visible';
 
-        if (!pipeline || !gl) {
+        if (!pipeline || !gl || (typeof gl.isContextLost === 'function' && gl.isContextLost())) {
+          fallback.style.display = 'block';
+          canvas.style.display = 'none';
           const box = shape(target, 1);
           if (box) {
             fallback.style.transform = `translate(${box.x.toFixed(2)}px, ${box.y.toFixed(2)}px)`;
@@ -478,6 +525,7 @@ void main() {
           fallback.style.opacity = box ? '1' : '0';
           return;
         }
+        if (view.width <= 0 || view.height <= 0) return;
 
         let slot = 0;
         for (const box of boxes) {
@@ -708,13 +756,19 @@ void main() {
         wake();
       };
 
-      const resizeObserver = new ResizeObserver(() => {
+      const handleResize = () => {
         measure();
         if (!drops.length) settle(target < 0 ? initialIndex : target);
         else render();
-      });
-      resizeObserver.observe(stage);
-      resizeObserver.observe(list);
+      };
+      let resizeObserver = null;
+      if (typeof ResizeObserver !== 'undefined') {
+        resizeObserver = new ResizeObserver(handleResize);
+        resizeObserver.observe(stage);
+        resizeObserver.observe(list);
+      } else {
+        window.addEventListener('resize', handleResize, { passive: true });
+      }
 
       list.addEventListener('pointerover', onOver);
       list.addEventListener('pointerleave', onLeave);
@@ -797,7 +851,8 @@ void main() {
         destroy: () => {
           disposed = true;
           cancelAnimationFrame(raf);
-          resizeObserver.disconnect();
+          if (resizeObserver) resizeObserver.disconnect();
+          else window.removeEventListener('resize', handleResize);
           list.removeEventListener('pointerover', onOver);
           list.removeEventListener('pointerleave', onLeave);
           if (gl && pipeline) {
@@ -870,7 +925,12 @@ void main() {
   function initAll() {
     document.querySelectorAll('.gooey-nav').forEach(el => {
       if (!el.__gooeyNavInstance) {
-        el.__gooeyNavInstance = new GooeyNav(el);
+        try {
+          el.__gooeyNavInstance = new GooeyNav(el);
+        } catch (err) {
+          const activeLink = el.querySelector('.gooey-nav__item[data-active] .gooey-nav__link');
+          if (activeLink) activeLink.style.opacity = '1';
+        }
       }
     });
   }

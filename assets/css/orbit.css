@@ -54,7 +54,6 @@
   will-change: transform, opacity;
   pointer-events: auto;
   cursor: pointer;
-  transform-style: preserve-3d;
 }
 
 /* Active Featured Center Card */

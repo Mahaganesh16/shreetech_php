@@ -37,7 +37,10 @@
         el,
         full: el.querySelector('.card-full-view'),
         glows: el.querySelector('.card-ambient-glows'),
-        interactive: null
+        interactive: null,
+        lastZIndex: '',
+        lastOpacity: '',
+        lastGlowOpacity: ''
       }));
       this.count = this.items.length;
       this.activeIndex = 0;
@@ -173,19 +176,34 @@
 
         // Center-anchored GPU transform with 3D perspective (zero layout reflows)
         it.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0px) translate(-50%, -50%) rotateY(${tiltY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
-        it.style.zIndex = String(zIndex);
-        it.style.opacity = opacity.toFixed(3);
 
-        // Keep identical card content at every size; fade only ambient edge glows smoothly on focus
+        // Skip redundant style writes when quantized zIndex/opacity/glow match previous frame
         const meta = this.itemMeta[i];
+        const nextZ = String(zIndex);
+        const nextOp = opacity.toFixed(2);
+        const nextGlow = smoothFocus.toFixed(2);
         if (meta) {
-          if (meta.glows) meta.glows.style.opacity = smoothFocus.toFixed(3);
+          if (meta.lastZIndex !== nextZ) {
+            meta.lastZIndex = nextZ;
+            it.style.zIndex = nextZ;
+          }
+          if (meta.lastOpacity !== nextOp) {
+            meta.lastOpacity = nextOp;
+            it.style.opacity = nextOp;
+          }
+          if (meta.glows && meta.lastGlowOpacity !== nextGlow) {
+            meta.lastGlowOpacity = nextGlow;
+            meta.glows.style.opacity = nextGlow;
+          }
 
           const fullInteractive = smoothFocus >= 0.45;
           if (meta.interactive !== fullInteractive) {
             meta.interactive = fullInteractive;
             if (meta.full) meta.full.style.pointerEvents = fullInteractive ? 'auto' : 'none';
           }
+        } else {
+          it.style.zIndex = nextZ;
+          it.style.opacity = nextOp;
         }
 
         // Toggle active state via data-active (CSS border/glow state only, no dimension snap)
@@ -376,6 +394,10 @@
         onDragEnd();
       });
 
+      window.addEventListener('blur', () => {
+        onDragEnd();
+      });
+
       // Touch handlers
       this.root.addEventListener(
         'touchstart',
@@ -399,6 +421,10 @@
       );
 
       this.root.addEventListener('touchend', () => {
+        onDragEnd();
+      });
+
+      this.root.addEventListener('touchcancel', () => {
         onDragEnd();
       });
 

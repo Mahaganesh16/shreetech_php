@@ -7,37 +7,93 @@ function initShreeTech() {
   if (window.__shreeTechInitialized) return;
   window.__shreeTechInitialized = true;
 
-  const prefersReducedMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-
-  // 0. Initialize Lenis Smooth Scroll Engine (Singleton + Explicit RAF Loop)
-  let lenis = window.__lenis || null;
-  if (!lenis && typeof Lenis !== 'undefined' && !prefersReducedMotion) {
-    lenis = new Lenis({
-      lerp: 0.1,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.25,
-      smoothWheel: true,
-      syncTouch: false,
-      autoRaf: false,
-    });
-
-    // Prevent per-frame html.className mutations that trigger runtime CSS MutationObservers
-    lenis.updateClassName = function () {};
-    document.documentElement.classList.add('lenis');
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+  const runSafe = (fn) => {
+    try {
+      fn();
+    } catch (err) {
+      if (typeof console !== 'undefined' && console.warn) {
+        console.warn('ShreeTech module skipped:', err);
+      }
     }
-    requestAnimationFrame(raf);
+  };
 
-    window.__lenis = lenis;
+  const prefersReducedMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const canHoverFine = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+  const smoothScrollToY = (topY) => {
+    const safeTop = Math.max(0, topY);
+    try {
+      window.scrollTo({ top: safeTop, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    } catch (_) {
+      window.scrollTo(0, safeTop);
+    }
+  };
+
+  // 0. Initialize Lenis Smooth Scroll Engine (On-Demand RAF: zero idle CPU drain on laptops)
+  let lenis = window.__lenis || null;
+  let wakeLenis = () => {};
+  if (!lenis && typeof Lenis !== 'undefined' && typeof ResizeObserver !== 'undefined' && !prefersReducedMotion) {
+    try {
+      lenis = new Lenis({
+        lerp: 0.14,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.2,
+        smoothWheel: true,
+        syncTouch: false,
+        autoRaf: false,
+      });
+
+      // Prevent per-frame html.className mutations that trigger runtime CSS MutationObservers
+      lenis.updateClassName = function () {};
+      document.documentElement.classList.add('lenis');
+
+      let lenisRafId = null;
+      let idleUntil = 0;
+
+      const tickLenis = (time) => {
+        lenisRafId = null;
+        if (!lenis || document.hidden) return;
+        lenis.raf(time);
+        if ((lenis.animate && lenis.animate.isRunning) || lenis.isScrolling || time < idleUntil) {
+          lenisRafId = requestAnimationFrame(tickLenis);
+        }
+      };
+
+      wakeLenis = (holdMs = 450) => {
+        if (!lenis || document.hidden) return;
+        idleUntil = Math.max(idleUntil, performance.now() + holdMs);
+        if (!lenisRafId) {
+          lenisRafId = requestAnimationFrame(tickLenis);
+        }
+      };
+
+      // Wrap programmatic scrollTo so anchor/back-to-top jumps automatically start Lenis RAF
+      const rawScrollTo = lenis.scrollTo.bind(lenis);
+      lenis.scrollTo = (...args) => {
+        wakeLenis(1400);
+        return rawScrollTo(...args);
+      };
+
+      window.addEventListener('wheel', () => wakeLenis(600), { passive: true });
+      window.addEventListener('resize', () => wakeLenis(300), { passive: true });
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden && lenisRafId) {
+          cancelAnimationFrame(lenisRafId);
+          lenisRafId = null;
+        }
+      });
+
+      window.__lenis = lenis;
+    } catch (_) {
+      lenis = null;
+    }
   }
 
-  // 0.1 Initialize Lucide Icons
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
+  // 0.1 Initialize Lucide Icons (Safe even if DOM icons update after defer load)
+  runSafe(() => {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  });
 
   // =========================================================================
   // 1. SCROLL-TRIGGERED ENTRANCE REVEAL ENGINE (FRAMER MOTION EQUIVALENT)
@@ -88,43 +144,57 @@ function initShreeTech() {
   }
 
   // =========================================================================
-  // 2. DYNAMIC CURSOR SPOTLIGHT ON CARDS (OPTIMIZED & CONFLICT-FREE)
+  // 2. DYNAMIC CURSOR SPOTLIGHT ON CARDS (RAF-THROTTLED, ZERO LAYOUT THRASH)
   // =========================================================================
-  const spotlightCards = document.querySelectorAll('.glass-card:not(.flip-card-front):not(.flip-card-back)');
+  if (canHoverFine && !prefersReducedMotion) {
+    runSafe(() => {
+      const spotlightCards = document.querySelectorAll('.glass-card:not(.flip-card-front):not(.flip-card-back)');
+      spotlightCards.forEach((card) => {
+        let spotlight = card.querySelector('.card-spotlight-layer');
+        if (!spotlight) {
+          spotlight = document.createElement('div');
+          spotlight.className = 'card-spotlight-layer pointer-events-none absolute inset-0';
+          spotlight.style.position = 'absolute';
+          card.prepend(spotlight);
+        }
 
-  spotlightCards.forEach((card) => {
-    // Ensure spotlight layer exists
-    let spotlight = card.querySelector('.card-spotlight-layer');
-    if (!spotlight) {
-      spotlight = document.createElement('div');
-      spotlight.className = 'card-spotlight-layer pointer-events-none absolute inset-0';
-      spotlight.style.position = 'absolute';
-      card.prepend(spotlight);
-    }
+        let cachedRect = null;
+        let rafPending = false;
+        let pointerX = 0;
+        let pointerY = 0;
 
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+        card.addEventListener('mouseenter', () => {
+          cachedRect = card.getBoundingClientRect();
+        }, { passive: true });
 
-      if (spotlight) {
-        spotlight.style.background = `radial-gradient(350px circle at ${x}px ${y}px, rgba(255, 107, 0, 0.12), transparent 75%)`;
-        spotlight.style.opacity = '1';
-      }
+        card.addEventListener('mousemove', (e) => {
+          pointerX = e.clientX;
+          pointerY = e.clientY;
+          if (rafPending) return;
+          rafPending = true;
+          requestAnimationFrame(() => {
+            rafPending = false;
+            const rect = cachedRect || card.getBoundingClientRect();
+            cachedRect = rect;
+            const x = pointerX - rect.left;
+            const y = pointerY - rect.top;
+            spotlight.style.background = `radial-gradient(350px circle at ${x.toFixed(1)}px ${y.toFixed(1)}px, rgba(255, 107, 0, 0.12), transparent 75%)`;
+            spotlight.style.opacity = '1';
+          });
+        }, { passive: true });
+
+        card.addEventListener('mouseleave', () => {
+          cachedRect = null;
+          spotlight.style.opacity = '0';
+        }, { passive: true });
+      });
     });
-
-    card.addEventListener('mouseleave', () => {
-      if (spotlight) {
-        spotlight.style.opacity = '0';
-      }
-    });
-  });
+  }
 
   // =========================================================================
   // 3. HARDWARE-ACCELERATED 3D CARD FLIP ON CLICK / TOUCH
   // =========================================================================
   const flipCardWrappers = document.querySelectorAll('.flip-card-wrapper');
-  const canHoverFine = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
   flipCardWrappers.forEach((wrapper) => {
     let touchStartX = 0;
     let touchStartY = 0;
@@ -177,29 +247,39 @@ function initShreeTech() {
   });
 
   // =========================================================================
-  // 4. HERO ROTATING HEADLINE WITH BLUR & SLIDE (AnimatePresence EQUIVALENT)
+  // 4. HERO ROTATING HEADLINE (PURE GPU TRANSFORM + VISIBILITY GATED)
   // =========================================================================
   const rotatingPhrases = [
     'Move Businesses Forward.',
     'Move Design Forward.'
   ];
   const phraseEl = document.getElementById('hero-rotating-phrase');
-  if (phraseEl) {
+  let isHeroInView = true;
+  if (phraseEl && !prefersReducedMotion) {
     let pIdx = 0;
-    setInterval(() => {
+    let phraseTimer = null;
+    const runPhraseStep = () => {
+      if (document.hidden || !isHeroInView) return;
       pIdx = (pIdx + 1) % rotatingPhrases.length;
-      phraseEl.style.transition = 'all 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+      phraseEl.style.transition = 'transform 0.36s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.36s ease';
       phraseEl.style.opacity = '0';
-      phraseEl.style.transform = 'translateY(14px)';
-      phraseEl.style.filter = 'blur(4px)';
+      phraseEl.style.transform = 'translate3d(0, 12px, 0)';
 
       setTimeout(() => {
         phraseEl.textContent = rotatingPhrases[pIdx];
         phraseEl.style.opacity = '1';
-        phraseEl.style.transform = 'translateY(0)';
-        phraseEl.style.filter = 'blur(0px)';
-      }, 380);
-    }, 3400);
+        phraseEl.style.transform = 'translate3d(0, 0, 0)';
+      }, 360);
+    };
+    phraseTimer = setInterval(runPhraseStep, 3400);
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && !phraseTimer) {
+        phraseTimer = setInterval(runPhraseStep, 3400);
+      } else if (document.hidden && phraseTimer) {
+        clearInterval(phraseTimer);
+        phraseTimer = null;
+      }
+    });
   }
 
   // =========================================================================
@@ -243,9 +323,6 @@ function initShreeTech() {
       lastHeaderScrollY = y;
     }
   };
-  if (!lenis) {
-    window.addEventListener('scroll', () => updateHeaderScroll(), { passive: true });
-  }
   updateHeaderScroll();
 
   if (mobileToggle && mobileMenu) {
@@ -502,8 +579,11 @@ function initShreeTech() {
         }
       });
 
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
+      if (typeof syncTrackBounds === 'function') {
+        syncTrackBounds();
+      }
+      if (typeof updateStackingCards === 'function') {
+        updateStackingCards(true);
       }
       if (typeof refreshSectionOffsets === 'function') {
         refreshSectionOffsets();
@@ -719,9 +799,6 @@ function initShreeTech() {
 
   if (pinTrack) {
     updateTrackHeight();
-    if (!lenis) {
-      window.addEventListener('scroll', onStackScroll, { passive: true });
-    }
     window.addEventListener('resize', () => {
       updateTrackHeight();
       updateStackingCards(true);
@@ -733,6 +810,12 @@ function initShreeTech() {
         if (typeof img.decode === 'function') img.decode().catch(() => {});
       });
     }, { passive: true });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        syncTrackBounds();
+        updateStackingCards(true);
+      });
+    }
     updateStackingCards(true);
   }
 
@@ -830,25 +913,42 @@ function initShreeTech() {
   }
 
   // =========================================================================
-  // 11. MAGNETIC BUTTONS (TACTILE CURSOR ATTRACTION)
+  // 11. MAGNETIC BUTTONS (RAF-THROTTLED WITH CACHED RECT)
   // =========================================================================
   const magneticButtons = document.querySelectorAll('.glass-btn-primary, .glass-btn-secondary');
   if (canHoverFine && !prefersReducedMotion) {
-    magneticButtons.forEach((btn) => {
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate3d(${x * 0.15}px, ${y * 0.15}px, 0)`;
-      });
+    runSafe(() => {
+      magneticButtons.forEach((btn) => {
+        let btnRect = null;
+        let btnRaf = false;
+        let lastX = 0;
+        let lastY = 0;
 
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = '';
-        btn.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
-      });
+        btn.addEventListener('mouseenter', () => {
+          btnRect = btn.getBoundingClientRect();
+          btn.style.transition = 'none';
+        }, { passive: true });
 
-      btn.addEventListener('mouseenter', () => {
-        btn.style.transition = 'none';
+        btn.addEventListener('mousemove', (e) => {
+          lastX = e.clientX;
+          lastY = e.clientY;
+          if (btnRaf) return;
+          btnRaf = true;
+          requestAnimationFrame(() => {
+            btnRaf = false;
+            const rect = btnRect || btn.getBoundingClientRect();
+            btnRect = rect;
+            const x = lastX - rect.left - rect.width / 2;
+            const y = lastY - rect.top - rect.height / 2;
+            btn.style.transform = `translate3d(${(x * 0.15).toFixed(1)}px, ${(y * 0.15).toFixed(1)}px, 0)`;
+          });
+        }, { passive: true });
+
+        btn.addEventListener('mouseleave', () => {
+          btnRect = null;
+          btn.style.transform = '';
+          btn.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+        }, { passive: true });
       });
     });
   }
@@ -1253,8 +1353,8 @@ function initShreeTech() {
     refreshSectionOffsets();
     window.addEventListener('resize', refreshSectionOffsets, { passive: true });
     window.addEventListener('load', refreshSectionOffsets, { passive: true });
-    if (!lenis) {
-      window.addEventListener('scroll', () => onScrollSpy(), { passive: true });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(refreshSectionOffsets);
     }
     setTimeout(() => {
       refreshSectionOffsets();
@@ -1284,12 +1384,9 @@ function initShreeTech() {
         const navOffset = 80;
         const targetTop = target.getBoundingClientRect().top + window.pageYOffset - navOffset;
         if (lenis) {
-          lenis.scrollTo(target, { offset: -navOffset, duration: 1.2 });
+          lenis.scrollTo(target, { offset: -navOffset, duration: 1.0 });
         } else {
-          window.scrollTo({
-            top: Math.max(0, targetTop),
-            behavior: 'smooth',
-          });
+          smoothScrollToY(targetTop);
         }
 
         if (history.pushState) {
@@ -1313,12 +1410,9 @@ function initShreeTech() {
         const navOffset = 80;
         const targetTop = initialTarget.getBoundingClientRect().top + window.pageYOffset - navOffset;
         if (lenis) {
-          lenis.scrollTo(initialTarget, { offset: -navOffset, duration: 1.2 });
+          lenis.scrollTo(initialTarget, { offset: -navOffset, duration: 1.0 });
         } else {
-          window.scrollTo({
-            top: Math.max(0, targetTop),
-            behavior: 'smooth',
-          });
+          smoothScrollToY(targetTop);
         }
         const found = navTrackSections.find((item) => '#' + item.id === window.location.hash);
         if (found) {
@@ -1334,7 +1428,8 @@ function initShreeTech() {
     const heroSection = document.getElementById('home');
     if (heroSection) {
       const heroObs = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
+        isHeroInView = entries[0].isIntersecting;
+        if (isHeroInView) {
           heroSection.removeAttribute('data-orbit-offscreen');
         } else {
           heroSection.setAttribute('data-orbit-offscreen', 'true');
@@ -1356,19 +1451,37 @@ function initShreeTech() {
     }
   }
 
-  // Sync scroll-driven components directly with Lenis smooth scroll
+  // Unified Scroll Sync across Lenis Smooth Wheel AND Native Scrollbar/Keyboard/Touchpad Scrolls
+  let lastSyncedY = -1;
+  let nativeScrollRaf = null;
+  const syncAllOnScroll = (yPos) => {
+    const y = typeof yPos === 'number' ? yPos : (window.scrollY || window.pageYOffset || 0);
+    if (Math.abs(y - lastSyncedY) < 0.25) return;
+    lastSyncedY = y;
+    updateHeaderScroll(y);
+    if (pinTrack) {
+      updateStackingCards(false, y);
+    }
+    if (isSinglePageApp) {
+      evaluateScrollSpy(y);
+    }
+  };
+
   if (lenis) {
     lenis.on('scroll', (e) => {
       const y = e && typeof e.scroll === 'number' ? e.scroll : window.scrollY;
-      updateHeaderScroll(y);
-      if (pinTrack) {
-        updateStackingCards(false, y);
-      }
-      if (isSinglePageApp) {
-        evaluateScrollSpy(y);
-      }
+      syncAllOnScroll(y);
     });
   }
+
+  window.addEventListener('scroll', () => {
+    if (nativeScrollRaf) return;
+    nativeScrollRaf = requestAnimationFrame(() => {
+      nativeScrollRaf = null;
+      const y = lenis && lenis.isScrolling === 'smooth' ? lenis.scroll : (window.scrollY || window.pageYOffset || 0);
+      syncAllOnScroll(y);
+    });
+  }, { passive: true });
 }
 
 if (document.readyState === 'loading') {

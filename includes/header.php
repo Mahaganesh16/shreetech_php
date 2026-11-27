@@ -39,8 +39,8 @@ if (!headers_sent()) {
   <!-- Pre-Compiled Tailwind CSS (Zero runtime MutationObserver / JIT overhead) -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/tailwind.css'); ?>">
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Lucide Icons (Local UMD bundle: zero blocking external CDN network dependency) -->
+  <script src="assets/js/lucide.min.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/lucide.min.js'); ?>" defer></script>
 
   <!-- Signature Stylesheet -->
   <link rel="stylesheet" href="assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/style.css'); ?>">
