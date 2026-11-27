@@ -153,10 +153,12 @@ h1 {
 
 /* Bold, clearly readable font weight & crisp dark ink for all card content text */
 :is(.glass-card, .flip-card-front, .flip-card-back, .about-stat-card, .orbit-service-card, .stacking-card-box) :is(p, li, .font-normal, .font-medium) {
+  color: #0F172A;
   font-weight: 600;
 }
 
 :is(.glass-card, .flip-card-front, .flip-card-back, .about-stat-card, .orbit-service-card, .stacking-card-box) :is(h1, h2, h3, h4, h5, h6) {
+  color: #0F172A;
   font-weight: 700;
 }
 
