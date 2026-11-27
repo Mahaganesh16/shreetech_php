@@ -1318,10 +1318,14 @@ h1 {
    7. SITE FOOTER — MIDNIGHT INDIGO TO SUNSET HORIZON GRADIENT THEME
    ========================================================================= */
 .site-footer {
-  background-color: #01001F;
+  margin-top: -1.5rem;
+  padding-top: 7.5rem;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   background-image:
     radial-gradient(
-      96% 42% at 58% 108%,
+      96% 40% at 58% 108%,
       #FFA347 0%,
       #FB7D2F 18%,
       #F54927 38%,
@@ -1330,27 +1334,33 @@ h1 {
       transparent 100%
     ),
     radial-gradient(
-      62% 36% at 14% 106%,
+      62% 34% at 14% 106%,
       rgba(255, 58, 40, 0.72) 0%,
       rgba(165, 30, 34, 0.45) 45%,
       transparent 82%
     ),
     radial-gradient(
-      54% 34% at 94% 106%,
+      54% 32% at 94% 106%,
       rgba(254, 135, 97, 0.56) 0%,
       rgba(138, 36, 58, 0.36) 48%,
       transparent 85%
     ),
     linear-gradient(
       180deg,
-      #01001F 0%,
-      #04011E 34%,
-      #0E0420 56%,
-      #2A0E22 76%,
-      #782024 90%,
+      rgba(1, 0, 31, 0) 0px,
+      rgba(1, 0, 31, 0.06) 24px,
+      rgba(1, 0, 31, 0.24) 50px,
+      rgba(1, 0, 31, 0.56) 76px,
+      rgba(1, 0, 31, 0.86) 100px,
+      #01001F 118px,
+      #04011E 40%,
+      #0E0420 60%,
+      #2A0E22 78%,
+      #782024 91%,
       #E84327 100%
     );
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: none;
+  box-shadow: none;
   color: rgba(226, 232, 240, 0.90);
 }
 
@@ -1484,6 +1494,8 @@ h1 {
 
 @media (max-width: 767px) {
   .site-footer {
+    margin-top: -1rem;
+    padding-top: 6rem;
     background-image:
       radial-gradient(
         135% 215px at 50% 103%,
@@ -1496,10 +1508,15 @@ h1 {
       ),
       linear-gradient(
         180deg,
-        #01001F 0%,
-        #04011E 54%,
-        #0C0320 72%,
-        #260C22 82%,
+        rgba(1, 0, 31, 0) 0px,
+        rgba(1, 0, 31, 0.06) 20px,
+        rgba(1, 0, 31, 0.24) 42px,
+        rgba(1, 0, 31, 0.56) 64px,
+        rgba(1, 0, 31, 0.88) 84px,
+        #01001F 96px,
+        #04011E 56%,
+        #0C0320 73%,
+        #260C22 83%,
         #7A2024 93%,
         #E84327 100%
       );
