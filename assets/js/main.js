@@ -291,14 +291,28 @@ function initShreeTech() {
   let lastHeaderScrollY = Math.max(0, window.scrollY || 0);
   let lastHeaderHidden = null;
 
+  const setMobileMenuOpen = (open) => {
+    if (!mobileMenu) return;
+    if (open) {
+      mobileMenu.classList.remove('hidden');
+    } else {
+      mobileMenu.classList.add('hidden');
+    }
+    if (mobileToggle) {
+      mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+        mobileToggle.innerHTML = `<i data-lucide="${open ? 'x' : 'menu'}" class="w-5 h-5"></i>`;
+        lucide.createIcons();
+      }
+    }
+  };
+
   const setHeaderHidden = (hidden) => {
     if (!header || hidden === lastHeaderHidden) return;
     lastHeaderHidden = hidden;
     if (hidden) {
       header.setAttribute('data-nav-hidden', 'true');
-      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-        mobileMenu.classList.add('hidden');
-      }
+      setMobileMenuOpen(false);
     } else {
       header.removeAttribute('data-nav-hidden');
     }
@@ -326,8 +340,26 @@ function initShreeTech() {
   updateHeaderScroll();
 
   if (mobileToggle && mobileMenu) {
-    mobileToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      setMobileMenuOpen(!isOpen);
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.classList.contains('hidden')) {
+        if (!mobileMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+          setMobileMenuOpen(false);
+        }
+      }
+    });
+
+    // Close on resize to desktop (>= 1024px)
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024 && !mobileMenu.classList.contains('hidden')) {
+        setMobileMenuOpen(false);
+      }
     });
   }
 
@@ -1376,9 +1408,7 @@ function initShreeTech() {
         e.preventDefault();
 
         // Close mobile dropdown menu if open
-        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.add('hidden');
-        }
+        setMobileMenuOpen(false);
 
         // Scroll to target with offset for sticky navbar
         const navOffset = 80;
