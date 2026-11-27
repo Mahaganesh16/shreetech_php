@@ -1315,6 +1315,115 @@ h1 {
 }
 
 /* =========================================================================
+   7. SITE FOOTER — WARM TERRACOTTA TO DEEP CHARCOAL GRADIENT THEME
+   ========================================================================= */
+.site-footer {
+  background-color: #1C1E1F;
+  background-image: linear-gradient(
+    180deg,
+    #CF8054 0%,
+    #AD613F 10%,
+    #824835 20%,
+    #59372E 30%,
+    #382A2A 40%,
+    #262324 52%,
+    #1F1F21 62%,
+    #1C1E1F 76%,
+    #1C1E1F 100%
+  );
+  border-top: 1px solid rgba(207, 128, 84, 0.35);
+  color: rgba(241, 245, 249, 0.88);
+}
+
+.site-footer .footer-grid {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.site-footer .footer-logo-badge {
+  padding: 0.375rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 6px 16px rgba(28, 30, 31, 0.24);
+}
+
+.site-footer .footer-brand-name {
+  color: #FFFFFF;
+  text-shadow: 0 1px 2px rgba(20, 12, 10, 0.24);
+}
+
+.site-footer .footer-brand-sub {
+  color: #FFF4EA;
+  text-shadow: 0 1px 2px rgba(20, 12, 10, 0.22);
+}
+
+.site-footer .footer-desc {
+  color: rgba(248, 250, 252, 0.90);
+}
+
+.site-footer .footer-heading {
+  color: #FFFFFF;
+  text-shadow: 0 1px 2px rgba(20, 12, 10, 0.24);
+}
+
+.site-footer .footer-link-list a,
+.site-footer .footer-contact-text {
+  color: rgba(241, 245, 249, 0.86);
+  transition: color 0.2s ease;
+}
+
+.site-footer .footer-link-list a:hover {
+  color: #FCE1BC;
+}
+
+.site-footer .footer-contact-icon {
+  color: #F2AF79;
+}
+
+.site-footer .footer-contact-link {
+  color: #FFFFFF;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.site-footer .footer-contact-link:hover {
+  color: #FCE1BC;
+}
+
+.site-footer .footer-social-btn,
+.site-footer .footer-back-top {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #F8FAFC;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  transition: all 0.25s ease;
+}
+
+.site-footer .footer-back-top {
+  white-space: nowrap;
+}
+
+.site-footer .footer-social-btn:hover,
+.site-footer .footer-back-top:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #F2AF79;
+  color: #FCE1BC;
+  transform: translateY(-2px);
+}
+
+.site-footer .footer-bottom-bar {
+  color: rgba(226, 232, 240, 0.78);
+}
+
+.site-footer .footer-legal-link {
+  color: rgba(241, 245, 249, 0.82);
+  transition: color 0.2s ease;
+}
+
+.site-footer .footer-legal-link:hover {
+  color: #FCE1BC;
+}
+
+/* =========================================================================
    LENIS SMOOTH SCROLL STYLES (OFFICIAL STUDIO FREIGHT RECOMMENDED SPEC)
    ========================================================================= */
 html.lenis,

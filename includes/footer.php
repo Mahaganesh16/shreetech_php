@@ -5,34 +5,34 @@ if (!isset($navLinks) || !isset($servicesData)) {
 ?>
 </main>
 
-<footer class="relative z-10 bg-white pt-10 sm:pt-10 md:pt-12 pb-10 sm:pb-12 overflow-hidden shadow-xs">
+<footer class="site-footer relative z-10 pt-10 sm:pt-10 md:pt-12 pb-10 sm:pb-12 overflow-hidden shadow-xs">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-12 md:grid-cols-2 lg:grid-cols-12 gap-x-4 gap-y-8 sm:gap-10 pb-10 sm:pb-16 border-b border-[#F1E6EE]">
+    <div class="footer-grid grid grid-cols-12 md:grid-cols-2 lg:grid-cols-12 gap-x-4 gap-y-8 sm:gap-10 pb-10 sm:pb-16">
       
       <!-- Brand Info (4 Cols Desktop / Full Row Mobile) -->
       <div class="col-span-12 md:col-span-1 lg:col-span-4 space-y-4">
         <a href="#home" class="flex items-center gap-3 group">
-          <div class="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
+          <div class="footer-logo-badge w-10 h-10 rounded-xl p-1.5 flex items-center justify-center group-hover:scale-105 transition-transform">
             <img src="images/logo-icon.png" alt="Shree Tech Logo" class="w-full h-full object-contain">
           </div>
           <div class="flex flex-col">
-            <span class="text-base font-black text-[#0F172A] tracking-tight font-heading">
+            <span class="footer-brand-name text-base font-black tracking-tight font-heading">
               Shree Tech
             </span>
-            <span class="text-[10px] text-[#334155] font-bold tracking-wider uppercase -mt-0.5 font-heading">
+            <span class="footer-brand-sub text-[10px] font-bold tracking-wider uppercase -mt-0.5 font-heading">
               Innovations
             </span>
           </div>
         </a>
 
-        <p class="text-sm text-[#334155] font-normal leading-relaxed font-body">
+        <p class="footer-desc text-sm font-normal leading-relaxed font-body">
           ShreeTech is an emerging internship training startup lead by highly experienced professionals who unfold various industry chapters and worked with reputable organizations.
         </p>
 
         <!-- Social Channels -->
         <div class="flex items-center gap-2.5 pt-2">
           <div
-            class="glass-btn-secondary w-9 h-9 rounded-xl text-[#475569] flex items-center justify-center shadow-xs"
+            class="footer-social-btn w-9 h-9 rounded-xl flex items-center justify-center"
             aria-label="Instagram"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
@@ -40,7 +40,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
             </svg>
           </div>
           <div
-            class="glass-btn-secondary w-9 h-9 rounded-xl text-[#475569] flex items-center justify-center shadow-xs"
+            class="footer-social-btn w-9 h-9 rounded-xl flex items-center justify-center"
             aria-label="LinkedIn"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
@@ -48,7 +48,7 @@ if (!isset($navLinks) || !isset($servicesData)) {
             </svg>
           </div>
           <div
-            class="glass-btn-secondary w-9 h-9 rounded-xl text-[#475569] flex items-center justify-center shadow-xs"
+            class="footer-social-btn w-9 h-9 rounded-xl flex items-center justify-center"
             aria-label="Twitter / X"
           >
             <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
@@ -60,13 +60,13 @@ if (!isset($navLinks) || !isset($servicesData)) {
 
       <!-- Quick Navigation (2 Cols Desktop / Left Side Next to Services on Mobile) -->
       <div class="col-span-5 md:col-span-1 lg:col-span-2">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
+        <h4 class="footer-heading text-xs font-bold uppercase tracking-wider mb-4 font-heading">
           Navigation
         </h4>
-        <ul class="space-y-2 text-sm text-[#334155] font-medium font-body">
+        <ul class="footer-link-list space-y-2 text-sm font-medium font-body">
           <?php foreach ($navLinks as $l): ?>
             <li>
-              <a href="<?php echo htmlspecialchars($l['href']); ?>" class="hover:text-[#C01858] transition-colors">
+              <a href="<?php echo htmlspecialchars($l['href']); ?>">
                 <?php echo htmlspecialchars($l['label']); ?>
               </a>
             </li>
@@ -76,13 +76,13 @@ if (!isset($navLinks) || !isset($servicesData)) {
 
       <!-- Services (3 Cols Desktop / Right Side Next to Navigation on Mobile) -->
       <div class="col-span-7 md:col-span-1 lg:col-span-3">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
+        <h4 class="footer-heading text-xs font-bold uppercase tracking-wider mb-4 font-heading">
           Services
         </h4>
-        <ul class="space-y-2 text-sm text-[#334155] font-medium font-body">
+        <ul class="footer-link-list space-y-2 text-sm font-medium font-body">
           <?php foreach (array_slice($servicesData, 0, 6) as $s): ?>
             <li>
-              <a href="#services" class="hover:text-[#C01858] transition-colors">
+              <a href="#services">
                 <?php echo htmlspecialchars($s['title']); ?>
               </a>
             </li>
@@ -92,38 +92,38 @@ if (!isset($navLinks) || !isset($servicesData)) {
 
       <!-- Contact Info (3 Cols Desktop / Full Row Bottom on Mobile) -->
       <div class="col-span-12 md:col-span-1 lg:col-span-3">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-[#0F172A] mb-4 font-heading">
+        <h4 class="footer-heading text-xs font-bold uppercase tracking-wider mb-4 font-heading">
           Address
         </h4>
-        <div class="space-y-3 text-xs sm:text-sm text-[#334155] font-medium font-body">
+        <div class="space-y-3 text-xs sm:text-sm font-medium font-body">
           <div class="flex items-center gap-2.5">
-            <i data-lucide="mail" class="w-4 h-4 text-[#FF6B00] shrink-0"></i>
-            <a href="mailto:<?php echo htmlspecialchars($companyInfo['email']); ?>" class="font-semibold text-[#0F172A] hover:text-[#C01858] transition-colors"><?php echo htmlspecialchars($companyInfo['email']); ?></a>
+            <i data-lucide="mail" class="footer-contact-icon w-4 h-4 shrink-0"></i>
+            <a href="mailto:<?php echo htmlspecialchars($companyInfo['email']); ?>" class="footer-contact-link"><?php echo htmlspecialchars($companyInfo['email']); ?></a>
           </div>
           <div class="flex items-center gap-2.5">
-            <i data-lucide="phone" class="w-4 h-4 text-[#FF6B00] shrink-0"></i>
-            <a href="tel:<?php echo htmlspecialchars(str_replace(' ', '', $companyInfo['phone'])); ?>" class="font-semibold text-[#0F172A] hover:text-[#C01858] transition-colors"><?php echo htmlspecialchars($companyInfo['phone']); ?></a>
+            <i data-lucide="phone" class="footer-contact-icon w-4 h-4 shrink-0"></i>
+            <a href="tel:<?php echo htmlspecialchars(str_replace(' ', '', $companyInfo['phone'])); ?>" class="footer-contact-link"><?php echo htmlspecialchars($companyInfo['phone']); ?></a>
           </div>
           <div class="flex items-start gap-2.5">
-            <i data-lucide="map-pin" class="w-4 h-4 text-[#FF6B00] shrink-0 mt-0.5"></i>
-            <span><?php echo htmlspecialchars($companyInfo['address']); ?></span>
+            <i data-lucide="map-pin" class="footer-contact-icon w-4 h-4 shrink-0 mt-0.5"></i>
+            <span class="footer-contact-text"><?php echo htmlspecialchars($companyInfo['address']); ?></span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Bottom Bar -->
-    <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#334155] font-semibold font-body">
+    <div class="footer-bottom-bar mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold font-body">
       <div>
         <?php echo htmlspecialchars($companyInfo['copyright']); ?>
       </div>
-      <div class="flex items-center gap-6">
-        <a href="#" class="hover:text-[#C01858] transition-colors">Privacy Policy</a>
-        <a href="#" class="hover:text-[#C01858] transition-colors">Terms of Service</a>
-        <a href="#" class="hover:text-[#C01858] transition-colors">Security</a>
+      <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+        <a href="#" class="footer-legal-link whitespace-nowrap">Privacy Policy</a>
+        <a href="#" class="footer-legal-link whitespace-nowrap">Terms of Service</a>
+        <a href="#" class="footer-legal-link whitespace-nowrap">Security</a>
         <button
           onclick="if (window.__lenis) { window.__lenis.scrollTo(0, { duration: 1.2 }); } else { window.scrollTo({top: 0, behavior: 'smooth'}); }"
-          class="glass-btn-secondary px-3.5 py-1.5 rounded-xl inline-flex items-center gap-1.5 text-[#0F172A] hover:text-[#C01858] hover:border-[#C01858] transition-colors cursor-pointer shadow-xs"
+          class="footer-back-top px-3.5 py-1.5 rounded-xl inline-flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
         >
           <span>Back to top</span>
           <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
