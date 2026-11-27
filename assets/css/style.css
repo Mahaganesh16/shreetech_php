@@ -290,6 +290,58 @@ h1 {
   }
 }
 
+/* -------------------------------------------------------------
+   WHY CHOOSE SHREE TECH (#why-us) — 6 CARDS WARM SUNSET SHADOW
+   Diffused cream -> amber -> espresso gradient shadow behind each card
+   so crisp white cards stand out cleanly against the light backdrop
+   ------------------------------------------------------------- */
+#why-us .flip-card-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -4px -6px -14px -6px;
+  z-index: 0;
+  border-radius: 1.75rem;
+  background: linear-gradient(
+    180deg,
+    rgba(252, 224, 184, 0.88) 0%,
+    rgba(226, 140, 85, 0.70) 52%,
+    rgba(70, 47, 49, 0.72) 100%
+  );
+  filter: blur(20px);
+  -webkit-filter: blur(20px);
+  opacity: 0.92;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#why-us .flip-card-inner {
+  z-index: 2;
+}
+
+#why-us .flip-card-front {
+  background: #ffffff !important;
+  border: 1.5px solid #F0DFCE !important;
+  box-shadow:
+    0 -4px 16px -4px rgba(252, 224, 184, 0.50),
+    0 12px 26px -6px rgba(226, 140, 85, 0.24),
+    0 22px 42px -10px rgba(70, 47, 49, 0.36) !important;
+}
+
+#why-us .flip-card-back {
+  background: #ffffff !important;
+  box-shadow:
+    0 -4px 16px -4px rgba(252, 224, 184, 0.45),
+    0 14px 30px -6px rgba(226, 140, 85, 0.28),
+    0 24px 46px -8px rgba(70, 47, 49, 0.40) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #why-us .flip-card-wrapper:hover::before {
+    opacity: 1;
+    transform: translateY(2px) scale(1.015);
+  }
+}
+
 /* Small Glows & Badges: Frosted Glass Pill */
 .glass-pill {
   background: rgba(245, 240, 255, 0.92) !important;

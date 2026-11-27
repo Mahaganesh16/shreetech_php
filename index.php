@@ -473,7 +473,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- =========================================================================
      4. WHY CHOOSE US SECTION (#why-us)
      ========================================================================= -->
-<section id="why-us" class="relative pt-[5.75rem] pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
+<section id="why-us" class="relative pt-[5.75rem] pb-12 sm:pt-8 sm:pb-14 md:pt-8 md:pb-14 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mb-6 sm:mb-8">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
