@@ -224,19 +224,21 @@ h1 {
   object-fit: contain;
 }
 
-.glass-card:hover,
-.glass-card-hover:hover {
-  background: #ffffff !important;
-  border-color: #E2D4DF !important;
-  box-shadow:
-    0 24px 48px -12px rgba(192, 24, 88, 0.14),
-    0 0 20px rgba(255, 107, 0, 0.07) !important;
-}
+@media (hover: hover) and (pointer: fine) {
+  .glass-card:hover,
+  .glass-card-hover:hover {
+    background: #ffffff !important;
+    border-color: #E2D4DF !important;
+    box-shadow:
+      0 24px 48px -12px rgba(192, 24, 88, 0.14),
+      0 0 20px rgba(255, 107, 0, 0.07) !important;
+  }
 
-/* Standalone cards elevate on hover, but flip cards must NOT move their faces */
-.glass-card:not(.flip-card-front):not(.flip-card-back):hover,
-.glass-card-hover:hover {
-  transform: translateY(-4px);
+  /* Standalone cards elevate on hover, but flip cards must NOT move their faces */
+  .glass-card:not(.flip-card-front):not(.flip-card-back):hover,
+  .glass-card-hover:hover {
+    transform: translateY(-4px);
+  }
 }
 
 /* -------------------------------------------------------------
@@ -267,8 +269,8 @@ h1 {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 1050ms cubic-bezier(0.4, 0, 0.2, 1);
-  -webkit-transition: -webkit-transform 1050ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 850ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: -webkit-transform 850ms cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   transform: rotateY(0deg);
@@ -276,16 +278,18 @@ h1 {
   pointer-events: none; /* Pointer events pass through to wrapper hit-test floor */
 }
 
+.flip-card-wrapper:not(.tech-card-item) .flip-card-inner {
+  will-change: transform;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .flip-card-wrapper:hover .flip-card-inner {
-    will-change: transform;
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
   }
 }
 
 .flip-card-inner[data-flipped="true"] {
-  will-change: transform;
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
 }
@@ -301,8 +305,14 @@ h1 {
   border-radius: 1.5rem;
   overflow: hidden;
   pointer-events: none;
-  /* Prevent .glass-card `transition: all` from interfering with 3D rotation */
-  transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .flip-card-front,
+  .flip-card-back {
+    /* Prevent .glass-card `transition: all` from interfering with 3D rotation */
+    transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -324,8 +334,8 @@ h1 {
   box-shadow:
     0 14px 30px -8px rgba(15, 23, 42, 0.07),
     0 2px 6px rgba(15, 23, 42, 0.03) !important;
-  transform: rotateY(0deg) !important;
-  -webkit-transform: rotateY(0deg) !important;
+  transform: rotateY(0deg) translateZ(1px) !important;
+  -webkit-transform: rotateY(0deg) translateZ(1px) !important;
   z-index: 2;
 }
 
@@ -335,22 +345,22 @@ h1 {
   box-shadow:
     0 20px 40px -8px rgba(192, 24, 88, 0.18),
     0 0 15px rgba(255, 107, 0, 0.10) !important;
-  transform: rotateY(180deg) !important;
-  -webkit-transform: rotateY(180deg) !important;
+  transform: rotateY(180deg) translateZ(1px) !important;
+  -webkit-transform: rotateY(180deg) translateZ(1px) !important;
   z-index: 1;
 }
 
 /* Lock face transforms against any rogue hover rules */
 .flip-card-front.glass-card:hover,
 .flip-card-front:hover {
-  transform: rotateY(0deg) !important;
-  -webkit-transform: rotateY(0deg) !important;
+  transform: rotateY(0deg) translateZ(1px) !important;
+  -webkit-transform: rotateY(0deg) translateZ(1px) !important;
 }
 
 .flip-card-back.glass-card:hover,
 .flip-card-back:hover {
-  transform: rotateY(180deg) !important;
-  -webkit-transform: rotateY(180deg) !important;
+  transform: rotateY(180deg) translateZ(1px) !important;
+  -webkit-transform: rotateY(180deg) translateZ(1px) !important;
 }
 
 @media (max-width: 767px) {
@@ -358,10 +368,12 @@ h1 {
   .flip-card-front {
     border: 1.5px solid #E2E8F0 !important;
     box-shadow: 0 2px 10px rgba(15, 23, 42, 0.045) !important;
+    transition: none !important;
   }
 
   .flip-card-back {
     box-shadow: 0 6px 18px rgba(192, 24, 88, 0.14) !important;
+    transition: none !important;
   }
 
   .card-spotlight-layer {
@@ -735,13 +747,17 @@ h1 {
   display: flex !important;
   width: max-content !important;
   will-change: transform !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   animation: techScrollRTL var(--row-duration, 34s) linear infinite !important;
 }
 
-/* Pause Scrolling Animation on Hover */
-.tech-diagonal-stage:hover .tech-row-track,
-.tech-diagonal-row:hover .tech-row-track {
-  animation-play-state: paused !important;
+/* Pause Scrolling Animation on Hover (desktop hover-capable pointers only) */
+@media (hover: hover) and (pointer: fine) {
+  .tech-diagonal-stage:hover .tech-row-track,
+  .tech-diagonal-row:hover .tech-row-track {
+    animation-play-state: paused !important;
+  }
 }
 
 .tech-row-group {
@@ -760,6 +776,13 @@ h1 {
 /* Lower Lane (CSS Down) */
 .tech-diagonal-row.row-down {
   animation: techCardFloatDown 5s ease-in-out infinite;
+}
+
+@media (max-width: 767px) {
+  .tech-diagonal-row.row-up,
+  .tech-diagonal-row.row-down {
+    animation: none !important;
+  }
 }
 
 /* Row Lane Header Pill / Banner */
@@ -1147,6 +1170,13 @@ h1 {
   will-change: auto;
 }
 
+/* Keep flip-card wrappers free of 2D transforms after reveal so perspective stays crisp on mobile GPUs */
+.flip-card-wrapper.is-revealed,
+.flip-card-wrapper[data-revealed="true"] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   .reveal-init,
@@ -1329,6 +1359,7 @@ h1 {
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100dvh;
   width: 100%;
   overflow: hidden;
   z-index: 20;
@@ -1353,7 +1384,8 @@ h1 {
   z-index: calc(10 + var(--stack-idx, 0));
   transform-origin: center top;
   will-change: transform, opacity;
-  transition: box-shadow 0.3s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 @media (max-width: 639px) {
@@ -1377,7 +1409,8 @@ h1 {
     0 25px 60px -15px rgba(15, 23, 42, 0.12),
     0 0 1px 1px rgba(241, 230, 238, 0.8);
   transform-origin: center top;
-  transition: box-shadow 0.3s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Distinct Header Bar (Folder Tab / Ticket Header from Reference Video in Crisp White) */
@@ -1389,7 +1422,6 @@ h1 {
   border-top-right-radius: 1.25rem;
   border-bottom: 1px solid #F1E6EE;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.95);
-  transition: background-color 0.2s ease, filter 0.2s ease;
 }
 
 @media (max-width: 640px) {

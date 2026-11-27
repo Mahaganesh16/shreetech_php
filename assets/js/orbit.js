@@ -38,6 +38,7 @@
         full: el.querySelector('.card-full-view'),
         glows: el.querySelector('.card-ambient-glows'),
         interactive: null,
+        lastTransform: '',
         lastZIndex: '',
         lastOpacity: '',
         lastGlowOpacity: ''
@@ -168,23 +169,37 @@
         const satScale = minSat + satRange * depthNorm;
         const scale = satScale + (1.0 - satScale) * smoothFocus;
 
-        // Keep front-focus cards solid opaque on mobile while satellites stay dimmed in the ring (0.14-0.24)
-        const opacity = this.isMobile
-          ? (distFromCenter < 0.72 ? 1 : Math.min(1, 0.14 + 0.10 * depthNorm))
-          : Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
-        const zIndex = this.isMobile && distFromCenter < 0.72
-          ? 120 + Math.round((1 - distFromCenter) * 80)
-          : 10 + Math.round(depthNorm * 40 + smoothFocus * 60);
+        // Smooth continuous mobile opacity transition (opaque in center zone, smoothly dimmed to satellite ring without single-frame jumps)
+        let opacity;
+        if (this.isMobile) {
+          const satOp = 0.14 + 0.10 * depthNorm;
+          if (distFromCenter <= 0.48) {
+            opacity = 1;
+          } else if (distFromCenter >= 0.98) {
+            opacity = satOp;
+          } else {
+            const blend = (distFromCenter - 0.48) / 0.50;
+            const smoothBlend = blend * blend * (3 - 2 * blend);
+            opacity = satOp + (1 - satOp) * (1 - smoothBlend);
+          }
+        } else {
+          opacity = Math.min(1, 0.78 + 0.22 * depthNorm + 0.22 * smoothFocus);
+        }
+        const zIndex = 10 + Math.round(depthNorm * 40 + smoothFocus * 120);
 
         // Center-anchored GPU transform with 3D perspective (zero layout reflows)
-        it.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0px) translate(-50%, -50%) rotateY(${tiltY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
+        const nextTransform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0px) translate(-50%, -50%) rotateY(${tiltY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
 
-        // Skip redundant style writes when quantized zIndex/opacity/glow match previous frame
+        // Skip redundant style writes when quantized values match previous frame
         const meta = this.itemMeta[i];
         const nextZ = String(zIndex);
         const nextOp = opacity.toFixed(2);
         const nextGlow = smoothFocus.toFixed(2);
         if (meta) {
+          if (meta.lastTransform !== nextTransform) {
+            meta.lastTransform = nextTransform;
+            it.style.transform = nextTransform;
+          }
           if (meta.lastZIndex !== nextZ) {
             meta.lastZIndex = nextZ;
             it.style.zIndex = nextZ;
@@ -204,6 +219,7 @@
             if (meta.full) meta.full.style.pointerEvents = fullInteractive ? 'auto' : 'none';
           }
         } else {
+          it.style.transform = nextTransform;
           it.style.zIndex = nextZ;
           it.style.opacity = nextOp;
         }
