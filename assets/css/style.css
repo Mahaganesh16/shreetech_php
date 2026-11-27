@@ -145,6 +145,12 @@ h1 {
   overflow: hidden;
 }
 
+/* Explicit card font stack across all card types & inner headings/body/stats */
+:is(.glass-card, .flip-card-front, .flip-card-back, .about-stat-card, .orbit-service-card, .stacking-card-box),
+:is(.glass-card, .flip-card-front, .flip-card-back, .about-stat-card, .orbit-service-card, .stacking-card-box) :is(h1, h2, h3, h4, h5, h6, p, span, div, a, button, label, input, textarea, select, .font-heading, .font-body, .font-stat) {
+  font-family: Pptelegraf, Arial, sans-serif;
+}
+
 .glass-card:hover,
 .glass-card-hover:hover {
   background: #ffffff !important;
