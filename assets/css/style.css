@@ -311,9 +311,9 @@ h1 {
 }
 
 /* Scroll-Direction Floating Header (Show on Scroll Up & Top, Hide on Scroll Down) */
+/* Avoid will-change: opacity or resting transform on #main-header so child .glass-navbar-bar backdrop-filter blurs page content */
 #main-header {
-  will-change: transform, opacity;
-  transform: translate3d(0, 0, 0);
+  transform: none;
   opacity: 1;
   transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
 }
@@ -328,7 +328,18 @@ h1 {
   pointer-events: none !important;
 }
 
-/* Outer Navbar Container (Transparent: Keeps Only Inner Nav Pill Glassmorphism) */
+/* Full-Width Frosted Glassmorphism Navbar Bar (Keeps #mobile-menu separate and solid white) */
+.glass-navbar-bar {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.13);
+  box-shadow: 0 2px 16px rgba(15, 23, 42, 0.04);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Inner Navbar Row Layout */
 .glass-navbar-dock {
   width: 100%;
   max-width: 100%;
@@ -338,7 +349,15 @@ h1 {
   -webkit-backdrop-filter: none;
   border: none;
   box-shadow: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure frameless GooeyNav blends into the full-width frosted bar without any capsule fill */
+#shree-gooey-nav.gooey-nav {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 #mobile-menu a[data-mobile-active="true"] {

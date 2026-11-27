@@ -23,9 +23,10 @@ foreach ($navItems as $idx => $item) {
     }
 }
 ?>
-<header id="main-header" class="fixed top-2.5 sm:top-4 inset-x-0 z-50 pointer-events-none">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div id="navbar-dock" class="w-full pointer-events-none glass-navbar-dock py-1 sm:py-1.5 flex items-center justify-between transition-all duration-300">
+<header id="main-header" class="fixed top-0 inset-x-0 z-50 pointer-events-none">
+  <div class="glass-navbar-bar w-full pointer-events-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div id="navbar-dock" class="w-full glass-navbar-dock py-2 sm:py-2.5 flex items-center justify-between transition-all duration-300">
       
       <!-- 1. LEFT SIDE: Shree Tech Innovations Logo & Brand Name -->
       <a href="<?php echo $isHomePage ? '#home' : 'index.php#home'; ?>" class="flex items-center gap-2.5 sm:gap-3 group select-none cursor-pointer pointer-events-auto flex-shrink-0">
@@ -42,11 +43,11 @@ foreach ($navItems as $idx => $item) {
         </div>
       </a>
 
-      <!-- 2. CENTER: React Bits GooeyNav Component -->
+      <!-- 2. CENTER: React Bits GooeyNav Component (Frameless inside full-width glass bar) -->
       <div class="hidden md:flex items-center justify-center flex-1 mx-3 lg:mx-4">
         <nav
           id="shree-gooey-nav"
-          class="gooey-nav gooey-nav--md gooey-nav--framed pointer-events-auto"
+          class="gooey-nav gooey-nav--md pointer-events-auto"
           data-active-index="<?php echo $activeIndex; ?>"
           data-theme="light"
           data-color="#FFF0F5"
@@ -58,9 +59,8 @@ foreach ($navItems as $idx => $item) {
           data-gooeyness="0.5"
           data-wobble="0.4"
           data-hover-effect="true"
-          style="--gn-frame: rgba(255, 255, 255, 0.72); --gn-frame-edge: rgba(255, 255, 255, 0.85); --gn-frame-highlight: rgba(255, 255, 255, 0.9); --gn-frame-shadow: 0 8px 28px rgba(15, 23, 42, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.9); --gn-pill: #FFF0F5; --gn-active-ink: #C01858; --gn-ink: #C01858; --gn-muted: #505D70;"
+          style="--gn-pill: rgba(255, 240, 245, 0.92); --gn-active-ink: #C01858; --gn-ink: #C01858; --gn-muted: #334155;"
         >
-          <span class="gooey-nav__rim"></span>
           <div class="gooey-nav__stage">
             <canvas class="gooey-nav__canvas" aria-hidden="true"></canvas>
             <span class="gooey-nav__fallback" aria-hidden="true"></span>
@@ -121,9 +121,12 @@ foreach ($navItems as $idx => $item) {
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
       </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Mobile Dropdown Menu (Solid opaque white for maximum legibility; no glassmorphism blur) -->
+  <!-- Mobile Dropdown Menu (Outside frosted bar; solid opaque white for crisp legibility) -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div id="mobile-menu" class="hidden md:hidden mt-2 p-3.5 rounded-2xl bg-white border border-[#F1E6EE] pointer-events-auto shadow-xl">
       <div class="flex flex-col gap-1.5">
         <?php foreach ($navItems as $item): 
