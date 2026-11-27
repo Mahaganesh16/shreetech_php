@@ -369,12 +369,12 @@ h1 {
   pointer-events: none !important;
 }
 
-/* Floating Curved Frosted Glassmorphism Navbar Container (Whole Navbar Pill; keeps #mobile-menu separate and solid white) */
+/* Floating Rounded Frosted Glassmorphism Navbar Container (Whole Navbar Dock; keeps #mobile-menu separate and solid white) */
 .glass-navbar-dock {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  border-radius: 9999px;
+  border-radius: 18px;
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
