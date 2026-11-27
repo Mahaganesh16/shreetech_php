@@ -414,53 +414,24 @@ require_once __DIR__ . '/includes/header.php';
           </div>
         </div>
 
-        <!-- 4 Statistics in 3D Flip Cards with Count-Up -->
+        <!-- 4 Static Statistic Cards with Count-Up -->
         <div class="grid grid-cols-2 gap-4">
           <?php
           $stats = [
-              ['value' => 100, 'suffix' => '+', 'label' => 'Delivered Projects', 'sublabel' => 'Web, mobile & cloud SaaS', 'detail' => 'Delivered across 12 countries for FinTech, MedTech, and high-growth enterprise SaaS.'],
-              ['value' => 99, 'suffix' => '%', 'label' => 'Client Retention', 'sublabel' => 'Long-term technology partners', 'detail' => 'Sustained multi-year engineering partnerships with predictable ongoing delivery SLAs.'],
-              ['value' => 10, 'suffix' => '+', 'label' => 'Years Experience', 'sublabel' => 'Established engineering record', 'detail' => 'A decade of architecting distributed systems, cloud migrations, and product launches.'],
-              ['value' => 45, 'suffix' => '+', 'label' => 'Senior Engineers', 'sublabel' => 'Specialized across full stack', 'detail' => 'Elite technical directors and full-stack devs specialized in React, Node, Python & Cloud.']
+              ['value' => 100, 'suffix' => '+', 'label' => 'Delivered Projects', 'sublabel' => 'Web, mobile & cloud SaaS'],
+              ['value' => 99, 'suffix' => '%', 'label' => 'Client Retention', 'sublabel' => 'Long-term technology partners'],
+              ['value' => 10, 'suffix' => '+', 'label' => 'Years Experience', 'sublabel' => 'Established engineering record'],
+              ['value' => 45, 'suffix' => '+', 'label' => 'Senior Engineers', 'sublabel' => 'Specialized across full stack']
           ];
           foreach ($stats as $sIdx => $st): ?>
-            <div class="flip-card-wrapper h-44 sm:h-48 w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo ($sIdx + 1); ?>">
-              <div class="flip-card-inner">
-                <!-- Front -->
-                <div class="flip-card-front glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors">
-                  <div class="card-spotlight-layer"></div>
-                  <div>
-                    <div class="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight font-stat group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#FF6B00] group-hover:to-[#C01858] transition-all duration-300">
-                      <span class="stat-counter-number" data-target="<?php echo $st['value']; ?>">0</span><?php echo $st['suffix']; ?>
-                    </div>
-                    <div class="text-base font-bold text-[#0F172A] mt-1.5 leading-snug"><?php echo htmlspecialchars($st['label']); ?></div>
-                    <div class="text-sm font-medium text-[#475569] mt-1 leading-snug"><?php echo htmlspecialchars($st['sublabel']); ?></div>
-                  </div>
-                  <div class="flex items-center justify-between text-xs font-semibold text-[#475569] group-hover:text-[#C01858] transition-colors pt-2.5 border-t border-[#F1E6EE]">
-                    <span>Flip for detail</span>
-                    <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-[#FF6B00] group-hover:rotate-180 transition-transform duration-[1000ms]"></i>
-                  </div>
+            <div class="about-stat-card glass-card glass-card-hover min-h-[136px] sm:min-h-[148px] w-full p-5 sm:p-6 rounded-2xl flex flex-col justify-center border border-[#F1E6EE] shadow-xs hover:border-[#C01858] transition-colors select-none group reveal-init reveal-up stagger-<?php echo ($sIdx + 1); ?>">
+              <div class="card-spotlight-layer"></div>
+              <div class="relative z-10">
+                <div class="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight font-stat group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#FF6B00] group-hover:to-[#C01858] transition-all duration-300">
+                  <span class="stat-counter-number" data-target="<?php echo $st['value']; ?>">0</span><?php echo $st['suffix']; ?>
                 </div>
-
-                <!-- Back -->
-                <div class="flip-card-back glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between border-2 border-[#C01858] shadow-md">
-                  <div>
-                    <div class="flex items-center justify-between mb-1.5">
-                      <span class="text-xs font-bold text-[#8B5CF6] bg-[#F5F0FF] border border-[#F1E6EE] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-body">
-                        Verified Metric
-                      </span>
-                      <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#8B5CF6]"></i>
-                    </div>
-                    <div class="text-base font-bold text-[#0F172A] font-heading mt-1.5 leading-snug"><?php echo htmlspecialchars($st['label']); ?></div>
-                    <p class="text-sm font-medium text-[#334155] leading-relaxed mt-2 font-body">
-                      <?php echo htmlspecialchars($st['detail']); ?>
-                    </p>
-                  </div>
-                  <div class="flex items-center gap-1.5 text-xs font-semibold text-[#FF6B00] pt-2 border-t border-[#F1E6EE]">
-                    <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0"></i>
-                    <span>Enterprise Benchmark</span>
-                  </div>
-                </div>
+                <div class="text-base font-bold text-[#0F172A] mt-1.5 leading-snug"><?php echo htmlspecialchars($st['label']); ?></div>
+                <div class="text-sm font-medium text-[#475569] mt-1 leading-snug"><?php echo htmlspecialchars($st['sublabel']); ?></div>
               </div>
             </div>
           <?php endforeach; ?>
