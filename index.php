@@ -364,11 +364,11 @@ require_once __DIR__ . '/includes/header.php';
           SHREETECH Innovations And Web Development In Madurai
         </h2>
 
-        <p class="text-base text-[#334155] leading-relaxed font-medium font-body">
+        <p class="about-story-para text-base text-[#334155] leading-relaxed font-medium font-body">
           <strong class="font-bold text-[#0F172A]">SHREETECH</strong> We would be happy to collaborate with you to present you to the information technology solutions we have to offer. Shreetech Hub, which was founded in 2015, is a pioneer in offering IT infrastructure and solutions across a range of platforms. Since their inception, businesses have been using Shreetech. Shreetech believes in going above and beyond the duty of a simple solution provider to its clientele by fusing intuition and rigour with practical business acumen. Shreetech gives consumers access to technology through the delivery of simple solutions that increase productivity.
         </p>
 
-        <p class="text-base text-[#334155] leading-relaxed font-medium font-body">
+        <p class="about-story-para text-base text-[#334155] leading-relaxed font-medium font-body">
           We are a skilled team of professionals, having more than 15 years of experience in Web and Mobile Application Development. We have 40+ employees with Business Analyst, Designer, Developers & DevOps team and are ready to take up new projects any time and we assure we meet the right deadlines with high quality.
         </p>
 

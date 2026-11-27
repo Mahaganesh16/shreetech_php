@@ -179,6 +179,16 @@ h1 {
   letter-spacing: -0.015em;
 }
 
+/* Clean edge-aligned editorial paragraphs in #about across desktop & mobile */
+.about-story-para {
+  text-align: justify;
+  text-justify: inter-word;
+  text-align-last: left;
+  line-height: 1.72;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
 .glass-card:hover,
 .glass-card-hover:hover {
   background: #ffffff !important;
