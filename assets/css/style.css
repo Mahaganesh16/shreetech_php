@@ -1374,16 +1374,20 @@ h1 {
 }
 
 .site-footer .footer-desc {
-  color: rgba(226, 232, 240, 0.88);
+  color: rgba(255, 255, 255, 0.94);
+  font-weight: 500;
+  line-height: 1.65;
+  letter-spacing: 0.005em;
 }
 
 .site-footer .footer-heading {
   color: #FFFFFF;
 }
 
-.site-footer .footer-link-list a,
-.site-footer .footer-contact-text {
-  color: rgba(226, 232, 240, 0.86);
+.site-footer .footer-link-list a {
+  color: rgba(255, 255, 255, 0.94);
+  font-weight: 500;
+  letter-spacing: 0.005em;
   transition: color 0.2s ease;
 }
 
@@ -1395,9 +1399,15 @@ h1 {
   color: #FF7833;
 }
 
-.site-footer .footer-contact-link {
+.site-footer .footer-contact-link,
+.site-footer .footer-contact-text {
   color: #FFFFFF;
   font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0.005em;
+}
+
+.site-footer .footer-contact-link {
   transition: color 0.2s ease;
 }
 
