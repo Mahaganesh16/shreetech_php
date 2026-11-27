@@ -1366,28 +1366,49 @@ h1 {
 }
 
 .site-footer .footer-brand-name {
+  font-family: Pptelegraf, 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 800;
   color: #FFFFFF;
+  letter-spacing: -0.02em;
 }
 
 .site-footer .footer-brand-sub {
+  font-family: Pptelegraf, 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-weight: 700;
   color: #FFB076;
-}
-
-.site-footer .footer-desc {
-  color: rgba(255, 255, 255, 0.94);
-  font-weight: 500;
-  line-height: 1.65;
-  letter-spacing: 0.005em;
+  letter-spacing: 0.1em;
 }
 
 .site-footer .footer-heading {
+  font-family: Pptelegraf, 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
   color: #FFFFFF;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.site-footer .footer-desc {
+  font-family: Pptelegraf, 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.875rem;
+  color: #CBD5E1;
+  font-weight: 400;
+  line-height: 1.68;
+  letter-spacing: 0.004em;
+}
+
+.site-footer .footer-link-list > li + li {
+  margin-top: 0.625rem;
 }
 
 .site-footer .footer-link-list a {
-  color: rgba(255, 255, 255, 0.94);
-  font-weight: 500;
-  letter-spacing: 0.005em;
+  font-family: Pptelegraf, 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.875rem;
+  color: #CBD5E1;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0.004em;
   transition: color 0.2s ease;
 }
 
@@ -1401,13 +1422,17 @@ h1 {
 
 .site-footer .footer-contact-link,
 .site-footer .footer-contact-text {
-  color: #FFFFFF;
-  font-weight: 600;
-  line-height: 1.6;
-  letter-spacing: 0.005em;
+  font-family: Pptelegraf, 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.875rem;
+  color: #CBD5E1;
+  font-weight: 400;
+  line-height: 1.62;
+  letter-spacing: 0.004em;
 }
 
 .site-footer .footer-contact-link {
+  color: #E2E8F0;
+  font-weight: 500;
   transition: color 0.2s ease;
 }
 

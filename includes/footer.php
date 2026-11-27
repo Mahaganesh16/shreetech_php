@@ -60,10 +60,10 @@ if (!isset($navLinks) || !isset($servicesData)) {
 
       <!-- Quick Navigation (2 Cols Desktop / Left Side Next to Services on Mobile) -->
       <div class="col-span-5 md:col-span-1 lg:col-span-2">
-        <h4 class="footer-heading text-xs font-bold uppercase tracking-wider mb-4 font-heading">
+        <h4 class="footer-heading mb-4 font-heading">
           Navigation
         </h4>
-        <ul class="footer-link-list space-y-2 text-sm font-medium font-body">
+        <ul class="footer-link-list space-y-2.5 font-body">
           <?php foreach ($navLinks as $l): ?>
             <li>
               <a href="<?php echo htmlspecialchars($l['href']); ?>">
@@ -76,10 +76,10 @@ if (!isset($navLinks) || !isset($servicesData)) {
 
       <!-- Services (3 Cols Desktop / Right Side Next to Navigation on Mobile) -->
       <div class="col-span-7 md:col-span-1 lg:col-span-3">
-        <h4 class="footer-heading text-xs font-bold uppercase tracking-wider mb-4 font-heading">
+        <h4 class="footer-heading mb-4 font-heading">
           Services
         </h4>
-        <ul class="footer-link-list space-y-2 text-sm font-medium font-body">
+        <ul class="footer-link-list space-y-2.5 font-body">
           <?php foreach (array_slice($servicesData, 0, 6) as $s): ?>
             <li>
               <a href="#services">
@@ -92,10 +92,10 @@ if (!isset($navLinks) || !isset($servicesData)) {
 
       <!-- Contact Info (3 Cols Desktop / Full Row Bottom on Mobile) -->
       <div class="col-span-12 md:col-span-1 lg:col-span-3">
-        <h4 class="footer-heading text-xs font-bold uppercase tracking-wider mb-4 font-heading">
+        <h4 class="footer-heading mb-4 font-heading">
           Address
         </h4>
-        <div class="space-y-3 text-xs sm:text-sm font-medium font-body">
+        <div class="space-y-3 font-body">
           <div class="flex items-center gap-2.5">
             <i data-lucide="mail" class="footer-contact-icon w-4 h-4 shrink-0"></i>
             <a href="mailto:<?php echo htmlspecialchars($companyInfo['email']); ?>" class="footer-contact-link"><?php echo htmlspecialchars($companyInfo['email']); ?></a>
