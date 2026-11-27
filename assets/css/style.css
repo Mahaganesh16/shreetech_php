@@ -1318,8 +1318,8 @@ h1 {
    7. SITE FOOTER — MIDNIGHT INDIGO TO SUNSET HORIZON GRADIENT THEME
    ========================================================================= */
 .site-footer {
-  margin-top: -1.5rem;
-  padding-top: 7.5rem;
+  margin-top: -2rem;
+  padding-top: 9.25rem;
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -1347,15 +1347,15 @@ h1 {
     ),
     linear-gradient(
       180deg,
-      rgba(1, 0, 31, 0) 0px,
-      rgba(1, 0, 31, 0.06) 24px,
-      rgba(1, 0, 31, 0.24) 50px,
-      rgba(1, 0, 31, 0.56) 76px,
-      rgba(1, 0, 31, 0.86) 100px,
-      #01001F 118px,
-      #04011E 40%,
-      #0E0420 60%,
-      #2A0E22 78%,
+      rgba(6, 4, 42, 0) 0px,
+      rgba(6, 4, 42, 0.08) 28px,
+      rgba(4, 2, 38, 0.28) 60px,
+      rgba(3, 1, 34, 0.58) 92px,
+      rgba(1, 0, 31, 0.88) 124px,
+      #01001F 146px,
+      #04011E 42%,
+      #0E0420 62%,
+      #2A0E22 79%,
       #782024 91%,
       #E84327 100%
     );
@@ -1494,8 +1494,8 @@ h1 {
 
 @media (max-width: 767px) {
   .site-footer {
-    margin-top: -1rem;
-    padding-top: 6rem;
+    margin-top: -1.25rem;
+    padding-top: 7.5rem;
     background-image:
       radial-gradient(
         135% 215px at 50% 103%,
@@ -1508,14 +1508,14 @@ h1 {
       ),
       linear-gradient(
         180deg,
-        rgba(1, 0, 31, 0) 0px,
-        rgba(1, 0, 31, 0.06) 20px,
-        rgba(1, 0, 31, 0.24) 42px,
-        rgba(1, 0, 31, 0.56) 64px,
-        rgba(1, 0, 31, 0.88) 84px,
-        #01001F 96px,
-        #04011E 56%,
-        #0C0320 73%,
+        rgba(6, 4, 42, 0) 0px,
+        rgba(6, 4, 42, 0.08) 24px,
+        rgba(4, 2, 38, 0.28) 50px,
+        rgba(3, 1, 34, 0.60) 76px,
+        rgba(1, 0, 31, 0.90) 100px,
+        #01001F 118px,
+        #04011E 58%,
+        #0C0320 74%,
         #260C22 83%,
         #7A2024 93%,
         #E84327 100%
