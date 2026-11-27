@@ -43,11 +43,11 @@ foreach ($navItems as $idx => $item) {
         </div>
       </a>
 
-      <!-- 2. CENTER: React Bits GooeyNav Component (Frameless inside full-width glass bar) -->
+      <!-- 2. CENTER: React Bits GooeyNav Component (Curved pill container inside full-width glass bar) -->
       <div class="hidden md:flex items-center justify-center flex-1 mx-3 lg:mx-4">
         <nav
           id="shree-gooey-nav"
-          class="gooey-nav gooey-nav--md pointer-events-auto"
+          class="gooey-nav gooey-nav--md gooey-nav--framed pointer-events-auto"
           data-active-index="<?php echo $activeIndex; ?>"
           data-theme="light"
           data-color="#FFF0F5"
@@ -59,8 +59,9 @@ foreach ($navItems as $idx => $item) {
           data-gooeyness="0.5"
           data-wobble="0.4"
           data-hover-effect="true"
-          style="--gn-pill: rgba(255, 240, 245, 0.92); --gn-active-ink: #C01858; --gn-ink: #C01858; --gn-muted: #334155;"
+          style="--gn-frame: rgba(255, 255, 255, 0.78); --gn-frame-edge: rgba(15, 23, 42, 0.06); --gn-frame-highlight: rgba(255, 255, 255, 0.95); --gn-frame-shadow: 0 6px 22px rgba(15, 23, 42, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.9); --gn-pill: #FFF0F5; --gn-active-ink: #C01858; --gn-ink: #C01858; --gn-muted: #505D70;"
         >
+          <span class="gooey-nav__rim"></span>
           <div class="gooey-nav__stage">
             <canvas class="gooey-nav__canvas" aria-hidden="true"></canvas>
             <span class="gooey-nav__fallback" aria-hidden="true"></span>
