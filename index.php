@@ -589,8 +589,7 @@ require_once __DIR__ . '/includes/header.php';
         Comprehensive Software Engineering & Technical Consulting
       </h2>
       <p class="mt-4 text-base sm:text-lg text-[#334155] font-normal leading-relaxed font-body">
-        We provide end-to-end technology services tailored to modern enterprise requirements. Explore
-        our eight core service disciplines through interactive 3D orbital navigation.
+        We provide end-to-end technology services tailored to modern enterprise requirements.
       </p>
     </div>
 
