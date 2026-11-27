@@ -1318,14 +1318,14 @@ h1 {
    7. SITE FOOTER — MIDNIGHT INDIGO TO SUNSET HORIZON GRADIENT THEME
    ========================================================================= */
 .site-footer {
-  margin-top: -2rem;
-  padding-top: 9.25rem;
+  margin-top: -2.25rem;
+  padding-top: 11.5rem;
   background-color: transparent;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-image:
     radial-gradient(
-      96% 40% at 58% 108%,
+      96% 38% at 58% 108%,
       #FFA347 0%,
       #FB7D2F 18%,
       #F54927 38%,
@@ -1334,29 +1334,35 @@ h1 {
       transparent 100%
     ),
     radial-gradient(
-      62% 34% at 14% 106%,
+      62% 32% at 14% 106%,
       rgba(255, 58, 40, 0.72) 0%,
       rgba(165, 30, 34, 0.45) 45%,
       transparent 82%
     ),
     radial-gradient(
-      54% 32% at 94% 106%,
+      54% 30% at 94% 106%,
       rgba(254, 135, 97, 0.56) 0%,
       rgba(138, 36, 58, 0.36) 48%,
       transparent 85%
     ),
     linear-gradient(
       180deg,
-      rgba(6, 4, 42, 0) 0px,
-      rgba(6, 4, 42, 0.08) 28px,
-      rgba(4, 2, 38, 0.28) 60px,
-      rgba(3, 1, 34, 0.58) 92px,
-      rgba(1, 0, 31, 0.88) 124px,
-      #01001F 146px,
-      #04011E 42%,
-      #0E0420 62%,
-      #2A0E22 79%,
-      #782024 91%,
+      rgba(255, 255, 255, 0) 0px,
+      rgba(254, 252, 255, 0.65) 22px,
+      rgba(252, 250, 255, 0.96) 44px,
+      #FBF9FE 62px,
+      #F3EFFB 82px,
+      #E1DAF3 102px,
+      #C0B5E2 122px,
+      #8A7CB9 140px,
+      #4B3E82 156px,
+      #1B134B 170px,
+      #050226 180px,
+      #01001F 186px,
+      #04011E 45%,
+      #0E0420 64%,
+      #2A0E22 80%,
+      #782024 92%,
       #E84327 100%
     );
   border-top: none;
@@ -1494,8 +1500,8 @@ h1 {
 
 @media (max-width: 767px) {
   .site-footer {
-    margin-top: -1.25rem;
-    padding-top: 7.5rem;
+    margin-top: -1.5rem;
+    padding-top: 9rem;
     background-image:
       radial-gradient(
         135% 215px at 50% 103%,
@@ -1508,15 +1514,19 @@ h1 {
       ),
       linear-gradient(
         180deg,
-        rgba(6, 4, 42, 0) 0px,
-        rgba(6, 4, 42, 0.08) 24px,
-        rgba(4, 2, 38, 0.28) 50px,
-        rgba(3, 1, 34, 0.60) 76px,
-        rgba(1, 0, 31, 0.90) 100px,
-        #01001F 118px,
-        #04011E 58%,
-        #0C0320 74%,
-        #260C22 83%,
+        rgba(255, 255, 255, 0) 0px,
+        rgba(254, 252, 255, 0.65) 18px,
+        rgba(252, 250, 255, 0.96) 36px,
+        #FBF9FE 50px,
+        #EFEBF9 68px,
+        #D3C9EE 86px,
+        #988AC8 104px,
+        #4B3E82 120px,
+        #160F42 134px,
+        #01001F 144px,
+        #04011E 60%,
+        #0C0320 75%,
+        #260C22 84%,
         #7A2024 93%,
         #E84327 100%
       );
