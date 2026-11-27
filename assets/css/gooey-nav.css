@@ -29,7 +29,7 @@
 .gooey-nav--md {
   --gn-pad: 5px;
   --gn-gap: 4px;
-  --gn-font: 14px;
+  --gn-font: 14.5px;
   --gn-x: 18px;
   --gn-y: 7px;
 }
@@ -111,11 +111,11 @@
   border: none;
   border-radius: 9999px;
   background: none;
-  color: var(--gn-muted, #0F172A);
+  color: var(--gn-muted, #020617);
   font: inherit;
   font-family: inherit;
   font-size: var(--gn-font);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.005em;
   text-decoration: none;
@@ -129,7 +129,7 @@
 /* Active overlay list typography - IDENTICAL geometric dimensions to prevent any layout shift */
 .gooey-nav__list--active .gooey-nav__link {
   color: var(--gn-active-ink, #B8124E);
-  font-weight: 700;
+  font-weight: 800;
   opacity: 1;
 }
 
@@ -137,7 +137,7 @@
 .gooey-nav__list .gooey-nav__item[data-active] .gooey-nav__link {
   opacity: 0;
   color: var(--gn-active-ink, #B8124E);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .gooey-nav__link:focus-visible {

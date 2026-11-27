@@ -58,7 +58,7 @@ foreach ($navItems as $idx => $item) {
           data-gooeyness="0.5"
           data-wobble="0.4"
           data-hover-effect="true"
-          style="--gn-pill: rgba(255, 236, 243, 0.96); --gn-active-ink: #B8124E; --gn-ink: #B8124E; --gn-muted: #0F172A;"
+          style="--gn-pill: rgba(255, 236, 243, 0.96); --gn-active-ink: #B8124E; --gn-ink: #B8124E; --gn-muted: #020617;"
         >
           <div class="gooey-nav__stage">
             <canvas class="gooey-nav__canvas" aria-hidden="true"></canvas>
@@ -101,7 +101,7 @@ foreach ($navItems as $idx => $item) {
       <div class="hidden md:flex items-center gap-3 pointer-events-auto flex-shrink-0">
         <a
           href="<?php echo $isHomePage ? '#contact' : 'index.php#contact'; ?>"
-          class="glass-btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs lg:text-sm font-semibold text-white cursor-pointer shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
+          class="glass-btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs lg:text-sm font-bold text-white cursor-pointer shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all"
           style="background: linear-gradient(135deg, #FF6B00 0%, #C01858 55%, #8B5CF6 100%);"
         >
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-white/95"></i>
@@ -130,7 +130,7 @@ foreach ($navItems as $idx => $item) {
         ?>
           <a
             href="<?php echo htmlspecialchars($item['href']); ?>"
-            class="px-4 py-2.5 text-sm font-semibold rounded-xl transition-colors <?php echo $isActive ? 'text-[#C01858] bg-[#FFF0F5] border border-[#F1E6EE] shadow-xs' : 'text-[#0F172A] hover:text-[#C01858] hover:bg-[#FFF0F5]'; ?>"
+            class="px-4 py-2.5 text-sm font-bold rounded-xl transition-colors <?php echo $isActive ? 'text-[#C01858] bg-[#FFF0F5] border border-[#F1E6EE] shadow-xs' : 'text-[#020617] hover:text-[#C01858] hover:bg-[#FFF0F5]'; ?>"
           >
             <?php echo htmlspecialchars($item['label']); ?>
           </a>
