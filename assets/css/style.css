@@ -83,7 +83,7 @@ h1 {
   }
 
   .font-normal {
-    font-weight: 500 !important;
+    font-weight: 600 !important;
   }
 
   .glass-card :is(.text-\[\#475569\], .text-\[\#334155\], .text-\[\#64748B\], .text-\[\#1E293B\]),
@@ -98,7 +98,7 @@ h1 {
   .flip-card-back p,
   .orbit-service-card p {
     color: #0F172A !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
   }
 }
 
@@ -149,6 +149,15 @@ h1 {
 :is(.glass-card, .flip-card-front, .flip-card-back, .about-stat-card, .orbit-service-card, .stacking-card-box),
 :is(.glass-card, .flip-card-front, .flip-card-back, .about-stat-card, .orbit-service-card, .stacking-card-box) :is(h1, h2, h3, h4, h5, h6, p, span, div, a, button, label, input, textarea, select, .font-heading, .font-body, .font-stat) {
   font-family: Pptelegraf, Arial, sans-serif;
+}
+
+/* Bold, clearly readable font weight & crisp dark ink for all card content text */
+:is(.glass-card, .flip-card-front, .flip-card-back, .about-stat-card, .orbit-service-card, .stacking-card-box) :is(p, li, .font-normal, .font-medium) {
+  font-weight: 600;
+}
+
+:is(.glass-card, .flip-card-front, .flip-card-back, .about-stat-card, .orbit-service-card, .stacking-card-box) :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 700;
 }
 
 .glass-card:hover,
