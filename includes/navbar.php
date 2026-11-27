@@ -36,7 +36,7 @@ foreach ($navItems as $idx => $item) {
           <span class="text-sm sm:text-base font-black text-[#0F172A] tracking-tight font-heading leading-tight">
             Shree Tech
           </span>
-          <span class="text-[10px] text-[#334155] font-bold tracking-wider uppercase font-heading">
+          <span class="text-[10px] text-[#0F172A] font-bold tracking-wider uppercase font-heading">
             Innovations
           </span>
         </div>
@@ -49,8 +49,8 @@ foreach ($navItems as $idx => $item) {
           class="gooey-nav gooey-nav--md pointer-events-auto"
           data-active-index="<?php echo $activeIndex; ?>"
           data-theme="light"
-          data-color="#FFF0F5"
-          data-active-text-color="#C01858"
+          data-color="#FFECF3"
+          data-active-text-color="#B8124E"
           data-particle-count="15"
           data-spread="45"
           data-animation-time="600"
@@ -58,7 +58,7 @@ foreach ($navItems as $idx => $item) {
           data-gooeyness="0.5"
           data-wobble="0.4"
           data-hover-effect="true"
-          style="--gn-pill: rgba(255, 240, 245, 0.94); --gn-active-ink: #C01858; --gn-ink: #C01858; --gn-muted: #334155;"
+          style="--gn-pill: rgba(255, 236, 243, 0.96); --gn-active-ink: #B8124E; --gn-ink: #B8124E; --gn-muted: #0F172A;"
         >
           <div class="gooey-nav__stage">
             <canvas class="gooey-nav__canvas" aria-hidden="true"></canvas>
