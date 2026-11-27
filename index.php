@@ -927,49 +927,49 @@ require_once __DIR__ . '/includes/header.php';
     <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-14 sm:pt-20 pb-3 sm:pb-4 px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header (Cleanly Spaced Below Floating Navbar) -->
-      <div class="w-full max-w-5xl mx-auto flex flex-col items-center text-center mb-2 sm:mb-2.5 shrink-0">
-        <div class="glass-pill inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-1 shadow-xs">
+      <div class="projects-header-wrapper w-full max-w-5xl mx-auto flex flex-col items-center text-center mb-6 sm:mb-7 md:mb-8 shrink-0">
+        <div class="projects-badge glass-pill inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3.5 sm:mb-4 shadow-xs">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
           <span>Selected Case Studies</span>
         </div>
-        <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-[#0F172A] tracking-tight font-heading mb-1.5">
+        <h2 class="projects-heading text-xl sm:text-2xl md:text-3xl font-black text-[#0F172A] tracking-tight font-heading mb-5 sm:mb-6">
           Featured Client Deployments
         </h2>
 
         <!-- Category Filter Pills -->
-        <div class="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5">
+        <div class="projects-filter-nav flex flex-wrap md:flex-nowrap items-center justify-center gap-2.5 sm:gap-3 lg:gap-3.5">
           <button
             type="button"
             data-category="all"
-            class="project-filter-btn px-3 py-0.5 sm:py-1 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-primary shadow-xs text-white"
+            class="project-filter-btn px-4 py-1.5 sm:px-4.5 sm:py-2 text-xs sm:text-[13px] font-semibold rounded-xl transition-all cursor-pointer glass-btn-primary shadow-xs text-white"
           >
             All Projects
           </button>
           <button
             type="button"
             data-category="web"
-            class="project-filter-btn px-3 py-0.5 sm:py-1 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
+            class="project-filter-btn px-4 py-1.5 sm:px-4.5 sm:py-2 text-xs sm:text-[13px] font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
           >
             Web Applications
           </button>
           <button
             type="button"
             data-category="enterprise"
-            class="project-filter-btn px-3 py-0.5 sm:py-1 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
+            class="project-filter-btn px-4 py-1.5 sm:px-4.5 sm:py-2 text-xs sm:text-[13px] font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
           >
             Enterprise SaaS
           </button>
           <button
             type="button"
             data-category="mobile"
-            class="project-filter-btn px-3 py-0.5 sm:py-1 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
+            class="project-filter-btn px-4 py-1.5 sm:px-4.5 sm:py-2 text-xs sm:text-[13px] font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
           >
             Mobile Apps
           </button>
           <button
             type="button"
             data-category="cloud"
-            class="project-filter-btn px-3 py-0.5 sm:py-1 text-xs font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
+            class="project-filter-btn px-4 py-1.5 sm:px-4.5 sm:py-2 text-xs sm:text-[13px] font-semibold rounded-xl transition-all cursor-pointer glass-btn-secondary text-[#475569] hover:text-[#C01858] hover:border-[#C01858]"
           >
             Cloud Infrastructure
           </button>

@@ -1220,6 +1220,90 @@ h1 {
    6. STICKY STACKING CARDS SCROLL ENGINE (PINNED STAGE + JAVASCRIPT SCROLL)
    ========================================================================== */
 
+/* Featured Client Deployments Header & Filter Spacing */
+.projects-header-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .projects-header-wrapper {
+    margin-bottom: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-header-wrapper {
+    margin-bottom: 2rem;
+  }
+}
+
+/* 1. Proper vertical spacing between badge and heading */
+.projects-badge {
+  margin-bottom: 0.875rem !important;
+}
+
+@media (min-width: 640px) {
+  .projects-badge {
+    margin-bottom: 1rem !important;
+  }
+}
+
+/* 2. Increased vertical gap between heading and filter buttons */
+.projects-heading {
+  margin-bottom: 1.25rem !important;
+}
+
+@media (min-width: 640px) {
+  .projects-heading {
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+/* 3 & 4. Equal horizontal spacing between all five buttons & single row on desktop */
+.projects-filter-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .projects-filter-nav {
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-filter-nav {
+    gap: 0.875rem;
+  }
+}
+
+/* 5. Consistent padding, margin, and balanced alignment */
+.project-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  transition: all 0.25s ease;
+}
+
+@media (min-width: 640px) {
+  .project-filter-btn {
+    padding: 0.5rem 1.125rem;
+    font-size: 0.8125rem;
+  }
+}
+
 #projects-pin-track {
   position: relative;
   width: 100%;
