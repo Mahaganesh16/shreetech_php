@@ -135,7 +135,7 @@ $openPositions = [
     </h1>
 
     <!-- Subtitle -->
-    <p class="max-w-3xl mx-auto text-base sm:text-lg text-[#334155] font-medium leading-relaxed font-body">
+    <p class="text-base sm:text-lg text-[#334155] font-medium leading-relaxed font-body">
       If you are one looking for a challenging career in web and mobile development and wish to work with a group of professionals, it&apos;s never late, please drop your resume. We will get back to you.
     </p>
 
@@ -166,7 +166,7 @@ $openPositions = [
 <section id="openings" class="relative pt-[5.75rem] pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <div class="max-w-3xl mb-6 sm:mb-8">
+    <div class="mb-6 sm:mb-8">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-[#C01858] mb-3">
         <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Current Openings</span>

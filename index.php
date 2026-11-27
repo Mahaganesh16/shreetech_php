@@ -148,7 +148,7 @@ require_once __DIR__ . '/includes/header.php';
         </h1>
 
         <!-- Description -->
-        <p class="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-[#475569] max-w-xl font-normal leading-relaxed">
+        <p class="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-[#475569] font-normal leading-relaxed">
           ShreeTech is an emerging internship training startup lead by highly experienced professionals who unfold various industry chapters and worked with reputable organizations.
         </p>
 
@@ -446,7 +446,7 @@ require_once __DIR__ . '/includes/header.php';
      ========================================================================= -->
 <section id="why-us" class="relative pt-[5.75rem] pb-12 sm:pt-8 sm:pb-14 md:pt-8 md:pb-14 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mb-6 sm:mb-8">
+    <div class="mb-6 sm:mb-8">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Why Choose Shree Tech</span>
@@ -551,7 +551,7 @@ require_once __DIR__ . '/includes/header.php';
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
-    <div class="max-w-3xl mb-4 sm:mb-6">
+    <div class="mb-4 sm:mb-6">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Our Services</span>
@@ -687,7 +687,7 @@ require_once __DIR__ . '/includes/header.php';
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
-    <div class="max-w-3xl mb-6 sm:mb-8">
+    <div class="mb-6 sm:mb-8">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Core Technology Stack</span>
@@ -927,7 +927,7 @@ require_once __DIR__ . '/includes/header.php';
     <div id="projects-pin-stage" class="sticky top-0 w-full min-h-screen flex flex-col justify-start items-center overflow-hidden pt-14 sm:pt-20 pb-3 sm:pb-4 px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header (Cleanly Spaced Below Floating Navbar) -->
-      <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-2 sm:mb-2.5 shrink-0">
+      <div class="w-full max-w-5xl mx-auto flex flex-col items-center text-center mb-2 sm:mb-2.5 shrink-0">
         <div class="glass-pill inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-1 shadow-xs">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
           <span>Selected Case Studies</span>
@@ -1087,7 +1087,7 @@ require_once __DIR__ . '/includes/header.php';
 <section id="testimonials" class="relative pt-[5.75rem] pb-10 sm:pt-8 sm:pb-10 md:pt-8 md:pb-10 bg-transparent overflow-hidden scroll-mt-24">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <div class="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
+    <div class="text-center mb-6 sm:mb-8">
       <div class="glass-pill inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#8B5CF6] mb-3">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FF6B00]"></i>
         <span>Client Testimonials</span>
