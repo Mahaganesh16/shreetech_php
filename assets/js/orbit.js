@@ -57,6 +57,8 @@
       this.isInView = true;
       this.isDragging = false;
       this.dragStartX = 0;
+      this.dragStartY = 0;
+      this.dragLock = null;
       this.rotAtDragStart = 0;
       this.hasMoved = false;
 
@@ -335,22 +337,47 @@
       });
 
       // 2. Interactive Dragging: Desktop Mouse & Mobile Touch
-      const onDragStart = clientX => {
+      const onDragStart = (clientX, clientY, isTouch) => {
         this.isDragging = true;
         this.hasMoved = false;
         this.dragStartX = clientX;
+        this.dragStartY = typeof clientY === 'number' ? clientY : 0;
+        this.dragLock = isTouch ? null : 'horizontal';
         this.rotAtDragStart = this.currentRot;
-        this.root.setAttribute('data-dragging', 'true');
-        if (this.rafId) {
+        if (!isTouch) {
+          this.root.setAttribute('data-dragging', 'true');
+        }
+        if (this.rafId && !isTouch) {
           cancelAnimationFrame(this.rafId);
           this.rafId = null;
           this.isAnimating = false;
         }
       };
 
-      const onDragMove = clientX => {
+      const onDragMove = (clientX, clientY) => {
         if (!this.isDragging) return;
         const diffX = clientX - this.dragStartX;
+        const diffY = (typeof clientY === 'number' ? clientY : this.dragStartY) - this.dragStartY;
+
+        if (this.dragLock === null) {
+          if (Math.abs(diffY) > 8 && Math.abs(diffY) >= Math.abs(diffX)) {
+            this.dragLock = 'vertical';
+            return;
+          }
+          if (Math.abs(diffX) > 8 && Math.abs(diffX) > Math.abs(diffY)) {
+            this.dragLock = 'horizontal';
+            this.root.setAttribute('data-dragging', 'true');
+            if (this.rafId) {
+              cancelAnimationFrame(this.rafId);
+              this.rafId = null;
+              this.isAnimating = false;
+            }
+          } else {
+            return;
+          }
+        }
+
+        if (this.dragLock !== 'horizontal') return;
         if (Math.abs(diffX) > 6) {
           this.hasMoved = true;
         }
@@ -363,11 +390,13 @@
 
       const onDragEnd = () => {
         if (!this.isDragging) return;
+        const wasHorizontal = this.dragLock === 'horizontal';
         this.isDragging = false;
+        this.dragLock = null;
         this.root.removeAttribute('data-dragging');
 
-        // Snap smoothly to nearest integer slot if user dragged, then continue flowing
-        if (this.hasMoved) {
+        // Snap smoothly to nearest integer slot if user dragged horizontally, then continue flowing
+        if (wasHorizontal && this.hasMoved) {
           const nearestSlot = Math.round(this.currentRot);
           this.targetRot = nearestSlot;
           this.animateTo(nearestSlot, 520, easeOutQuart);
@@ -383,11 +412,11 @@
       // Mouse drag handlers
       this.root.addEventListener('mousedown', e => {
         if (e.target.closest('a') || e.target.closest('button')) return;
-        onDragStart(e.clientX);
+        onDragStart(e.clientX, e.clientY, false);
       });
 
       window.addEventListener('mousemove', e => {
-        onDragMove(e.clientX);
+        onDragMove(e.clientX, e.clientY);
       });
 
       window.addEventListener('mouseup', () => {
@@ -404,7 +433,7 @@
         e => {
           if (e.touches && e.touches[0]) {
             if (e.target.closest('a') || e.target.closest('button')) return;
-            onDragStart(e.touches[0].clientX);
+            onDragStart(e.touches[0].clientX, e.touches[0].clientY, true);
           }
         },
         { passive: true }
@@ -414,7 +443,7 @@
         'touchmove',
         e => {
           if (e.touches && e.touches[0]) {
-            onDragMove(e.touches[0].clientX);
+            onDragMove(e.touches[0].clientX, e.touches[0].clientY);
           }
         },
         { passive: true }

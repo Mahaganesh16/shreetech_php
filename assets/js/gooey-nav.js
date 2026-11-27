@@ -126,7 +126,7 @@ void main() {
     const rgba = /rgba?\(([^)]+)\)/i.exec(String(value));
     if (rgba) {
       const parts = rgba[1].split(',').map(p => parseFloat(p));
-      return [parts[0] / 255, parts[1] / 255, parts[2] / 255, parts[3] ?? 1];
+      return [parts[0] / 255, parts[1] / 255, parts[2] / 255, (parts[3] !== undefined && !isNaN(parts[3])) ? parts[3] : 1];
     }
     return [1, 1, 1, 1];
   };
@@ -188,7 +188,10 @@ void main() {
         gl.deleteProgram(program);
         return null;
       }
-      const uniforms = Object.fromEntries(UNIFORMS.map(name => [name, gl.getUniformLocation(program, name)]));
+      const uniforms = {};
+      for (let i = 0; i < UNIFORMS.length; i++) {
+        uniforms[UNIFORMS[i]] = gl.getUniformLocation(program, UNIFORMS[i]);
+      }
       const buffer = gl.createBuffer();
       if (!buffer) {
         gl.deleteProgram(program);
@@ -413,7 +416,9 @@ void main() {
       };
 
       const render = () => {
-        const height = rects[target]?.h ?? rects[0]?.h ?? 36;
+        const targetRect = target >= 0 ? rects[target] : null;
+        const firstRect = rects[0];
+        const height = targetRect ? targetRect.h : (firstRect ? firstRect.h : 36);
         const smooth = height * (0.18 + 0.5 * clamp01(s.gooeyness));
         const boxes = [];
         const blobs = [];
@@ -437,7 +442,8 @@ void main() {
           });
         }
 
-        const activeBox = target >= 0 ? shape(target, pills.get(target)?.scale ?? 0) : null;
+        const targetState = target >= 0 ? pills.get(target) : null;
+        const activeBox = target >= 0 ? shape(target, targetState ? targetState.scale : 0) : null;
         const applyBoxClip = box => {
           if (supportsPathClip) {
             return `path('${pillPath(box.x, box.y, box.w, box.h)}')`;
@@ -623,12 +629,13 @@ void main() {
 
           // Settle active state on list items when resting
           list.querySelectorAll('.gooey-nav__item').forEach((it, i) => {
+            const lnk = it.querySelector('.gooey-nav__link');
             if (i === target) {
               it.setAttribute('data-active', '');
-              it.querySelector('.gooey-nav__link')?.setAttribute('aria-current', 'page');
+              if (lnk) lnk.setAttribute('aria-current', 'page');
             } else {
               it.removeAttribute('data-active');
-              it.querySelector('.gooey-nav__link')?.removeAttribute('aria-current');
+              if (lnk) lnk.removeAttribute('aria-current');
             }
           });
         }
@@ -651,12 +658,13 @@ void main() {
         render();
 
         list.querySelectorAll('.gooey-nav__item').forEach((it, i) => {
+          const lnk = it.querySelector('.gooey-nav__link');
           if (i === index) {
             it.setAttribute('data-active', '');
-            it.querySelector('.gooey-nav__link')?.setAttribute('aria-current', 'page');
+            if (lnk) lnk.setAttribute('aria-current', 'page');
           } else {
             it.removeAttribute('data-active');
-            it.querySelector('.gooey-nav__link')?.removeAttribute('aria-current');
+            if (lnk) lnk.removeAttribute('aria-current');
           }
         });
       };
@@ -736,7 +744,8 @@ void main() {
         go(idx, true);
 
         if (typeof this.options.onChange === 'function') {
-          this.options.onChange(idx, this.options.items?.[idx]);
+          const optItems = this.options.items;
+          this.options.onChange(idx, optItems ? optItems[idx] : undefined);
         }
 
         const href = link.getAttribute('href');
@@ -776,8 +785,11 @@ void main() {
         }
       });
 
+      const fallbackInitial = this.options.initialActiveIndex !== undefined && this.options.initialActiveIndex !== null
+        ? this.options.initialActiveIndex
+        : 0;
       const initialIndex = parseInt(
-        container.dataset.activeIndex || String(this.options.initialActiveIndex ?? 0),
+        container.dataset.activeIndex || String(fallbackInitial),
         10
       );
       measure();
@@ -817,7 +829,9 @@ void main() {
     buildDOM() {
       const container = this.container;
       const opts = this.options;
-      const activeIdx = opts.initialActiveIndex ?? 0;
+      const activeIdx = (opts.initialActiveIndex !== undefined && opts.initialActiveIndex !== null)
+        ? opts.initialActiveIndex
+        : 0;
 
       container.className = `gooey-nav gooey-nav--${opts.size || 'md'}${opts.frame ? ' gooey-nav--framed' : ''}`;
       container.style.cssText = `

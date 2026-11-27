@@ -133,6 +133,9 @@ if (!isset($navLinks) || !isset($servicesData)) {
   </div>
 </footer>
 
+<!-- Lucide Icons (Local UMD bundle loaded deterministically before app scripts) -->
+<script src="assets/js/lucide.min.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/lucide.min.js'); ?>"></script>
+
 <!-- Lenis Smooth Scroll Engine (Momentum-based 60/120 FPS Fluid Scroll) -->
 <script src="assets/js/lenis.min.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/lenis.min.js'); ?>"></script>
 

@@ -122,11 +122,13 @@ foreach ($navItems as $idx => $item) {
         </a>
         <button
           id="mobile-menu-toggle"
+          type="button"
           class="p-2 text-[#0F172A] hover:text-[#C01858] rounded-full bg-white border border-[#F1E6EE] shadow-sm focus:outline-none cursor-pointer transition-colors"
           aria-label="Toggle navigation menu"
           aria-expanded="false"
         >
-          <i data-lucide="menu" class="w-5 h-5"></i>
+          <svg class="mobile-icon-open w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg class="mobile-icon-close hidden w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
     </div>

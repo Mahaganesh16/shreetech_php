@@ -18,7 +18,7 @@ function initShreeTech() {
   };
 
   const prefersReducedMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  const canHoverFine = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+  const hasFineHover = () => !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
   const smoothScrollToY = (topY) => {
     const safeTop = Math.max(0, topY);
     try {
@@ -74,6 +74,13 @@ function initShreeTech() {
       };
 
       window.addEventListener('wheel', () => wakeLenis(600), { passive: true });
+      window.addEventListener('touchstart', () => {
+        if (lenis && lenis.animate && lenis.animate.isRunning) {
+          idleUntil = 0;
+          lenis.stop();
+          lenis.start();
+        }
+      }, { passive: true });
       window.addEventListener('resize', () => wakeLenis(300), { passive: true });
       document.addEventListener('visibilitychange', () => {
         if (document.hidden && lenisRafId) {
@@ -146,7 +153,7 @@ function initShreeTech() {
   // =========================================================================
   // 2. DYNAMIC CURSOR SPOTLIGHT ON CARDS (RAF-THROTTLED, ZERO LAYOUT THRASH)
   // =========================================================================
-  if (canHoverFine && !prefersReducedMotion) {
+  if (hasFineHover() && !prefersReducedMotion) {
     runSafe(() => {
       const spotlightCards = document.querySelectorAll('.glass-card:not(.flip-card-front):not(.flip-card-back)');
       spotlightCards.forEach((card) => {
@@ -240,7 +247,7 @@ function initShreeTech() {
     }, { passive: true });
 
     wrapper.addEventListener('click', (e) => {
-      const isTouchTap = !canHoverFine || (performance.now() - lastTouchTime < 700);
+      const isTouchTap = !hasFineHover() || window.innerWidth < 1024 || (performance.now() - lastTouchTime < 800);
       if (!isTouchTap) return;
       toggleFlip(e);
     });
@@ -300,9 +307,11 @@ function initShreeTech() {
     }
     if (mobileToggle) {
       mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
-        mobileToggle.innerHTML = `<i data-lucide="${open ? 'x' : 'menu'}" class="w-5 h-5"></i>`;
-        lucide.createIcons();
+      const openIcon = mobileToggle.querySelector('.mobile-icon-open');
+      const closeIcon = mobileToggle.querySelector('.mobile-icon-close');
+      if (openIcon && closeIcon) {
+        openIcon.classList.toggle('hidden', open);
+        closeIcon.classList.toggle('hidden', !open);
       }
     }
   };
@@ -319,8 +328,14 @@ function initShreeTech() {
   };
 
   const updateHeaderScroll = (scrollPos) => {
-    const rawY = typeof scrollPos === 'number' ? scrollPos : window.scrollY;
+    const rawY = typeof scrollPos === 'number' ? scrollPos : (window.scrollY || window.pageYOffset || 0);
     const y = Math.max(0, rawY);
+
+    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+      setHeaderHidden(false);
+      lastHeaderScrollY = y;
+      return;
+    }
 
     const delta = y - lastHeaderScrollY;
     if (y <= 40) {
@@ -496,7 +511,8 @@ function initShreeTech() {
 
     // Keyboard Arrow Keys support
     window.addEventListener('keydown', (e) => {
-      if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+      const activeTag = document.activeElement ? document.activeElement.tagName : '';
+      if (['INPUT', 'TEXTAREA'].includes(activeTag)) return;
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
         nudgeTrack('left');
@@ -511,34 +527,53 @@ function initShreeTech() {
   // 8. STAT COUNTER ANIMATION WITH CUBIC EASING (FROM About.tsx)
   // =========================================================================
   const statNumbers = document.querySelectorAll('.stat-counter-number');
-  if (statNumbers.length > 0 && 'IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseInt(el.getAttribute('data-target') || '0', 10);
-          const duration = 1200;
-          const stepTime = 1000 / 60;
-          const totalSteps = duration / stepTime;
-          let step = 0;
+  if (statNumbers.length > 0) {
+    const animateStatEl = (el) => {
+      if (el.getAttribute('data-counted') === 'true') return;
+      el.setAttribute('data-counted', 'true');
+      const target = parseInt(el.getAttribute('data-target') || '0', 10);
+      if (prefersReducedMotion) {
+        el.textContent = target;
+        return;
+      }
+      const duration = 1200;
+      const stepTime = 1000 / 60;
+      const totalSteps = duration / stepTime;
+      let step = 0;
 
-          const counter = setInterval(() => {
-            step++;
-            const progress = step / totalSteps;
-            const current = Math.round(target * (1 - Math.pow(1 - progress, 3)));
-            el.textContent = current;
-            if (step >= totalSteps) {
-              clearInterval(counter);
-              el.textContent = target;
-            }
-          }, stepTime);
+      const counter = setInterval(() => {
+        step++;
+        const progress = step / totalSteps;
+        const current = Math.round(target * (1 - Math.pow(1 - progress, 3)));
+        el.textContent = current;
+        if (step >= totalSteps) {
+          clearInterval(counter);
+          el.textContent = target;
+        }
+      }, stepTime);
+    };
 
-          obs.unobserve(el);
+    if ('IntersectionObserver' in window) {
+      const statObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateStatEl(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.05, rootMargin: '80px 0px' });
+
+      statNumbers.forEach((num) => {
+        const rect = num.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 80 && rect.bottom > 0) {
+          animateStatEl(num);
+        } else {
+          statObserver.observe(num);
         }
       });
-    }, { threshold: 0.2 });
-
-    statNumbers.forEach((num) => observer.observe(num));
+    } else {
+      statNumbers.forEach(animateStatEl);
+    }
   }
 
   // =========================================================================
@@ -816,8 +851,14 @@ function initShreeTech() {
 
   if (pinTrack) {
     updateTrackHeight();
+    let lastTrackWidth = window.innerWidth;
     window.addEventListener('resize', () => {
-      updateTrackHeight();
+      if (window.innerWidth !== lastTrackWidth) {
+        lastTrackWidth = window.innerWidth;
+        updateTrackHeight();
+      } else {
+        syncTrackBounds();
+      }
       updateStackingCards(true);
     }, { passive: true });
     window.addEventListener('load', () => {
@@ -827,6 +868,22 @@ function initShreeTech() {
         if (typeof img.decode === 'function') img.decode().catch(() => {});
       });
     }, { passive: true });
+    if ('ResizeObserver' in window) {
+      const mainEl = document.querySelector('main');
+      if (mainEl) {
+        let lastObservedH = mainEl.offsetHeight;
+        new ResizeObserver(() => {
+          if (Math.abs(mainEl.offsetHeight - lastObservedH) > 4) {
+            lastObservedH = mainEl.offsetHeight;
+            syncTrackBounds();
+            updateStackingCards(true);
+            if (typeof refreshSectionOffsets === 'function') {
+              refreshSectionOffsets();
+            }
+          }
+        }).observe(mainEl);
+      }
+    }
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(() => {
         syncTrackBounds();
@@ -918,6 +975,13 @@ function initShreeTech() {
 
     if (modalClose) modalClose.addEventListener('click', closeModal);
 
+    const modalDiscussBtn = document.getElementById('modal-discuss-btn');
+    if (modalDiscussBtn) {
+      modalDiscussBtn.addEventListener('click', () => {
+        closeModal();
+      });
+    }
+
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
     });
@@ -933,7 +997,7 @@ function initShreeTech() {
   // 11. MAGNETIC BUTTONS (RAF-THROTTLED WITH CACHED RECT)
   // =========================================================================
   const magneticButtons = document.querySelectorAll('.glass-btn-primary, .glass-btn-secondary');
-  if (canHoverFine && !prefersReducedMotion) {
+  if (hasFineHover() && !prefersReducedMotion) {
     runSafe(() => {
       magneticButtons.forEach((btn) => {
         let btnRect = null;
@@ -995,6 +1059,11 @@ function initShreeTech() {
       return 'Please enter a valid 10-digit mobile number.';
     }
     return '';
+  };
+
+  const getFieldValue = (form, selector) => {
+    const el = form.querySelector(selector);
+    return el ? el.value : '';
   };
 
   const wireValidatedAjaxForm = ({
@@ -1176,10 +1245,10 @@ function initShreeTech() {
       bannerTextEl: document.getElementById('contact-error-text'),
       validateFn: (form) => {
         const errs = {};
-        const nameErr = validateNameValue(form.querySelector('[name="name"]')?.value);
-        const emailErr = validateEmailValue(form.querySelector('[name="email"]')?.value);
-        const phoneErr = validateTenDigitPhoneValue(form.querySelector('[name="phone"]')?.value);
-        const msg = String(form.querySelector('[name="message"]')?.value || '').trim();
+        const nameErr = validateNameValue(getFieldValue(form, '[name="name"]'));
+        const emailErr = validateEmailValue(getFieldValue(form, '[name="email"]'));
+        const phoneErr = validateTenDigitPhoneValue(getFieldValue(form, '[name="phone"]'));
+        const msg = String(getFieldValue(form, '[name="message"]') || '').trim();
         if (nameErr) errs.name = nameErr;
         if (emailErr) errs.email = emailErr;
         if (phoneErr) errs.phone = phoneErr;
@@ -1216,11 +1285,11 @@ function initShreeTech() {
       bannerTextEl: document.getElementById('career-error-text'),
       validateFn: (form) => {
         const errs = {};
-        const pos = String(form.querySelector('[name="position"]')?.value || '').trim();
-        const cover = String(form.querySelector('[name="cover_letter"]')?.value || '').trim();
-        const nameErr = validateNameValue(form.querySelector('[name="name"]')?.value);
-        const emailErr = validateEmailValue(form.querySelector('[name="email"]')?.value);
-        const phoneErr = validateTenDigitPhoneValue(form.querySelector('[name="phone"]')?.value);
+        const pos = String(getFieldValue(form, '[name="position"]') || '').trim();
+        const cover = String(getFieldValue(form, '[name="cover_letter"]') || '').trim();
+        const nameErr = validateNameValue(getFieldValue(form, '[name="name"]'));
+        const emailErr = validateEmailValue(getFieldValue(form, '[name="email"]'));
+        const phoneErr = validateTenDigitPhoneValue(getFieldValue(form, '[name="phone"]'));
         const fileInput = form.querySelector('[name="resume"]');
         const file = fileInput && fileInput.files ? fileInput.files[0] : null;
 
@@ -1243,9 +1312,12 @@ function initShreeTech() {
       },
       onSuccess: () => {
         if (resumeSuccessModal) {
-          resumeSuccessModal.classList.remove('opacity-0', 'pointer-events-none');
-          resumeSuccessModal.querySelector('.relative').classList.remove('scale-95');
-          resumeSuccessModal.querySelector('.relative').classList.add('scale-100');
+          resumeSuccessModal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+          const dialog = resumeSuccessModal.querySelector('.relative');
+          if (dialog) {
+            dialog.classList.remove('scale-95');
+            dialog.classList.add('scale-100');
+          }
           resumeSuccessModal.setAttribute('aria-hidden', 'false');
           if (lenis) lenis.stop();
         }
@@ -1282,7 +1354,8 @@ function initShreeTech() {
       } else {
         gooeyEl.querySelectorAll('.gooey-nav__item').forEach((it) => {
           it.removeAttribute('data-active');
-          it.querySelector('.gooey-nav__link')?.removeAttribute('aria-current');
+          const lnk = it.querySelector('.gooey-nav__link');
+          if (lnk) lnk.removeAttribute('aria-current');
         });
       }
     }
