@@ -99,7 +99,7 @@ function initShreeTech() {
   // 1. SCROLL-TRIGGERED ENTRANCE REVEAL ENGINE (FRAMER MOTION EQUIVALENT)
   // =========================================================================
   const revealElements = document.querySelectorAll(
-    '.reveal-init, .reveal-up, .reveal-scale, .reveal-left, .reveal-right, .reveal-fade'
+    '.reveal-init, .reveal-up, .reveal-left, .reveal-right'
   );
 
   function revealAllNow() {
@@ -630,7 +630,6 @@ function initShreeTech() {
   const pinTrack = document.getElementById('projects-pin-track');
   const pinStage = document.getElementById('projects-pin-stage');
   const deckContainer = document.querySelector('.stacking-deck-container');
-  const stageHeader = pinStage ? pinStage.querySelector('.max-w-3xl') : null;
   const projectCards = document.querySelectorAll('.stacking-card-item');
   const projectTabs = document.querySelectorAll('.project-filter-btn');
   let lastStackProgress = -1;
@@ -679,9 +678,6 @@ function initShreeTech() {
     if (deckContainer) {
       deckContainer.style.transform = 'translate3d(0, 0, 0)';
       deckContainer.style.opacity = '1';
-    }
-    if (stageHeader) {
-      stageHeader.style.opacity = '1';
     }
     syncTrackBounds();
     if (lenis) lenis.resize();
@@ -815,17 +811,6 @@ function initShreeTech() {
           headerTab.style.backgroundColor = 'rgb(255, 255, 255)';
         }
       }
-    }
-  }
-
-  let stackTicking = false;
-  function onStackScroll() {
-    if (!stackTicking) {
-      requestAnimationFrame(() => {
-        updateStackingCards();
-        stackTicking = false;
-      });
-      stackTicking = true;
     }
   }
 
@@ -1363,20 +1348,6 @@ function initShreeTech() {
     }
 
     updateActiveNav(activeIndex, activeId);
-  };
-
-  let scrollSpyTicking = false;
-  const onScrollSpy = (scrollPos) => {
-    if (typeof scrollPos === 'number') {
-      evaluateScrollSpy(scrollPos);
-      return;
-    }
-    if (scrollSpyTicking) return;
-    scrollSpyTicking = true;
-    requestAnimationFrame(() => {
-      scrollSpyTicking = false;
-      evaluateScrollSpy();
-    });
   };
 
   // Only enable scrollspy on pages with single-page section anchors (like index.php)

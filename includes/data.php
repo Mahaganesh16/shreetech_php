@@ -129,9 +129,7 @@ $projectsData = [
         'client' => 'Eyecatch Media Network',
         'year' => '2026',
         'summary' => 'Dynamic news, digital publishing, and high-traffic multimedia portal delivering real-time breaking news feeds, multilingual regional journalism, and responsive content streaming.',
-        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'JavaScript'],
         'imageUrl' => 'assets/images/eyecatch-media.webp',
-        'layoutSpan' => 'featured',
         'metrics' => ['label' => 'Monthly Readers', 'value' => '1.2M+']
     ],
     [
@@ -142,9 +140,7 @@ $projectsData = [
         'client' => 'Kiaura Innovations & Publications',
         'year' => '2025',
         'summary' => 'Comprehensive academic research publishing platform and digital monograph distribution portal with peer-review workflow management, book catalog indexing, and automated order processing.',
-        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'Bootstrap'],
         'imageUrl' => 'assets/images/kiaurra.webp',
-        'layoutSpan' => 'standard',
         'metrics' => ['label' => 'Publications Indexed', 'value' => '10,000+']
     ],
     [
@@ -155,11 +151,9 @@ $projectsData = [
         'client' => 'Blood Donor Network',
         'year' => '2025',
         'summary' => 'Real-time GPS blood donor identification and emergency alert application connecting voluntary donors with patients and regional blood banks in critical care scenarios.',
-        'technologies' => ['Flutter', 'Firebase', 'Google Maps API', 'Node.js', 'REST APIs'],
         'imageUrl' => 'assets/images/blood-donor.webp',
         'imageFit' => 'contain',
         'imageBg' => '#DA0037',
-        'layoutSpan' => 'standard',
         'metrics' => ['label' => 'Verified Donors', 'value' => '25,000+']
     ],
     [
@@ -170,9 +164,7 @@ $projectsData = [
         'client' => 'Madurai Sky Top Tours & Travels',
         'year' => '2025',
         'summary' => 'Comprehensive online travel booking, holiday tour package management, and tourist transportation portal featuring customized South Indian temple itineraries, vehicle fleet reservations, and round-the-clock trip coordination.',
-        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'JavaScript'],
         'imageUrl' => 'assets/images/sky-top.webp',
-        'layoutSpan' => 'standard',
         'metrics' => ['label' => 'Happy Travelers', 'value' => '15,000+']
     ],
     [
@@ -183,9 +175,7 @@ $projectsData = [
         'client' => 'TPOM Networks',
         'year' => '2025',
         'summary' => 'Comprehensive pre-owned multi-category marketplace connecting verified buyers and sellers across automobiles, real estate, electronics, and home appliances with fast listing indexing and direct dealer inquiries.',
-        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Tailwind CSS', 'JavaScript'],
         'imageUrl' => 'assets/images/tpom.webp',
-        'layoutSpan' => 'featured',
         'metrics' => ['label' => 'Verified Listings', 'value' => '30,000+']
     ],
     [
@@ -196,9 +186,7 @@ $projectsData = [
         'client' => 'Evergreen Classifieds Network',
         'year' => '2025',
         'summary' => 'Comprehensive online classifieds, business directory, and digital advertising marketplace engineered with localized category filtering, high-visibility ad placements, and fast search indexing.',
-        'technologies' => ['PHP', 'Laravel', 'MySQL', 'Bootstrap', 'JavaScript'],
         'imageUrl' => 'assets/images/evergreen-ads.webp',
-        'layoutSpan' => 'standard',
         'metrics' => ['label' => 'Active Listings', 'value' => '50,000+']
     ]
 ];
@@ -333,10 +321,6 @@ $technologyGroups = [
     [
         'category' => 'Frontend',
         'uniqueHeading' => 'Frontend Languages & UI',
-        'subtitle' => 'HTML5, CSS3, JavaScript, React.js, Next.js',
-        'badge' => 'eg: HTML, CSS, JS',
-        'icon' => 'code',
-        'description' => 'Semantic markup, modern styling, and reactive component frameworks delivering fast, accessible, responsive web interfaces.',
         'items' => [
             ['name' => 'HTML5', 'description' => 'Semantic, accessible markup standards', 'iconComponent' => 'HtmlLogo', 'tag' => 'Frontend Language'],
             ['name' => 'CSS3', 'description' => 'Responsive design & modern layouts', 'iconComponent' => 'CssLogo', 'tag' => 'Frontend Styling'],
@@ -348,10 +332,6 @@ $technologyGroups = [
     [
         'category' => 'Backend',
         'uniqueHeading' => 'Backend & Server Frameworks',
-        'subtitle' => 'PHP, Laravel, Python, Node.js, Java',
-        'badge' => 'eg: PHP, Python, Node',
-        'icon' => 'server',
-        'description' => 'Resilient server runtimes and enterprise frameworks built for high concurrency, microservices, and robust data handling.',
         'items' => [
             ['name' => 'PHP', 'description' => 'Battle-tested server-side web scripting', 'iconComponent' => 'PhpLogo', 'tag' => 'Server Language'],
             ['name' => 'Laravel', 'description' => 'Full-featured enterprise PHP web framework', 'iconComponent' => 'LaravelLogo', 'tag' => 'MVC Framework'],
@@ -363,10 +343,6 @@ $technologyGroups = [
     [
         'category' => 'Database',
         'uniqueHeading' => 'Database & Storage Systems',
-        'subtitle' => 'MySQL, MongoDB, PostgreSQL, Redis, Firebase',
-        'badge' => 'eg: MySQL, Mongo, Redis',
-        'icon' => 'database',
-        'description' => 'Relational, document, and analytical databases engineered for extreme data integrity and high transaction throughput.',
         'items' => [
             ['name' => 'MySQL', 'description' => 'High-reliability transactional relational DB', 'iconComponent' => 'MySqlLogo', 'tag' => 'Relational DB'],
             ['name' => 'MongoDB', 'description' => 'Document-based flexible NoSQL database', 'iconComponent' => 'MongoLogo', 'tag' => 'NoSQL Database'],
@@ -378,10 +354,6 @@ $technologyGroups = [
     [
         'category' => 'Mobile',
         'uniqueHeading' => 'Mobile & Native Architecture',
-        'subtitle' => 'Flutter, React Native, Swift, iOS, Android',
-        'badge' => 'eg: Flutter, Swift, iOS',
-        'icon' => 'smartphone',
-        'description' => 'Cross-platform native mobile frameworks delivering fluid 60FPS experiences for iOS and Android platforms.',
         'items' => [
             ['name' => 'Flutter', 'description' => 'Google native multi-platform compilation', 'iconComponent' => 'FlutterLogo', 'tag' => 'Cross-Platform'],
             ['name' => 'React Native', 'description' => 'Native mobile components powered by React', 'iconComponent' => 'ReactNativeLogo', 'tag' => 'Mobile Framework'],
@@ -393,10 +365,6 @@ $technologyGroups = [
     [
         'category' => 'Cloud',
         'uniqueHeading' => 'Cloud & DevOps Engineering',
-        'subtitle' => 'AWS, Azure, Google Cloud, Docker, Kubernetes',
-        'badge' => 'eg: AWS, Azure, Docker',
-        'icon' => 'cloud',
-        'description' => 'Secure, elastic cloud hosting, container orchestration, and serverless infrastructures engineered for zero downtime.',
         'items' => [
             ['name' => 'AWS', 'description' => 'Global cloud infrastructure & services', 'iconComponent' => 'AwsLogo', 'tag' => 'Cloud Infrastructure'],
             ['name' => 'Azure', 'description' => 'Enterprise cloud computing & hybrid solutions', 'iconComponent' => 'AzureLogo', 'tag' => 'Enterprise Cloud'],

@@ -87,8 +87,7 @@ h1 {
   h6,
   .font-heading,
   .font-stat,
-  .tracking-tight,
-  .tracking-tighter {
+  .tracking-tight {
     letter-spacing: -0.008em !important;
   }
 
@@ -396,7 +395,7 @@ h1 {
 }
 
 /* Scroll-Direction Floating Header (Show on Scroll Up & Top, Hide on Scroll Down) */
-/* Avoid will-change: opacity or resting transform on #main-header so child .glass-navbar-bar backdrop-filter blurs page content */
+/* Avoid will-change: opacity or resting transform on #main-header so child .glass-navbar-dock backdrop-filter blurs page content */
 #main-header {
   transform: none;
   opacity: 1;
@@ -1079,8 +1078,7 @@ h1 {
   z-index: 1;
 }
 
-.glass-card:hover .card-spotlight-layer,
-.flip-card-front:hover .card-spotlight-layer {
+.glass-card:hover .card-spotlight-layer {
   opacity: 1;
 }
 
@@ -1097,20 +1095,12 @@ h1 {
   transform: translateY(28px);
 }
 
-.reveal-scale {
-  transform: scale(0.95);
-}
-
 .reveal-left {
   transform: translateX(-30px);
 }
 
 .reveal-right {
   transform: translateX(30px);
-}
-
-.reveal-fade {
-  opacity: 0.001;
 }
 
 /* When in view */
@@ -1127,8 +1117,6 @@ h1 {
   .reveal-up,
   .reveal-left,
   .reveal-right,
-  .reveal-scale,
-  .reveal-fade,
   #main-header {
     opacity: 1 !important;
     transform: none !important;
@@ -1175,14 +1163,6 @@ h1 {
 
 .stagger-6 {
   transition-delay: 480ms;
-}
-
-.stagger-7 {
-  transition-delay: 560ms;
-}
-
-.stagger-8 {
-  transition-delay: 640ms;
 }
 
 /* 4. MODAL ANIMATIONS */
@@ -1658,10 +1638,6 @@ h1 {
 html.lenis,
 html.lenis body {
   height: auto;
-  scroll-behavior: auto !important;
-}
-
-html.lenis {
   scroll-behavior: auto !important;
 }
 

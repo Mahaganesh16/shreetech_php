@@ -18,14 +18,6 @@
   line-height: 1.2;
 }
 
-.gooey-nav--sm {
-  --gn-pad: 4px;
-  --gn-gap: 2px;
-  --gn-font: 12.5px;
-  --gn-x: 14px;
-  --gn-y: 6px;
-}
-
 .gooey-nav--md {
   --gn-pad: 5px;
   --gn-gap: 4px;
@@ -43,14 +35,6 @@
     --gn-x: 12px;
     --gn-y: 6px;
   }
-}
-
-.gooey-nav--lg {
-  --gn-pad: 7px;
-  --gn-gap: 6px;
-  --gn-font: 15px;
-  --gn-x: 22px;
-  --gn-y: 10px;
 }
 
 .gooey-nav--framed {
@@ -154,16 +138,6 @@
 .gooey-nav__link:focus-visible {
   outline: 2px solid var(--gn-active-ink, #C01858);
   outline-offset: 2px;
-}
-
-.gooey-nav__icon {
-  display: inline-flex;
-  flex: none;
-}
-
-.gooey-nav__icon svg {
-  width: 1.15em;
-  height: 1.15em;
 }
 
 .gooey-nav__rim {

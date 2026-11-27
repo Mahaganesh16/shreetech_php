@@ -7,16 +7,7 @@ $pageDescription = 'Building Digital Solutions That Move Businesses Forward. Ent
 $currentPage = 'home';
 
 $csrfToken = ensureFormCsrfToken();
-$servicesList = [
-    'Website Development',
-    'Mobile Application Development',
-    'Custom Software Development',
-    'UI/UX Design',
-    'E-Commerce Development',
-    'Cloud & DevOps',
-    'Digital Transformation',
-    'AI & Automation'
-];
+$servicesList = array_column($servicesData, 'title');
 
 // Contact Form Processing for Single-Page Submissions
 $formSubmitted = false;
@@ -469,7 +460,6 @@ require_once __DIR__ . '/includes/header.php';
           <div class="flip-card-inner">
             <!-- Front -->
             <div class="flip-card-front glass-card p-5 sm:p-7 md:p-8 rounded-2xl sm:rounded-3xl flex flex-col justify-between border border-[#F1E6EE] shadow-xs group-hover:border-[#C01858] transition-colors duration-[1000ms]">
-              <div class="card-spotlight-layer"></div>
               <div>
                 <div class="flex items-center justify-between mb-5">
                   <div class="w-12 h-12 rounded-2xl bg-[#FFF4EA] border border-[#F1E6EE] flex items-center justify-center text-[#FF6B00] group-hover:bg-[#FF6B00] group-hover:text-white transition-all duration-300 shadow-xs">
@@ -574,7 +564,6 @@ require_once __DIR__ . '/includes/header.php';
         id="services-orbit-container"
         class="orbit-container"
         data-draggable=""
-        data-intro=""
       >
         <!-- Horizontal Smooth Elliptical Orbit Line (Light Pink) -->
         <svg
@@ -585,28 +574,16 @@ require_once __DIR__ . '/includes/header.php';
         >
           <path
             data-orbit-path=""
-            data-orbit-stroke=""
             class="orbit-path-line"
           />
         </svg>
 
         <!-- 8 Smooth Animated Service Cards (Exchange Size & Position Along Orbit) -->
-        <?php foreach ($servicesData as $idx => $service): 
-          $svcJson = json_encode([
-            'id' => $service['id'],
-            'title' => $service['title'],
-            'description' => $service['description'],
-            'iconName' => $service['iconName'],
-            'deliverables' => $service['deliverables']
-          ]);
-        ?>
+        <?php foreach ($servicesData as $idx => $service): ?>
           <div
             class="orbit-item group"
             data-orbit-item="<?php echo $idx; ?>"
-            data-service-index="<?php echo $idx; ?>"
             <?php echo $idx === 0 ? 'data-active="true"' : ''; ?>
-            data-clickable=""
-            data-service-json="<?php echo htmlspecialchars($svcJson, ENT_QUOTES, 'UTF-8'); ?>"
           >
             <div class="orbit-item-inner">
               <div class="orbit-service-card group-hover:border-[#C01858]">
@@ -984,9 +961,7 @@ require_once __DIR__ . '/includes/header.php';
               'apex-finance' => 'trending-up',
               'health-cloud' => 'activity',
               'fleet-mobile' => 'truck',
-              'luxury-commerce' => 'shopping-bag',
               'skytop-travels' => 'compass',
-              'cloud-security' => 'shield-check',
               'tpom-marketplace' => 'shopping-cart',
               'ai-intelligence' => 'cpu',
               'web' => 'globe',
@@ -1000,8 +975,7 @@ require_once __DIR__ . '/includes/header.php';
           ?>
             <!-- Dynamic Project Stacking Card ($idx: <?php echo $idx; ?>) -->
             <article
-              class="stacking-card-item project-card-item"
-              data-card-index="<?php echo $idx; ?>"
+              class="stacking-card-item"
               data-category="<?php echo htmlspecialchars($project['category']); ?>"
               style="--stack-idx: <?php echo $idx; ?>;"
             >

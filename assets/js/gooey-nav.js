@@ -338,55 +338,6 @@ void main() {
         });
       };
 
-      const trace = (boxes, blobs, smooth) => {
-        const field = (x, y) => {
-          let d = 1e5;
-          const merge = value => {
-            const h = clamp01(0.5 + (0.5 * (value - d)) / smooth);
-            d = value + (d - value) * h - smooth * h * (1 - h);
-          };
-          for (const box of boxes) {
-            const r = Math.min(box.hw, box.hh);
-            const qx = Math.abs(x - box.cx) - box.hw + r;
-            const qy = Math.abs(y - box.cy) - box.hh + r;
-            merge(Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - r);
-          }
-          for (const blob of blobs) {
-            const px = x - blob.x;
-            const py = y - blob.y;
-            const bx = -blob.tx;
-            const by = -blob.ty;
-            const span = bx * bx + by * by;
-            const h = span > 0.0001 ? clamp01((px * bx + py * by) / span) : 0;
-            const value = Math.hypot(px - bx * h, py - by * h) - blob.r;
-            if (value > d + smooth) continue;
-            merge(value);
-          }
-          return d;
-        };
-        const step = 2;
-        const parts = [];
-        for (let y = 0; y < view.height; y += 1) {
-          const cy = y + 0.5;
-          let previous = field(0, cy);
-          let start = previous < 0 ? 0 : null;
-          for (let x = step; x <= view.width + step; x += step) {
-            const value = field(Math.min(x, view.width), cy);
-            if (previous < 0 !== value < 0) {
-              const cross = x - step + (step * previous) / (previous - value);
-              if (value < 0) start = cross;
-              else if (start !== null) {
-                parts.push(`M${start.toFixed(1)},${y}H${cross.toFixed(1)}V${y + 1}H${start.toFixed(1)}Z`);
-                start = null;
-              }
-            }
-            previous = value;
-          }
-          if (start !== null) parts.push(`M${start.toFixed(1)},${y}H${view.width}V${y + 1}H${start.toFixed(1)}Z`);
-        }
-        return parts.join('');
-      };
-
       const pill = index => {
         if (!pills.has(index)) pills.set(index, { mass: 0, scale: 0, velocity: 0, outgoing: 0 });
         return pills.get(index);
