@@ -489,8 +489,10 @@ require_once __DIR__ . '/includes/header.php';
       </p>
     </div>
 
-    <!-- 6 Advantages in 3D Flip Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+    <!-- Outer Warm Gradient Showcase Card Enclosing All 6 Cards -->
+    <div class="why-us-stage-card rounded-3xl sm:rounded-[2rem] p-4 sm:p-6 md:p-8 lg:p-9">
+      <!-- 6 Advantages in 3D Flip Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
       <?php foreach ($whyChooseUsData as $idx => $item): ?>
         <div class="flip-card-wrapper h-[340px] sm:h-[370px] md:h-[400px] w-full select-none group cursor-pointer reveal-init reveal-up stagger-<?php echo ($idx + 1); ?>">
           <div class="flip-card-inner">
@@ -566,6 +568,7 @@ require_once __DIR__ . '/includes/header.php';
           </div>
         </div>
       <?php endforeach; ?>
+      </div>
     </div>
   </div>
 </section>
